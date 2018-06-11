@@ -1,5 +1,5 @@
 <template>
   <div id="app">
-    <span>你好</span>
+    <router-view></router-view>
   </div>
 </template>

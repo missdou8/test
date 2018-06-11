@@ -1,0 +1,21 @@
+<template>
+    <div>
+        <div>
+            <div>
+                <img src="" alt="头像">
+                <span>广告主名称</span>
+            </div>
+            <div>
+                <div>
+                    <button>客服系统</button>
+                    <button>兑换中心</button>
+                    <button>公告</button>
+                    <button>设置</button>
+                </div>
+                <div>
+                    <button>我的故事</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
