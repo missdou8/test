@@ -1,12 +1,10 @@
 import Vue from "vue";
 import router from "./router/router.js";
 import App from "./App.vue";
-// 公共css
-import "lpreset.css";
-import "./style/base.css";
+import "./scripts/base";
 // 引用组件
-import { Tab, Tabs } from "vant";
-Vue.use(Tab).use(Tabs);
+import { Tab, Tabs ,Field, Button,Cell, CellGroup,RadioGroup, Radio,Checkbox, CheckboxGroup,Toast } from "vant";
+Vue.use(Tab).use(Tabs).use(Field).use(Button).use(Cell).use(CellGroup).use(RadioGroup).use(Radio).use(Checkbox).use(CheckboxGroup).use(Toast);
 
 Vue.config.productionTip = false;
 

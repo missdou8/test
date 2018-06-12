@@ -24,7 +24,7 @@
             <li>粉丝</li>
         </ul>
         <van-tabs v-model="active">
-            <van-tab v-for="(item, index) in tabs.length" :title="tabs[index]">
+            <van-tab v-for="(item, index) in tabs.length" :title="tabs[index]" :key="index">
                 内容 {{ item }}
             </van-tab>
         </van-tabs>

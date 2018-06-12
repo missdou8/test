@@ -3,3 +3,73 @@
     <router-view></router-view>
   </div>
 </template>
+<script>
+// import axios from "axios";
+export default {
+  data() {
+    return {
+      transitionName: "slide-left"
+    };
+  },
+  // beforeRouteEnter(to, from, next) {
+  //   let currentPath = to.path;
+  //   if ( //设置不需要检测登录的页面
+  //     currentPath == "/registerTips" ||
+  //     currentPath == "/register" ||
+  //     currentPath == "/login" 
+  //   ) {
+  //     return next();
+  //   }
+  //   //检测用户登录状态与用户权限
+  //   let userInfo = localStorage.getItem("userInfo");
+  //   axios.post("/index.php/api/user/checklogin").then(result => {
+  //     /**
+  //      * 判断是否登录
+  //      * 1. true: 判断是否认证
+  //      *     0: 审核通过    （跳转首页）
+  //      *     1: 审核中      （跳转审核页）
+  //      *     2：审核未通过  （跳转登录页显示状态）
+  //      * 2. false: 跳到登录页
+  //      */
+  //     if (result.data.data.islogin == 1) {
+  //       if (userInfo.iscertification == 0) next({ path: "/match/index", replace: true });
+  //       else if(userInfo.iscertification == 1) next({ path: "/register", replace: true });
+  //       else next({ path: "/login", replace: true });
+  //     } else {
+  //       next({ path: "/login", replace: true });
+  //     }
+  //   });
+  // },
+  // 基于路线变化的动态设置路由切换动画
+  watch: {
+    $route(to, from) {
+      const toDepth = to.path.split("/").length;
+      const fromDepth = from.path.split("/").length;
+      this.transitionName = toDepth < fromDepth ? "slide-right" : "slide-left";
+    }
+  }
+};
+</script>
+<style scoped>
+#router_box {
+  position: relative;
+  height: 100%;
+}
+.router {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 51px;
+  background-color: #f5f5f5;
+  transition: all 50s ease;
+  -webkit-box-shadow: -2px 0 30px rgba(0,0,0,0.1);
+  box-shadow: -2px 0 30px rgba(0,0,0,0.1);
+}
+
+.slide-left-enter,
+.slide-right-leave-active {
+  -webkit-transform: translate(100%, 0);
+  transform: translate(100%, 0);
+  z-index: 1000;
+}
+</style>
