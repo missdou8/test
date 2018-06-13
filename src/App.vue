@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <transition :name="transitionName">
+      <router-view class="router"></router-view>
+    </transition>
   </div>
 </template>
 <script>
@@ -8,7 +10,7 @@
 export default {
   data() {
     return {
-      transitionName: "slide-left"
+      transitionName: ""
     };
   },
   // beforeRouteEnter(to, from, next) {
@@ -45,7 +47,7 @@ export default {
     $route(to, from) {
       const toDepth = to.path.split("/").length;
       const fromDepth = from.path.split("/").length;
-      this.transitionName = toDepth < fromDepth ? "slide-right" : "slide-left";
+      if(toDepth!=fromDepth) this.transitionName = toDepth < fromDepth ? "slide-right" : "slide-left";
     }
   }
 };
@@ -61,7 +63,7 @@ export default {
   height: 100%;
   padding-bottom: 51px;
   background-color: #f5f5f5;
-  transition: all 50s ease;
+  transition: all 500ms ease;
   -webkit-box-shadow: -2px 0 30px rgba(0,0,0,0.1);
   box-shadow: -2px 0 30px rgba(0,0,0,0.1);
 }

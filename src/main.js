@@ -16,7 +16,8 @@ import {
   CheckboxGroup,
   Toast,
   List,
-  PullRefresh
+  PullRefresh,
+  Dialog
 } from "vant";
 Vue.use(Tab)
   .use(Tabs)
@@ -30,7 +31,8 @@ Vue.use(Tab)
   .use(CheckboxGroup)
   .use(Toast)
   .use(List)
-  .use(PullRefresh);
+  .use(PullRefresh)
+  .use(Dialog);
 
 Vue.config.productionTip = false;
 

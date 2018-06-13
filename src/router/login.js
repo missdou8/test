@@ -8,7 +8,6 @@ import RegisterTips from "../views/login/Register/registerTips.vue";
 import Login from "../views/login/login.vue";
 import FindPwd from "../views/login/findPwd.vue";
 import ResetPwd from "../views/login/resetPwd.vue";
-import ChangePwd from "../views/login/changePwd.vue";
 
 const LOGIN_ROUTER = [
     {
@@ -50,14 +49,6 @@ const LOGIN_ROUTER = [
         },
         name: "ResetPwd",
         component: ResetPwd
-    },
-    {
-        path: "/changePwd",
-        name: "ChangePwd",
-        component: ChangePwd,
-        meta: {
-            title: "修改密码"
-        }
     }
 ];
 

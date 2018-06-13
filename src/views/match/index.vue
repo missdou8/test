@@ -41,6 +41,7 @@
                     </van-list>
                 </van-pull-refresh>
             </van-tab>
+            <button class="create-btn">新建比赛</button>
         </van-tabs>
         <button class="create-btn">新建比赛</button>
     </div>
