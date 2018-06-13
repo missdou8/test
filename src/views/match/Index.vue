@@ -1,50 +1,49 @@
 <template>
-    <div class="main">
-        <div class="header">
-            <div class="header_icon">
-                <img src="../../assets/logo.png" alt="头像">
-                <span>广告主名称</span>
-                <p>
-                    <span>认证</span>
-                    <span>滴答ID：123456789</span>
-                </p>
-            </div>
-            <div>
-                <div class="header_lists">
-                    <button>客服系统</button>
-                    <button>兑换中心</button>
-                    <button>公告</button>
-                    <button>设置</button>
-                </div>
-                <div>
-                    <button>我的故事</button>
-                </div>
-            </div>
+  <div class="main">
+    <div class="header">
+      <div class="header_icon">
+        <img src="../../assets/logo.png" alt="头像">
+        <span>广告主名称</span>
+        <p>
+          <span>认证</span>
+          <span>滴答ID：123456789</span>
+        </p>
+      </div>
+      <div>
+        <div class="header_lists">
+          <button>客服系统</button>
+          <button>兑换中心</button>
+          <button>公告</button>
+          <button>设置</button>
         </div>
-        <ul class="match_info">
-            <li>浏览</li>
-            <li>点赞</li>
-            <li>场比赛</li>
-            <li>粉丝</li>
-        </ul>
-        <van-tabs v-model="active" class="match_main">
-            <van-tab v-for="(item, index) in tabs.length" :title="tabs[index]" :key="index">
-                <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh">
-                    <van-list class="match_list_content" v-model="loading" :finished="finished" @load="onLoad">
-                        <div class="match_list_item" v-for="item in list" :key="item">
-                            <span class="list_person-num">人数</span>
-                            <div class="list_attri">
-                                <span class="list_pv">浏览次数</span>
-                                <span class="list_like">点赞人数</span>
-                            </div>
-                        </div>
-                    </van-list>
-                </van-pull-refresh>
-            </van-tab>
-            <button class="create-btn">新建比赛</button>
-        </van-tabs>
-        <button class="create-btn">新建比赛</button>
+        <div>
+          <button>我的故事</button>
+        </div>
+      </div>
     </div>
+    <ul class="match_info">
+      <li>浏览</li>
+      <li>点赞</li>
+      <li>场比赛</li>
+      <li>粉丝</li>
+    </ul>
+    <van-tabs v-model="active" class="match_main">
+      <van-tab v-for="(item, index) in tabs.length" :title="tabs[index]" :key="index">
+        <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh">
+          <van-list class="match_list_content" v-model="loading" :finished="finished" @load="onLoad">
+            <div class="match_list_item" v-for="item in list" :key="item">
+              <span class="list_person-num">人数</span>
+              <div class="list_attri">
+                <span class="list_pv">浏览次数</span>
+                <span class="list_like">点赞人数</span>
+              </div>
+            </div>
+          </van-list>
+        </van-pull-refresh>
+      </van-tab>
+    </van-tabs>
+    <button class="create-btn">新建比赛</button>
+  </div>
 </template>
 
 <script>
