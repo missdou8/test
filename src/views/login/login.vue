@@ -14,7 +14,7 @@
           <span>登录即视为你同意我们的</span> 
           <router-link to="/registerTips">用户使用协议</router-link>
         </p>
-        <van-button class="login_btn" size="large">登录</van-button>
+        <van-button class="login_btn" size="large" @click="Login()">登录</van-button>
         <div class="btn_box_footer">
           <van-checkbox v-model="checked" class="checked">自动登录</van-checkbox>
           <router-link class="fing" to="/findPwd">忘记密码?</router-link>
@@ -39,6 +39,9 @@ export default {
   methods: {
     goRegister(){
       this.$router.push("/register");
+    },
+    Login(){
+      this.$router.push("/user/index");
     }
   }
 };
