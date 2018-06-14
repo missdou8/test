@@ -15,6 +15,9 @@
   --font-size-h1: 0.48rem;
   --font-size-supper: 0.6rem;
 }
+html {
+  font-size: 13.89vw;
+}
 /* 修复vux弹框收到rem的影响 */
 body {
   background-color: #f5f5f5;

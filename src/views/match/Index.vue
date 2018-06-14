@@ -30,19 +30,21 @@
     <van-tabs v-model="active" class="match_main">
       <van-tab v-for="(item, index) in tabs.length" :title="tabs[index]" :key="index">
         <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh">
-          <van-list class="match_list_content" v-model="loading" :finished="finished" @load="onLoad">
-            <div class="match_list_item" v-for="item in list" :key="item">
-              <span class="list_person-num">人数</span>
-              <div class="list_attri">
-                <span class="list_pv">浏览次数</span>
-                <span class="list_like">点赞人数</span>
+          <van-list v-model="loading" :finished="finished" @load="onLoad">
+            <div class="match_list_content">
+              <div class="match_list_item" v-for="item in list" :key="item" @click="toDetail">
+                <span class="list_person-num">人数</span>
+                <div class="list_attri">
+                  <span class="list_pv">浏览次数</span>
+                  <span class="list_like">点赞人数</span>
+                </div>
               </div>
             </div>
           </van-list>
         </van-pull-refresh>
       </van-tab>
     </van-tabs>
-    <button class="create-btn">新建比赛</button>
+    <van-button @click="createClick" class="create-btn">新建比赛</van-button>
   </div>
 </template>
 
@@ -77,7 +79,11 @@ export default {
         this.refreshing = false;
         console.log("获取最新的数据");
       }, 2000);
-    }
+    },
+    toDetail() {
+      this.$router.push("match/detail");
+    },
+    createClick() {}
   }
 };
 </script>
@@ -131,6 +137,7 @@ export default {
   bottom: 0.5rem;
   left: 50%;
   transform: translateX(-50%);
+  width: 80%;
 }
 
 .match_list_content {
