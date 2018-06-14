@@ -3,13 +3,13 @@ import editImg from "../views/user/editImg.vue";
 import editShop from "../views/user/editShop.vue";
 import editName from "../views/user/editName.vue";
 import editAutonym from "../views/user/editAutonym.vue";
+import autonymTips from "../views/user/autonymTips.vue";
 import editPlane from "../views/user/editPlane.vue";
 import editPhone from "../views/user/editPhone.vue";
 import editAddress from "../views/user/editAddress.vue";
 import editPwd from "../views/user/editPwd.vue";
 
-const USER_ROUTERS = [
-  {
+const USER_ROUTERS = [{
     path: "user/index",
     component: Index,
     meta: {
@@ -44,7 +44,15 @@ const USER_ROUTERS = [
     name: "editAutonym",
     component: editAutonym,
     meta: {
-      title: "修改密码"
+      title: "实名认证"
+    }
+  }, 
+  {
+    path: "/user/edit/autonym/tips",
+    name: "autonymTips",
+    component: autonymTips,
+    meta: {
+      title: "实名认证协议"
     }
   },
   {

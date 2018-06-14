@@ -1,4 +1,4 @@
-import Index from "../views/match/Index.vue";
+import Index from "../views/match/index.vue";
 import Detail from "../views/match/Detail.vue";
 import Create from "../views/match/Create.vue";
 

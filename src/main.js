@@ -18,7 +18,11 @@ import {
   List,
   PullRefresh,
   Dialog,
-  Uploader
+  Uploader,
+  Area,
+  Popup,
+  Row,
+  Col
 } from "vant";
 Vue.use(Tab)
   .use(Tabs)
@@ -34,7 +38,11 @@ Vue.use(Tab)
   .use(List)
   .use(PullRefresh)
   .use(Dialog)
-  .use(Uploader);
+  .use(Uploader)
+  .use(Area)
+  .use(Popup)
+  .use(Row)
+  .use(Col);
 
 Vue.config.productionTip = false;
 

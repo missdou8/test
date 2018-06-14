@@ -50,6 +50,8 @@ export default {
       if (toDepth != fromDepth) {
         this.transitionName =
           toDepth < fromDepth ? "slide-right" : "slide-left";
+      }else{
+        this.transitionName ='fade'
       }
     }
   }
