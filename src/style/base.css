@@ -23,7 +23,7 @@ body {
   background-color: #f5f5f5;
   color: var(--word-color);
   font-size: 0.28rem;
-  /* line-height: 0.44rem; */
+  line-height: 0.44rem;
 }
 
 /* 高度继承 */
@@ -43,4 +43,8 @@ input {
 }
 input::placeholder {
   font-size: 0.28rem;
+}
+
+h1 {
+  font-size: var(--font-size-h2);
 }

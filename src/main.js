@@ -17,7 +17,8 @@ import {
   Toast,
   List,
   PullRefresh,
-  Dialog
+  Dialog,
+  Uploader
 } from "vant";
 Vue.use(Tab)
   .use(Tabs)
@@ -32,7 +33,8 @@ Vue.use(Tab)
   .use(Toast)
   .use(List)
   .use(PullRefresh)
-  .use(Dialog);
+  .use(Dialog)
+  .use(Uploader);
 
 Vue.config.productionTip = false;
 

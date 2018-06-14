@@ -62,7 +62,6 @@ export default {
   },
   methods: {
     onLoad() {
-      console.log("你好");
       setTimeout(() => {
         for (let i = 0; i < 10; i++) {
           this.list.push(this.list.length + 1);
@@ -83,7 +82,9 @@ export default {
     toDetail() {
       this.$router.push("match/detail");
     },
-    createClick() {}
+    createClick() {
+      this.$router.push("match/create");
+    }
   }
 };
 </script>

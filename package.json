@@ -9,8 +9,9 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "lpreset.css": "0.0.6",
+    "lpreset.css": "0.0.7",
     "lputils": "0.0.2",
+    "postcss-preset-env": "^5.1.0",
     "qs": "^6.5.2",
     "vant": "^1.1.7",
     "vue": "^2.5.16",
@@ -40,7 +41,8 @@
   },
   "postcss": {
     "plugins": {
-      "autoprefixer": {}
+      "autoprefixer": {},
+      "postcss-preset-env": {}
     }
   },
   "browserslist": [

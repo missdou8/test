@@ -1,5 +1,6 @@
 import Index from "../views/match/Index.vue";
 import Detail from "../views/match/Detail.vue";
+import Create from "../views/match/Create.vue";
 
 const MATCH_ROUTERS = [
   {
@@ -14,6 +15,13 @@ const MATCH_ROUTERS = [
     component: Detail,
     meta: {
       title: "比赛详情"
+    }
+  },
+  {
+    path: "match/create",
+    component: Create,
+    meta: {
+      title: "创建比赛"
     }
   }
 ];
