@@ -1,4 +1,4 @@
-import Index from "../views/match/Index.vue";
+import Index from "../views/match/index.vue";
 import Detail from "../views/match/Detail.vue";
 
 const MATCH_ROUTERS = [
