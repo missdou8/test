@@ -1,7 +1,7 @@
 import Vue from "vue";
 import router from "./router/router.js";
 import App from "./App.vue";
-import "./scripts/base";
+import "./scripts/base.js";
 // 引用组件
 import {
   Tab,
@@ -15,11 +15,28 @@ import {
   Checkbox,
   CheckboxGroup,
   Toast,
+  List,
+  PullRefresh,
   Dialog,
   Area,
   Popup
 } from "vant";
-Vue.use(Tab).use(Tabs).use(Field).use(Button).use(Cell).use(CellGroup).use(RadioGroup).use(Radio).use(Checkbox).use(CheckboxGroup).use(Toast).use(Dialog).use(Area).use(Popup);
+Vue.use(Tab)
+  .use(Tabs)
+  .use(Field)
+  .use(Button)
+  .use(Cell)
+  .use(CellGroup)
+  .use(RadioGroup)
+  .use(Radio)
+  .use(Checkbox)
+  .use(CheckboxGroup)
+  .use(Toast)
+  .use(List)
+  .use(PullRefresh)
+  .use(Dialog)
+  .use(Area)
+  .use(Popup);
 
 Vue.config.productionTip = false;
 
