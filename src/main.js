@@ -19,7 +19,9 @@ import {
   PullRefresh,
   Dialog,
   Area,
-  Popup
+  Popup,
+  Row, 
+  Col
 } from "vant";
 Vue.use(Tab)
   .use(Tabs)
@@ -36,7 +38,9 @@ Vue.use(Tab)
   .use(PullRefresh)
   .use(Dialog)
   .use(Area)
-  .use(Popup);
+  .use(Popup)
+  .use(Row)
+  .use(Col);
 
 Vue.config.productionTip = false;
 
