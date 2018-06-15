@@ -18,9 +18,10 @@ import {
   List,
   PullRefresh,
   Dialog,
+  Uploader,
   Area,
   Popup,
-  Row, 
+  Row,
   Col
 } from "vant";
 Vue.use(Tab)
@@ -37,6 +38,7 @@ Vue.use(Tab)
   .use(List)
   .use(PullRefresh)
   .use(Dialog)
+  .use(Uploader)
   .use(Area)
   .use(Popup)
   .use(Row)
