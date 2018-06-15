@@ -8,7 +8,7 @@
         <van-field v-model="detail_address" label="联系地址" type="textarea" placeholder="请输入详细地址，如街道、小区、楼栋号、单元室等" rows="3" autosize/>
       </van-cell-group>
       <van-popup v-model="show" position="bottom">
-        <van-area :area-list="areaList" @confirm="onConfirm" @cancel="onCancel()" :value="detail_area"/>
+        <van-area :area-list="areaList"  @confirm="onConfirm" @cancel="onCancel()" :value="detail_area"/>
       </van-popup>
       <div id='container'></div>
     </div>
@@ -59,7 +59,7 @@ export default {
       map.plugin("AMap.Geolocation", function() {
         geolocation = new AMap.Geolocation({
           enableHighAccuracy: true, //是否使用高精度定位，默认:true
-          timeout: 5000, //超过10秒后停止定位，默认：无穷大
+          timeout: 10000, //超过10秒后停止定位，默认：无穷大
           buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
           zoomToAccuracy: true, //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
           buttonPosition: "RB"
@@ -74,16 +74,19 @@ export default {
         let resData = {
           longitude: data.position.getLng(), //经度
           latitude : data.position.getLat(),  //维度
-          detailAddress: data.formattedAddress,//详细地址
-          detailArea: data.addressComponent.adcode //所在城市编号
+          detailAddress: data.formattedAddress||'',//详细地址
+          detailAreaCode: data.addressComponent.adcode||'', //所在城市编号
+          province: data.addressComponent.businessAreas.province||'', //省份
+          city: data.addressComponent.businessAreas.city||'',//城市
+          district: data.addressComponent.businessAreas.district||'' //地区
         }
         _this.detail_address = resData.detailAddress;
-        _this.detail_area    = resData.detailArea;
-        
+        _this.detail_area    = resData.detailAreaCode;
+        _this.address = province + city + district
       }
       //解析定位错误信息
       function onError(data) {
-        document.getElementById("tip").innerHTML = "定位失败";
+        alert('定位失败请输入详细地址信息')
       }
     }
   }
