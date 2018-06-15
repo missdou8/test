@@ -13,7 +13,7 @@ const routes = [
   {
     path: "/",
     component: App,
-    redirect: "/match/index",
+    redirect: "/match",
     children: [].concat(
       loginConfig,
       matchConfig,
