@@ -26,9 +26,8 @@
         </van-popup>
         <van-dialog title= '嘀嗒比赛' v-model="showDialog" show-cancel-button :before-close="beforeClose">
             <van-field v-model="express_name" label="快递公司" placeholder="请输入快递公司名称"/>
-            <van-field v-model="express_number" label="快递单号" placeholder="请输入快递单号"
-  />
-</van-dialog>
+            <van-field v-model="express_number" label="快递单号" placeholder="请输入快递单号"/>
+        </van-dialog>
     </div>
 </template>
 
