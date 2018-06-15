@@ -22,7 +22,11 @@ import {
   Area,
   Popup,
   Row,
-  Col
+  Col,
+  Panel,
+  Card,
+  NumberKeyboard,
+  PasswordInput,
 } from "vant";
 Vue.use(Tab)
   .use(Tabs)
@@ -42,7 +46,11 @@ Vue.use(Tab)
   .use(Area)
   .use(Popup)
   .use(Row)
-  .use(Col);
+  .use(Panel)
+  .use(Card)
+  .use(Col)
+  .use(NumberKeyboard)
+  .use(PasswordInput);
 
 Vue.config.productionTip = false;
 

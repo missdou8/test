@@ -14,7 +14,7 @@
     </div>
 </template>
 <script>
-import cityCode from "../../service/cityCode.js";
+import cityCode from "../../../service/cityCode.js";
 export default {
   data() {
     return {

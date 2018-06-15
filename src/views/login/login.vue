@@ -41,7 +41,7 @@ export default {
       this.$router.push("/register");
     },
     Login(){
-      this.$router.push("/user/index");
+      this.$router.push("user/set/index");
     }
   }
 };

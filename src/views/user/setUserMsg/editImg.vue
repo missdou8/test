@@ -8,12 +8,12 @@
       <div class="img_box">
         <van-button class="updata_btn"  type="default" @click="updataImg()">上传您的最新头像</van-button>
         <van-row gutter="10">
-          <van-col span="8"><img src="../../assets/logo.png" alt="" srcset="" @click="updataImg()"></van-col>
-          <van-col span="8"><img src="../../assets/logo.png" alt="" srcset=""></van-col>
-          <van-col span="8"><img src="../../assets/logo.png" alt="" srcset=""></van-col>
-          <van-col span="8"><img src="../../assets/logo.png" alt="" srcset=""></van-col>
-          <van-col span="8"><img src="../../assets/logo.png" alt="" srcset=""></van-col>
-          <van-col span="8"><img src="../../assets/logo.png" alt="" srcset=""></van-col>
+          <van-col span="8"><img src="../../../assets/logo.png" alt="" srcset="" @click="updataImg()"></van-col>
+          <van-col span="8"><img src="../../../assets/logo.png" alt="" srcset=""></van-col>
+          <van-col span="8"><img src="../../../assets/logo.png" alt="" srcset=""></van-col>
+          <van-col span="8"><img src="../../../assets/logo.png" alt="" srcset=""></van-col>
+          <van-col span="8"><img src="../../../assets/logo.png" alt="" srcset=""></van-col>
+          <van-col span="8"><img src="../../../assets/logo.png" alt="" srcset=""></van-col>
         </van-row>
       </div>
       <input id="file" ref="file" type="file" name="image" accept="image/gif, image/jpeg, image/png">
@@ -22,7 +22,7 @@
 
 <script>
 import AlloyCrop from "alloycrop";
-import img from "../../assets/avatar.png"
+import img from "../../../assets/avatar.png"
 export default {
   data() {
     return {
