@@ -14,7 +14,8 @@
           <button>客服系统</button>
           <button>兑换中心</button>
           <button>公告</button>
-          <button>设置</button>
+          <!-- <button>设置</button> -->
+          <router-link to="/user/index">设置</router-link>
         </div>
         <div>
           <button>我的故事</button>
