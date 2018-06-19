@@ -10,14 +10,14 @@ import editAddress from "../views/user/setUserMsg/editAddress.vue";
 import editPwd from "../views/user/setUserMsg/editPwd.vue";
 import exchangeIndex from "../views/user/exchange/index.vue";
 const USER_ROUTERS = [{
-    path: "user/set/index",
+    path: "/user/index",
     component: Index,
     meta: {
       title: "个人中心"
     }
   },
   {
-    path: "user/edit/img",
+    path: "/user/edit/img",
     component: editImg,
     meta: {
       title: "修改用户头像"
