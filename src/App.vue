@@ -68,7 +68,7 @@ export default {
   height: 100%;
   padding-bottom: 51px;
   background-color: #f5f5f5;
-  transition: all 500ms ease;
+  transition: all 5000ms ease;
   box-shadow: -2px 0 30px rgba(0, 0, 0, 0.1);
 }
 
@@ -77,7 +77,11 @@ export default {
   transform: translate(100%, 0);
   z-index: 1000;
 }
-
+/*解决页面层级显示在滑动上层问题*/
+.slide-left-leave-active, 
+.slide-left-leave-to{
+  z-index: 0;
+}
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
