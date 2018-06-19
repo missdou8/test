@@ -7,37 +7,39 @@
         <van-cell class="showAlert" title="所在地区" :value="address" is-link @click="showPopup()"/>
         <van-field v-model="detail_address" label="联系地址" type="textarea" placeholder="请输入详细地址，如街道、小区、楼栋号、单元室等" rows="3" autosize/>
       </van-cell-group>
-      <van-popup v-model="show" position="bottom">
-        <van-area :area-list="areaList"  @confirm="onConfirm" @cancel="onCancel()" :value="detail_area"/>
+      <van-popup v-model="show" position="bottom" :lazy-render="false">
+        <van-area ref="van_area" :area-list="areaList"  @confirm="onConfirm" @cancel="onCancel()" :value="detail_area"/>
       </van-popup>
       <div id='container'></div>
     </div>
 </template>
 <script>
 import cityCode from "../../../service/cityCode.js";
+import { setTimeout } from "timers";
 export default {
   data() {
     return {
       address: "",
       detail_address: "",
-      detail_area:'',
+      detail_area: "",
       show: false,
       areaList: {}
     };
   },
-  created(){
+  created() {
     this.areaList = cityCode;
-    let script = document.createElement('script')
-    script.type = 'text/javascript'
-    script.src = 'http://webapi.amap.com/maps?v=1.4.6&key=4851ba7a49267a6ed906605fa1e2970c'   // 高德地图
-    document.body.appendChild(script)
+    let script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src =
+      "http://webapi.amap.com/maps?v=1.4.6&key=4851ba7a49267a6ed906605fa1e2970c"; // 高德地图
+    document.body.appendChild(script);
   },
   methods: {
     showPopup() {
       this.show = true;
     },
     onConfirm(value) {
-      this.address = ''
+      this.address = "";
       value.forEach(a => {
         this.address += `${a.name}  `;
       });
@@ -73,20 +75,20 @@ export default {
       function onComplete(data) {
         let resData = {
           longitude: data.position.getLng(), //经度
-          latitude : data.position.getLat(),  //维度
-          detailAddress: data.formattedAddress||'',//详细地址
-          detailAreaCode: data.addressComponent.adcode||'', //所在城市编号
-          province: data.addressComponent.businessAreas.province||'', //省份
-          city: data.addressComponent.businessAreas.city||'',//城市
-          district: data.addressComponent.businessAreas.district||'' //地区
-        }
+          latitude: data.position.getLat(), //维度
+          detailAddress: data.formattedAddress || "", //详细地址
+          detailAreaCode: data.addressComponent.adcode || "" //所在城市编号
+        };
         _this.detail_address = resData.detailAddress;
-        _this.detail_area    = resData.detailAreaCode;
-        _this.address = province + city + district
+        _this.detail_area = resData.detailAreaCode;
+        setTimeout(() => {
+          let _value = _this.$refs.van_area.getValues();
+          _this.onConfirm(_value);
+        }, 100);
       }
       //解析定位错误信息
       function onError(data) {
-        alert('定位失败请输入详细地址信息')
+        alert("定位失败请输入详细地址信息");
       }
     }
   }
