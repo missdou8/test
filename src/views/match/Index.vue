@@ -26,7 +26,9 @@
       <li>浏览</li>
       <li>点赞</li>
       <li>场比赛</li>
-      <li>粉丝</li>
+      <li>
+        <router-link to="user/record/fans">粉丝</router-link>
+      </li>
     </ul>
     <van-tabs v-model="active" class="match_main">
       <van-tab v-for="(item, index) in tabs.length" :title="tabs[index]" :key="index">
