@@ -12,7 +12,8 @@
       <div>
         <div class="header_lists">
           <button>客服系统</button>
-          <button>兑换中心</button>
+          <!-- <button>兑换中心</button> -->
+          <router-link to="/user/exchange/index">兑换中心</router-link>
           <button>公告</button>
           <!-- <button>设置</button> -->
           <router-link to="/user/index">设置</router-link>
