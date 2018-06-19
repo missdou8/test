@@ -21,31 +21,32 @@ export default {
       loading: false,
       finished: false,
       isLoading: false,
-      currentPage: 1 //当前页
+      currentPage: 1 //当前页(默认从第一页开始)
     };
   },
   /**
    * list 数据结构
+   * maxPage 最大页数
+   * titleText 标题左侧显示文本
+   * titleNumber 标题右侧显示文本
    */
-  props: ['listData','maxPage','titleText','titleNumber'],
-
+  props: ["listData", "maxPage", "titleText", "titleNumber"],
   methods: {
     onLoad() {
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.listData.push(this.listData.length + 1);
-        }
-        this.loading = false;
-        if (this.listData.length >= 40) {
+        this.$emit("load",this.currentPage);
+        this.currentPage += 1;
+        if (this.currentPage > this.maxPage) {
           this.finished = true;
         }
-      }, 500);
     },
     onRefresh() {
-      setTimeout(() => {
-        this.$emit("refresh",this.isLoading);
-        this.isLoading = false;
-      }, 500);
+        this.$emit("refresh");
+    },
+    hideLoading() {
+      this.loading = false;
+    },
+    hideIsLoading() {
+      this.isLoading = false;
     }
   }
 };
