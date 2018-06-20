@@ -1,13 +1,17 @@
 <template>
-    <div class="create">
-        <van-uploader class="uploader" :after-read="onRead">
-            添加封面
-        </van-uploader>
-        <div class="create_content">
-            <h1 contenteditable="true" ref="matchTitle" @input="titleInput" @focus="focus(titlePlace, $event)" @blur="blur(titlePlace,$event)">{{titlePlace}}</h1>
-            <div class="create_content_intro" contenteditable="true" @focus="focus(contentPlace,$event)" @blur="blur(contentPlace,$event)" @keyup.enter="nextLine" ref="createIntro">{{contentPlace}}</div>
-        </div>
+  <div class="create">
+    <van-uploader class="uploader" :after-read="onRead">
+      添加封面
+    </van-uploader>
+    <div class="create_content">
+      <h1 contenteditable="true" ref="matchTitle" @input="titleInput" @focus="focus(titlePlace, $event)" @blur="blur(titlePlace,$event)">{{titlePlace}}</h1>
+      <div class="create_content_intro" contenteditable="true" @focus="focus(contentPlace,$event)" @blur="blur(contentPlace,$event)" @keyup.enter="nextLine" ref="createIntro">{{contentPlace}}</div>
     </div>
+    <van-uploader class="append" :after-read="append">
+      图片
+    </van-uploader>
+    <van-button @click="nextClick" class="next">下一步</van-button>
+  </div>
 </template>
 
 <script>
@@ -20,6 +24,9 @@ export default {
   },
   mounted() {
     this.$refs.matchTitle.focus();
+    window.addEventListener("scroll", function() {
+      console.log("这里开始滚动了");
+    });
   },
   methods: {
     onRead() {
@@ -29,21 +36,27 @@ export default {
       let value = evt.target.innerHTML;
       if (value === "添加比赛名称") {
       }
-      console.log(value);
     },
-    focus(val, evt) {
-      evt.target.innerHTML === val && (evt.target.innerHTML = "");
+    focus(val, evt) {},
+    blur(val, evt) {},
+    nextLine() {},
+    nextClick() {
+      let containDom = this.$refs.createIntro;
+      console.log(containDom.innerHTML);
+      this.$router.push("style");
     },
-    blur(val, evt) {
-      evt.target.innerHTML || (evt.target.innerHTML = val);
-    },
-    nextLine() {
-      let p = document.createElement("p");
-      //   this.$refs.createIntro.appendChild(p);
+    append(file) {
+      console.log(file);
+      let containDom = this.$refs.createIntro;
+      let img = document.createElement("img");
+      img.style.width = "100%";
+      img.src = file.content;
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);
-      range.setStart(p, 0);
-      range.insertNode(p);
+      if (range.startContainer == this.$refs.createIntro) {
+        return containDom.appendChild(img);
+      }
+      this.$refs.createIntro.insertBefore(img, range.startContainer);
     }
   }
 };
@@ -56,6 +69,7 @@ export default {
 }
 .create {
   text-align: center;
+  height: 100%;
 }
 .uploader {
   background-color: #555;
@@ -69,19 +83,24 @@ export default {
   text-align: left;
   text-indent: 2em;
   user-select: initial;
-  -webkit-user-modify: read-write-plaintext-only;
 }
 
 .create_content_intro:focus,
 .create_content h1:focus {
   outline: none;
-  border: 0.01rem solid blue;
 }
-div {
-  min-height: 1rem;
+.append {
+  color: red;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-textarea {
-  text-indent: 2em;
+.next {
+  position: fixed;
+  bottom: 0.3rem;
+  left: 50%;
+  transform: translate(-50%);
 }
 </style>
 

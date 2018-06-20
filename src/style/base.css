@@ -39,7 +39,6 @@ body,
 /*设置input提示文字的样式*/
 input {
   font-size: 0.28rem;
-  padding: 0.1rem 0.2rem;
 }
 input::placeholder {
   font-size: 0.28rem;

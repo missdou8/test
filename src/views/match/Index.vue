@@ -14,7 +14,6 @@
           <button>客服系统</button>
           <button>兑换中心</button>
           <button>公告</button>
-          <!-- <button>设置</button> -->
           <router-link to="/user/index">设置</router-link>
         </div>
         <div>
@@ -111,7 +110,8 @@ export default {
   border-radius: 1rem;
 }
 /* 顶部选项 */
-.header_lists button {
+.header_lists button,
+.header_lists a {
   padding: 0.1rem 0.2rem;
 }
 .match_info {

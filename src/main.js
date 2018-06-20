@@ -25,8 +25,12 @@ import {
   Col,
   Panel,
   Card,
+  Collapse,
   NumberKeyboard,
   PasswordInput,
+  DatetimePicker,
+  Picker,
+  CollapseItem
 } from "vant";
 Vue.use(Tab)
   .use(Tabs)
@@ -49,7 +53,11 @@ Vue.use(Tab)
   .use(Panel)
   .use(Card)
   .use(Col)
+  .use(Collapse)
   .use(NumberKeyboard)
+  .use(Picker)
+  .use(DatetimePicker)
+  .use(CollapseItem)
   .use(PasswordInput);
 
 Vue.config.productionTip = false;
