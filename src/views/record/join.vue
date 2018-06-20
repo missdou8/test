@@ -1,6 +1,6 @@
 <template>
-    <div id="fans">
-        <dida-list ref="dida_list" :list-data="list" :maxPage="5" title-text="全部粉丝" title-number="10000" @refresh="refresh()" @load="getData(pagesize,$event)"></dida-list>
+    <div id="join">
+        <dida-list ref="dida_list" :list-data="list" :maxPage="5" title-text="已报名列表" title-number="10000" @refresh="refresh()" @load="getData(pagesize,$event)"></dida-list>
     </div>
 </template>
 
@@ -29,6 +29,7 @@ export default {
           //在旧数据基础上插入新数据
           this.list.push(this.list.length + 1);
         }
+        console.log(this.list)
         this.$refs.dida_list.hideLoading();
       }, 500);
     },
@@ -46,7 +47,7 @@ export default {
 
 
 <style scoped>
-#fans {
+#join {
   height: 100%;
 }
 </style>

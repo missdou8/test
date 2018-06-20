@@ -77,7 +77,11 @@ export default {
   transform: translate(100%, 0);
   z-index: 1000;
 }
-
+/*解决页面层级显示在滑动上层问题*/
+.slide-left-leave-active, 
+.slide-left-leave-to{
+  z-index: 0;
+}
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
