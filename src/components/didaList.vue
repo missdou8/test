@@ -1,17 +1,17 @@
 <template>
-    <div id="didaList">
-        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-            <van-list v-model="loading" :finished="finished" @load="onLoad">
-                <div class="title">
-                    <span>{{titleText}}</span>
-                    <span>{{titleNumber}}人</span>
-                </div>
-                <van-cell v-for="item in listData" :key="item"  value="2018/5/3 12:34:45" label="10000001" :title="item + '用户昵称'">
-                    <img slot="icon" src="../assets/icon_S01.png" alt="" srcset="">
-                </van-cell>
-            </van-list>
-        </van-pull-refresh>
-    </div>
+  <div id="didaList">
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+      <van-list v-model="loading" :finished="finished" @load="onLoad">
+        <div class="title">
+          <span>{{titleText}}</span>
+          <span>{{titleNumber}}人</span>
+        </div>
+        <van-cell v-for="item in listData" :key="item" value="2018/5/3 12:34:45" label="10000001" :title="item + '用户昵称'">
+          <img slot="icon" src="../assets/icon_S01.png" alt="" srcset="">
+        </van-cell>
+      </van-list>
+    </van-pull-refresh>
+  </div>
 </template>
 
 <script>
@@ -33,14 +33,14 @@ export default {
   props: ["listData", "maxPage", "titleText", "titleNumber"],
   methods: {
     onLoad() {
-        this.$emit("load",this.currentPage);
-        this.currentPage += 1;
-        if (this.currentPage > this.maxPage) {
-          this.finished = true;
-        }
+      this.$emit("load", this.currentPage);
+      this.currentPage += 1;
+      if (this.currentPage > this.maxPage) {
+        this.finished = true;
+      }
     },
     onRefresh() {
-        this.$emit("refresh");
+      this.$emit("refresh");
     },
     hideLoading() {
       this.loading = false;

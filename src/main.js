@@ -2,6 +2,8 @@ import Vue from "vue";
 import router from "./router/router.js";
 import App from "./App.vue";
 import "./scripts/base.js";
+import ApiService from "./service/http.js";
+
 // 引用组件
 import {
   Tab,
@@ -61,8 +63,9 @@ Vue.use(Tab)
   .use(PasswordInput);
 
 Vue.config.productionTip = false;
+Vue.prototype.http = new ApiService();
 
-new Vue({
+export default new Vue({
   router,
   render: h => h(App)
 }).$mount("#app");

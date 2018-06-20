@@ -1,21 +1,16 @@
 import axios from "axios";
 import qs from "qs";
-import errorcode from "./errorcode.js";
+import errorcode from "./errcode.js";
 import _this from "../main.js";
+import match from "./match.js";
+import user from "./user.js";
 
 /**
  * 常量
  */
 const hostname = "/index.php/api/";
 
-const reqAndUrl = Object.assign(
-  clubParams,
-  loginService,
-  publicityService,
-  agentService,
-  taskService,
-  articleService
-);
+const reqAndUrl = Object.assign(match, user);
 
 class ApiService {
   getSessionData(sessionItem) {
@@ -58,8 +53,12 @@ class ApiService {
 axios.interceptors.request.use(
   function(config) {
     // 发送请求之前做一些事情
-    _this.$vux.loading.show({
-      text: ""
+    _this.$toast.loading({
+      duration: 0,
+      forbidClick: true,
+      loadingType: "spinner",
+      mask: false,
+      message: "加载中..."
     });
     return config;
   },
@@ -78,10 +77,10 @@ let errorCatch = (code, msg) => {
       _this.$router.push("/front/certification");
       break;
     case code:
-      _this.$vux.toast.text(msg);
+      _this.$toast(msg || "接口404");
       break;
     default:
-      _this.$vux.toast.text("系统错误，请稍后重试");
+      _this.$toast("系统错误，请稍后重试");
       break;
   }
 };
@@ -89,7 +88,7 @@ let errorCatch = (code, msg) => {
 axios.interceptors.response.use(
   function(response) {
     // 数据成功返回之后
-    _this.$vux.loading.hide();
+    _this.$toast.clear();
     if (response.data.code !== 0) {
       return Promise.reject({
         code: response.data.code,
@@ -100,11 +99,9 @@ axios.interceptors.response.use(
   },
   function(error) {
     // 处理错误的内容
-    _this.$vux.loading.hide();
+    _this.$toast.clear();
     // 如果错啦
-    _this.$vux.toast.show({
-      text: "请稍后再试哦"
-    });
+    _this.$toast("请稍后再试");
   }
 );
 
