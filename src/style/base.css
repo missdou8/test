@@ -48,3 +48,9 @@ input::placeholder {
 h1 {
   font-size: var(--font-size-h2);
 }
+
+* {
+  /* 移动端按压效果取消 */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+}
