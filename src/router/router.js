@@ -5,6 +5,7 @@ import Vue from "vue";
 import loginConfig from "./login.js"
 import matchConfig from "./match.js";
 import userConfig from "./user.js";
+import recordConfig from "./record.js";
 
 Vue.use(VueRouter);
 
@@ -12,11 +13,12 @@ const routes = [
   {
     path: "/",
     component: App,
-    redirect: "/match/index",
+    redirect: "/match",
     children: [].concat(
       loginConfig,
       matchConfig,
-      userConfig
+      userConfig,
+      recordConfig
     )
   }
 ];

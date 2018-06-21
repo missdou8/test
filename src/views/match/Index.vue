@@ -2,19 +2,20 @@
   <div class="main">
     <div class="header">
       <div class="header_icon">
-        <img src="../../assets/logo.png" alt="头像">
-        <span>广告主名称</span>
+        <img :src=" userInfo.icon || '../../assets/logo.png'" alt="头像">
+        <span>{{userInfo.name || 广告主名称}}</span>
         <p>
-          <span>认证</span>
-          <span>滴答ID：123456789</span>
+          <span>{{userInfo.certification == 1 ? "认证" : '未认证'}}</span>
+          <span>滴答ID：{{userInfo.id}}</span>
         </p>
       </div>
       <div>
         <div class="header_lists">
           <button>客服系统</button>
-          <button>兑换中心</button>
+          <!-- <button>兑换中心</button> -->
+          <router-link to="/user/exchange/index">兑换中心</router-link>
           <button>公告</button>
-          <button>设置</button>
+          <router-link to="/user/index">设置</router-link>
         </div>
         <div>
           <button>我的故事</button>
@@ -22,10 +23,12 @@
       </div>
     </div>
     <ul class="match_info">
-      <li>浏览</li>
-      <li>点赞</li>
-      <li>场比赛</li>
-      <li>粉丝</li>
+      <li>{{userInfo.visitCount}}浏览</li>
+      <li>{{userInfo.likeCount}}点赞</li>
+      <li>{{userInfo.matchCount}}场比赛</li>
+      <li>
+        <router-link to="user/record/fans">{{userInfo.watchersCount}}粉丝</router-link>
+      </li>
     </ul>
     <van-tabs v-model="active" class="match_main">
       <van-tab v-for="(item, index) in tabs.length" :title="tabs[index]" :key="index">
@@ -33,10 +36,14 @@
           <van-list v-model="loading" :finished="finished" @load="onLoad">
             <div class="match_list_content">
               <div class="match_list_item" v-for="item in list" :key="item" @click="toDetail">
-                <span class="list_person-num">人数</span>
+                <img :src="item.cover" alt="封面图片">
+                <span class="list_person-num">{{item.applyCount}}人数</span>
                 <div class="list_attri">
-                  <span class="list_pv">浏览次数</span>
-                  <span class="list_like">点赞人数</span>
+                  <span class="list_pv">{{item.visitCount}}浏览次数</span>
+                  <span class="list_like">{{item.likeCount}}点赞人数</span>
+                </div>
+                <div class="edit_info">
+                  <p>{{item.auditStatus | code2Word}}</p>
                 </div>
               </div>
             </div>
@@ -53,37 +60,98 @@ export default {
   data() {
     return {
       active: 0,
+      userInfo: Object, //头像地址
       tabs: ["当前赛事", "历史赛事"],
       list: [],
       refreshing: false,
       loading: false,
-      finished: false
+      finished: false,
+      matchType: 1,
+      matchPage: 1,
+      pageSize: 6
     };
+  },
+  watch: {
+    active() {
+      this.matchType = this.active + 1;
+      this.fetchList();
+    }
+  },
+  filters: {
+    code2Word(code) {
+      let word = "";
+      switch (code) {
+        case 0:
+          word = "新建未审核";
+          break;
+        case 1:
+          word = "新建提审中";
+          break;
+        case 2:
+          word = "信息修改提审中";
+          break;
+        case 3:
+          word = "申请被驳回";
+          break;
+        case 4:
+          word = "审核通过，等待发布";
+          break;
+        case 5:
+          word = "已发布";
+      }
+      return word;
+    }
+  },
+  created() {
+    //获取用户信息
+    this.http.user.getUserInfo().then(res => {
+      this.userInfo = res.data;
+    });
+    // this.fetchList(1, 1);
   },
   methods: {
     onLoad() {
-      console.log("你好");
+      this.fetchList().then(data => {
+        this.loading = false;
+        if (data.total <= this.matchPage * this.pageSize) {
+          this.finished = true;
+        }
+      });
       setTimeout(() => {
         for (let i = 0; i < 10; i++) {
           this.list.push(this.list.length + 1);
         }
         this.loading = false;
-
         if (this.list.length >= 40) {
           this.finished = true;
         }
       }, 500);
     },
     onRefresh() {
-      setTimeout(() => {
+      this.fetchList(1).then(() => {
         this.refreshing = false;
-        console.log("获取最新的数据");
-      }, 2000);
+      });
     },
     toDetail() {
       this.$router.push("match/detail");
     },
-    createClick() {}
+    createClick() {
+      this.$router.push("match/create");
+    },
+    fetchList() {
+      //获取比赛信息
+      return this.http.match
+        .matchList({
+          pagesize: this.pageSize,
+          currentpage: this.matchPage,
+          type: this.matchType
+        })
+        .then(res => {
+          let data = res.data;
+          this.list = this.list.concat(data.matchList);
+          return data;
+        });
+    }
   }
 };
 </script>
@@ -109,7 +177,8 @@ export default {
   border-radius: 1rem;
 }
 /* 顶部选项 */
-.header_lists button {
+.header_lists button,
+.header_lists a {
   padding: 0.1rem 0.2rem;
 }
 .match_info {
@@ -151,9 +220,15 @@ export default {
   height: 3rem;
   position: relative;
 }
+.match_list_item img {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
 
 .list_person-num,
-.list_attri {
+.list_attri,
+.edit_info {
   position: absolute;
 }
 .list_person-num {
@@ -163,6 +238,10 @@ export default {
 .list_attri {
   bottom: 0;
   right: 0;
+}
+.edit_info {
+  left: 0;
+  top: 1rem;
 }
 </style>
 

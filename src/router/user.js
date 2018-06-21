@@ -1,23 +1,23 @@
 import Index from "../views/user/index.vue";
-import editImg from "../views/user/editImg.vue";
-import editShop from "../views/user/editShop.vue";
-import editName from "../views/user/editName.vue";
-import editAutonym from "../views/user/editAutonym.vue";
-import autonymTips from "../views/user/autonymTips.vue";
-import editPlane from "../views/user/editPlane.vue";
-import editPhone from "../views/user/editPhone.vue";
-import editAddress from "../views/user/editAddress.vue";
-import editPwd from "../views/user/editPwd.vue";
-
+import editImg from "../views/user/setUserMsg/editImg.vue";
+import editShop from "../views/user/setUserMsg/editShop.vue";
+import editName from "../views/user/setUserMsg/editName.vue";
+import editAutonym from "../views/user/setUserMsg/editAutonym.vue";
+import autonymTips from "../views/user/setUserMsg/autonymTips.vue";
+import editPlane from "../views/user/setUserMsg/editPlane.vue";
+import editPhone from "../views/user/setUserMsg/editPhone.vue";
+import editAddress from "../views/user/setUserMsg/editAddress.vue";
+import editPwd from "../views/user/setUserMsg/editPwd.vue";
+import exchangeIndex from "../views/user/exchange/index.vue";
 const USER_ROUTERS = [{
-    path: "user/index",
+    path: "/user/index",
     component: Index,
     meta: {
       title: "个人中心"
     }
   },
   {
-    path: "user/edit/img",
+    path: "/user/edit/img",
     component: editImg,
     meta: {
       title: "修改用户头像"
@@ -85,6 +85,14 @@ const USER_ROUTERS = [{
     component: editPwd,
     meta: {
       title: "修改密码"
+    }
+  },
+  {
+    path: "/user/exchange/index",
+    name: "exchangeIndex",
+    component: exchangeIndex,
+    meta: {
+      title: "兑奖信息"
     }
   }
 ];

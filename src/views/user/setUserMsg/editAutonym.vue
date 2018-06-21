@@ -9,13 +9,13 @@
           <van-col span="12">
             <h3>手持身份证正面照片</h3>
             <div class="img_box">
-              <img @click="setImg" src="../../assets/banner_task.png" alt="">
+              <img @click="setImg" src="../../../assets/banner_task.png" alt="">
             </div>
           </van-col>
           <van-col span="12">
             <h3>手持身份证反面照片</h3>
             <div class="img_box">
-              <img @click="setImg" src="../../assets/banner_task.png" alt="">
+              <img @click="setImg" src="../../../assets/banner_task.png" alt="">
             </div>
           </van-col>
         </van-row>

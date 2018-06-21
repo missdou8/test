@@ -22,9 +22,10 @@
             </div>
         </div>
         <div class="like_info">
-            <span>like</span>
+            <router-link to="/user/record/like">like</router-link>
             <span>share</span>
         </div>
+        <router-link to="/user/record/join">325已报名</router-link>
     </div>
 </template>
 

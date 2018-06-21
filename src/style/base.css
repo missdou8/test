@@ -23,7 +23,7 @@ body {
   background-color: #f5f5f5;
   color: var(--word-color);
   font-size: 0.28rem;
-  /* line-height: 0.44rem; */
+  line-height: 0.44rem;
 }
 
 /* 高度继承 */
@@ -39,8 +39,17 @@ body,
 /*设置input提示文字的样式*/
 input {
   font-size: 0.28rem;
-  padding: 0.1rem 0.2rem;
 }
 input::placeholder {
   font-size: 0.28rem;
+}
+
+h1 {
+  font-size: var(--font-size-h2);
+}
+
+* {
+  /* 移动端按压效果取消 */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
 }
