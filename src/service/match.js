@@ -1,5 +1,5 @@
 const match = {
-  match: ["matchList"]
+  match: ["matchList", "gameList"]
 };
 
 export default match;
