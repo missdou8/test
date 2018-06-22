@@ -4,8 +4,8 @@
         <van-field v-model="phone" label="账号" placeholder="请输入手机号" icon="clear" @click-icon="phone = ''"/>
         <van-field v-model="password" type="password" label="密码" placeholder="请输入密码" icon="clear" @click-icon="password = ''"/>
         <van-field class="code_box" center v-model="code" label="验证码" placeholder="请输入验证码" icon="clear" @click-icon="code = ''">
-          <van-button id="code" slot="button" size="small">
-            <img class="img" src="../../assets/code.png" alt="" srcset="">
+          <van-button id="code" slot="button" size="small"  @click="codeImgClick">
+            <img class="img" src="/index.php/api/user/verify/imgCode?type=forget" alt="" srcset="">
           </van-button>
         </van-field>
       </van-cell-group>
@@ -14,7 +14,7 @@
           <span>登录即视为你同意我们的</span> 
           <router-link to="/registerTips">用户使用协议</router-link>
         </p>
-        <van-button class="login_btn" size="large" @click="Login()">登录</van-button>
+        <van-button class="login_btn" size="large" :disabled="btnEnable" @click="Login()">登录</van-button>
         <div class="btn_box_footer">
           <van-checkbox v-model="checked" class="checked">自动登录</van-checkbox>
           <router-link class="fing" to="/findPwd">忘记密码?</router-link>
@@ -22,7 +22,7 @@
       </div>
       <div class="new_user">
         <van-button class="new_user_btn" type="default" @click="goRegister()">新用户申请办比赛</van-button>
-        <p class="new_user_dec">您的注册申请未通过</p>
+        <!-- <p class="new_user_dec">您的注册申请未通过</p> -->
       </div>
   </div>
 </template>
@@ -36,12 +36,44 @@ export default {
       checked: true
     };
   },
+  computed: {
+    btnEnable() {
+      if (
+        this.phone &&
+        this.code &&
+        this.password
+      ) {
+        return false;
+      }
+      return true;
+    }
+  },
   methods: {
+    codeImgClick() {
+      this.$refs.codeImg.src = `/index.php/api/user/verify?type=forget&r=${Math.random()}`;
+    },
     goRegister(){
       this.$router.push("/register");
     },
     Login(){
-      this.$router.push("match");
+      this.apiService.user
+        .login({
+          mobile: this.tel,
+          password: this.pwd,
+          imgCode: this.code
+        })
+        .then(res => {
+          if(res.data.auditStatus==1){
+            //登录成功的时候直接跳转首页
+            this.$router.push("match");
+          }else{
+            //审核或者审核未通过
+            this.$router.push({path: "/register", query: {id:res.data.id}});
+          }
+        })
+        .catch(() => {
+          this.$refs.codeImg.src = `/index.php/api/user/verify?type=forget&r=${Math.random()}`;
+        });
     }
   }
 };

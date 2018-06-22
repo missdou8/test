@@ -20,10 +20,7 @@ export default {
   },
   computed: {
     btnEnable() {
-      if (
-        this.password &&
-        this.rePassword
-      ) {
+      if (this.password && this.rePassword) {
         return false;
       }
       return true;
@@ -36,11 +33,23 @@ export default {
       if (this.password !== this.rePassword) {
         return this.$toast("两次输入的密码应该一致！");
       }
-      let data = {
-        password: this.password
-      };
-      console.log(data)
-    },
+      this.apiService.user
+        .login({
+          mobile: this.$route.query.id,
+          newPassword: this.password,
+          confirmPassword: this.rePassword
+        })
+        .then(res => {
+          this.$dialog
+            .alert({
+              title: "嘀嗒比赛",
+              message: res.data.msg
+            })
+            .then(() => {
+              this.$router.push({ path: "/login", replace: true });
+            });
+        });
+    }
   }
 };
 </script>
