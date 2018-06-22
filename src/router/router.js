@@ -2,7 +2,7 @@ import VueRouter from "vue-router";
 import App from "../App.vue";
 import Vue from "vue";
 //路由配置
-import loginConfig from "./login.js"
+import loginConfig from "./login.js";
 import matchConfig from "./match.js";
 import userConfig from "./user.js";
 import recordConfig from "./record.js";
@@ -14,12 +14,7 @@ const routes = [
     path: "/",
     component: App,
     redirect: "/match",
-    children: [].concat(
-      loginConfig,
-      matchConfig,
-      userConfig,
-      recordConfig
-    )
+    children: [].concat(loginConfig, matchConfig, userConfig, recordConfig)
   }
 ];
 

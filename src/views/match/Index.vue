@@ -1,6 +1,13 @@
 <template>
   <div class="main">
     <div class="header">
+      <div class="header_lists">
+        <button>客服系统</button>
+        <!-- <button>兑换中心</button> -->
+        <router-link to="/user/exchange/index">兑换中心</router-link>
+        <button>公告</button>
+        <router-link to="/user/index">设置</router-link>
+      </div>
       <div class="header_icon">
         <img :src=" userInfo.icon || '../../assets/logo.png'" alt="头像">
         <span>{{userInfo.name || 广告主名称}}</span>
@@ -10,13 +17,6 @@
         </p>
       </div>
       <div>
-        <div class="header_lists">
-          <button>客服系统</button>
-          <!-- <button>兑换中心</button> -->
-          <router-link to="/user/exchange/index">兑换中心</router-link>
-          <button>公告</button>
-          <router-link to="/user/index">设置</router-link>
-        </div>
         <div>
           <button>我的故事</button>
         </div>
@@ -165,18 +165,22 @@ export default {
 }
 /* 顶部 */
 .header {
-  display: flex;
-  justify-content: space-around;
+  /* background-color: #1c1a1a;
+  color: #fff; */
 }
 .header_icon {
   display: flex;
   flex-direction: column;
 }
 .header_icon img {
-  width: 2rem;
-  border-radius: 1rem;
+  width: 1.54rem;
+  height: 1.54rem;
+  border-radius: 50%;
 }
 /* 顶部选项 */
+.header_lists {
+  text-align: right;
+}
 .header_lists button,
 .header_lists a {
   padding: 0.1rem 0.2rem;

@@ -3,6 +3,7 @@ import router from "./router/router.js";
 import App from "./App.vue";
 import "./scripts/base.js";
 import ApiService from "./service/http.js";
+import store from "./store/index.js";
 
 // 引用组件
 import {
@@ -32,7 +33,8 @@ import {
   PasswordInput,
   DatetimePicker,
   Picker,
-  CollapseItem
+  CollapseItem,
+  NavBar
 } from "vant";
 Vue.use(Tab)
   .use(Tabs)
@@ -60,12 +62,14 @@ Vue.use(Tab)
   .use(Picker)
   .use(DatetimePicker)
   .use(CollapseItem)
-  .use(PasswordInput);
+  .use(PasswordInput)
+  .use(NavBar);
 
 Vue.config.productionTip = false;
 Vue.prototype.http = new ApiService();
 
 export default new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount("#app");

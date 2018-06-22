@@ -32,13 +32,6 @@ const MATCH_ROUTERS = [
     meta: {
       title: "赛制设置"
     }
-  },
-  {
-    path: "match/style/prize",
-    component: Prize,
-    meta: {
-      title: "填写奖品信息"
-    }
   }
 ];
 
