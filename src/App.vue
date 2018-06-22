@@ -6,7 +6,7 @@
   </div>
 </template>
 <script>
-// import axios from "axios";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -24,7 +24,7 @@ export default {
   //   }
   //   //检测用户登录状态与用户权限
   //   let userInfo = localStorage.getItem("userInfo");
-  //   axios.post("/index.php/api/user/checklogin").then(result => {
+  //   axios.post("/index.php/api/user/checkLogin").then(result => {
   //     /**
   //      * 判断是否登录
   //      * 1. true: 判断是否认证

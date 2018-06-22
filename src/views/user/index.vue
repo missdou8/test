@@ -58,9 +58,9 @@ export default {
         })
         .then(() => {
           console.log("注销登录");
-          // _this.apiService.user.logout().then(res => {
-          //   location.reload();
-          // });
+          _this.apiService.user.logout().then(res => {
+            location.reload();
+          });
         })
         .catch(() => {
           console.log("取消注销");

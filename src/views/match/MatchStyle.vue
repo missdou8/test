@@ -1,8 +1,8 @@
 <template>
   <div class="style">
     <van-cell-group>
-      <van-cell title="请选择游戏名称" :value="selectGame.title" is-link @click="gameSelect" />
-      <van-cell title="请选择比赛时间" :value="selectTime" is-link @click="timeSelect" />
+      <van-cell title="请选择游戏名称" value="内容" is-link @click="gameSelect" />
+      <van-cell title="请选择比赛时间" value="内容" is-link @click="timeSelect" />
       <van-collapse v-model="activeNames" :accordion="true">
         <van-collapse-item name="1">
           <div slot="title" class="personGame">
@@ -24,10 +24,10 @@
       <van-cell title="请填写奖品信息" value="内容" is-link @click="toPrize" />
     </van-cell-group>
     <van-popup v-model="gameShow" position="bottom">
-      <van-picker :columns="gameList" show-toolbar @confirm="gameConfirm" @cancel="gameShow = false" />
+      <van-picker :columns="columns" show-toolbar @confirm="gameShow = false" @cancel="gameShow = false" />
     </van-popup>
     <van-popup v-model="timeShow" position="bottom">
-      <van-datetime-picker v-model="currentDate" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="timeConfirm" @cancel="timeShow = false" />
+      <van-datetime-picker v-model="currentDate" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="timeShow = false" @cancel="timeShow = false" />
     </van-popup>
     <van-popup v-model="prizeShow" position="right">
       <prize class="prize" @prizeShow="prizeSonClick"></prize>
@@ -62,7 +62,7 @@ export default {
       minHour: 10,
       maxHour: 20,
       minDate: new Date(),
-      maxDate: new Date(new Date().getTime() + 12960000000),
+      maxDate: new Date(2019, 10, 1),
       currentDate: new Date(),
       activeNames: ["1"],
       attendStyle: [

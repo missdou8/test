@@ -4,7 +4,7 @@
       <van-field v-model="phone" label="手机号" placeholder="请输入手机号" icon="clear" @click-icon="phone = ''"/>
       <van-field class="code_box" center v-model="imgCode" label="验证码" placeholder="请输入验证码" icon="clear" @click-icon="imgCode = ''">
         <van-button id="code" slot="button" size="small">
-          <img class="img" src="../../assets/code.png" alt="" srcset="">
+          <img class="img" src="/index.php/api/user/verify/imgCode?type=forget" alt="" srcset="">
         </van-button>
       </van-field>
       <van-field center v-model="phoneCode" label="手机验证码" placeholder="请输入手机验证码" icon="clear" @click-icon="phoneCode = ''">
@@ -28,7 +28,7 @@ export default {
       imgCode: "",
       phoneCode: "",
       ifSend: true,
-      time: 150
+      time: 10
     };
   },
   computed: {
@@ -40,25 +40,50 @@ export default {
     }
   },
   methods: {
-    sendClick() {
+    finish() {
       this.ifSend = false;
+      //进行倒计时提示
       let Time = setInterval(() => {
         if (this.time <= 1) {
           clearInterval(Time);
           this.ifSend = true;
-          this.time = 150;
+          this.time = 10;
         } else {
           this.time--;
         }
       }, 1000);
     },
-    goResetPwd(){
-      this.$router.push({
-        path:'resetPwd',
-        query: {
-          phone: this.phone
-        }
-      });
+    sendClick() {
+      this.finish();
+      this.apiService.verify
+        .SMSCode({
+          mobile: this.phone,
+          r: Math.random()
+        })
+        .then(res => {
+          //验证码发送成功时显示
+          this.ifSend = true;
+          this.time = 10;
+        });
+    },
+    codeImgClick() {
+      this.$refs.codeImg.src = `/index.php/api/user/verify?type=forget&r=${Math.random()}`;
+    },
+    goResetPwd() {
+      this.apiService.user
+        .forgetPassword({
+          mobile: this.phone,
+          imgCode: this.imgCode,
+          SMSCode: this.phoneCode
+        })
+        .then(res => {
+          this.$router.push({
+            path: "resetPwd",
+            query: {
+              mobile: this.phone
+            }
+          });
+        });
     }
   }
 };

@@ -4,13 +4,14 @@ import errorcode from "./errcode.js";
 import _this from "../main.js";
 import match from "./match.js";
 import user from "./user.js";
+import publicHttp from "./publicHttp.js";
 
 /**
  * 常量
  */
 const hostname = "/index.php/api/";
 
-const reqAndUrl = Object.assign(match, user);
+const reqAndUrl = Object.assign(match, user, publicHttp);
 
 class ApiService {
   getSessionData(sessionItem) {
@@ -51,7 +52,7 @@ class ApiService {
 
 //拦截axios请求
 axios.interceptors.request.use(
-  function(config) {
+  function (config) {
     // 发送请求之前做一些事情
     _this.$toast.loading({
       duration: 0,
@@ -62,7 +63,7 @@ axios.interceptors.request.use(
     });
     return config;
   },
-  function(error) {
+  function (error) {
     // 挂掉之后怎么处理
     return Promise.reject(error);
   }
@@ -86,7 +87,7 @@ let errorCatch = (code, msg) => {
 };
 
 axios.interceptors.response.use(
-  function(response) {
+  function (response) {
     // 数据成功返回之后
     _this.$toast.clear();
     if (response.data.code !== 0) {
@@ -97,7 +98,7 @@ axios.interceptors.response.use(
     }
     return response;
   },
-  function(error) {
+  function (error) {
     // 处理错误的内容
     _this.$toast.clear();
     // 如果错啦
@@ -114,11 +115,13 @@ for (const key in reqAndUrl) {
       reqURL = url[0];
       trueURL = url[1];
     }
-    ApiService.prototype[key][reqURL] = function(data, method = "post") {
+    ApiService.prototype[key][reqURL] = function (data, method = "post") {
       return axios[method](
-        hostname + key + "/" + trueURL,
-        method == "post" ? qs.stringify(data) : { params: data }
-      )
+          hostname + key + "/" + trueURL,
+          method == "post" ? qs.stringify(data) : {
+            params: data
+          }
+        )
         .then(res => {
           return res.data;
         })

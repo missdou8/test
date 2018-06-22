@@ -17,16 +17,12 @@ export default {
     return {
       oldPassword: "",
       newPassword: "",
-      rePassword:""
+      rePassword: ""
     };
   },
   computed: {
     btnEnable() {
-      if (
-        this.oldPassword &&
-        this.newPassword &&
-        this.rePassword
-      ) {
+      if (this.oldPassword && this.newPassword && this.rePassword) {
         return false;
       }
       return true;
@@ -39,11 +35,23 @@ export default {
       if (this.newPassword !== this.rePassword) {
         return this.$toast("两次输入的密码应该一致！");
       }
-      let data = {
-        password: this.newPassword
-      };
-      console.log(data)
-    },
+      this.apiService.user
+        .changePassword({
+          oldPassword: oldPassword,
+          newPassword: this.password,
+          confirmPassword: this.rePassword
+        })
+        .then(res => {
+          this.$dialog
+            .alert({
+              title: "嘀嗒比赛",
+              message: res.data.msg
+            })
+            .then(() => {
+              this.$router.push({ path: "/login", replace: true });
+            });
+        });
+    }
   }
 };
 </script>
