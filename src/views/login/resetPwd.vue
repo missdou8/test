@@ -33,7 +33,7 @@ export default {
       if (this.password !== this.rePassword) {
         return this.$toast("两次输入的密码应该一致！");
       }
-      this.apiService.user
+      this.http.user
         .login({
           mobile: this.$route.query.id,
           newPassword: this.password,

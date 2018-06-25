@@ -35,7 +35,7 @@ export default {
       if (this.newPassword !== this.rePassword) {
         return this.$toast("两次输入的密码应该一致！");
       }
-      this.apiService.user
+      this.http.user
         .changePassword({
           oldPassword: oldPassword,
           newPassword: this.password,

@@ -55,7 +55,7 @@ export default {
     },
     sendClick() {
       this.finish();
-      this.apiService.verify
+      this.http.verify
         .SMSCode({
           mobile: this.phone,
           r: Math.random()
@@ -70,7 +70,7 @@ export default {
       this.$refs.codeImg.src = `/index.php/api/user/verify?type=forget&r=${Math.random()}`;
     },
     goResetPwd() {
-      this.apiService.user
+      this.http.user
         .forgetPassword({
           mobile: this.phone,
           imgCode: this.imgCode,
