@@ -12,12 +12,12 @@
             </van-cell>
         </van-cell-group>
         <van-cell-group class="user_edit_box">
-            <van-cell title="店铺名称" :value="userinfo.shopName" :is-link="true" :to="{ path: '/user/edit/shop', query: { shop_name: userinfo.shopName }}"></van-cell>
-            <van-cell title="店主名字" :value="userinfo.name" is-link :to="{ path: '/user/edit/name', query: { user_name: userinfo.name }}"></van-cell>
+            <van-cell title="店铺名称" :value="userinfo.shopName" :is-link="true" :to="{ path: '/user/edit/shop', query: { shopName: userinfo.shopName||'你好' }}"></van-cell>
+            <van-cell title="店主名字" :value="userinfo.name" is-link :to="{ path: '/user/edit/name', query: { name: userinfo.name }}"></van-cell>
             <van-cell class="gray" title="实名认证" value="未认证，认证信息仅自己可见" :is-link="no_autonym" :to="autonym_url"></van-cell>
             <van-cell title="店铺座机" :value="userinfo.telephone" is-link :to="{ path: '/user/edit/plane', query: { plane: userinfo.telephone }}"></van-cell>
             <van-cell title="手机号码" :value="userinfo.mobile" is-link :to="{ path: '/user/edit/phone', query: { phone: userinfo.mobile}}"></van-cell>
-            <van-cell class="address" title="店铺地址" :value="userinfo.address" is-link :to="{ path: '/user/edit/address', query: { address: userinfo.address}}"></van-cell>
+            <van-cell class="address" title="店铺地址" :value="userinfo.address" is-link :to="{ path: '/user/edit/address', query: { address: userinfo.address||'开封市',areaId:userinfo.areaId||'820201'}}"></van-cell>
         </van-cell-group>
         <van-cell-group class="user_footer">
             <van-cell title="修改密码"  is-link to="/user/edit/Pwd"></van-cell>
@@ -32,8 +32,11 @@ export default {
     return {
       userinfo:{},
       no_autonym:true, //false认证 true未认证
-      autonym_url:''    //认证链接
+      autonym_url:'/user/edit/autonym'    //认证链接
     };
+  },
+  created() {
+    this.getUserInfo()
   },
   methods: {
     getUserInfo(){

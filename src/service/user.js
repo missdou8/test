@@ -8,7 +8,11 @@ const USER_INFO = {
     "login", //登录
     "forgetPassword",//密码重置账号检测
     "resetPassword",   //重置密码
-    "changePassword" //密码修改
+    "changePassword", //密码修改
+    "setUserInfo",    //设置用户信息
+    "setUserShop",     //设置用户商铺信息
+    "certification",   //实名认证
+    "getCertification" //获取实名认证信息
   ]
 };
 

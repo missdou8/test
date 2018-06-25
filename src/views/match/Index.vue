@@ -164,10 +164,10 @@ export default {
   height: 100%;
 }
 /* 顶部 */
-.header {
-  /* background-color: #1c1a1a;
-  color: #fff; */
-}
+/* .header {
+  background-color: #1c1a1a;
+  color: #fff;
+} */
 .header_icon {
   display: flex;
   flex-direction: column;
