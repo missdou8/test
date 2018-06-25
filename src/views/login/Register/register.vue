@@ -52,7 +52,7 @@ export default {
   created() {
     //检测是否存在userid
     if (this.$route.query.id) {
-      this.apiService.user.registerInfo({
+      this.http.user.registerInfo({
           id: this.$route.query.id
         })
         .then(res => {
@@ -77,7 +77,7 @@ export default {
       if (this.password !== this.rePassword)
         return this.$toast("两次输入的密码应该一致！");
       //发送注册请求
-      this.apiService.user.register({
+      this.http.user.register({
           name: this.name,
           mobile: this.phone,
           SMSCode: this.code,
@@ -108,7 +108,7 @@ export default {
     },
     sendClick() {
       this.finish();
-      this.apiService.verify
+      this.http.verify
         .SMSCode({
           mobile: this.phone,
           r: Math.random()

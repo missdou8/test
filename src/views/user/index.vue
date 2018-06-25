@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     getUserInfo(){
-      this.apiService.user.registerInfo().then(res => {
+      this.http.user.registerInfo().then(res => {
         this.userinfo = res.data
         if(res.data.certification ==1) this.no_autonym = false;
         else this.autonym_url = "/user/edit/autonym";
@@ -53,7 +53,7 @@ export default {
         })
         .then(() => {
           console.log("注销登录");
-          _this.apiService.user.logout().then(res => {
+          _this.http.user.logout().then(res => {
             location.reload();
           });
         })

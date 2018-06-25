@@ -56,7 +56,7 @@ export default {
       this.$router.push("/register");
     },
     Login(){
-      this.apiService.user
+      this.http.user
         .login({
           mobile: this.tel,
           password: this.pwd,
