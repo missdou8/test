@@ -1,8 +1,10 @@
 <template>
+  <div>
+    <match-detail></match-detail>
     <div>
-        <header></header>
-        <match-detail></match-detail>
+      <span></span>
     </div>
+  </div>
 </template>
 
 <script>
@@ -10,6 +12,9 @@ import MatchDetail from "../../components/MatchDetail.vue";
 export default {
   components: {
     MatchDetail
+  },
+  data() {
+    return {};
   }
 };
 </script>
