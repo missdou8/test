@@ -70,11 +70,11 @@
               <div class="match_list_item" v-for="item in list" :key="item" @click="toDetail">
                 <img :src="item.cover ||cover" alt="封面图片">
                 <div class="list_attri">
-                  <span class="list_person-num">{{ 0 | trimNum}}</span>
+                  <span v-show="matchType == 1" class="list_person-num">{{ 0 | trimNum}}</span>
                   <span class="list_pv">{{item.visitCount || 0 | trimNum}}</span>
                   <span class="list_like">{{item.likeCount || 0 | trimNum}}</span>
                 </div>
-                <div :class="progressTag(0)">
+                <div :class="progressTag(0)" v-show="matchType == 1">
                   <p>{{item.auditStatus || 2 | code2Word}}</p>
                 </div>
               </div>
