@@ -3,41 +3,25 @@
         <van-cell-group>
             <van-cell class="user_box" is-link to="/user/edit/img">
                 <div class="user_img_box">
-                    <img src="../../assets/avatar.png" alt="">
+                    <img :src="userinfo.icon" alt="">
                 </div>
                 <div class="user_msg">
                     <h3>点击修改头像</h3>
-                    <p>店铺ID:6666666</p>
+                    <p>店铺ID:<span>{{userinfo.id}}</span></p>
                 </div>
             </van-cell>
         </van-cell-group>
         <van-cell-group class="user_edit_box">
-            <van-cell title="店铺名称" value="大洋百货" :is-link="true" :to="{ path: '/user/edit/shop', query: { shop_name: '大洋百货' }}">
-                <img slot="icon" src="../../assets/icon_S01.png" alt="" srcset="">
-            </van-cell>
-            <van-cell title="店主名字" value="陈奕迅" is-link :to="{ path: '/user/edit/name', query: { user_name: '陈奕迅' }}">
-                <img slot="icon" src="../../assets/icon_S01.png" alt="" srcset="">
-            </van-cell>
-            <van-cell class="gray" title="实名认证" value="未认证，认证信息仅自己可见" is-link to="/user/edit/autonym">
-            <img slot="icon" src="../../assets/icon_S01.png" alt="" srcset="">
-            </van-cell>
-            <van-cell title="店铺座机" value="010-89789789" is-link :to="{ path: '/user/edit/plane', query: { plane: '010-89789789' }}">
-            <img slot="icon" src="../../assets/icon_S01.png" alt="" srcset="">
-            </van-cell>
-            <van-cell title="手机号码" value="18612908099" is-link :to="{ path: '/user/edit/phone', query: { phone: '18612908099' }}">
-            <img slot="icon" src="../../assets/icon_S01.png" alt="" srcset="">
-            </van-cell>
-            <van-cell title="店铺地址" value="北京市昌平区回龙观东大街338号腾讯众创空间A322室" is-link to="/user/edit/address">
-            <img slot="icon" src="../../assets/icon_S01.png" alt="" srcset="">
-            </van-cell>
+            <van-cell title="店铺名称" :value="userinfo.shopName" :is-link="true" :to="{ path: '/user/edit/shop', query: { shop_name: userinfo.shopName }}"></van-cell>
+            <van-cell title="店主名字" :value="userinfo.name" is-link :to="{ path: '/user/edit/name', query: { user_name: userinfo.name }}"></van-cell>
+            <van-cell class="gray" title="实名认证" value="未认证，认证信息仅自己可见" :is-link="no_autonym" :to="autonym_url"></van-cell>
+            <van-cell title="店铺座机" :value="userinfo.telephone" is-link :to="{ path: '/user/edit/plane', query: { plane: userinfo.telephone }}"></van-cell>
+            <van-cell title="手机号码" :value="userinfo.mobile" is-link :to="{ path: '/user/edit/phone', query: { phone: userinfo.mobile}}"></van-cell>
+            <van-cell class="address" title="店铺地址" :value="userinfo.address" is-link :to="{ path: '/user/edit/address', query: { address: userinfo.address}}"></van-cell>
         </van-cell-group>
         <van-cell-group class="user_footer">
-            <van-cell title="修改密码" icon="edit" is-link to="/user/edit/Pwd">
-            <img slot="icon" src="../../assets/icon_S01.png" alt="" srcset="">
-            </van-cell>
-            <van-cell title="重新登录" icon="clear" @click="loginOutClick()" is-link>
-            <img slot="icon" src="../../assets/icon_S01.png" alt="" srcset="">
-            </van-cell>
+            <van-cell title="修改密码"  is-link to="/user/edit/Pwd"></van-cell>
+            <van-cell title="重新登录"  @click="loginOutClick()" is-link></van-cell>
         </van-cell-group>
     </div>
 </template>
@@ -45,9 +29,20 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      userinfo:{},
+      no_autonym:true, //false认证 true未认证
+      autonym_url:''    //认证链接
+    };
   },
   methods: {
+    getUserInfo(){
+      this.apiService.user.registerInfo().then(res => {
+        this.userinfo = res.data
+        if(res.data.certification ==1) this.no_autonym = false;
+        else this.autonym_url = "/user/edit/autonym";
+      });
+    },
     //注销登录
     loginOutClick() {
       let _this = this;
@@ -74,6 +69,7 @@ export default {
 <style scoped>
 #userIndex {
   height: 100%;
+  background-color: #fff;
 }
 .user_box {
   display: flex;
@@ -84,36 +80,49 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ccc;
-  width: 68px;
-  height: 68px;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: #ccc;
   overflow: hidden;
   border-radius: 50%;
 }
 .user_img_box img {
-  width: 90%;
+  width: 100%;
   border-radius: 50%;
 }
 .user_msg {
-  margin-left: 15px;
+  margin-left: 0.45rem;
 }
 .user_msg h3 {
-  color: #333;
-  font-size: 14px;
+  color: rgb(158, 158, 158);
+  font-size: 0.3rem;
 }
 .user_msg p {
-  font-size: 12px;
-  color: #666;
+  font-size: 0.24rem;
+  color: rgb(158, 158, 158);
+}
+.user_msg p span {
+  margin-left: 0.16rem;
+  color: #000;
 }
 .user_footer,
 .user_edit_box {
   margin-top: 15px;
 }
-.user_footer img,.user_edit_box img{
-    width: 40px;
+.user_footer img,
+.user_edit_box img {
+  width: 40px;
 }
 </style>
 <style>
+#userIndex .van-cell {
+  padding-right: 0.3rem;
+  font-size: 0.3rem;
+}
+#userIndex .user_footer,
+#userIndex .user_edit_box {
+  margin-top: -1px;
+}
 #userIndex .user_box .van-cell__value {
   display: flex;
   align-items: center;
@@ -122,12 +131,19 @@ export default {
   text-align: left;
   flex: 3;
 }
-.user_edit_box .van-cell,.user_footer .van-cell{
+.user_edit_box .van-cell,
+.user_footer .van-cell {
   align-items: center;
-  padding-left: 5px;
+  font-size: 0.3rem;
 }
 #userIndex .gray .van-cell__value {
   color: #ccc;
+}
+#userIndex .address .van-cell__title {
+  align-self: baseline;
+}
+#userIndex .van-hairline--top-bottom::after {
+  left: 15px;
 }
 </style>
 
