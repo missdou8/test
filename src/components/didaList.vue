@@ -2,13 +2,8 @@
   <div id="didaList">
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-list v-model="loading" :finished="finished" @load="onLoad">
-        <div class="title">
-          <span>{{titleText}}</span>
-          <span>{{titleNumber}}人</span>
-        </div>
-        <van-cell v-for="item in listData" :key="item" value="2018/5/3 12:34:45" label="10000001" :title="item + '用户昵称'">
-          <img slot="icon" src="../assets/logo.png" alt="" srcset="">
-        </van-cell>
+        <!-- 开放html架构 -->
+        <slot></slot>
       </van-list>
     </van-pull-refresh>
   </div>
@@ -30,14 +25,13 @@ export default {
    * titleText 标题左侧显示文本
    * titleNumber 标题右侧显示文本
    */
-  props: ["listData", "maxPage", "titleText", "titleNumber"],
+  props: ["maxPage"],
   methods: {
     onLoad() {
       this.$emit("load", this.currentPage);
-      this.currentPage += 1;
-      if (this.currentPage > this.maxPage) {
+      if (this.currentPage >= this.maxPage && this.maxPage != null)
         this.finished = true;
-      }
+      else this.currentPage++;
     },
     onRefresh() {
       this.$emit("refresh");
@@ -52,17 +46,35 @@ export default {
 };
 </script>
 
-
-<style scoped>
+<style>
 #didaList {
   height: 100%;
 }
-.title {
+#didaList .title {
   line-height: 30px;
   overflow: hidden;
   padding: 5px 15px;
 }
-.title span:nth-child(2) {
+#didaList .title span:nth-child(2) {
   float: right;
+}
+#didaList .van-cell {
+  padding: 0.2rem 0.3rem;
+}
+#didaList .van-cell img {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  margin-right: 0.1rem;
+}
+#didaList .van-cell .van-cell__title span {
+  font-size: 0.25rem;
+  font-weight: 600;
+}
+#didaList .van-cell .van-cell__value {
+  line-height: 0.8rem;
+}
+#didaList .van-cell:not(:last-child)::after {
+  height: 198%;
 }
 </style>

@@ -5,6 +5,9 @@ const PUBLIC_INFO = {
   ],
   resource: [
     "uploadImg" //图片上传
+  ],
+  watchers:[
+    "watchersList"//我的粉丝列表
   ]
 };
 

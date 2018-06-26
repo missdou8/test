@@ -1,6 +1,14 @@
 <template>
     <div id="fans">
-        <dida-list ref="dida_list" :list-data="list" :maxPage="5" title-text="全部粉丝" title-number="10000" @refresh="refresh()" @load="getData(pagesize,$event)"></dida-list>
+        <dida-list ref="dida_list" :maxPage="maxPage" @refresh="refresh()" @load="getData(pagesize,$event)">
+          <div class="title">
+            <span>12345</span>
+            <span>12345人</span>
+          </div>
+          <van-cell v-for="item in list" :key="item" value="2018/5/3 12:34:45" label="10000001" :title="item + '用户昵称'">
+            <img slot="icon" src="../../assets/logo.png" alt="" srcset="">
+          </van-cell>
+        </dida-list>
     </div>
 </template>
 
@@ -10,7 +18,8 @@ export default {
   data() {
     return {
       list: [],
-      pagesize:10,
+      pagesize: 10,
+      maxPage: null
     };
   },
   components: {
@@ -23,6 +32,8 @@ export default {
      */
     getData(pagesize, currentpage) {
       console.log(currentpage);
+      // 这里模拟请求数据时间为一秒
+      this.maxPage = 5;
       // 这里模拟请求数据时间为一秒
       setTimeout(() => {
         for (let i = 0; i < pagesize; i++) {
