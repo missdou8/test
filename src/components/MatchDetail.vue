@@ -1,43 +1,43 @@
 <template>
-    <div class="match-detail">
-        <div class="navbar">
-            <span :class="{back: type=='mobile'}" @click="backClick"></span>
-            <a :class="{active: current}" href="#" @click="jump">比赛详情</a>
-            <a :class="{active: !current}" href="#prize" @click="jump">比赛奖品</a>
-        </div>
-        <div class="cover_img">
-            <img src="../assets/banner_task.png" alt="比赛封面">
-        </div>
-        <header>
-            <h1>大洋百货500ml洗发露争夺赛</h1>
-            <p>
-                <span>09:00</span>
-                <span>09:00</span>
-                <span>09:00</span>
-            </p>
-        </header>
-        <div>比赛详情</div>
-        <div id="prize">
-            <h1>比赛奖品
-                <span>商家邮寄</span>
-            </h1>
-            <ul>
-                <li>
-                    <p>第1名：奖品名称</p>
-                    <img src="../assets/logo.png" alt="奖品">
-                </li>
-            </ul>
-            <div>
-                <p>自提地址：</p>
-                <p>北京回龙观</p>
-            </div>
-        </div>
-        <div class="like_info">
-            <router-link to="/user/record/like">like</router-link>
-            <span>share</span>
-        </div>
-        <router-link to="/user/record/join">325已报名</router-link>
+  <div class="match-detail">
+    <div class="navbar">
+      <span :class="{back: type=='mobile'}" @click="backClick"></span>
+      <a :class="{active: current}" href="#" @click="jump">比赛详情</a>
+      <a :class="{active: !current}" href="#prize" @click="jump">比赛奖品</a>
     </div>
+    <div class="cover_img">
+      <img src="../assets/banner_task.png" alt="比赛封面">
+    </div>
+    <header>
+      <h1>大洋百货500ml洗发露争夺赛</h1>
+      <p>
+        <span>09:00</span>
+        <span>09:00</span>
+        <span>09:00</span>
+      </p>
+    </header>
+    <div>比赛详情</div>
+    <div id="prize">
+      <h1>比赛奖品
+        <span>商家邮寄</span>
+      </h1>
+      <ul>
+        <li>
+          <p>第1名：奖品名称</p>
+          <img src="../assets/logo.png" alt="奖品">
+        </li>
+      </ul>
+      <div>
+        <p>自提地址：</p>
+        <p>北京回龙观</p>
+      </div>
+    </div>
+    <div class="like_info">
+      <router-link to="/user/record/like">like</router-link>
+      <span>share</span>
+    </div>
+    <router-link to="/user/record/join">325已报名</router-link>
+  </div>
 
 </template>
 
