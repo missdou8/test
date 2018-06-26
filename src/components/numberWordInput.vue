@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       value: "",
-      show_popup:false
+      show_popup: false
     };
   },
   methods: {
@@ -24,14 +24,18 @@ export default {
       } else this.value = (this.value + key).slice(0, 6);
       if (this.value.length == 6) {
         //发送一个请求
-        this.$emit("goodsIdAjax",this.value);
+        this.$emit("goodsIdAjax", this.value);
       }
     },
     onDelete() {
       this.value = this.value.slice(0, this.value.length - 1);
     },
-    setShowPopup(bool){
-        this.show_popup = bool
+    showPopup() {
+      this.show_popup = true;
+    },
+    closePop() {
+      this.value = "";
+      this.show_popup = false;
     }
   }
 };

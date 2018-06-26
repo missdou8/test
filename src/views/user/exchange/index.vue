@@ -9,7 +9,8 @@
           </div>
           <van-card title="九阳榨汁机" desc="收货地址：北京市昌平区回龙观东大街338号腾讯众创空间 A322  陈奕迅  18888888888" currency="" price="邮寄奖品" :thumb="imageURL"/>
           <div class="footer" slot="footer">
-              <van-button class="btn gobtn" size="small" @click="showDialog=true">去发货</van-button>
+              <van-button class="btn gobtn" size="small" @click="showAlert(index)">去发货</van-button>
+              <van-button class="btn gobtn" size="small" @click="showPopup(index)">未取货</van-button>
           </div>
         </van-panel>
         <!-- <van-panel v-for="prize in prizeList" :key="prize.id" class="panel">
@@ -23,11 +24,11 @@
             <div v-if="prize.prize.type == 0" class="footer" slot="footer">
                 <van-button v-if="prize.receiving.status==2" class="btn sendbtn" size="small">已发货</van-button>
                 <van-button v-else-if="prize.receiving.status==3" class="btn outbtn" size="small">确认取出</van-button>
-                <van-button v-else class="btn gobtn" size="small" @click="showDialog=true">去发货</van-button>
+                <van-button v-else class="btn gobtn" size="small" @click="showAlert(prize.id)">去发货</van-button>
             </div>
             自提物品
             <div v-else class="footer" slot="footer">
-                <van-button v-if="prize.receiving.status==1" class="btn gobtn" size="small" @click="setShowPopup(true)">未取货</van-button>
+                <van-button v-if="prize.receiving.status==1" class="btn gobtn" size="small" @click="showPopup(prize.id)">未取货</van-button>
                 <van-button v-else class="btn outbtn" size="small">已取货</van-button>
             </div>
         </van-panel> -->
@@ -56,7 +57,8 @@ export default {
       express_number: "",
       pagesize: 10, //每页显示条数
       currentPage: 1, //当前页(默认从第一页开始)
-      total: null //总记录数
+      total: null, //总记录数
+      prizesId: null //选中的奖品id
     };
   },
   components: {
@@ -87,13 +89,12 @@ export default {
           this.loading = false;
         })
         .catch(() => {
-          this.total = 5
+          this.total = 5;
           //请求出错的时候隐藏加载动画
-        for (let i = 0; i < this.pagesize; i++) {
-          this.prizeList.push(i);
-          this.loading = false;
-        }
-        console.log(this.prizeList);
+          for (let i = 0; i < this.pagesize; i++) {
+            this.prizeList.push(i);
+            this.loading = false;
+          }
         });
     },
     //无限加载数据
@@ -105,14 +106,26 @@ export default {
         else this.currentPage++;
       }, 500);
     },
-    expressAjax() {
-      console.log(`运单号${this.express_name}-${this.express_number}`);
+    goodsIdAjax(value) {
+      console.log(value);
+      console.log(this.prizesId);
+      this.http.prizes
+        .pickUpPrize({
+          code: value,
+          id: this.prizesId
+        })
+        .then(res => {
+          //请求成功后关闭输入框
+          this.$refs.number_word_input.closePop();
+        });
     },
-    goodsIdAjax(number) {
-      console.log("提货码" + number);
+    showPopup(id) {
+      this.prizesId = id;
+      this.$refs.number_word_input.showPopup();
     },
-    setShowPopup(bool) {
-      this.$refs.number_word_input.setShowPopup(bool);
+    showAlert(id) {
+      this.showDialog = true;
+      this.prizesId = id;
     },
     beforeClose(action, done) {
       if (action === "confirm") {
@@ -125,10 +138,25 @@ export default {
             }提交后不能修改，确认提交？`
           })
           .then(() => {
-            this.expressAjax();
+            console.log(this.prizesId);
+            console.log(this.express_name);
+            console.log(this.express_number);
+            this.http.prizes
+              .pickUpPrize({
+                id: this.prizesId,
+                express: this.express_name,
+                waybillNumber: this.express_number
+              })
+              .then(res => {});
+          })
+          .catch(() => {
+            this.express_name = "";
+            this.express_number = "";
           });
       } else {
         done();
+        this.express_name = "";
+        this.express_number = "";
       }
     }
   }
