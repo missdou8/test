@@ -2,45 +2,67 @@
     <div id="editAddress">
       <van-cell-group>
         <van-cell class="btn_box">
-           <van-button class="location_btn" size="small" @click="onLocation()">获取当前定位</van-button>
+           <van-button class="location_btn" size="small" @click="onLocation()"></van-button>
         </van-cell>
-        <van-cell class="showAlert" title="所在地区" :value="address" is-link @click="showPopup()"/>
-        <van-field v-model="detail_address" label="联系地址" type="textarea" placeholder="请输入详细地址，如街道、小区、楼栋号、单元室等" rows="3" autosize/>
+        <van-cell class="showAlert" title="所在地区" :value="areaMsg" is-link @click="showPopup()"/>
+        <van-field v-model="address" label="联系地址" type="textarea" placeholder="请输入详细地址，如街道、小区、楼栋号、单元室等" rows="3" autosize/>
       </van-cell-group>
       <van-popup v-model="show" position="bottom" :lazy-render="false">
-        <van-area ref="van_area" :area-list="areaList"  @confirm="onConfirm" @cancel="onCancel()" :value="detail_area"/>
+        <van-area ref="van_area" :area-list="areaList"  @confirm="onConfirm" @cancel="onCancel()" :value="areaId"/>
       </van-popup>
+      <dida-btn :btn-enable="btnEnable" @submetData="setUserShop()"></dida-btn>
       <dida-location ref="location" @getResData='getResData($event)'></dida-location>
     </div>
 </template>
 <script>
 import cityCode from "../../../service/cityCode.js";
 import { setTimeout } from "timers";
+import didaBtn from "../../../components/didaBtn.vue";
 import didaLocation from "../../../components/didaLocation.vue";
 export default {
   data() {
     return {
-      address: "",
-      detail_address: "",
-      detail_area: "",
+      areaMsg: "", //省市区信息
+      areaVal: {}, //地区插件值
+      address: "", //详细地址
+      areaId: "", //区id
       show: false,
-      areaList: {}
+      areaList: {},
+      longitude: null, //经度
+      latitude: null //维度
     };
   },
+  computed: {
+    btnEnable() {
+      if (this.address && this.areaMsg) return false;
+      return true;
+    }
+  },
   created() {
+    //初始化城市列表
     this.areaList = cityCode;
+    //获取传输数据
+    this.address = this.$route.query.address;
+    this.areaId = this.$route.query.areaId;
+  },
+  mounted() {
+    //获取van-area的value值
+    let _value = this.$refs.van_area.getValues();
+    this.onConfirm(_value);
   },
   components: {
-    didaLocation
+    didaLocation,
+    didaBtn
   },
   methods: {
     showPopup() {
       this.show = true;
     },
     onConfirm(value) {
-      this.address = "";
+      this.areaMsg = "";
+      this.areaVal = value;
       value.forEach(a => {
-        this.address += `${a.name}  `;
+        this.areaMsg += `${a.name}  `;
       });
       this.onCancel();
     },
@@ -51,13 +73,43 @@ export default {
       this.$refs.location.onLocation();
     },
     getResData(resData) {
-      this.detail_address = resData.detailAddress;
-      this.detail_area = resData.detailAreaCode;
+      this.address = resData.detailAddress;
+      this.areaId = resData.detailAreaCode;
+      this.longitude = resData.longitude;
+      this.latitude = resData.latitude;
       setTimeout(() => {
         //获取van-area的value值
         let _value = this.$refs.van_area.getValues();
         this.onConfirm(_value);
       }, 100);
+    },
+    //发送请求
+    setUserShop() {
+      console.log(this.areaVal)
+      //重点一定要让用户定位成功才可以
+      if (this.longitude == null || this.latitude == null) {
+        return this.$toast("请您重新定位");
+      } else {
+        this.http.user
+          .setUserShop({
+            address: this.address,
+            latitude: this.latitude,
+            longitude: this.longitude,
+            provinceId: this.areaVal[0].code,
+            cityId: this.areaVal[1].code,
+            areaId: this.areaVal[2].code
+          })
+          .then(res => {
+            this.$dialog
+              .alert({
+                title: "嘀嗒比赛",
+                message: res.data.msg
+              })
+              .then(() => {
+                this.$router.push({ path: "/user/index" });
+              });
+          });
+      }
     }
   }
 };
@@ -68,14 +120,34 @@ export default {
 #editAddress {
   height: 100%;
 }
+.btn_box {
+  padding: 0 15px;
+  background: #f5f5f5;
+}
+.location_btn {
+  height: 0.45rem;
+  width: 1.85rem;
+  border: none;
+  background-image: url(../../../assets/anniu_weizhi.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  bottom: 0;
+  right: 15px;
+}
 </style>
 <style>
 #editAddress .btn_box .van-cell__value {
-  text-align: right;
+  height: 0.6rem;
+  overflow: hidden;
 }
-#editAddress .showAlert .van-cell__value {
+#editAddress .van-cell__value {
   text-align: left;
   flex: 3;
+}
+#editAddress .van-cell__title {
+  color: rgb(164, 164, 164);
 }
 </style>
 

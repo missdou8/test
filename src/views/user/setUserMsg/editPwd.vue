@@ -1,17 +1,18 @@
 <template>
   <div class="changePwd">
-     <van-cell-group>
-       <van-field v-model="oldPassword" type="password" label="旧密码" placeholder="请输入旧密码" icon="clear" @click-icon="oldPassword = ''"/>
-        <van-field v-model="newPassword" type="password" label="新密码" placeholder="请输入新密码" icon="clear" @click-icon="newPassword = ''"/>
-        <van-field v-model="rePassword" type="password" label="确认新密码" placeholder="请再次输入新密码" icon="clear" @click-icon="rePassword = ''"/>
-      </van-cell-group>
-      <div class="btn_box">
-        <van-button :disabled="btnEnable" class="reg_btn" size="large" @click="changePwd()">提交</van-button>
-      </div>
+    <van-cell-group class="input_top">
+      <van-field v-model="oldPassword" type="password" placeholder="请输入旧密码" icon="clear" @click-icon="oldPassword = ''"/>
+    </van-cell-group>
+    <van-cell-group>
+      <van-field v-model="newPassword" type="password" placeholder="请输入新密码" icon="clear" @click-icon="newPassword = ''"/>
+      <van-field v-model="rePassword" type="password" placeholder="请再次输入新密码" icon="clear" @click-icon="rePassword = ''"/>
+    </van-cell-group>
+    <dida-btn :btn-enable="btnEnable" @submetData="changePwd()"></dida-btn>
   </div>
 </template>
 
 <script>
+import didaBtn from "../../../components/didaBtn.vue";
 export default {
   data() {
     return {
@@ -28,7 +29,9 @@ export default {
       return true;
     }
   },
-  components: {},
+  components: {
+    didaBtn
+  },
   created() {},
   methods: {
     changePwd() {
@@ -37,7 +40,7 @@ export default {
       }
       this.http.user
         .changePassword({
-          oldPassword: oldPassword,
+          oldPassword: this.oldPassword,
           newPassword: this.password,
           confirmPassword: this.rePassword
         })
@@ -58,22 +61,12 @@ export default {
 
 <style scoped>
 .changePwd {
-  background-color: #fff;
+  /* background-color: #fff; */
   height: 100%;
   text-align: center;
   padding-top: 20px;
 }
-.btn_box {
-  padding: 15px;
-}
-.reg_btn {
-  background-color: #108ee9;
-  border-radius: 5px;
-  height: 40px;
-  line-height: 40px;
-  color: #fff;
-}
-.reg_btn.van-button--disabled {
-  opacity: 0.6;
+.input_top {
+  margin-bottom: 0.3rem;
 }
 </style>
