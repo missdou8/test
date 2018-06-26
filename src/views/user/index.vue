@@ -1,15 +1,16 @@
 <template>
     <div id="userIndex">
         <van-cell-group>
-            <van-cell class="user_box" is-link to="/user/edit/img">
-                <div class="user_img_box">
-                    <img :src="userinfo.icon" alt="">
-                </div>
-                <div class="user_msg">
-                    <h3>点击修改头像</h3>
-                    <p>店铺ID:<span>{{userinfo.id}}</span></p>
-                </div>
-            </van-cell>
+          <van-cell class="user_box" @click="updataImg()">
+              <div class="user_img_box">
+                  <!-- <img :src="userinfo.icon" alt=""> -->
+                  <shear-img ref="shear_img" :def-img="imgUrl" :img-width="200" :img-height="200" @imgAjax='imgAjax($event)'></shear-img>
+              </div>
+              <div class="user_msg">
+                  <h3>点击修改头像</h3>
+                  <p>店铺ID:<span>{{userinfo.id}}</span></p>
+              </div>
+          </van-cell>
         </van-cell-group>
         <van-cell-group class="user_edit_box">
             <van-cell title="店铺名称" :value="userinfo.shopName" :is-link="true" :to="{ path: '/user/edit/shop', query: { shopName: userinfo.shopName||'你好' }}"></van-cell>
@@ -27,22 +28,28 @@
 </template>
 
 <script>
+import img from "../../assets/logo.png";
+import shearImg from "../../components/shearImg.vue";
 export default {
   data() {
     return {
-      userinfo:{},
-      no_autonym:true, //false认证 true未认证
-      autonym_url:'/user/edit/autonym'    //认证链接
+      userinfo: {},
+      no_autonym: true, //false认证 true未认证
+      autonym_url: "/user/edit/autonym", //认证链接
+      imgUrl: img
     };
   },
   created() {
-    this.getUserInfo()
+    this.getUserInfo();
+  },
+  components: {
+    shearImg
   },
   methods: {
-    getUserInfo(){
+    getUserInfo() {
       this.http.user.registerInfo().then(res => {
-        this.userinfo = res.data
-        if(res.data.certification ==1) this.no_autonym = false;
+        this.userinfo = res.data;
+        if (res.data.certification == 1) this.no_autonym = false;
         else this.autonym_url = "/user/edit/autonym";
       });
     },
@@ -63,6 +70,14 @@ export default {
         .catch(() => {
           console.log("取消注销");
         });
+    },
+    //修改头像
+    updataImg() {
+      this.$refs.shear_img.updataImg();
+    },
+    imgAjax(img) {
+      console.log(img);
+      console.log("发送请求吧");
     }
   }
 };

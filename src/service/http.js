@@ -5,13 +5,14 @@ import _this from "../main.js";
 import match from "./match.js";
 import user from "./user.js";
 import publicHttp from "./publicHttp.js";
+import prizes from "./prizes.js";
 
 /**
  * 常量
  */
 const hostname = "/index.php/api/";
 
-const reqAndUrl = Object.assign(match, user, publicHttp);
+const reqAndUrl = Object.assign(match, user, publicHttp,prizes);
 
 class ApiService {
   getSessionData(sessionItem) {
