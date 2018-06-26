@@ -7,7 +7,9 @@ const match = {
     rankPrize: [],
     sendStyle: "",
     sendAddress: "",
-    ifSave: false
+    ifSave: false,
+    title: "",
+    detail: ""
   },
   mutations: {
     setId(state, id) {
@@ -21,6 +23,12 @@ const match = {
     },
     setIfSave(state, bl) {
       state.ifSave = bl;
+    },
+    setTitle(state, title) {
+      state.title = title;
+    },
+    setDetail(state, detail) {
+      state.detail = detail;
     }
   }
 };
