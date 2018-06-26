@@ -7,7 +7,7 @@
           <span>{{titleNumber}}人</span>
         </div>
         <van-cell v-for="item in listData" :key="item" value="2018/5/3 12:34:45" label="10000001" :title="item + '用户昵称'">
-          <img slot="icon" src="../assets/icon_S01.png" alt="" srcset="">
+          <img slot="icon" src="../assets/logo.png" alt="" srcset="">
         </van-cell>
       </van-list>
     </van-pull-refresh>

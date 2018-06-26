@@ -7,7 +7,7 @@
 
 <script>
 import AlloyCrop from "alloycrop";
-import img from "../assets/avatar.png";
+import img from "../assets/logo.png";
 export default {
   data() {
     return {

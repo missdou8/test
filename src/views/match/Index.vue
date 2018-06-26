@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import icon from "../../assets/avatar.png";
+import icon from "../../assets/logo.png";
 import cover from "../../assets/banner_task.png";
 export default {
   data() {

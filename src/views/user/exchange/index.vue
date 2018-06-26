@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import img from "../../../assets/avatar.png";
+import img from "../../../assets/logo.png";
 import numberWordInput from "../../../components/numberWordInput.vue";
 export default {
   data() {
