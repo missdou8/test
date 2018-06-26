@@ -7,18 +7,21 @@
 
 <script>
 import AlloyCrop from "alloycrop";
-import img from "../assets/logo.png";
 export default {
   data() {
     return {
-      imgUrl: img
+      imgUrl:''
     };
   },
   /**
+   * defImg     默认头像
    * imgWidth   目的图片宽
    * imgHeight  目的图片高
    */
-  props: ["imgWidth", "imgHeight"],
+  created() {
+    this.imgUrl = this.defImg
+  },
+  props: ["imgWidth", "imgHeight", "defImg"],
   methods: {
     updataImg() {
       let _this = this;
@@ -51,7 +54,7 @@ export default {
                 //通常我们只传前两个参数，第三个参数不传则使用默认文件名，这里使用的Blob对象，所以需要一个文件名，用时间戳代替。
                 fd.append("file", blob, Date.now() + ".jpg");
                 //在此处发送一个ajax请求
-                _this.$emit("imgAjax",fd.get("file"));
+                _this.$emit("imgAjax", fd.get("file"));
               }, file.type || "image/png");
             },
             cancel: function() {

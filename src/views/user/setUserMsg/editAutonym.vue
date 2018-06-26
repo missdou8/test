@@ -15,14 +15,14 @@
         <van-row class="row">
           <van-col span="12">
             <h3>手持身份证正面照</h3>
-            <div class="img_box" :class="{ 'img_box__err': userinfo.certification==2}" @click="setImg">
+            <div class="img_box" :class="{ 'img_box__err': userinfo.certification==2}" @click="setImg($event,'frontPic')">
               <!-- <img :src="userinfo.idCardImgs[0]" alt=""> -->
               <img src="" alt="">
             </div>
           </van-col>
           <van-col span="12">
             <h3>手持身份证反面照</h3>
-            <div class="img_box" :class="{ 'img_box__err': userinfo.certification==2}" @click="setImg">
+            <div class="img_box" :class="{ 'img_box__err': userinfo.certification==2}" @click="setImg($event,'backPic')">
               <!-- <img :src="userinfo.idCardImgs[1]" alt=""> -->
               <img src="" alt="">
             </div>
@@ -35,7 +35,7 @@
           <span>提交认证代表你已同意 </span> 
           <router-link to="/user/edit/autonym/tips">《实名认证协议》</router-link>
         </p>
-        <van-button :disabled="btnEnable" class="autonym_btn" size="large" @click="Autonym()">{{userinfo.certification==0?'审核中':'提交'}}</van-button>
+        <van-button :disabled="btnEnable||noImg" class="autonym_btn" size="large" @click="Autonym()">{{userinfo.certification==0?'审核中':'提交'}}</van-button>
       </div>
     </div>
 </template>
@@ -46,13 +46,14 @@ export default {
     return {
       name: "",
       IDcard: "",
-      imgBox: [],
-      userinfo: {}
+      imgBox: {},
+      userinfo: {},
+      noImg:true//是否上传图片 true没有上传图片 false上传图片
     };
   },
   computed: {
     btnEnable() {
-      if (this.imgBox.length==2 && this.name && this.IDcard) return false;
+      if (this.name && this.IDcard) return false;
       return true;
     }
   },
@@ -71,8 +72,8 @@ export default {
         // }
       });
     },
-    setImg(event) {
-      let ele = event.target.lastChild;
+    setImg(event,type) {
+      let ele = event.target.lastChild||event.target;
       //获取到点击图片的元素
       this.$refs.file.click();
       //当 file改变值得时候设置图片
@@ -82,16 +83,18 @@ export default {
         let form = new FormData();
         let img = this.$refs.file.files[0];
         form.append("file", img, img.name);
-        this.imgBox.push(form.get("file"));
+        this.imgBox[type] = form.get("file");
+        //进行图片验证
+        if(Object.keys(this.imgBox).length==2)this.noImg = false;
+        else this.noImg = true;
       };
     },
     Autonym() {
       //上传的图片【使用FormData上传】
-      console.log(this.imgBox.length);
       this.http.user
         .certification({
-          frontPic: this.imgBox[0],
-          backPic: this.imgBox[1],
+          frontPic: this.imgBox.frontPic,
+          backPic: this.imgBox.backPic,
           idCard: this.IDcard,
           realname: this.name,
         })
