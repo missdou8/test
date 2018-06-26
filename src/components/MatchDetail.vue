@@ -2,50 +2,66 @@
   <div class="match-detail">
     <div class="navbar">
       <span :class="{back: type=='mobile'}" @click="backClick"></span>
-      <a :class="{active: current}" href="#" @click="jump">比赛详情</a>
+      <a :class="{active: current}" href="#detail" @click="jump">比赛详情</a>
       <a :class="{active: !current}" href="#prize" @click="jump">比赛奖品</a>
     </div>
-    <div class="cover_img">
-      <img src="../assets/banner_task.png" alt="比赛封面">
-    </div>
-    <div class="header">
-      <h1 class="header_title">大洋百货500ml洗发露争夺赛</h1>
-      <p class="header_info">
-        <span class="header_info_time">09:00</span>
-        <span class="header_info_send">09:00</span>
-        <span class="header_info_type">09:00</span>
-      </p>
-      <button class="edit-btn">信息有误，去修改>></button>
-    </div>
-    <div class="game">
-      <p class="game_info">
-        <span class="game_tag"></span>
-        <span>玩法：</span>
-        <span class="game_name">推倒胡麻将</span>
-      </p>
-      <span class="game_rule">规则</span>
-    </div>
-    <div>比赛详情</div>
-    <div id="prize">
-      <h1>比赛奖品
-        <span>商家邮寄</span>
-      </h1>
-      <ul>
-        <li>
-          <p>第1名：奖品名称</p>
-          <img src="../assets/logo.png" alt="奖品">
-        </li>
-      </ul>
-      <div>
-        <p>自提地址：</p>
-        <p>北京回龙观</p>
+    <div class="detail_content">
+      <div id="detail" class="cover_img">
+        <img src="../assets/banner_task.png" alt="比赛封面">
+      </div>
+      <div class="header">
+        <h1 class="header_title">大洋百货500ml洗发露争夺赛</h1>
+        <p class="header_info">
+          <span class="header_info_time">09:00</span>
+          <span class="header_info_send">09:00</span>
+          <span class="header_info_type">09:00</span>
+        </p>
+        <button class="edit-btn">信息有误，去修改>></button>
+      </div>
+      <div class="game">
+        <p class="game_info">
+          <span class="game_tag"></span>
+          <span>玩法：</span>
+          <span class="game_name">推倒胡麻将</span>
+        </p>
+        <span class="game_rule">规则</span>
+      </div>
+      <div>比赛详情</div>
+      <div id="prize" class="prize">
+        <p class="prize_header">
+          <span class="game_tag"></span>
+          <span>比赛奖品</span>
+        </p>
+        <ul class="prize_list">
+          <li class="prize_list_item">
+            <p>第1名：奖品名称</p>
+            <img src="../assets/logo.png" alt="奖品">
+          </li>
+        </ul>
+        <div>
+          <p>自提地址：</p>
+          <p>北京回龙观</p>
+        </div>
+      </div>
+      <div class="like_info">
+        <div class="like_info_item">
+          <img class="icon" src="../assets/logo.png" alt="头像">
+          <span>7851</span>
+        </div>
+        <router-link class="like_info_item" to="/user/record/like">
+          <img src="../assets/like.png" alt="点赞">
+          <span>12.3w</span>
+        </router-link>
+        <div class="like_info_item">
+          <img src="../assets/share_default.png" alt="分享">
+          <span>5270</span>
+        </div>
+        <div class="scroll_top" @click="backToTop">
+          <img src="" alt="">
+          <span></span>
+        </div>
       </div>
     </div>
-    <div class="like_info">
-      <router-link to="/user/record/like">like</router-link>
-      <span>share</span>
-    </div>
-    <router-link to="/user/record/join">325已报名</router-link>
   </div>
 
 </template>
@@ -65,7 +81,8 @@ export default {
     backClick() {
       //当在浏览器中和客户端中都跳
       console.log("点击跳回上一页");
-    }
+    },
+    backToTop() {}
   }
 };
 </script>
@@ -76,7 +93,17 @@ a {
   color: #888;
 }
 .match-detail {
+  height: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.detail_content {
+  flex-basis: 0;
+  flex-grow: 1;
+  margin-top: 0.15rem;
+  overflow: auto;
+  padding-bottom: 1rem;
 }
 .cover_img {
   background-color: #fff;
@@ -89,14 +116,36 @@ a {
   height: 100%;
 }
 .like_info {
-  position: absolute;
-  top: 0;
-  right: 0;
+  background-color: #fafafa;
+  border: 0.01rem solid #d0d0d0;
+  border-radius: 0.41rem;
+  position: fixed;
+  top: 55%;
+  right: 0.2rem;
   display: flex;
+  align-items: center;
   flex-direction: column;
+  padding: 0.2rem 0;
+  width: 0.82rem;
+}
+.like_info_item {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: 0.15rem;
+  padding: 0.1rem 0;
+}
+.like_info img {
+  height: 0.3rem;
+}
+.like_info_item .icon {
+  border-radius: 50%;
+  height: 0.55rem;
+  width: 0.55rem;
 }
 /* 导航栏 */
 .navbar {
+  background-color: #fff;
   height: 44px;
   line-height: 44px;
   position: relative;
@@ -205,5 +254,41 @@ a {
   color: green;
   font-size: 0.3rem;
   padding-right: 0.4rem;
+}
+.prize_header {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  font-style: 0.28rem;
+  margin-top: 0.2rem;
+  padding: 0.3rem 0.2rem;
+}
+.prize_header span {
+  font-size: 0.3rem;
+  font-weight: bold;
+  margin-right: 0.1rem;
+}
+.prize_list {
+  background-color: #fff;
+  margin-top: 0.02rem;
+  padding: 0 0.2rem;
+}
+.prize_list_item p {
+  padding: 0.2rem 0;
+}
+.prize_list_item img {
+  width: 100%;
+}
+
+
+.scroll_top {
+  background: url("../assets/scroll_top.png") center/100% 100% no-repeat;
+  background-color: #fafafa;
+  border-radius: 50%;
+  height: 0.82rem;
+  width: 0.82rem;
+  position: absolute;
+  bottom: -1rem;
+  right: 0;
 }
 </style>

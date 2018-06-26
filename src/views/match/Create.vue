@@ -64,7 +64,10 @@ export default {
     },
     append(file) {
       let containDom = this.$refs.createIntro;
+      let div = document.createElement("div");
+      div.style.position = "relative";
       let img = document.createElement("img");
+      div.appendChild(img);
       img.style.width = "100%";
       img.style.display = "block";
       this.upload(file).then(src => {
@@ -73,9 +76,9 @@ export default {
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);
       if (range.startContainer == this.$refs.createIntro) {
-        return containDom.appendChild(img);
+        return containDom.appendChild(div);
       }
-      this.$refs.createIntro.insertBefore(img, range.startContainer);
+      this.$refs.createIntro.insertBefore(div, range.startContainer);
     },
     upload(file) {
       return this.resource.uploadImg({ file: file }).then(res => {
