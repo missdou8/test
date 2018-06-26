@@ -1,16 +1,17 @@
 <template>
   <div class="findpwd">
     <van-cell-group>
-      <van-field v-model="phone" label="手机号" placeholder="请输入手机号" icon="clear" @click-icon="phone = ''"/>
-      <van-field class="code_box" center v-model="imgCode" label="验证码" placeholder="请输入验证码" icon="clear" @click-icon="imgCode = ''">
+      <van-field v-model="phone" placeholder="请输入手机号" icon="clear" @click-icon="phone = ''"/>
+      <van-field class="code_box" center v-model="imgCode" placeholder="请输入验证码" icon="clear" @click-icon="imgCode = ''">
         <van-button id="code" slot="button" size="small">
-          <img class="img" src="/index.php/api/user/verify/imgCode?type=forget" alt="" srcset="">
+          <!-- <img class="img" src="/index.php/api/user/verify/imgCode?type=forget" alt="" srcset=""> -->
+          <img class="img" src="../../assets/code.png" alt="" srcset="">
         </van-button>
       </van-field>
-      <van-field center v-model="phoneCode" label="手机验证码" placeholder="请输入手机验证码" icon="clear" @click-icon="phoneCode = ''">
-        <van-button slot="button" size="small" type="primary" @click="sendClick()" :disabled="!ifSend">
+      <van-field class="phone_box" center v-model="phoneCode" placeholder="请输入手机验证码" icon="clear" @click-icon="phoneCode = ''">
+        <van-button id="phonecode" slot="button" size="small" type="primary" @click="sendClick()" :disabled="!ifSend">
           <span v-if="ifSend">发送验证码</span>
-          <span v-else>{{time}}s后可重新发送</span>
+          <span class="disabled__btn" v-else>{{time}}s后可重新发送</span>
         </van-button>
       </van-field>
     </van-cell-group>
@@ -90,45 +91,107 @@ export default {
 </script>
 <style scoped>
 .findpwd {
-  background-color: #fff;
   height: 100%;
   text-align: center;
-  padding-top: 20px;
+  padding-top: 3.7rem;
+  background-image: url(../../assets/zhuce_back.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .img {
   height: 100%;
+  width: 100%;
 }
 #code {
   border: none;
   padding: 0;
-  height: 44px;
+  height: 0.95rem;
+  width: 2.2rem;
 }
 #code:active::before {
   opacity: 0;
 }
 .findpwd .code_box {
-  padding: 0;
-  padding-left: 15px;
-  line-height: 44px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
+
+#phonecode {
+  padding: 0;
+  height: 0.75rem;
+  line-height: 0.75rem;
+  margin-top: 0.18rem;
+  width: 2.2rem;
+  border-color: rgb(93, 79, 24);
+  color: rgb(228, 186, 29);
+  font-size: 0.26rem;
+  font-weight: 600;
+}
+#phonecode:active::before {
+  opacity: 0;
+}
+.findpwd .phone_box {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .btn_box {
-  padding: 15px;
+  position: relative;
+  overflow: hidden;
+  padding: 0.95rem 0.3rem 0.6rem 0.3rem;
 }
 .find_btn {
-  background-color: #108ee9;
-  border-radius: 5px;
-  height: 40px;
-  line-height: 40px;
-  color: #fff;
+  background-color: rgb(252, 198, 0);
+  height: 0.9rem;
+  line-height: 0.9rem;
+  color: rgb(17, 17, 17);
+  border-width: 0;
+  font-weight: 600;
 }
-.find_btn.van-button--disabled {
+.find_btn.van-button--disabled,
+.disabled__btn {
   opacity: 0.6;
 }
 </style>
 <style>
-.findpwd .code_box .van-field__button {
+.findpwd .van-field__button {
   padding-left: 10px;
   height: 44px;
+}
+.findpwd .van-cell {
+  padding: 0.4rem 0.3rem 0.2rem 0.35rem;
+  color: #fff;
+}
+.findpwd .van-cell input {
+  color: #fff;
+}
+.findpwd .van-cell-group,
+.findpwd .van-cell,
+.findpwd .van-cell input,
+.findpwd .van-cell button {
+  background-color: initial;
+}
+.findpwd .van-hairline--top-bottom::after {
+  border-top-width: 0;
+  border-color: rgb(54, 44, 18);
+  left: 0.3rem;
+  width: 13.2rem;
+}
+.findpwd .van-cell:not(:last-child)::after {
+  border-color: rgb(54, 44, 18);
+  left: 0.3rem;
+  width: 6.6rem;
+}
+.findpwd .van-field__button {
+  height: 0.95rem;
+}
+.findpwd .code_box .van-cell__value,
+.findpwd .phone_box .van-cell__value {
+  margin-top: 0.2rem;
+}
+.findpwd .code_box::after {
+  height: 198%;
 }
 </style>
 

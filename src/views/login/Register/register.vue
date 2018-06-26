@@ -1,19 +1,20 @@
 <template>
   <div class="register">
-     <h3 v-if="noPass" class="title_dec">您的审核未通过请修改信息重新提交</h3>
      <van-cell-group>
-        <van-field v-model="name" label="姓名" placeholder="请输入姓名" icon="clear" @click-icon="name = ''" :disabled="ispass"/>
-        <van-field v-model="phone" label="手机号" placeholder="请输入手机号" icon="clear" @click-icon="phone = ''" :disabled="ispass"/>
-        <van-field class="code_box" center v-model="code" label="验证码" placeholder="请输入手机验证码" icon="clear" @click-icon="code = ''" :disabled="ispass">
-          <van-button slot="button" size="small" type="primary" @click="sendClick()" :disabled="ispass||!ifSend">
+        <van-field v-model="name" placeholder="请输入姓名" icon="clear" @click-icon="name = ''" :disabled="ispass"/>
+        <van-field v-model="phone" placeholder="请输入手机号" icon="clear" @click-icon="phone = ''" :disabled="ispass"/>
+        <van-field class="code_box" center v-model="code" placeholder="请输入手机验证码" icon="clear" @click-icon="code = ''" :disabled="ispass">
+          <van-button id="code" slot="button" size="small" type="primary" @click="sendClick()" :disabled="ispass||!ifSend">
             <span v-if="ifSend">发送验证码</span>
-            <span v-else>{{time}}s后可重新发送</span>
+            <span class="disabled__btn" v-else>{{time}}s后可重新发送</span>
           </van-button>
         </van-field>
-        <van-field v-model="password" type="password" label="密码" placeholder="请设置您的登录密码" icon="clear" @click-icon="password = ''" :disabled="ispass"/>
-        <van-field v-model="rePassword" type="password" label="确认密码" placeholder="请再次输入您的密码" icon="clear" @click-icon="rePassword = ''" :disabled="ispass"/>
+        <van-field v-model="password" type="password" placeholder="请设置您的登录密码" icon="clear" @click-icon="password = ''" :disabled="ispass"/>
+        <van-field v-model="rePassword" type="password" placeholder="请再次输入您的密码" icon="clear" @click-icon="rePassword = ''" :disabled="ispass"/>
       </van-cell-group>
       <div class="btn_box">
+        <!-- <h3 v-if="noPass" class="title_dec">您的审核未通过请修改信息重新提交</h3> -->
+        <h3 class="title_dec">您的审核未通过请修改信息重新提交</h3>
         <van-button :disabled="btnEnable||ispass" class="reg_btn" size="large" @click="register()">申请</van-button>
       </div>
   </div>
@@ -31,7 +32,7 @@ export default {
       ifSend: true,
       time: 10,
       ispass: false, // 是否处于审核状态
-      noPass:false  // 审核未通过标识
+      noPass: false // 审核未通过标识
     };
   },
   computed: {
@@ -52,19 +53,20 @@ export default {
   created() {
     //检测是否存在userid
     if (this.$route.query.id) {
-      this.http.user.registerInfo({
+      this.http.user
+        .registerInfo({
           id: this.$route.query.id
         })
         .then(res => {
           //验证码发送成功时显示
           this.name = res.data.name;
           this.phone = res.data.mobile;
-          if(res.data.auditStatus==0){
+          if (res.data.auditStatus == 0) {
             this.code = "****";
             this.password = "********";
             this.rePassword = "********";
             this.ispass = true;
-          }else{
+          } else {
             this.noPass = true;
           }
         });
@@ -77,19 +79,22 @@ export default {
       if (this.password !== this.rePassword)
         return this.$toast("两次输入的密码应该一致！");
       //发送注册请求
-      this.http.user.register({
+      this.http.user
+        .register({
           name: this.name,
           mobile: this.phone,
           SMSCode: this.code,
           password: this.password,
-          confirmPassword:this.rePassword
+          confirmPassword: this.rePassword
         })
         .then(res => {
-           this.$dialog.alert({
-              title: '嘀嗒比赛',
+          this.$dialog
+            .alert({
+              title: "嘀嗒比赛",
               message: res.data.msg
-            }).then(() => {
-              this.$router.push({path: "/login", replace: true});
+            })
+            .then(() => {
+              this.$router.push({ path: "/register", replace: true });
             });
         });
     },
@@ -125,30 +130,96 @@ export default {
 
 <style scoped>
 .register {
-  background-color: #fff;
   height: 100%;
   text-align: center;
-  padding-top: 20px;
+  padding-top: 3.7rem;
+  background-image: url(../../../assets/zhuce_back.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
-.title_dec{
-  padding: 15px;
-  text-align: left;
-  font-size: .3rem;
+.title_dec {
   color: #f00;
+  position: absolute;
+  width: 100%;
+  height: 0.7rem;
+  line-height: 0.7rem;
+  top: 0.2rem;
+  font-size: 0.26rem;
+  left: 0;
+  background-image: url(../../../assets/zhuce_back_tishi.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#code {
+  padding: 0;
+  height: 0.75rem;
+  line-height: .75rem;
+  margin-top: 0.18rem;
+  width: 2.2rem;
+  border-color: rgb(93, 79, 24);
+  color: rgb(228, 186, 29);
+  font-size: 0.26rem;
+  font-weight: 600;
+}
+#code:active::before {
+  opacity: 0;
+}
+.register .code_box {
+  padding-top: 0;
+  padding-bottom: 0;
 }
 .btn_box {
-  padding: 15px;
+  position: relative;
+  overflow: hidden;
+  padding: 0.95rem 0.3rem 0.6rem 0.3rem;
 }
 .reg_btn {
-  background-color: #108ee9;
-  border-radius: 5px;
-  height: 40px;
-  line-height: 40px;
+  background-color: rgb(252, 198, 0);
+  height: 0.9rem;
+  line-height: 0.9rem;
+  color: rgb(17, 17, 17);
+  border-width: 0;
+  font-weight: 600;
+}
+.reg_btn.van-button--disabled,.disabled__btn{
+  opacity: 0.6;
+}
+</style>
+<style>
+.register .van-field__button {
+  padding-left: 10px;
+  height: 44px;
+}
+.register .van-cell {
+  padding: 0.4rem 0.3rem 0.2rem 0.35rem;
   color: #fff;
 }
-.reg_btn.van-button--disabled,
-.register .van-field--disabled {
-  opacity: 0.6;
-  background: #ccc;
+.register .van-cell input {
+  color: #fff;
+}
+.register .van-cell-group,
+.register .van-cell,
+.register .van-cell input,
+.register .van-cell button {
+  background-color: initial;
+}
+.register .van-hairline--top-bottom::after {
+  border-top-width: 0;
+  border-color: rgb(54, 44, 18);
+  left: 0.3rem;
+  width: 13.2rem;
+}
+.register .van-cell:not(:last-child)::after {
+  border-color: rgb(54, 44, 18);
+  left: 0.3rem;
+  width: 6.6rem;
+}
+.register .van-field__button {
+  height: 0.95rem;
+}
+.register .code_box .van-cell__value {
+  margin-top: 0.2rem;
 }
 </style>

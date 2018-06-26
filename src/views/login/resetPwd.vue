@@ -1,8 +1,8 @@
 <template>
   <div class="resetPwd">
      <van-cell-group>
-        <van-field v-model="password" type="password" label="密码" placeholder="请设置您的登录密码" icon="clear" @click-icon="password = ''"/>
-        <van-field v-model="rePassword" type="password" label="确认密码" placeholder="请再次输入您的密码" icon="clear" @click-icon="rePassword = ''"/>
+        <van-field v-model="password" type="password" placeholder="请设置您的登录密码" icon="clear" @click-icon="password = ''"/>
+        <van-field v-model="rePassword" type="password" placeholder="请再次输入您的密码" icon="clear" @click-icon="rePassword = ''"/>
       </van-cell-group>
       <div class="btn_box">
         <van-button :disabled="btnEnable" class="reg_btn" size="large" @click="resetPwd()">提交</van-button>
@@ -34,7 +34,7 @@ export default {
         return this.$toast("两次输入的密码应该一致！");
       }
       this.http.user
-        .login({
+        .resetPwd({
           mobile: this.$route.query.id,
           newPassword: this.password,
           confirmPassword: this.rePassword
@@ -46,7 +46,7 @@ export default {
               message: res.data.msg
             })
             .then(() => {
-              this.$router.push({ path: "/login", replace: true });
+              this.$router.push({ path: "/resetPwd", replace: true });
             });
         });
     }
@@ -56,22 +56,80 @@ export default {
 
 <style scoped>
 .resetPwd {
-  background-color: #fff;
   height: 100%;
   text-align: center;
-  padding-top: 20px;
+  padding-top: 3.7rem;
+  background-image: url(../../assets/zhuce_back.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .btn_box {
-  padding: 15px;
+  position: relative;
+  overflow: hidden;
+  padding: 0.95rem 0.3rem 0.6rem 0.3rem;
 }
 .reg_btn {
-  background-color: #108ee9;
-  border-radius: 5px;
-  height: 40px;
-  line-height: 40px;
-  color: #fff;
+  background-color: rgb(252, 198, 0);
+  height: 0.9rem;
+  line-height: 0.9rem;
+  color: rgb(17, 17, 17);
+  border-width: 0;
+  font-weight: 600;
 }
 .reg_btn.van-button--disabled {
   opacity: 0.6;
+}
+</style>
+<style>
+.resetPwd .van-field__button {
+  padding-left: 10px;
+  height: 44px;
+}
+.resetPwd .van-cell {
+  padding: 0.4rem 0.3rem 0.2rem 0.35rem;
+  color: #fff;
+}
+.resetPwd .van-cell input {
+  color: #fff;
+}
+.resetPwd .van-cell-group,
+.resetPwd .van-cell,
+.resetPwd .van-cell input,
+.resetPwd .van-cell button {
+  background-color: initial;
+}
+.resetPwd .van-hairline--top-bottom::after {
+  border-top-width: 0;
+  border-color: rgb(54, 44, 18);
+  left: 0.3rem;
+  width: 13.2rem;
+}
+.resetPwd .van-cell:not(:last-child)::after {
+  border-color: rgb(54, 44, 18);
+  left: 0.3rem;
+  width: 6.6rem;
+}
+.resetPwd .van-field__button {
+  height: 0.95rem;
+}
+.resetPwd .code_box .van-cell__value {
+  margin-top: 0.2rem;
+}
+.resetPwd .van-checkbox__label {
+  margin-left: 0.1rem;
+}
+.resetPwd .van-checkbox__icon {
+  color: initial;
+  border: 0;
+  background-color: initial;
+  font-size: 0;
+  background-image: url(../../assets/zhuce_icon01.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.resetPwd .van-checkbox--checked {
+  background-image: url(../../assets/zhuce_icon02.png);
 }
 </style>
