@@ -1,18 +1,20 @@
 <template>
   <div class="login">
       <van-cell-group>
-        <van-field v-model="phone" label="账号" placeholder="请输入手机号" icon="clear" @click-icon="phone = ''"/>
-        <van-field v-model="password" type="password" label="密码" placeholder="请输入密码" icon="clear" @click-icon="password = ''"/>
-        <van-field class="code_box" center v-model="code" label="验证码" placeholder="请输入验证码" icon="clear" @click-icon="code = ''">
+        <van-field v-model="phone" placeholder="请输入手机号" icon="clear" @click-icon="phone = ''"/>
+        <van-field v-model="password" type="password" placeholder="请输入密码" icon="clear" @click-icon="password = ''"/>
+        <van-field class="code_box" center v-model="code" placeholder="请输入验证码" icon="clear" @click-icon="code = ''">
           <van-button id="code" slot="button" size="small"  @click="codeImgClick">
-            <img class="img" src="/index.php/api/user/verify/imgCode?type=forget" alt="" srcset="">
+            <!-- <img class="img" src="/index.php/api/user/verify/imgCode?type=forget" alt="" srcset=""> -->
+            <img class="img" src="../../assets/code.png" alt="" srcset="">
           </van-button>
         </van-field>
       </van-cell-group>
       <div class="btn_box">
+        <p class="new_user_dec">您的注册申请未通过</p>
         <p class="btn_box_dec">
           <span>登录即视为你同意我们的</span> 
-          <router-link to="/registerTips">用户使用协议</router-link>
+          <router-link to="/registerTips">《用户使用协议》</router-link>
         </p>
         <van-button class="login_btn" size="large" :disabled="btnEnable" @click="Login()">登录</van-button>
         <div class="btn_box_footer">
@@ -22,7 +24,6 @@
       </div>
       <div class="new_user">
         <van-button class="new_user_btn" type="default" @click="goRegister()">新用户申请办比赛</van-button>
-        <!-- <p class="new_user_dec">您的注册申请未通过</p> -->
       </div>
   </div>
 </template>
@@ -38,11 +39,7 @@ export default {
   },
   computed: {
     btnEnable() {
-      if (
-        this.phone &&
-        this.code &&
-        this.password
-      ) {
+      if (this.phone && this.code && this.password) {
         return false;
       }
       return true;
@@ -52,10 +49,10 @@ export default {
     codeImgClick() {
       this.$refs.codeImg.src = `/index.php/api/user/verify?type=forget&r=${Math.random()}`;
     },
-    goRegister(){
+    goRegister() {
       this.$router.push("/register");
     },
-    Login(){
+    Login() {
       this.http.user
         .login({
           mobile: this.tel,
@@ -63,12 +60,15 @@ export default {
           imgCode: this.code
         })
         .then(res => {
-          if(res.data.auditStatus==1){
+          if (res.data.auditStatus == 1) {
             //登录成功的时候直接跳转首页
             this.$router.push("match");
-          }else{
+          } else {
             //审核或者审核未通过
-            this.$router.push({path: "/register", query: {id:res.data.id}});
+            this.$router.push({
+              path: "/register",
+              query: { id: res.data.id }
+            });
           }
         })
         .catch(() => {
@@ -81,72 +81,96 @@ export default {
 
 <style scoped>
 .login {
-  background-color: #fff;
   height: 100%;
   text-align: center;
-  padding-top: 20px;
+  padding-top: 3.7rem;
+  background-image: url(../../assets/zhuce_back.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .img {
   height: 100%;
+  width: 100%;
 }
 #code {
   border: none;
   padding: 0;
-  height: 44px;
+  height: 0.95rem;
+  width: 2.2rem;
 }
 #code:active::before {
   opacity: 0;
 }
 .login .code_box {
-  padding: 0;
-  padding-left: 15px;
-  line-height: 44px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 .btn_box {
-  padding: 15px;
+  position: relative;
+  overflow: hidden;
+  padding: 0.95rem 0.3rem 0.6rem 0.3rem;
 }
 .btn_box_dec {
-  font-weight: 400;
-  font-size: 14px;
-  color: rgba(69, 90, 100, 0.6);
-  padding-bottom: 15px;
+  font-size: 0.28rem;
+  color: rgb(97, 97, 97);
+  padding-bottom: 0.15rem;
 }
 .btn_box_dec a {
-  color: #f00;
-  text-decoration: underline;
+  color: rgb(255, 80, 0);
 }
 .login_btn {
-  background-color: #108ee9;
-  border-radius: 5px;
-  height: 40px;
-  line-height: 40px;
-  color: #fff;
+  background-color: rgb(252, 198, 0);
+  height: 0.9rem;
+  line-height: 0.9rem;
+  color: rgb(17, 17, 17);
+  border-width: 0;
+  font-weight: 600;
 }
 .btn_box_footer {
   position: relative;
   overflow: hidden;
-  margin-top: 15px;
-  font-size: 15px;
+  margin-top: 0.2rem;
+  font-size: 0.28rem;
+  color: rgb(228, 186, 29);
 }
 .btn_box_footer .checked {
   float: left;
 }
 .btn_box_footer .fing {
   float: right;
+  color: rgb(228, 186, 29);
 }
 .new_user {
   text-align: center;
   font-size: 15px;
 }
 .new_user_btn {
-  border-radius: 45px;
-  background: #108ee9;
-  color: #fff;
-  padding: 0 25px;
+  background-color: initial;
+  border-color: rgb(93, 79, 24);
+  color: rgb(228, 186, 29);
+  padding: 0 0.2rem;
+  height: 0.7rem;
+  line-height: 0.7rem;
+  font-size: 0.26rem;
+  font-weight: 600;
 }
-.new_user_dec{
+.new_user_dec {
   color: #f00;
-  margin-top: 15px;
+  position: absolute;
+  width: 100%;
+  height: 0.7rem;
+  line-height: 0.7rem;
+  top: 0.2rem;
+  font-size: 0.26rem;
+  left: 0;
+  background-image: url(../../assets/zhuce_back_tishi.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.login_btn.van-button--disabled{
+  opacity: 0.6;
 }
 </style>
 
@@ -154,6 +178,52 @@ export default {
 .login .van-field__button {
   padding-left: 10px;
   height: 44px;
+}
+.login .van-cell {
+  padding: 0.4rem 0.3rem 0.2rem 0.35rem;
+  color: #fff;
+}
+.login .van-cell input {
+  color: #fff;
+}
+.login .van-cell-group,
+.login .van-cell,
+.login .van-cell input,
+.login .van-cell button {
+  background-color: initial;
+}
+.login .van-hairline--top-bottom::after {
+  border-top-width: 0;
+  border-color: rgb(54, 44, 18);
+  left: 0.3rem;
+  width: 13.2rem;
+}
+.login .van-cell:not(:last-child)::after {
+  border-color: rgb(54, 44, 18);
+  left: 0.3rem;
+  width: 6.6rem;
+}
+.login .van-field__button {
+  height: 0.95rem;
+}
+.login .code_box .van-cell__value {
+  margin-top: 0.2rem;
+}
+.login .van-checkbox__label {
+  margin-left: 0.1rem;
+}
+.login .van-checkbox__icon {
+  color: initial;
+  border: 0;
+  background-color: initial;
+  font-size: 0;
+  background-image: url(../../assets/zhuce_icon01.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.login .van-checkbox--checked {
+  background-image: url(../../assets/zhuce_icon02.png);
 }
 </style>
 
