@@ -16,7 +16,7 @@
           <span class="header_info_send">09:00</span>
           <span class="header_info_type">09:00</span>
         </p>
-        <button class="edit-btn">信息有误，去修改>></button>
+        <button class="edit-btn" @click="toEdit">信息有误，去修改>></button>
       </div>
       <div class="game">
         <p class="game_info">
@@ -82,7 +82,10 @@ export default {
       //当在浏览器中和客户端中都跳
       console.log("点击跳回上一页");
     },
-    backToTop() {}
+    backToTop() {},
+    toEdit() {
+      this.$router.push("edit");
+    }
   }
 };
 </script>
@@ -279,7 +282,6 @@ a {
 .prize_list_item img {
   width: 100%;
 }
-
 
 .scroll_top {
   background: url("../assets/scroll_top.png") center/100% 100% no-repeat;

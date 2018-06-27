@@ -2,7 +2,7 @@ import Index from "../views/match/Index.vue";
 import Detail from "../views/match/Detail.vue";
 import Create from "../views/match/Create.vue";
 import MatchStyle from "../views/match/MatchStyle.vue";
-import Prize from "../views/match/Prize.vue";
+import MathchEdit from "../views/match/MathchEdit.vue";
 
 const MATCH_ROUTERS = [
   {
@@ -31,6 +31,13 @@ const MATCH_ROUTERS = [
     component: MatchStyle,
     meta: {
       title: "赛制设置"
+    }
+  },
+  {
+    path: "match/edit",
+    component: MathchEdit,
+    meta: {
+      title: "修改比赛信息"
     }
   }
 ];

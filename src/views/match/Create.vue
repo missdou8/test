@@ -66,6 +66,7 @@ export default {
       let containDom = this.$refs.createIntro;
       let div = document.createElement("div");
       div.style.position = "relative";
+      div.classList.add("img_content");
       let img = document.createElement("img");
       div.appendChild(img);
       img.style.width = "100%";
