@@ -21,9 +21,9 @@ import didaList from "../../components/didaList.vue";
 export default {
   data() {
     return {
-      icon:img,
+      icon: img,
       watchersList: [],
-      total:0,
+      total: 0
     };
   },
   components: {
@@ -33,8 +33,13 @@ export default {
     /** 组建中返回的数据结构
      */
     getWatchersList(data) {
-      this.total = data.total
+      this.total = data.total;
       this.watchersList = data.list;
+      if (this.watchersList.length < 0) {
+        this.watchersList.forEach(w => {
+          this.watchersList.Time = timestamp_switch_time(d.time);
+        });
+      }
     }
   }
 };

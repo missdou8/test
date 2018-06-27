@@ -43,11 +43,13 @@ export default {
         })
         .then(res => {
           let data = res.data;
-          data.watchersList.forEach(d => {
-            data.watchersList.Time = timestamp_switch_time(d.time);
-          });
           this.total = data.total;
-          this.list = this.list.concat(data.watchersList);
+          //这里返回的是原数据列表
+          // data[this.postUrl].forEach(d => {
+          //   data[this.postUrl].Time = timestamp_switch_time(d.time);
+          // });
+          // this.$emit("returnData",data)
+          this.list = this.list.concat(data[this.postUrl]);
           return data;
         });
     },

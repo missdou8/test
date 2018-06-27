@@ -21,9 +21,9 @@ import didaList from "../../components/didaList.vue";
 export default {
   data() {
     return {
-      icon:img,
+      icon: img,
       playerCountList: [],
-      total:0,
+      total: 0
     };
   },
   components: {
@@ -33,8 +33,13 @@ export default {
     /** 组建中返回的数据结构
      */
     getPlayerCountList(data) {
-      this.total = data.total
-      this.playerCountList = data;
+      this.total = data.total;
+      this.playerCountList = data.list;
+      if (this.playerCountList.length < 0) {
+        this.playerCountList.forEach(p => {
+          this.playerCountList.Time = timestamp_switch_time(d.time);
+        });
+      }
     }
   }
 };
