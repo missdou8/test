@@ -1,61 +1,44 @@
 <template>
-    <div id="fans">
-        <dida-list ref="dida_list" :maxPage="maxPage" @refresh="refresh()" @load="getData(pagesize,$event)">
-          <div class="title">
-            <span>12345</span>
-            <span>12345人</span>
-          </div>
-          <van-cell v-for="item in list" :key="item" value="2018/5/3 12:34:45" label="10000001" :title="item + '用户昵称'">
-            <img slot="icon" src="../../assets/logo.png" alt="" srcset="">
-          </van-cell>
-        </dida-list>
-    </div>
+  <div id="fans">
+    <dida-list ref="dida_list" post-module="watchers" post-url="watchersList" @returnData="getWatchersList($event)">
+      <div class="title">
+        <span>粉丝列表</span>
+        <span>{{total}}人</span>
+      </div>
+      <van-cell v-for="watchers in watchersList" :key="watchers.id" 
+        :title="watchers.nickname||'王小花'"
+        :label="watchers.id||'100000001'" 
+        :value="watchers.Time||'2018-6-27 00:00:00'">
+        <img slot="icon" :src="watchers.icon||icon" alt="" srcset="">
+      </van-cell>
+    </dida-list>
+  </div>
 </template>
 
 <script>
+import img from "../../assets/logo.png";
 import didaList from "../../components/didaList.vue";
 export default {
   data() {
     return {
-      list: [],
-      pagesize: 10,
-      maxPage: null
+      icon:img,
+      watchersList: [],
+      total:0,
     };
   },
   components: {
     didaList
   },
   methods: {
-    /**
-     * pagesize 一页显示数量
-     * currentpage 页码(默认为1)
+    /** 组建中返回的数据结构
      */
-    getData(pagesize, currentpage) {
-      console.log(currentpage);
-      // 这里模拟请求数据时间为一秒
-      this.maxPage = 5;
-      // 这里模拟请求数据时间为一秒
-      setTimeout(() => {
-        for (let i = 0; i < pagesize; i++) {
-          //在旧数据基础上插入新数据
-          this.list.push(this.list.length + 1);
-        }
-        this.$refs.dida_list.hideLoading();
-      }, 500);
-    },
-    refresh() {
-      // 这里模拟请求数据时间为一秒
-      setTimeout(() => {
-        //更新数据成功后设置loading隐藏
-        this.$refs.dida_list.hideIsLoading();
-        this.$toast("刷新成功");
-      }, 500);
+    getWatchersList(data) {
+      this.total = data.total
+      this.watchersList = data.list;
     }
   }
 };
 </script>
-
-
 <style scoped>
 #fans {
   height: 100%;

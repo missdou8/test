@@ -1,53 +1,46 @@
 <template>
-    <div id="like">
-        <dida-list ref="dida_list" :list-data="list" :maxPage="5" title-text="点赞列表" title-number="10000" @refresh="refresh()" @load="getData(pagesize,$event)"></dida-list>
-    </div>
+  <div id="fans">
+    <dida-list ref="dida_list" post-module="match" post-url="likeList" @returnData="getLikeList($event)">
+      <div class="title">
+        <span>本场点赞</span>
+        <span>{{total}}人</span>
+      </div>
+      <van-cell v-for="like in likeList" :key="like.id" 
+        :title="like.nickname||'王小花'"
+        :label="like.id||'100000001'" 
+        :value="like.Time||'2018-6-27 00:00:00'">
+        <img slot="icon" :src="like.icon||icon" alt="" srcset="">
+      </van-cell>
+    </dida-list>
+  </div>
 </template>
 
 <script>
+import img from "../../assets/logo.png";
 import didaList from "../../components/didaList.vue";
 export default {
   data() {
     return {
-      list: [],
-      pagesize:10,
+      icon:img,
+      likeList: [],
+      total:0,
     };
   },
   components: {
     didaList
   },
   methods: {
-    /**
-     * pagesize 一页显示数量
-     * currentpage 页码(默认为1)
+    /** 组建中返回的数据结构
      */
-    getData(pagesize, currentpage) {
-      console.log(currentpage);
-      // 这里模拟请求数据时间为一秒
-      setTimeout(() => {
-        for (let i = 0; i < pagesize; i++) {
-          //在旧数据基础上插入新数据
-          this.list.push(this.list.length + 1);
-        }
-        console.log(this.list)
-        this.$refs.dida_list.hideLoading();
-      }, 500);
-    },
-    refresh() {
-      // 这里模拟请求数据时间为一秒
-      setTimeout(() => {
-        //更新数据成功后设置loading隐藏
-        this.$refs.dida_list.hideIsLoading();
-        this.$toast("刷新成功");
-      }, 500);
+    getLikeList(data) {
+      this.total = data.total
+      this.likeList = data;
     }
   }
 };
 </script>
-
-
 <style scoped>
-#like {
+#fans {
   height: 100%;
 }
 </style>

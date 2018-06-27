@@ -44,7 +44,7 @@
 <script>
 import img from "../../../assets/logo.png";
 import numberWordInput from "../../../components/numberWordInput.vue";
-import { timestamp_switch_time } from "lpreset.css";
+import { timestamp_switch_time } from "lputils";
 export default {
   data() {
     return {
