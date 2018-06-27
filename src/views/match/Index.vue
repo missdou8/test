@@ -17,7 +17,7 @@
               <i class="user_id_title">滴答号：</i>{{userInfo.id}}</span>
           </p>
         </div>
-        <button class="my-story">我的故事>></button>
+        <router-link to="user/story" class="my-story">我的故事>></router-link>
       </div>
       <ul class="match_info">
         <li>

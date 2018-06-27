@@ -9,7 +9,10 @@ import editPhone from "../views/user/setUserMsg/editPhone.vue";
 import editAddress from "../views/user/setUserMsg/editAddress.vue";
 import editPwd from "../views/user/setUserMsg/editPwd.vue";
 import exchangeIndex from "../views/user/exchange/index.vue";
-const USER_ROUTERS = [{
+import Story from "../views/user/Story.vue";
+
+const USER_ROUTERS = [
+  {
     path: "/user/index",
     component: Index,
     meta: {
@@ -46,7 +49,7 @@ const USER_ROUTERS = [{
     meta: {
       title: "实名认证"
     }
-  }, 
+  },
   {
     path: "/user/edit/autonym/tips",
     name: "autonymTips",
@@ -93,6 +96,13 @@ const USER_ROUTERS = [{
     component: exchangeIndex,
     meta: {
       title: "兑奖信息"
+    }
+  },
+  {
+    path: "/user/story",
+    component: Story,
+    meta: {
+      title: "我的故事"
     }
   }
 ];
