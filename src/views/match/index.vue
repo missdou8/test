@@ -4,7 +4,7 @@
       <div class="header_lists">
         <a @click="serviceClick"></a>
         <router-link to="/user/exchange/index"></router-link>
-        <router-link to="/user/exchange/index"></router-link>
+        <router-link to="/announce/index"></router-link>
         <router-link to="/user/index"></router-link>
       </div>
       <div class="header_icon">

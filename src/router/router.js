@@ -7,6 +7,9 @@ import matchConfig from "./match.js";
 import userConfig from "./user.js";
 import recordConfig from "./record.js";
 
+//组件
+import Announcement from "../views/announcement/Announcement.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -15,6 +18,13 @@ const routes = [
     component: App,
     redirect: "/match",
     children: [].concat(loginConfig, matchConfig, userConfig, recordConfig)
+  },
+  {
+    path: "/announce/index",
+    component: Announcement,
+    meta: {
+      title: "公告/活动"
+    }
   }
 ];
 
