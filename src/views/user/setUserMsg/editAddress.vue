@@ -1,18 +1,18 @@
 <template>
-    <div id="editAddress">
-      <van-cell-group>
-        <van-cell class="btn_box">
-           <van-button class="location_btn" size="small" @click="onLocation()"></van-button>
-        </van-cell>
-        <van-cell class="showAlert" title="所在地区" :value="areaMsg" is-link @click="showPopup()"/>
-        <van-field v-model="address" label="联系地址" type="textarea" placeholder="请输入详细地址，如街道、小区、楼栋号、单元室等" rows="3" autosize/>
-      </van-cell-group>
-      <van-popup v-model="show" position="bottom" :lazy-render="false">
-        <van-area ref="van_area" :area-list="areaList"  @confirm="onConfirm" @cancel="onCancel()" :value="areaId"/>
-      </van-popup>
-      <dida-btn :btn-enable="btnEnable" @submetData="setUserShop()"></dida-btn>
-      <dida-location ref="location" @getResData='getResData($event)'></dida-location>
-    </div>
+  <div id="editAddress">
+    <van-cell-group>
+      <van-cell class="btn_box">
+        <van-button class="location_btn" size="small" @click="onLocation()"></van-button>
+      </van-cell>
+      <van-cell class="showAlert" title="所在地区" :value="areaMsg" is-link @click="showPopup()" />
+      <van-field v-model="address" label="联系地址" type="textarea" placeholder="请输入详细地址，如街道、小区、楼栋号、单元室等" rows="3" autosize/>
+    </van-cell-group>
+    <van-popup v-model="show" position="bottom" :lazy-render="false">
+      <van-area ref="van_area" :area-list="areaList" @confirm="onConfirm" @cancel="onCancel()" :value="areaId" />
+    </van-popup>
+    <dida-btn :btn-enable="btnEnable" @submetData="setUserShop()"></dida-btn>
+    <dida-location ref="location" @getResData='getResData($event)'></dida-location>
+  </div>
 </template>
 <script>
 import cityCode from "../../../service/cityCode.js";
@@ -85,7 +85,7 @@ export default {
     },
     //发送请求
     setUserShop() {
-      console.log(this.areaVal)
+      console.log(this.areaVal);
       //重点一定要让用户定位成功才可以
       if (this.longitude == null || this.latitude == null) {
         return this.$toast("请您重新定位");

@@ -1,27 +1,25 @@
 <template>
   <div class="style">
     <van-cell-group>
-      <van-cell title="请选择游戏名称" value="内容" is-link @click="gameSelect" />
-      <van-cell title="请选择比赛时间" value="内容" is-link @click="timeSelect" />
+      <van-cell title="请选择游戏名称" value="未选择" is-link @click="gameSelect" />
+      <van-cell title="请选择比赛时间" value="未选择" is-link @click="timeSelect" />
       <van-collapse v-model="activeNames" :accordion="true">
         <van-collapse-item name="1">
           <div slot="title" class="personGame">
             <span>请预估比赛人数</span>
             <span>{{selectPerson}}</span>
           </div>
-          <pop-over :data="personList" @selected="selectPersonClick"></pop-over>
+          <radio-btn :data="personList" @select="selectPersonClick"></radio-btn>
         </van-collapse-item>
         <van-collapse-item name="2">
           <div slot="title" class="personGame">
             <span>请选择报名类型</span>
             <span>{{attendStyle[radio-1].valueSimple || attendStyle[radio-1].value}}</span>
           </div>
-          <van-radio-group v-model="radio" class="attend-style" @change="attendStyleClick">
-            <van-radio v-for="item in attendStyle" :key="item.name" :name="item.name">{{ item.value}}</van-radio>
-          </van-radio-group>
+          <radio-btn :data="personList" @select="selectPersonClick"></radio-btn>
         </van-collapse-item>
       </van-collapse>
-      <van-cell title="请填写奖品信息" value="内容" is-link @click="toPrize" />
+      <van-cell title="请填写奖品信息" value="未选择" is-link @click="toPrize" />
     </van-cell-group>
     <van-popup v-model="gameShow" position="bottom">
       <van-picker :columns="columns" show-toolbar @confirm="gameShow = false" @cancel="gameShow = false" />
@@ -29,10 +27,7 @@
     <van-popup v-model="timeShow" position="bottom">
       <van-datetime-picker v-model="currentDate" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="timeShow = false" @cancel="timeShow = false" />
     </van-popup>
-    <van-popup v-model="prizeShow" position="right">
-      <prize class="prize" @prizeShow="prizeSonClick"></prize>
-    </van-popup>
-    <div>
+    <div class="footer">
       <button>保存</button>
       <button>提交审核</button>
     </div>
@@ -40,19 +35,18 @@
 </template>
 
 <script>
-import PopOver from "../../components/PopOver.vue";
+import RadioBtn from "../../components/RadioBtn.vue";
 import { timeFormate } from "lputils";
 import Prize from "../../views/match/Prize.vue";
 export default {
   components: {
-    PopOver,
+    RadioBtn,
     Prize
   },
   data() {
     return {
       gameShow: false,
       timeShow: false,
-      prizeShow: false,
       keyList: [5, 6],
       gameList: ["石家庄麻将", "保定麻将"],
       allGameList: [],
@@ -105,7 +99,7 @@ export default {
       this.timeShow = true;
     },
     toPrize() {
-      this.prizeShow = true;
+      this.$router.push("style/prize");
     },
     //获取游戏列表
     fetchGameList() {
@@ -149,9 +143,6 @@ export default {
     },
     attendStyleClick() {
       console.log(this.radio);
-    },
-    prizeSonClick(data) {
-      this.prizeShow = data;
     }
   }
 };
@@ -174,6 +165,25 @@ export default {
   display: flex;
   font-size: 0.2rem;
   justify-content: space-between;
+}
+.footer {
+  margin-top: 0.5rem;
+  padding: 0.2rem 0;
+  text-align: center;
+  width: 100%;
+}
+.footer button {
+  font-size: 0.35rem;
+  margin: 0 0.45rem;
+  padding: 0.2rem 0;
+  width: 2.35rem;
+}
+.footer button:first-child {
+  background-color: #ffde00;
+}
+.footer button:nth-child(2) {
+  background-color: #000;
+  color: #ffd321;
 }
 </style>
 

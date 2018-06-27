@@ -1,52 +1,71 @@
 <template>
   <div class="prize">
-    <van-nav-bar title="填写奖品信息" left-text="取消" right-text="保存" @click-left="onClickLeft" @click-right="onClickRight" />
-    <van-uploader class="uploader" :after-read="onRead">
-      <span v-show="!prizeImageShow">点击添加奖品图片</span>
-      <img class="prize_img" ref="prizeImage" v-show="prizeImageShow" alt="封面图片">
-    </van-uploader>
-    <div class="prize_info" v-for="(item,index) in 3">
-      <span class="prize_rank">名次</span>
-      <input class="prize_prize" type="text" placeholder="点击输入奖品名称，没有则不填" @blur="prizeInput(index,$event)">
-      <input class="prize_value" type="text" @blur="valueInput(index, $event)">
-      <span class="prize_tag">元</span>
+    <div class="add-content">
+      <van-uploader class="uploader" :after-read="onRead">
+        <div class="addCover" v-show="prizeImageShow">
+          <p class="add">
+            <span class="add_img"></span>
+            <span>添加店铺封面</span>
+          </p>
+        </div>
+        <img class="cover-img" :src="coverImg" v-show="!prizeImageShow" alt="封面图片">
+      </van-uploader>
     </div>
-    <p class="total_value">共计
+    <div class="rank">
+      <div class="prize_info" v-for="(item,index) in 3">
+        <p class="prize_rank">名次</p>
+        <input class="prize_prize" type="text" placeholder="点击输入奖品名称，没有则不填" @blur="prizeInput(index,$event)">
+        <div class="prize_value_content">
+          <input class="prize_value" type="text" @blur="valueInput(index, $event)">
+          <span class="prize_tag">元</span>
+        </div>
+      </div>
+    </div>
+    <p class="total_value">
+      <span>
+        共计
+      </span>
       <span>{{totalPrize}}</span>元
     </p>
     <div class="send">
-      <p>请选择发奖方式</p>
-      <van-radio-group v-model="radio" class="send-style" @change="sendStyleClick">
-        <van-radio v-for="item in sendStyle" :key="item.name" :name="item.name">{{item.value}}</van-radio>
-      </van-radio-group>
+      <p class="send_title">请选择发奖方式</p>
+      <radio-btn class="send_type" :data="sendStyle" @select="typeSelect"></radio-btn>
+      <div class="address" v-show="addressShow">
+        <p class="address_title">请选择自提地址</p>
+        <van-cell class="address_info" title="姓名和电话" label="地址地址地址" is-link center to="prize/address"></van-cell>
+      </div>
     </div>
-    <div class="address" v-show="addressShow">
-      <p>请选择自提地址</p>
-      <div>地址</div>
+    <div class="footer">
+      <button @click="saveClick">保存</button>
+      <button @click="cancelClick">取消</button>
     </div>
   </div>
 </template>
 
 <script>
+import RadioBtn from "../../components/RadioBtn.vue";
 export default {
   data() {
     return {
       addressShow: false,
-      prizeImageShow: false,
+      prizeImageShow: true,
       rankList: [],
       rankPrize: [],
       sendStyle: [
         {
-          name: 0,
+          id: 0,
           value: "邮寄"
         },
         {
-          name: 1,
+          id: 1,
           value: "客户自取"
         }
       ],
-      radio: 0
+      coverImg: ""
     };
+  },
+  components: {
+    RadioBtn
   },
   computed: {
     totalPrize() {
@@ -90,10 +109,10 @@ export default {
       this.$refs.prizeImage.src = file.content;
       this.prizeImageShow = true;
     },
-    onClickLeft() {
+    cancelClick() {
       this.$emit("prizeShow", false);
     },
-    onClickRight() {
+    saveClick() {
       this.$store.commit("setRankPrize", this.rankPrize);
       this.$store.commit("setIfSave", true);
       this.$emit("prizeShow", false);
@@ -106,52 +125,87 @@ export default {
       let dom = evt.target;
       this.rankPrize[index].price = dom.value;
     },
-    sendStyleClick() {}
+    typeSelect(id) {
+      if (id == 1) {
+        return (this.addressShow = true);
+      }
+      this.addressShow = false;
+    }
   }
 };
 </script>
 
 <style scoped>
+/* 设置padding */
+.add-content,
+.rank,
+.total_value,
+.send {
+  background-color: #fff;
+  padding: 0 0.3rem;
+}
+
 .prize {
   text-align: center;
 }
 .uploader {
-  background-color: #555;
-  border-radius: 0.2rem;
+  background-color: #000;
+  border-radius: 0.1rem;
   color: #fff;
   margin: 0.3rem 0;
-  padding: 0.3rem;
-  width: 85%;
+  width: 100%;
+}
+.addCover {
+  margin: 0.3rem;
+}
+.cover-img {
+  vertical-align: middle;
+}
+.add {
+  color: #ffd321;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.3rem;
+  font-weight: bold;
+}
+.add_img {
+  background: url("../../assets/img_add.png") center/100% 100% no-repeat;
+  height: 0.39rem;
+  width: 0.49rem;
+  margin-right: 0.1rem;
 }
 .prize_info {
   display: flex;
+  flex-direction: column;
+  position: relative;
 }
-.prize_value,
-.prize_tag,
-.prize_rank,
-.prize_prize {
-  width: 0;
-}
+
 .prize_value {
-  border: 1px solid #000;
-  flex-grow: 2;
+  background-color: #fafafa;
+  height: 0.67rem;
+  width: 1.76rem;
+  margin-right: 0.1rem;
 }
 .prize_rank {
-  flex-grow: 2;
+  text-align: left;
 }
 .prize_tag {
   flex-grow: 1;
 }
-.prize_prize {
-  flex-grow: 7;
-  padding: 0 0.2rem;
-}
+
 .total_value {
+  color: #ff0000;
+  font-size: 0.36rem;
+  padding: 0.16rem 0.5rem 0.16rem 0;
   text-align: right;
+}
+.total_value span:first-child {
+  color: #151c21;
 }
 .send,
 .address {
-  text-align-last: left;
+  text-align: left;
 }
 .prize_img {
   width: 100%;
@@ -160,6 +214,75 @@ export default {
   display: flex;
   font-size: 0.2rem;
   justify-content: space-around;
+}
+
+.add-content {
+  padding-top: 0.2rem;
+}
+.prize_value_content {
+  position: absolute;
+  right: 0.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* 名次 */
+.rank {
+  margin-top: 0.2rem;
+}
+.rank::before {
+  content: "";
+  display: table;
+}
+.rank::after {
+  content: "";
+  display: table;
+}
+.rank > div {
+  margin: 0.2rem 0;
+}
+.send {
+  margin-top: 0.2rem;
+}
+.send_title {
+  font-size: 0.3rem;
+  padding: 0.18rem 0;
+}
+.send_type {
+  text-align: left;
+  padding: 0.3rem 0;
+}
+.footer {
+  padding: 0.2rem 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  width: 100%;
+}
+.footer button {
+  font-size: 0.35rem;
+  margin: 0 0.45rem;
+  padding: 0.2rem 0;
+  width: 2.35rem;
+}
+.footer button:first-child {
+  background-color: #ffde00;
+}
+.footer button:nth-child(2) {
+  border: 0.01rem solid #ffde00;
+}
+.address_title {
+  font-size: 0.3rem;
+}
+
+.address_info_name {
+  font-size: 0.32rem;
+  margin: 0.1rem 0;
+}
+
+.address_info {
+  margin-left: -15px;
 }
 </style>
 
