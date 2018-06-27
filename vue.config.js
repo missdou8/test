@@ -1,4 +1,5 @@
 module.exports = {
   productionSourceMap: false,
-  lintOnSave: false
+  lintOnSave: false,
+  outputDir: "web"
 };
