@@ -8,7 +8,7 @@ import editPlane from "../views/user/setUserMsg/editPlane.vue";
 import editPhone from "../views/user/setUserMsg/editPhone.vue";
 import editAddress from "../views/user/setUserMsg/editAddress.vue";
 import editPwd from "../views/user/setUserMsg/editPwd.vue";
-import exchangeIndex from "../views/user/exchange/index.vue";
+import exchangeIndex from "../views/user/exchange.vue";
 import Story from "../views/user/Story.vue";
 
 const USER_ROUTERS = [
