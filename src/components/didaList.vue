@@ -13,28 +13,69 @@
 export default {
   data() {
     return {
+      list: [],
       loading: false,
       finished: false,
       isLoading: false,
-      currentPage: 1 //当前页(默认从第一页开始)
+      pagesize: 10,
+      currentpage: 1, //当前页(默认从第一页开始)
+      total: 0 //总条数
     };
   },
   /**
-   * list 数据结构
-   * maxPage 最大页数
-   * titleText 标题左侧显示文本
-   * titleNumber 标题右侧显示文本
+   * postUrl 接口地址
    */
-  props: ["maxPage"],
+  props: ["postModule", "postUrl"],
+  watch: {
+    list() {
+      this.$emit("returnData", {
+        total: this.total,
+        list: this.list
+      });
+    }
+  },
   methods: {
+    getData() {
+      return this.http[this.postModule]
+        [this.postUrl]({
+          pagesize: this.pagesize,
+          currentpage: this.currentpage
+        })
+        .then(res => {
+          let data = res.data;
+          data.watchersList.forEach(d => {
+            data.watchersList.Time = timestamp_switch_time(d.time);
+          });
+          this.total = data.total;
+          this.list = this.list.concat(data.watchersList);
+          return data;
+        });
+    },
     onLoad() {
-      this.$emit("load", this.currentPage);
-      if (this.currentPage >= this.maxPage && this.maxPage != null)
-        this.finished = true;
-      else this.currentPage++;
+      this.getData().then(data => {
+        this.loading = false;
+        if (data.total <= this.currentpage * this.pagesize)
+          this.finished = true;
+        else this.currentpage++;
+      });
+      setTimeout(() => {
+        for (let i = 0; i < 10; i++) {
+          this.list.push(this.list.length + 1);
+        }
+        this.loading = false;
+        if (this.list.length >= 40) {
+          this.finished = true;
+        } else {
+          this.currentpage++;
+        }
+      }, 500);
     },
     onRefresh() {
-      this.$emit("refresh");
+      this.currentpage = 1;
+      this.getData(1).then(() => {
+        this.isLoading = false;
+        this.currentpage = 1;
+      });
     },
     hideLoading() {
       this.loading = false;
