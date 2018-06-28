@@ -1,9 +1,12 @@
 import Vue from "vue";
 import router from "./router/router.js";
 import App from "./App.vue";
-import "./scripts/base.js";
 import ApiService from "./service/http.js";
 import store from "./store/index.js";
+
+// 导入公共CSS
+import "lpreset.css";
+import "./style/base.css";
 
 // 引用组件
 import {
