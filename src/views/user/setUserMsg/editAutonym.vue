@@ -1,43 +1,45 @@
 <template>
-    <div id="editAutonym">
-      <div class="mask" :class="{ 'maskShow': !userinfo.certification==0||!userinfo.certification==1}"></div>
-      <h3 class="dec dec_err" v-if="userinfo.certification==2"><i></i>认证未通过请修改后重新提交</h3>
-      <h3 class="dec dec_sucess" v-if="userinfo.certification==1"><i></i>认证已通过</h3>
-      <van-cell-group class="input_box">
-        <van-field v-model="name" placeholder="请输入您的真实姓名">
-          <img class="left_icon" slot="icon" src="../../../assets/shiming_icon01.png" alt="">
-        </van-field>
-        <van-field v-model="IDcard" placeholder="请输入身份证号">
-          <img class="left_icon" slot="icon" src="../../../assets/shiming_icon02.png" alt="">
-        </van-field>
-      </van-cell-group>
-      <van-cell-group>
-        <van-row class="row">
-          <van-col span="12">
-            <h3>手持身份证正面照</h3>
-            <div class="img_box" :class="{ 'img_box__err': userinfo.certification==2}" @click="setImg($event,'frontPic')">
-              <!-- <img :src="userinfo.idCardImgs[0]" alt=""> -->
-              <img src="" alt="">
-            </div>
-          </van-col>
-          <van-col span="12">
-            <h3>手持身份证反面照</h3>
-            <div class="img_box" :class="{ 'img_box__err': userinfo.certification==2}" @click="setImg($event,'backPic')">
-              <!-- <img :src="userinfo.idCardImgs[1]" alt=""> -->
-              <img src="" alt="">
-            </div>
-          </van-col>
-        </van-row>
-        <input id="file" ref="file" type="file" name="photo" accept="image/gif, image/jpeg, image/png">
-      </van-cell-group>
-      <div class="autonym_bottom">
-        <p class="autonym_dec">
-          <span>提交认证代表你已同意 </span> 
-          <router-link to="/user/edit/autonym/tips">《实名认证协议》</router-link>
-        </p>
-        <van-button :disabled="btnEnable||noImg" class="autonym_btn" size="large" @click="Autonym()">{{userinfo.certification==0?'审核中':'提交'}}</van-button>
-      </div>
+  <div id="editAutonym">
+    <div class="mask" :class="{ 'maskShow': !userinfo.certification==0||!userinfo.certification==1}"></div>
+    <h3 class="dec dec_err" v-if="userinfo.certification==2">
+      <i></i>认证未通过请修改后重新提交</h3>
+    <h3 class="dec dec_sucess" v-if="userinfo.certification==1">
+      <i></i>认证已通过</h3>
+    <van-cell-group class="input_box">
+      <van-field v-model="name" placeholder="请输入您的真实姓名">
+        <img class="left_icon" slot="icon" src="../../../assets/shiming_icon01.png" alt="">
+      </van-field>
+      <van-field v-model="IDcard" placeholder="请输入身份证号">
+        <img class="left_icon" slot="icon" src="../../../assets/shiming_icon02.png" alt="">
+      </van-field>
+    </van-cell-group>
+    <van-cell-group>
+      <van-row class="row">
+        <van-col span="12">
+          <h3>手持身份证正面照</h3>
+          <div class="img_box" :class="{ 'img_box__err': userinfo.certification==2}" @click="setImg($event,'frontPic')">
+            <!-- <img :src="userinfo.idCardImgs[0]" alt=""> -->
+            <img src="" alt="">
+          </div>
+        </van-col>
+        <van-col span="12">
+          <h3>手持身份证反面照</h3>
+          <div class="img_box" :class="{ 'img_box__err': userinfo.certification==2}" @click="setImg($event,'backPic')">
+            <!-- <img :src="userinfo.idCardImgs[1]" alt=""> -->
+            <img src="" alt="">
+          </div>
+        </van-col>
+      </van-row>
+      <input id="file" ref="file" type="file" name="photo" accept="image/gif, image/jpeg, image/png">
+    </van-cell-group>
+    <div class="autonym_bottom">
+      <p class="autonym_dec">
+        <span>提交认证代表你已同意 </span>
+        <router-link to="/user/edit/autonym/tips">《实名认证协议》</router-link>
+      </p>
+      <van-button :disabled="btnEnable||noImg" class="autonym_btn" size="large" @click="Autonym()">{{userinfo.certification==0?'审核中':'提交'}}</van-button>
     </div>
+  </div>
 </template>
 
 <script>
@@ -48,7 +50,7 @@ export default {
       IDcard: "",
       imgBox: {},
       userinfo: {},
-      noImg:true//是否上传图片 true没有上传图片 false上传图片
+      noImg: true //是否上传图片 true没有上传图片 false上传图片
     };
   },
   computed: {
@@ -72,8 +74,8 @@ export default {
         // }
       });
     },
-    setImg(event,type) {
-      let ele = event.target.lastChild||event.target;
+    setImg(event, type) {
+      let ele = event.target.lastChild || event.target;
       //获取到点击图片的元素
       this.$refs.file.click();
       //当 file改变值得时候设置图片
@@ -85,7 +87,7 @@ export default {
         form.append("file", img, img.name);
         this.imgBox[type] = form.get("file");
         //进行图片验证
-        if(Object.keys(this.imgBox).length==2)this.noImg = false;
+        if (Object.keys(this.imgBox).length == 2) this.noImg = false;
         else this.noImg = true;
       };
     },
@@ -96,7 +98,7 @@ export default {
           frontPic: this.imgBox.frontPic,
           backPic: this.imgBox.backPic,
           idCard: this.IDcard,
-          realname: this.name,
+          realname: this.name
         })
         .then(res => {
           this.$dialog
