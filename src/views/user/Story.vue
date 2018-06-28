@@ -1,22 +1,22 @@
 <template>
-    <div class="create">
-        <van-uploader class="uploader" :after-read="onRead">
-            <div class="addCover" v-show="addShow">
-                <p class="add">
-                    <span class="add_img"></span>
-                    <span>添加店铺封面</span>
-                </p>
-            </div>
-            <img class="cover-img" :src="coverImg" v-show="!addShow" alt="封面图片">
-        </van-uploader>
-        <div class="create_content">
-            <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" @keyup.enter="nextLine" ref="createIntro">{{contentPlace}}</div>
-        </div>
-        <van-uploader v-show="appendShow" class="append" :after-read="append">
-            <img src="../../assets/img_add.png" alt="添加图片">
-        </van-uploader>
-        <van-button @click="nextClick" class="next">完成</van-button>
+  <div class="create">
+    <van-uploader class="uploader" :after-read="onRead">
+      <div class="addCover" v-show="addShow">
+        <p class="add">
+          <span class="add_img"></span>
+          <span>添加店铺封面</span>
+        </p>
+      </div>
+      <img class="cover-img" :src="coverImg" v-show="!addShow" alt="封面图片">
+    </van-uploader>
+    <div class="create_content">
+      <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" @keyup.enter="nextLine" ref="createIntro">{{contentPlace}}</div>
     </div>
+    <van-uploader v-show="appendShow" class="append" :after-read="append">
+      <img src="../../assets/img_add.png" alt="添加图片">
+    </van-uploader>
+    <van-button @click="nextClick" class="next">完成</van-button>
+  </div>
 </template>
 
 <script>
