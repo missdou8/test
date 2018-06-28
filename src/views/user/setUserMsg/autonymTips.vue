@@ -1,7 +1,7 @@
 <template>
-    <div id="autonymTips">
-        认证协议
-    </div>
+  <div id="autonymTips">
+    认证协议
+  </div>
 </template>
 
 <script>
