@@ -122,7 +122,7 @@ for (const key in reqAndUrl) {
       config = {}
     ) {
       let queryData = data;
-      if (method == "post" && config) {
+      if (method == "post" && !config) {
         queryData = qs.stringify(data);
       }
       if (method == "get") {
