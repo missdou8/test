@@ -33,10 +33,8 @@ export default {
        *     2：审核未通过  （跳转登录页显示状态）
        * 2. false: 跳到登录页
        */
-      if (result.data.data.islogin == 1) {
-        if (userInfo.iscertification == 0) next({ path: "/match/index", replace: true });
-        else if(userInfo.iscertification == 1) next({ path: "/register", replace: true });
-        else next({ path: "/login", replace: true });
+      if (result.data.data.isLogin == 1) {
+        next({ path: "/match", replace: true });
       } else {
         next({ path: "/login", replace: true });
       }
