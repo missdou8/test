@@ -82,7 +82,7 @@ export default {
       this.$refs.createIntro.insertBefore(div, range.startContainer);
     },
     upload(file) {
-      return this.resource.uploadImg({ file: file }).then(res => {
+      return this.http.resource.uploadImg({ file: file }).then(res => {
         let data = res.data;
         return data.src[0];
       });

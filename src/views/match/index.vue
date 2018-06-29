@@ -152,7 +152,7 @@ export default {
     this.http.user.getUserInfo().then(res => {
       this.userInfo = res.data;
     });
-    // this.fetchList(1, 1);
+    this.fetchList(1, 1);
   },
   methods: {
     onLoad() {
@@ -162,15 +162,6 @@ export default {
           this.finished = true;
         }
       });
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
-        this.loading = false;
-        if (this.list.length >= 40) {
-          this.finished = true;
-        }
-      }, 500);
     },
     onRefresh() {
       this.fetchList(1).then(() => {
