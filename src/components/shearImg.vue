@@ -10,7 +10,7 @@ import AlloyCrop from "alloycrop";
 export default {
   data() {
     return {
-      imgUrl:''
+      imgUrl: ""
     };
   },
   /**
@@ -19,7 +19,7 @@ export default {
    * imgHeight  目的图片高
    */
   created() {
-    this.imgUrl = this.defImg
+    this.imgUrl = this.defImg;
   },
   props: ["imgWidth", "imgHeight", "defImg"],
   methods: {
@@ -49,12 +49,12 @@ export default {
               // canvas转为blob并上传
               canvas.toBlob(function(blob) {
                 //FormData对象
-                let fd = new FormData();
+                let formData = new FormData();
                 //FormData对象接受三个参数，第三个参数为文件名，
                 //通常我们只传前两个参数，第三个参数不传则使用默认文件名，这里使用的Blob对象，所以需要一个文件名，用时间戳代替。
-                fd.append("file", blob, Date.now() + ".jpg");
+                formData.append("icon", blob);
                 //在此处发送一个ajax请求
-                _this.$emit("imgAjax", fd.get("file"));
+                _this.$emit("imgAjax", formData);
               }, file.type || "image/png");
             },
             cancel: function() {
@@ -64,6 +64,15 @@ export default {
         };
         reader.readAsDataURL(file);
       };
+    },
+    // 将base64文件转换为bolb文件
+    getBlobBydataURI(dataURI, type) {
+      var binary = atob(dataURI.split(",")[1]);
+      var array = [];
+      for (var i = 0; i < binary.length; i++) {
+        array.push(binary.charCodeAt(i));
+      }
+      return new Blob([new Uint8Array(array)], { type: type });
     }
   }
 };

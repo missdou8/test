@@ -34,6 +34,10 @@ export default {
       });
     }
   },
+  created() {
+    //获取用户信息
+    this.getData(1, 1);
+  },
   methods: {
     getData() {
       return this.http[this.postModule]
@@ -60,17 +64,6 @@ export default {
           this.finished = true;
         else this.currentpage++;
       });
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
-        this.loading = false;
-        if (this.list.length >= 40) {
-          this.finished = true;
-        } else {
-          this.currentpage++;
-        }
-      }, 500);
     },
     onRefresh() {
       this.currentpage = 1;

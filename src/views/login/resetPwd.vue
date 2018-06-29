@@ -34,8 +34,7 @@ export default {
         return this.$toast("两次输入的密码应该一致！");
       }
       this.http.user
-        .resetPwd({
-          mobile: this.$route.query.id,
+        .resetPassword({
           newPassword: this.password,
           confirmPassword: this.rePassword
         })
@@ -43,10 +42,10 @@ export default {
           this.$dialog
             .alert({
               title: "嘀嗒比赛",
-              message: res.data.msg
+              message: res.msg
             })
             .then(() => {
-              this.$router.push({ path: "/resetPwd", replace: true });
+              this.$router.push({ path: "/login", replace: true });
             });
         });
     }

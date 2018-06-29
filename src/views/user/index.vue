@@ -15,12 +15,12 @@
       </van-cell>
     </van-cell-group>
     <van-cell-group class="user_edit_box">
-      <van-cell title="店铺名称" :value="userinfo.shopName" :is-link="true" :to="{ path: '/user/edit/shop', query: { shopName: userinfo.shopName||'你好' }}"></van-cell>
-      <van-cell title="店主名字" :value="userinfo.name" is-link :to="{ path: '/user/edit/name', query: { name: userinfo.name }}"></van-cell>
+      <van-cell title="店铺名称" :value="userinfo.shopName" :is-link="true" :to="{ path: '/user/edit/shop', query: { shopName: userinfo.shopName}}"></van-cell>
+      <van-cell title="店主名字" :value="userinfo.name" is-link :to="{ path: '/user/edit/name', query: { name: userinfo.name}}"></van-cell>
       <van-cell class="gray" title="实名认证" value="未认证，认证信息仅自己可见" :is-link="no_autonym" :to="autonym_url"></van-cell>
       <van-cell title="店铺座机" :value="userinfo.telephone" is-link :to="{ path: '/user/edit/plane', query: { plane: userinfo.telephone }}"></van-cell>
       <van-cell title="手机号码" :value="userinfo.mobile" is-link :to="{ path: '/user/edit/phone', query: { phone: userinfo.mobile}}"></van-cell>
-      <van-cell class="address" title="店铺地址" :value="userinfo.address" is-link :to="{ path: '/user/edit/address', query: { address: userinfo.address||'开封市',areaId:userinfo.areaId||'820201'}}"></van-cell>
+      <van-cell class="address" title="店铺地址" :value="userinfo.address" is-link :to="{ path: '/user/edit/address', query: { address: userinfo.address,areaId:userinfo.areaId}}"></van-cell>
     </van-cell-group>
     <van-cell-group class="user_footer">
       <van-cell title="修改密码" is-link to="/user/edit/Pwd"></van-cell>
@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     getUserInfo() {
-      this.http.user.registerInfo().then(res => {
+      this.http.user.getUserInfo().then(res => {
         this.userinfo = res.data;
         if (res.data.certification == 1) this.no_autonym = false;
         else this.autonym_url = "/user/edit/autonym";
@@ -77,9 +77,20 @@ export default {
     updataImg() {
       this.$refs.shear_img.updataImg();
     },
-    imgAjax(img) {
-      console.log(img);
-      console.log("发送请求吧");
+    imgAjax(formData) {
+      let config = {
+        headers: { "Content-Type": "multipart/form-data" }
+      };
+       this.http.user.setUserInfo(formData, "post", config).then(res => {
+          this.$dialog
+            .alert({
+              title: "嘀嗒比赛",
+              message: res.msg
+            })
+            .then(() => {
+              this.getUserInfo();
+            });
+        });
     }
   }
 };

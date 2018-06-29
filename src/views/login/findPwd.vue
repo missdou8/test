@@ -3,9 +3,8 @@
     <van-cell-group>
       <van-field v-model="phone" placeholder="请输入手机号" icon="clear" @click-icon="phone = ''"/>
       <van-field class="code_box" center v-model="imgCode" placeholder="请输入验证码" icon="clear" @click-icon="imgCode = ''">
-        <van-button id="code" slot="button" size="small">
-          <!-- <img class="img" src="/index.php/api/user/verify/imgCode?type=forget" alt="" srcset=""> -->
-          <img class="img" src="../../assets/code.png" alt="" srcset="">
+        <van-button id="code" slot="button" size="small" @click="codeImgClick">
+          <img class="img" ref="codeImg" src="/api/verify/imgCode?type=forget" alt="" srcset="">
         </van-button>
       </van-field>
       <van-field class="phone_box" center v-model="phoneCode" placeholder="请输入手机验证码" icon="clear" @click-icon="phoneCode = ''">
@@ -55,6 +54,7 @@ export default {
       }, 1000);
     },
     sendClick() {
+      if(this.phone=='') return this.$toast("请检查手机号是否正确");
       this.finish();
       this.http.verify
         .SMSCode({
@@ -63,12 +63,11 @@ export default {
         })
         .then(res => {
           //验证码发送成功时显示
-          this.ifSend = true;
-          this.time = 10;
+          this.$toast(res.msg)
         });
     },
     codeImgClick() {
-      this.$refs.codeImg.src = `/index.php/api/user/verify?type=forget&r=${Math.random()}`;
+      this.$refs.codeImg.src = `/api/verify/imgCode?r=${Math.random()}`;
     },
     goResetPwd() {
       this.http.user
@@ -78,12 +77,11 @@ export default {
           SMSCode: this.phoneCode
         })
         .then(res => {
-          this.$router.push({
-            path: "resetPwd",
-            query: {
-              mobile: this.phone
-            }
-          });
+          this.$router.push("resetPwd");
+        })
+        .catch(() => {
+          //重新获取二维码
+          this.codeImgClick();
         });
     }
   }

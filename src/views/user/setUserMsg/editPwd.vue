@@ -41,14 +41,14 @@ export default {
       this.http.user
         .changePassword({
           oldPassword: this.oldPassword,
-          newPassword: this.password,
+          newPassword: this.newPassword,
           confirmPassword: this.rePassword
         })
         .then(res => {
           this.$dialog
             .alert({
               title: "嘀嗒比赛",
-              message: res.data.msg
+              message: res.msg
             })
             .then(() => {
               this.$router.push({ path: "/login", replace: true });
