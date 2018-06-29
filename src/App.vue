@@ -15,7 +15,8 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     let currentPath = to.path;
-    if ( //设置不需要检测登录的页面
+    if (
+      //设置不需要检测登录的页面
       currentPath == "/registerTips" ||
       currentPath == "/register" ||
       currentPath == "/login"
@@ -34,7 +35,7 @@ export default {
        * 2. false: 跳到登录页
        */
       if (result.data.data.isLogin == 1) {
-        next({ path: "/match", replace: true });
+        next();
       } else {
         next({ path: "/login", replace: true });
       }
