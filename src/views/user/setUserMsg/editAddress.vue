@@ -44,11 +44,10 @@ export default {
     //获取传输数据
     this.address = this.$route.query.address;
     this.areaId = this.$route.query.areaId;
+    
   },
   mounted() {
-    //获取van-area的value值
-    let _value = this.$refs.van_area.getValues();
-    this.onConfirm(_value);
+    if(this.areaId=='') this.areaMsg = '请选择 请选择 请选择'
   },
   components: {
     didaLocation,
