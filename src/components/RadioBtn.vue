@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="btn" :class="{active: index== select, default: index!==select}" v-for="(item,index) in data" :id="item.id" @click="radioClick(item.id, index)">{{item.value}}</button>
+    <button class="btn" :class="{active: index== select, default: index!==select}" v-for="(item,index) in data" :id="item.id" @click="radioClick(item, index)">{{item.value}}</button>
   </div>
 </template>
 
@@ -13,9 +13,9 @@ export default {
     };
   },
   methods: {
-    radioClick(id, index) {
+    radioClick(data, index) {
       this.select = index;
-      this.$emit("select", id);
+      this.$emit("select", data);
     }
   }
 };
@@ -24,8 +24,7 @@ export default {
 <style scoped>
 .btn {
   margin-right: 0.25rem;
-  padding: 0.15rem 0;
-  width: 1.75rem;
+  padding: 0.15rem 0.5rem;
 }
 .active {
   background-color: #fcc600;
