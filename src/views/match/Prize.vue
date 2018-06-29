@@ -12,8 +12,8 @@
       </van-uploader>
     </div>
     <div class="rank">
-      <div class="prize_info" v-for="(item,index) in 3">
-        <p class="prize_rank">名次</p>
+      <div class="prize_info" v-for="(item,index) in rankList">
+        <p class="prize_rank">第{{item.value}}名</p>
         <input class="prize_prize" type="text" placeholder="点击输入奖品名称，没有则不填" @blur="prizeInput(index,$event)">
         <div class="prize_value_content">
           <input class="prize_value" type="text" @blur="valueInput(index, $event)">
@@ -69,11 +69,13 @@ export default {
   },
   computed: {
     totalPrize() {
-      if (!this.rankPrize) {
-        return this.rankPrize.reduce((total, item) => {
-          return total.price + item.price;
-        });
-      }
+      let total = 0;
+      this.rankPrize.forEach(item => {
+        if (item.prize) {
+          total += Number(item.prize);
+        }
+      });
+      return total;
     }
   },
   created() {
@@ -92,15 +94,18 @@ export default {
     }
     this.http.match
       .prizesList({
-        gameId: this.$store.state.match.id,
-        playerCount: this.$store.state.match.attendPerson
+        templateId: this.$store.state.match.attendPerson
       })
       .then(res => {
         let data = res.data;
-        this.rankList = data.prizesList.map(item => {
+        this.rankList = data.prizesList.map((item, index) => {
           let rankItem = item.rank.split(",").join("-");
+          this.rankPrize[index] = {};
           this.rankPrize[index].rank = rankItem;
-          return rankItem;
+          return {
+            id: item.index,
+            value: rankItem
+          };
         });
       });
   },
@@ -123,10 +128,13 @@ export default {
     },
     valueInput(index, evt) {
       let dom = evt.target;
-      this.rankPrize[index].price = dom.value;
+      // this.rankPrize[index].price = dom.value;
+      let obj = this.rankPrize[index];
+      obj.prize = dom.value;
+      this.$set(this.rankPrize, index, obj);
     },
-    typeSelect(id) {
-      if (id == 1) {
+    typeSelect(data) {
+      if (data.id == 1) {
         return (this.addressShow = true);
       }
       this.addressShow = false;

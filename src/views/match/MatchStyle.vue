@@ -1,31 +1,31 @@
 <template>
   <div class="style">
     <van-cell-group>
-      <van-cell title="请选择游戏名称" value="未选择" is-link @click="gameSelect" />
-      <van-cell title="请选择比赛时间" value="未选择" is-link @click="timeSelect" />
-      <van-collapse v-model="activeNames" :accordion="true">
+      <van-cell title="请选择游戏名称" :value="selectGame.name" is-link @click="gameSelect" />
+      <van-cell title="请选择比赛时间" :value="selectTime" is-link @click="timeSelect" />
+      <van-collapse v-model="activeNames" :accordion="true" @change="personShow">
         <van-collapse-item name="1">
           <div slot="title" class="personGame">
             <span>请预估比赛人数</span>
-            <span>{{selectPerson}}</span>
+            <span>{{selectPerson.value}}</span>
           </div>
           <radio-btn :data="personList" @select="selectPersonClick"></radio-btn>
         </van-collapse-item>
         <van-collapse-item name="2">
           <div slot="title" class="personGame">
             <span>请选择报名类型</span>
-            <span>{{attendStyle[radio-1].valueSimple || attendStyle[radio-1].value}}</span>
+            <span>{{selectAttendType}}</span>
           </div>
-          <radio-btn :data="personList" @select="selectPersonClick"></radio-btn>
+          <radio-btn :data="attendStyle" @select="attendStyleClick"></radio-btn>
         </van-collapse-item>
       </van-collapse>
       <van-cell title="请填写奖品信息" value="未选择" is-link @click="toPrize" />
     </van-cell-group>
     <van-popup v-model="gameShow" position="bottom">
-      <van-picker :columns="columns" show-toolbar @confirm="gameShow = false" @cancel="gameShow = false" />
+      <van-picker :columns="gameList" show-toolbar @confirm="gameConfirm" @cancel="gameShow = false" />
     </van-popup>
     <van-popup v-model="timeShow" position="bottom">
-      <van-datetime-picker v-model="currentDate" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="timeShow = false" @cancel="timeShow = false" />
+      <van-datetime-picker v-model="currentDate" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="timeConfirm" @cancel="timeShow = false" />
     </van-popup>
     <div class="footer">
       <button>保存</button>
@@ -48,11 +48,12 @@ export default {
       gameShow: false,
       timeShow: false,
       keyList: [5, 6],
-      gameList: ["石家庄麻将", "保定麻将"],
+      gameList: [],
       allGameList: [],
-      selectGame: {},
-      selectTime: "",
-      selectPerson: 0,
+      selectGame: { id: 0, name: "未选择" },
+      selectTime: "未选择",
+      selectPerson: { id: 0, value: "未选择" },
+      selectAttendType: "未选择",
       minHour: 10,
       maxHour: 20,
       minDate: new Date(),
@@ -61,35 +62,19 @@ export default {
       activeNames: ["1"],
       attendStyle: [
         {
-          name: 1,
+          id: 1,
           value: "免费赛"
         },
         {
-          name: 2,
-          value: "邀请赛(用户需输入您分享的邀请码才能参赛)",
-          valueSimple: "邀请赛"
+          id: 2,
+          value: "邀请赛"
         }
       ],
-      personList: [
-        {
-          id: 9,
-          value: "9人",
-          name: "person",
-          content: "根据比赛报名的情况，这里有很多人"
-        },
-        {
-          id: 10,
-          value: "10人",
-          name: "person",
-          content: "根据报名情况，这里情势很危急"
-        }
-      ],
-      radio: 1
+      personList: []
     };
   },
   created() {
     this.fetchGameList();
-    this.fetchPersonStyle();
   },
   methods: {
     gameSelect() {
@@ -99,7 +84,24 @@ export default {
       this.timeShow = true;
     },
     toPrize() {
+      if (this.selectPerson.id === 0) {
+        return this.$toast("请先选择人数");
+      }
       this.$router.push("style/prize");
+    },
+    personShow(activeNames) {
+      if (activeNames == 1) {
+        if (this.selectGame.id == 0) {
+          this.personList = [
+            {
+              id: 0,
+              value: "0人"
+            }
+          ];
+          return this.$toast("请选择游戏");
+        }
+        this.fetchPersonStyle();
+      }
     },
     //获取游戏列表
     fetchGameList() {
@@ -107,23 +109,26 @@ export default {
         let data = res.data;
         this.allGameList = data.gameList;
         this.gameList = this.allGameList.map(item => {
-          return item.title;
+          return item.name;
         });
       });
     },
     //获取比赛人数
     fetchPersonStyle() {
-      this.http.match.playerCountList().then(res => {
-        let data = res.data;
-        this.personList = data.playerCountList.map(item => {
-          return {
-            id: item,
-            value: itme + "人",
-            name: "person",
-            content: `请根据您实际的客户量来选择，预估人数仅为保守估计，当实际参赛人数大于${item}人时比赛才能正常开赛，小于${item}人时比赛自动取消`
-          };
+      this.http.match
+        .playerCountList({
+          gameId: this.selectGame.id
+        })
+        .then(res => {
+          let data = res.data;
+          this.personList = data.playerCountList.map(item => {
+            return {
+              id: item.templateId,
+              value: item.title
+            };
+          });
+          console.log(this.personList);
         });
-      });
     },
     gameConfirm(value, index) {
       this.gameShow = false;
@@ -138,11 +143,14 @@ export default {
       );
     },
     selectPersonClick(data) {
-      this.selectPerson = data.value;
-      this.$store.commit("setAttendPerson", data.id);
+      if (data.id == 0) {
+        return this.$toast("请选择游戏");
+      }
+      this.selectPerson = data;
+      this.$store.commit("setAttendPerson", this.selectPerson.id);
     },
-    attendStyleClick() {
-      console.log(this.radio);
+    attendStyleClick(data) {
+      this.selectAttendType = data.value;
     }
   }
 };

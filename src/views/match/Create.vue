@@ -10,7 +10,10 @@
       <img class="cover-img" :src="coverImg" v-show="!addShow" alt="封面图片">
     </van-uploader>
     <div class="create_content">
-      <h1 contenteditable="true" ref="matchTitle" @input="titleInput" @focus="focus(titlePlace, $event)" @blur="blur(titlePlace,$event)">{{titlePlace}}</h1>
+      <div class="title">
+        <span class="title_name">标题</span>
+        <span contenteditable="true" ref="matchTitle">{{titlePlace}}</span>
+      </div>
       <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" @keyup.enter="nextLine" ref="createIntro">{{contentPlace}}</div>
     </div>
     <van-uploader v-show="appendShow" class="append" :after-read="append">
@@ -31,36 +34,43 @@ export default {
       appendShow: false
     };
   },
-  mounted() {
-    this.$refs.matchTitle.focus();
-  },
+  mounted() {},
   methods: {
     onRead(file) {
-      console.log(file);
       this.upload(file).then(src => {
         this.coverImg = src;
         this.addShow = false;
       });
     },
-    titleInput(evt) {
-      let value = evt.target.innerHTML;
-      if (value === "添加比赛名称") {
-      }
-    },
-    focus(val, evt) {},
     contentFocus() {
       this.appendShow = true;
     },
     contentBlur() {
       this.appendShow = false;
     },
-    blur(val, evt) {},
     nextLine() {},
     nextClick() {
+      // 获取标题和内容的dom节点
       let containDom = this.$refs.createIntro;
       let titleDom = this.$refs.matchTitle;
-      this.$store.commit("setTitle", titleDom.innerHTML);
-      this.$store.commit("setDetail", containDom.innerHTML);
+
+      //标题和内容
+      let title = titleDom.innerHTML;
+      let content = containDom.innerHTML;
+
+      //TODO: 提示是否有更好的方法
+      //判断是否可以跳转，单独提示
+      if (!this.coverImg) {
+        return this.$toast("需要添加赛事封面");
+      }
+      if (title == "添加比赛名称" || !title) {
+        return this.$toast("需要填写赛事名称");
+      }
+      if (!content || content == "请添加图文介绍") {
+        return this.$toast("需要填写赛事详情");
+      }
+      this.$store.commit("setTitle", title);
+      this.$store.commit("setDetail", content);
       this.$router.push("style");
     },
     append(file) {
@@ -92,7 +102,6 @@ export default {
         .uploadImg(formData, "post", config)
         .then(res => {
           let data = res.data;
-          console.log(data);
           return data.src[0];
         });
     }
@@ -147,7 +156,7 @@ img {
 }
 
 .create_content_intro:focus,
-.create_content h1:focus {
+.create_content span:focus {
   outline: none;
 }
 .append {
@@ -179,6 +188,17 @@ img {
   height: 0.39rem;
   width: 0.49rem;
   margin-right: 0.1rem;
+}
+
+.title {
+  border-top: 0.025rem solid #f5f5f5;
+  border-bottom: 0.025rem solid #f5f5f5;
+  padding: 0.2rem;
+}
+.title_name {
+  color: #000;
+  font-size: 0.32rem;
+  margin-right: 0.2rem;
 }
 </style>
 
