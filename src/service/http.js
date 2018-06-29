@@ -10,7 +10,7 @@ import prizes from "./prizes.js";
 /**
  * 常量
  */
-const hostname = "/index.php/api/";
+const hostname = "/api/";
 
 const reqAndUrl = Object.assign(match, user, publicHttp,prizes);
 

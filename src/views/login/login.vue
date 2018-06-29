@@ -5,13 +5,11 @@
         <van-field v-model="password" type="password" placeholder="请输入密码" icon="clear" @click-icon="password = ''"/>
         <van-field class="code_box" center v-model="code" placeholder="请输入验证码" icon="clear" @click-icon="code = ''">
           <van-button id="code" slot="button" size="small"  @click="codeImgClick">
-            <!-- <img class="img" src="/index.php/api/user/verify/imgCode?type=forget" alt="" srcset=""> -->
-            <img class="img" src="../../assets/code.png" alt="" srcset="">
+            <img class="img" ref="codeImg" src="/api/verify/imgCode?type=forget" alt="" srcset="">
           </van-button>
         </van-field>
       </van-cell-group>
       <div class="btn_box">
-        <p class="new_user_dec">您的注册申请未通过</p>
         <p class="btn_box_dec">
           <span>登录即视为你同意我们的</span> 
           <router-link to="/registerTips">《用户使用协议》</router-link>
@@ -47,7 +45,7 @@ export default {
   },
   methods: {
     codeImgClick() {
-      this.$refs.codeImg.src = `/index.php/api/user/verify?type=forget&r=${Math.random()}`;
+      this.$refs.codeImg.src = `/api/verify/imgCode?r=${Math.random()}`;
     },
     goRegister() {
       this.$router.push("/register");
@@ -55,24 +53,17 @@ export default {
     Login() {
       this.http.user
         .login({
-          mobile: this.tel,
-          password: this.pwd,
+          mobile: this.phone,
+          password: this.password,
           imgCode: this.code
         })
         .then(res => {
-          if (res.data.auditStatus == 1) {
-            //登录成功的时候直接跳转首页
-            this.$router.push("match");
-          } else {
-            //审核或者审核未通过
-            this.$router.push({
-              path: "/register",
-              query: { id: res.data.id }
-            });
-          }
+          //登录成功的时候直接跳转首页
+          this.$router.push("match");
         })
         .catch(() => {
-          this.$refs.codeImg.src = `/index.php/api/user/verify?type=forget&r=${Math.random()}`;
+          //重新获取二维码
+          this.codeImgClick()
         });
     }
   }

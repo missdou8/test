@@ -13,9 +13,7 @@
         <van-field v-model="rePassword" type="password" placeholder="请再次输入您的密码" icon="clear" @click-icon="rePassword = ''" :disabled="ispass"/>
       </van-cell-group>
       <div class="btn_box">
-        <!-- <h3 v-if="noPass" class="title_dec">您的审核未通过请修改信息重新提交</h3> -->
-        <h3 class="title_dec">您的审核未通过请修改信息重新提交</h3>
-        <van-button :disabled="btnEnable||ispass" class="reg_btn" size="large" @click="register()">申请</van-button>
+        <van-button :disabled="btnEnable" class="reg_btn" size="large" @click="register()">申请</van-button>
       </div>
   </div>
 </template>
@@ -31,8 +29,6 @@ export default {
       rePassword: "",
       ifSend: true,
       time: 10,
-      ispass: false, // 是否处于审核状态
-      noPass: false // 审核未通过标识
     };
   },
   computed: {
@@ -50,30 +46,6 @@ export default {
     }
   },
   components: {},
-  created() {
-    //检测是否存在userid
-    if (this.$route.query.id) {
-      this.http.user
-        .registerInfo({
-          id: this.$route.query.id
-        })
-        .then(res => {
-          //验证码发送成功时显示
-          this.name = res.data.name;
-          this.phone = res.data.mobile;
-          if (res.data.auditStatus == 0) {
-            this.code = "****";
-            this.password = "********";
-            this.rePassword = "********";
-            this.ispass = true;
-          } else {
-            this.noPass = true;
-          }
-        });
-    } else {
-      this.ispass = false;
-    }
-  },
   methods: {
     register() {
       if (this.password !== this.rePassword)
@@ -112,6 +84,7 @@ export default {
       }, 1000);
     },
     sendClick() {
+      if(this.phone=='') return this.$toast("请检查手机号是否正确");
       this.finish();
       this.http.verify
         .SMSCode({
@@ -119,9 +92,7 @@ export default {
           r: Math.random()
         })
         .then(res => {
-          //验证码发送成功时显示
-          this.ifSend = true;
-          this.time = 10;
+          this.$toast(res.msg)
         });
     }
   }

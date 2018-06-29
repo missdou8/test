@@ -13,35 +13,35 @@ export default {
       transitionName: "fade"
     };
   },
-  // beforeRouteEnter(to, from, next) {
-  //   let currentPath = to.path;
-  //   if ( //设置不需要检测登录的页面
-  //     currentPath == "/registerTips" ||
-  //     currentPath == "/register" ||
-  //     currentPath == "/login"
-  //   ) {
-  //     return next();
-  //   }
-  //   //检测用户登录状态与用户权限
-  //   let userInfo = localStorage.getItem("userInfo");
-  //   axios.post("/index.php/api/user/checkLogin").then(result => {
-  //     /**
-  //      * 判断是否登录
-  //      * 1. true: 判断是否认证
-  //      *     0: 审核通过    （跳转首页）
-  //      *     1: 审核中      （跳转审核页）
-  //      *     2：审核未通过  （跳转登录页显示状态）
-  //      * 2. false: 跳到登录页
-  //      */
-  //     if (result.data.data.islogin == 1) {
-  //       if (userInfo.iscertification == 0) next({ path: "/match/index", replace: true });
-  //       else if(userInfo.iscertification == 1) next({ path: "/register", replace: true });
-  //       else next({ path: "/login", replace: true });
-  //     } else {
-  //       next({ path: "/login", replace: true });
-  //     }
-  //   });
-  // },
+  beforeRouteEnter(to, from, next) {
+    let currentPath = to.path;
+    if ( //设置不需要检测登录的页面
+      currentPath == "/registerTips" ||
+      currentPath == "/register" ||
+      currentPath == "/login"
+    ) {
+      return next();
+    }
+    //检测用户登录状态与用户权限
+    let userInfo = localStorage.getItem("userInfo");
+    axios.post("/api/user/checkLogin").then(result => {
+      /**
+       * 判断是否登录
+       * 1. true: 判断是否认证
+       *     0: 审核通过    （跳转首页）
+       *     1: 审核中      （跳转审核页）
+       *     2：审核未通过  （跳转登录页显示状态）
+       * 2. false: 跳到登录页
+       */
+      if (result.data.data.islogin == 1) {
+        if (userInfo.iscertification == 0) next({ path: "/match/index", replace: true });
+        else if(userInfo.iscertification == 1) next({ path: "/register", replace: true });
+        else next({ path: "/login", replace: true });
+      } else {
+        next({ path: "/login", replace: true });
+      }
+    });
+  },
   // 基于路线变化的动态设置路由切换动画
   watch: {
     $route(to, from) {
