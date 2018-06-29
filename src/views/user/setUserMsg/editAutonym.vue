@@ -16,28 +16,29 @@
     <van-cell-group>
       <van-row class="row">
         <van-col span="12">
-          <h3>手持身份证正面照</h3>
-          <div class="img_box" :class="{ 'img_box__err': userinfo.certification==2}" @click="setImg($event,'frontPic')">
-            <!-- <img :src="userinfo.idCardImgs[0]" alt=""> -->
-            <img src="" alt="">
-          </div>
+          <van-uploader class="uploader" :after-read="onFrontPic">
+            <h3>手持身份证正面照</h3>
+            <div class="img_box" :class="{ 'img_box__err': userinfo.certification==2}">
+              <img ref="frontPic" :src="imgBox.frontPic" alt="">
+            </div>
+          </van-uploader>
         </van-col>
         <van-col span="12">
-          <h3>手持身份证反面照</h3>
-          <div class="img_box" :class="{ 'img_box__err': userinfo.certification==2}" @click="setImg($event,'backPic')">
-            <!-- <img :src="userinfo.idCardImgs[1]" alt=""> -->
-            <img src="" alt="">
-          </div>
+          <van-uploader class="uploader" :after-read="onBackPic">
+            <h3>手持身份证反面照</h3>
+            <div class="img_box" :class="{ 'img_box__err': userinfo.certification==2}">
+              <img ref="backPic" :src="imgBox.backPic" alt="">
+            </div>
+          </van-uploader>
         </van-col>
       </van-row>
-      <input id="file" ref="file" type="file" name="photo" accept="image/gif, image/jpeg, image/png">
     </van-cell-group>
     <div class="autonym_bottom">
       <p class="autonym_dec">
         <span>提交认证代表你已同意 </span>
         <router-link to="/user/edit/autonym/tips">《实名认证协议》</router-link>
       </p>
-      <van-button :disabled="btnEnable||noImg" class="autonym_btn" size="large" @click="Autonym()">{{userinfo.certification==0?'审核中':'提交'}}</van-button>
+      <van-button :disabled="btnEnable" class="autonym_btn" size="large" @click="Autonym()">{{userinfo.certification==0?'审核中':'提交'}}</van-button>
     </div>
   </div>
 </template>
@@ -50,7 +51,7 @@ export default {
       IDcard: "",
       imgBox: {},
       userinfo: {},
-      noImg: true //是否上传图片 true没有上传图片 false上传图片
+      reqData: null
     };
   },
   computed: {
@@ -63,35 +64,31 @@ export default {
     this.getCertification();
   },
   methods: {
+    onFrontPic(file) {
+      this.upload(file, "frontPic");
+    },
+    onBackPic(file) {
+      this.upload(file, "backPic");
+    },
     getCertification() {
       this.http.user.getCertification().then(res => {
         // 实名认证状态 4 未提交 0审核中 1审核通过 2 审核未通过
         this.userinfo = res.data;
-        // if (res.data.certification == 0){
-        //   this.btnTxt = '审核中...'
-        // }else if(res.data.certification == 1){
-        //   this.autonym = false
+        // if (res.data.certification == 0) {
+        //   this.btnTxt = "审核中...";
+        // } else if (res.data.certification == 1) {
+        //   this.autonym = false;
         // }
       });
     },
-    setImg(event, type) {
-      let ele = event.target.lastChild || event.target;
-      //获取到点击图片的元素
-      this.$refs.file.click();
-      //当 file改变值得时候设置图片
-      this.$refs.file.onchange = () => {
-        ele.setAttribute("src", URL.createObjectURL(this.$refs.file.files[0]));
-        //处理上传图片信息
-        let form = new FormData();
-        let img = this.$refs.file.files[0];
-        form.append("file", img, img.name);
-        this.imgBox[type] = form.get("file");
-        //进行图片验证
-        if (Object.keys(this.imgBox).length == 2) this.noImg = false;
-        else this.noImg = true;
-      };
-    },
     Autonym() {
+      if (
+        this.imgBox.frontPic &&
+        this.imgBox.backPic &&
+        this.IDcard == "" &&
+        this.name == ""
+      )
+        return this.$toast("信息不能为空");
       //上传的图片【使用FormData上传】
       this.http.user
         .certification({
@@ -104,12 +101,24 @@ export default {
           this.$dialog
             .alert({
               title: "嘀嗒比赛",
-              message: res.data.msg
+              message: res.msg
             })
             .then(() => {
               this.$router.push({ path: "/user/index" });
             });
         });
+    },
+    upload(file, type) {
+      let config = {
+        headers: { "Content-Type": "multipart/form-data" }
+      };
+      let formData = new FormData();
+      formData.append("file", file.file);
+      this.http.resource.uploadImg(formData, "post", config).then(res => {
+        let data = res.data.src[0];
+        this.imgBox[type] = data;
+        this.$refs[type].src = data;
+      });
     }
   }
 };
@@ -237,6 +246,10 @@ export default {
 }
 .autonym_btn.van-button--disabled {
   opacity: 0.6;
+}
+.uploader {
+  width: 100%;
+  height: 100%;
 }
 </style>
 <style>

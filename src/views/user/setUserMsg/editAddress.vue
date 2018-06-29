@@ -44,10 +44,14 @@ export default {
     //获取传输数据
     this.address = this.$route.query.address;
     this.areaId = this.$route.query.areaId;
-    
+    this.areaMsg = this.$route.query.regionName;
   },
   mounted() {
-    if(this.areaId=='') this.areaMsg = '请选择 请选择 请选择'
+    if(this.areaId=='') this.areaMsg = '请选择 请选择 请选择';
+    else{
+      let _value = this.$refs.van_area.getValues();
+      this.onConfirm(_value);
+    }
   },
   components: {
     didaLocation,
@@ -86,9 +90,9 @@ export default {
     setUserShop() {
       console.log(this.areaVal);
       //重点一定要让用户定位成功才可以
-      if (this.longitude == null || this.latitude == null) {
-        return this.$toast("请您重新定位");
-      } else {
+      // if (this.longitude == null || this.latitude == null) {
+      //   return this.$toast("请您重新定位");
+      // } else {
         this.http.user
           .setUserShop({
             address: this.address,
@@ -96,19 +100,20 @@ export default {
             longitude: this.longitude,
             provinceId: this.areaVal[0].code,
             cityId: this.areaVal[1].code,
-            areaId: this.areaVal[2].code
+            areaId: this.areaVal[2].code,
+            regionName: this.areaMsg
           })
           .then(res => {
             this.$dialog
               .alert({
                 title: "嘀嗒比赛",
-                message: res.data.msg
+                message: res.msg
               })
               .then(() => {
                 this.$router.push({ path: "/user/index" });
               });
           });
-      }
+      // }
     }
   }
 };

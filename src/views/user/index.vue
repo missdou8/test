@@ -78,10 +78,11 @@ export default {
       this.$refs.shear_img.updataImg();
     },
     imgAjax(formData) {
+      console.log(formData)
       let config = {
         headers: { "Content-Type": "multipart/form-data" }
       };
-       this.http.user.setUserInfo(formData, "post", config).then(res => {
+       this.http.resource.uploadImg(formData, "post", config).then(res => {
           this.$dialog
             .alert({
               title: "嘀嗒比赛",

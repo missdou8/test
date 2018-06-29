@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     onRead(file) {
-      console.log(file);
+      // console.log(file);
       this.upload(file).then(src => {
         this.coverImg = src;
         this.addShow = false;
@@ -88,6 +88,7 @@ export default {
       }; //
       let formData = new FormData();
       formData.append("file", file.file);
+      console.log(formData)
       return this.http.resource
         .uploadImg(formData, "post", config)
         .then(res => {
