@@ -16,6 +16,7 @@
     <van-uploader v-show="appendShow" class="append" :after-read="append">
       <img src="../../assets/img_add.png" alt="添加图片">
     </van-uploader>
+    <input type="file" @change="jjj">
     <van-button @click="nextClick" class="next">下一步</van-button>
   </div>
 </template>
@@ -35,7 +36,27 @@ export default {
     this.$refs.matchTitle.focus();
   },
   methods: {
+    jjj(evt) {
+      let d = evt.target;
+
+      var formData = new FormData();
+      var request = new XMLHttpRequest();
+      formData.append("file", d.files[0]);
+      // for (var i = 0, len = files.length; i < len; i++) {
+      //   formData.append("userUploadFile", files[i]);
+      // }
+
+      request.open("POST", "/api/resource/uploadImg");
+      request.send(formData);
+
+      request.onload = function(event) {
+        var oResponse = JSON.parse(event.target.response);
+        console.log(oResponse);
+        // do something
+      };
+    },
     onRead(file) {
+      console.log(file);
       this.upload(file).then(src => {
         this.coverImg = src;
         this.addShow = false;
@@ -82,10 +103,17 @@ export default {
       this.$refs.createIntro.insertBefore(div, range.startContainer);
     },
     upload(file) {
-      return this.http.resource.uploadImg({ file: file }).then(res => {
-        let data = res.data;
-        return data.src[0];
-      });
+      let config = {
+        headers: { "Content-Type": "multipart/form-data" }
+      }; //
+      let formData = new FormData();
+      formData.append("file", file.file);
+      return this.http.resource
+        .uploadImg(formData, "post", config)
+        .then(res => {
+          let data = res.data;
+          return data.src[0];
+        });
     }
   }
 };

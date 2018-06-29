@@ -116,15 +116,24 @@ for (const key in reqAndUrl) {
       reqURL = url[0];
       trueURL = url[1];
     }
-    ApiService.prototype[key][reqURL] = function(data, method = "post") {
-      return axios[method](
-        hostname + key + "/" + trueURL,
-        method == "post"
-          ? qs.stringify(data)
-          : {
-              params: data
-            }
-      )
+    ApiService.prototype[key][reqURL] = function(
+      data,
+      method = "post",
+      config = {}
+    ) {
+      let queryData = data;
+      if (
+        method == "post" &&
+        config.headers["Content-Type"] != "multipart/form-data"
+      ) {
+        queryData = qs.stringify(data);
+      }
+      if (method == "get") {
+        queryData = {
+          params: data
+        };
+      }
+      return axios[method](hostname + key + "/" + trueURL, queryData, config)
         .then(res => {
           return res.data;
         })
