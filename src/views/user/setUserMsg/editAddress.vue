@@ -101,7 +101,7 @@ export default {
             provinceId: this.areaVal[0].code,
             cityId: this.areaVal[1].code,
             areaId: this.areaVal[2].code,
-            regionName: this.areaMsg
+            regionName: this.areaMsg.replace(/\s+/g, "")
           })
           .then(res => {
             this.$dialog
