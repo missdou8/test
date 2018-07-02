@@ -24,7 +24,8 @@ export default {
   },
   props: ["imgWidth", "imgHeight", "defImg"],
   methods: {
-    getImgUrl(file){
+    getImgUrl(file) {
+      console.log(file.file);
       let _this = this;
       //对图片进行裁剪
       new AlloyCrop({
@@ -36,17 +37,20 @@ export default {
         ok_text: "剪切",
         cancel_text: "取消",
         ok: function(base64, canvas) {
-           _this.imgUrl = base64;
-          // canvas转为blob并上传
-          canvas.toBlob(function(blob) {
-            //FormData对象
-            let formData = new FormData();
-            //FormData对象接受三个参数，第三个参数为文件名，
-            //通常我们只传前两个参数，第三个参数不传则使用默认文件名，这里使用的Blob对象，所以需要一个文件名，用时间戳代替。
-            formData.append("icon", blob);
-            //在此处发送一个ajax请求
-            _this.$emit("imgAjax", formData);
-          }, file.type || "image/png");
+          _this.imgUrl = base64;
+          // 将base64文件转换为bolb文件
+          let formData = new FormData();
+          let blob = _this.convertBase64UrlToBlob(base64, "image/png");
+          formData.append("icon", blob);
+          //在此处发送一个ajax请求
+          let config = {
+            headers: { "Content-Type": "multipart/form-data" }
+          };
+          _this.http.resource.uploadImg(formData, "post", config).then(res => {
+              let data = res.data.src[0];
+              //将后端生成的图片路径抛出
+              _this.$emit("getImgUrl", data);
+          });
         },
         cancel: function() {
           console.log("取消剪裁");
@@ -54,7 +58,7 @@ export default {
       });
     },
     // 将base64文件转换为bolb文件
-    getBlobBydataURI(dataURI, type) {
+    convertBase64UrlToBlob(dataURI, type) {
       var binary = atob(dataURI.split(",")[1]);
       var array = [];
       for (var i = 0; i < binary.length; i++) {
@@ -66,16 +70,17 @@ export default {
 };
 </script>
 <style scoped>
-#shearImg,.uploader{
+#shearImg,
+.uploader {
   width: 100%;
   height: 100%;
 }
-.uploader{
+.uploader {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-#shearImg .uploader img{
+#shearImg .uploader img {
   max-width: 100%;
   max-height: 100%;
   border-radius: 50%;

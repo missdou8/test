@@ -3,7 +3,7 @@
     <van-cell-group>
       <van-cell class="user_box">
         <div class="user_img_box">
-          <shear-img ref="shear_img" :def-img="imgUrl" :img-width="300" :img-height="300" @imgAjax='imgAjax($event)'></shear-img>
+          <shear-img ref="shear_img" :def-img="imgUrl" :img-width="300" :img-height="300" @getImgUrl='getImgUrl($event)'></shear-img>
         </div>
         <div class="user_msg">
           <h3>点击修改头像</h3>
@@ -76,21 +76,8 @@ export default {
     // updataImg() {
     //   this.$refs.shear_img.updataImg();
     // },
-    imgAjax(formData) {
-      console.log(formData)
-      let config = {
-        headers: { "Content-Type": "multipart/form-data" }
-      };
-      //  this.http.resource.uploadImg(formData, "post", config).then(res => {
-      //     this.$dialog
-      //       .alert({
-      //         title: "嘀嗒比赛",
-      //         message: res.msg
-      //       })
-      //       .then(() => {
-      //         this.getUserInfo();
-      //       });
-      //   });
+    getImgUrl(imgUrl) {
+      this.imgUrl = imgUrl;
     }
   }
 };
