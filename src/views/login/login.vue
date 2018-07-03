@@ -1,9 +1,9 @@
 <template>
   <div class="login">
       <van-cell-group>
-        <van-field v-model="phone" placeholder="请输入手机号" icon="clear" @click-icon="phone = ''"/>
-        <van-field v-model="password" type="password" placeholder="请输入密码" icon="clear" @click-icon="password = ''"/>
-        <van-field class="code_box" center v-model="code" placeholder="请输入验证码" icon="clear" @click-icon="code = ''">
+        <van-field v-model="phone" placeholder="请输入手机号"/>
+        <van-field v-model="password" type="password" placeholder="请输入密码"/>
+        <van-field class="code_box" center v-model="code" placeholder="请输入验证码">
           <van-button id="code" slot="button" size="small"  @click="codeImgClick">
             <img class="img" ref="codeImg" src="/api/verify/imgCode?type=forget" alt="" srcset="">
           </van-button>
@@ -197,9 +197,9 @@ export default {
 .login .van-field__button {
   height: 0.95rem;
 }
-.login .code_box .van-cell__value {
+/* .login .code_box .van-cell__value {
   margin-top: 0.2rem;
-}
+} */
 .login .van-checkbox__label {
   margin-left: 0.1rem;
 }

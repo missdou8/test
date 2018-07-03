@@ -57,14 +57,21 @@ export default {
         }
       });
     },
-    // 将base64文件转换为bolb文件
-    convertBase64UrlToBlob(dataURI, type) {
-      var binary = atob(dataURI.split(",")[1]);
-      var array = [];
-      for (var i = 0; i < binary.length; i++) {
-        array.push(binary.charCodeAt(i));
+    /**
+     * base64转文件流
+     * @param {base64} //base64数据 
+     * @param {string} //format格式
+     * @return {file}  文件blob
+     */
+    convertBase64UrlToBlob(base64, mimeType){
+      let bytes = window.atob(base64.split(',')[1])
+      let ab = new ArrayBuffer(bytes.length)
+      let ia = new Uint8Array(ab)
+      for (let i = 0; i < bytes.length; i++) {
+        ia[i] = bytes.charCodeAt(i)
       }
-      return new Blob([new Uint8Array(array)], { type: type });
+      let _blob = new Blob([ab], { type: mimeType })
+      return _blob
     }
   }
 };
