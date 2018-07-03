@@ -75,7 +75,6 @@ export default {
       if (!content || content == "请添加图文介绍") {
         return this.$toast("需要填写赛事详情");
       }
-      this.$store.commit("setTitle", title);
       this.$store.commit("setDetail", {
         title: title,
         content: content,

@@ -57,7 +57,7 @@ export default {
     nextClick() {
       let containDom = this.$refs.createIntro;
       let titleDom = this.$refs.matchTitle;
-      this.$store.commit("setTitle", titleDom.innerHTML);
+      // this.$store.commit("setTitle", titleDom.innerHTML);
       this.$store.commit("setDetail", containDom.innerHTML);
       this.$router.push("style");
     },

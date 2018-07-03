@@ -67,7 +67,7 @@
         <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh">
           <van-list v-model="loading" :finished="finished" @load="onLoad">
             <div class="match_list_content">
-              <div class="match_list_item" v-for="item in list" :key="item.id" @click="toDetail">
+              <div class="match_list_item" v-for="item in list" :key="item.id" @click="toDetail(item.id)">
                 <img :src="item.cover ||cover" alt="封面图片">
                 <div class="list_attri">
                   <span v-show="matchType == 1" class="list_person-num">{{ 0 | trimNum}}</span>
@@ -168,7 +168,8 @@ export default {
         this.refreshing = false;
       });
     },
-    toDetail() {
+    toDetail(id) {
+      this.$store.commit("setId", id);
       this.$router.push("match/detail");
     },
     createClick() {

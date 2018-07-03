@@ -14,9 +14,9 @@
     <div class="rank">
       <div class="prize_info" v-for="(item,index) in rankList">
         <p class="prize_rank">第{{item.value}}名</p>
-        <input class="prize_prize" type="text" placeholder="点击输入奖品名称，没有则不填" @blur="prizeInput(index,$event)">
+        <input class="prize_prize" type="text" placeholder="点击输入奖品名称，没有则不填" v-model="prizeShow[index].name" @blur="prizeInput(index,$event)">
         <div class="prize_value_content">
-          <input class="prize_value" type="text" @blur="valueInput(index, $event)">
+          <input class="prize_value" v-model="prizeShow[index].prize" type="text" @blur="valueInput(index, $event)">
           <span class="prize_tag">元</span>
         </div>
       </div>
@@ -25,7 +25,7 @@
       <span>
         共计
       </span>
-      <span>{{totalPrize}}</span>元
+      <span>{{ totalPrize}}</span>元
     </p>
     <div class="send">
       <p class="send_title">请选择发奖方式</p>
@@ -44,6 +44,7 @@
 
 <script>
 import RadioBtn from "../../components/RadioBtn.vue";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -78,10 +79,15 @@ export default {
         }
       });
       return total;
-    }
+    },
+    ...mapState({
+      prizeShow() {
+        return this.$store.state.match.rankPrize;
+      }
+    })
   },
   created() {
-    if (!this.$store.state.match.id) {
+    if (!this.$store.state.match.gameName.id) {
       this.$toast("需要选择游戏之后才可以设置奖品");
       setTimeout(() => {
         this.$emit("prizeShow", false);
@@ -120,7 +126,8 @@ export default {
           this.rankPrize[index].rank = rankItem;
           return {
             id: item.index,
-            value: rankItem
+            value: rankItem,
+            name: ""
           };
         });
       });
@@ -143,9 +150,6 @@ export default {
       if (!this.coverImg) {
         return this.$toast("请选择奖品图片");
       }
-      console.log(this.rankPrize);
-      this.$store.commit("setRankPrize", this.rankPrize);
-      this.$store.commit("setIfSave", true);
       this.$router.go(-1);
     },
     prizeInput(index, evt) {
@@ -164,6 +168,12 @@ export default {
       }
       this.addressShow = false;
     }
+  },
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit("setRankPrize", this.rankPrize);
+    this.$store.commit("setTotalValue", this.totalPrize);
+    this.$store.commit("setIfSave", true);
+    next();
   }
 };
 </script>

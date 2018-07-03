@@ -14,7 +14,7 @@
         <van-collapse-item name="2">
           <div slot="title" class="personGame">
             <span>请选择报名类型</span>
-            <span>{{selectAttendType}}</span>
+            <span>{{selectAttendType.value}}</span>
           </div>
           <radio-btn :data="attendStyle" @select="attendStyleClick"></radio-btn>
         </van-collapse-item>
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import RadioBtn from "../../components/RadioBtn.vue";
 import { timeFormate } from "lputils";
 import Prize from "../../views/match/Prize.vue";
@@ -51,9 +52,6 @@ export default {
       gameList: [],
       allGameList: [],
       selectGame: this.$store.state.match.gameName,
-      selectTime: "未选择",
-      selectPerson: { id: 0, value: "未选择" },
-      selectAttendType: "未选择",
       minHour: 10,
       maxHour: 20,
       minDate: new Date(),
@@ -72,6 +70,20 @@ export default {
       ],
       personList: []
     };
+  },
+  computed: {
+    ...mapState({
+      selectTime(state) {
+        let time = state.match.time;
+        return time ? timeFormate(time * 1000, "YY年MM月DD日") : "未选择";
+      },
+      selectPerson(state) {
+        return state.match.attendPerson;
+      },
+      selectAttendType(state) {
+        return state.match.attendStyle;
+      }
+    })
   },
   created() {
     this.fetchGameList();
@@ -137,23 +149,22 @@ export default {
     },
     timeConfirm(value) {
       this.timeShow = false;
-      this.selectTime = timeFormate(
-        new Date(this.currentDate).getTime(),
-        "YY年MM月DD日"
-      );
+      let time = Math.round(new Date(this.currentDate).getTime() / 1000);
+      this.$store.commit("setTime", time);
     },
     selectPersonClick(data) {
       if (data.id == 0) {
         return this.$toast("请选择游戏");
       }
-      this.selectPerson = data;
-      this.$store.commit("setAttendPerson", this.selectPerson.id);
+      this.$store.commit("setAttendPerson", data);
     },
     attendStyleClick(data) {
-      this.selectAttendType = data.value;
+      this.$store.commit("setAttendStyle", data);
     }
   },
-  beforeRouteLeave() {}
+  beforeRouteLeave(to, from, next) {
+    next();
+  }
 };
 </script>
 

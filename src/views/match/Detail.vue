@@ -7,7 +7,7 @@
         <span>开赛</span>
       </p>
       <p class="footer_num">
-        <router-link to="/user/record/join">
+        <router-link :to="{path: '/user/record/join', query: {id: this.$store.state.match.id}}">
           <i>人数</i>
           <i>已报名</i>
         </router-link>
@@ -29,6 +29,9 @@ export default {
   },
   data() {
     return {};
+  },
+  created() {
+    this.http.match.detail().then(res => {});
   }
 };
 </script>

@@ -48,7 +48,7 @@
           <img class="icon" src="../assets/logo.png" alt="头像">
           <span>7851</span>
         </div>
-        <router-link class="like_info_item" to="/user/record/like">
+        <router-link class="like_info_item" :to="{path: '/user/record/like', query: {id:this.$store.state.match.id}}">
           <img src="../assets/like.png" alt="点赞">
           <span>12.3w</span>
         </router-link>
