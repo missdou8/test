@@ -50,7 +50,7 @@ export default {
       keyList: [5, 6],
       gameList: [],
       allGameList: [],
-      selectGame: { id: 0, name: "未选择" },
+      selectGame: this.$store.state.match.gameName,
       selectTime: "未选择",
       selectPerson: { id: 0, value: "未选择" },
       selectAttendType: "未选择",
@@ -133,7 +133,7 @@ export default {
     gameConfirm(value, index) {
       this.gameShow = false;
       this.selectGame = this.allGameList[index];
-      this.$store.commit("setId", this.selectGame.id);
+      this.$store.commit("setGameName", this.selectGame);
     },
     timeConfirm(value) {
       this.timeShow = false;
@@ -152,7 +152,8 @@ export default {
     attendStyleClick(data) {
       this.selectAttendType = data.value;
     }
-  }
+  },
+  beforeRouteLeave() {}
 };
 </script>
 
