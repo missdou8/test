@@ -16,7 +16,7 @@
     <van-cell-group class="user_edit_box">
       <van-cell title="店铺名称" :value="userinfo.shopName" :is-link="true" :to="{ path: '/user/edit/shop', query: { shopName: userinfo.shopName}}"></van-cell>
       <van-cell title="店主名字" :value="userinfo.name" is-link :to="{ path: '/user/edit/name', query: { name: userinfo.name}}"></van-cell>
-      <van-cell class="gray" title="实名认证" value="未认证，认证信息仅自己可见" :is-link="no_autonym" :to="autonym_url"></van-cell>
+      <van-cell class="gray" title="实名认证" :value="autonymText+',认证信息仅自己可见'" is-link to="/user/edit/autonym"></van-cell>
       <van-cell title="店铺座机" :value="userinfo.telephone" is-link :to="{ path: '/user/edit/plane', query: { plane: userinfo.telephone }}"></van-cell>
       <van-cell title="手机号码" :value="userinfo.mobile" is-link :to="{ path: '/user/edit/phone', query: { phone: userinfo.mobile}}"></van-cell>
       <van-cell class="address" title="店铺地址" :value="userinfo.address" is-link :to="{ path: '/user/edit/address', query: { address: userinfo.address,areaId:userinfo.areaId,regionName:userinfo.regionName}}"></van-cell>
@@ -35,13 +35,12 @@ export default {
   data() {
     return {
       userinfo: {},
-      no_autonym: true, //false认证 true未认证
-      autonym_url: "/user/edit/autonym", //认证链接
+      autonymText: "", //认证状态文案
       imgUrl: img
     };
   },
   created() {
-    // this.getUserInfo();
+    this.getUserInfo();
   },
   components: {
     shearImg
@@ -50,8 +49,9 @@ export default {
     getUserInfo() {
       this.http.user.getUserInfo().then(res => {
         this.userinfo = res.data;
-        if (res.data.certification == 1) this.no_autonym = false;
-        else this.autonym_url = "/user/edit/autonym";
+        // 实名认证状态 0 未实名认证 1 已实名认证 2认证驳回 3审核中 
+        let textArr = ['未认证','已认证','认证驳回','审核中'];
+        this.autonymText = textArr[res.data.certification];
       });
     },
     //注销登录
@@ -72,11 +72,9 @@ export default {
           console.log("取消注销");
         });
     },
-    // //修改头像
-    // updataImg() {
-    //   this.$refs.shear_img.updataImg();
-    // },
+    //修改头像(图片剪切上传后获取url)
     getImgUrl(imgUrl) {
+      console.log(imgUrl);
       this.imgUrl = imgUrl;
     }
   }

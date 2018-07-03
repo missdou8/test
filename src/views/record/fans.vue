@@ -6,9 +6,9 @@
         <span>{{total}}人</span>
       </div>
       <van-cell v-for="watchers in watchersList" :key="watchers.id" 
-        :title="watchers.nickname||'王小花'"
-        :label="watchers.id||'100000001'" 
-        :value="watchers.Time||'2018-6-27 00:00:00'">
+        :title="watchers.nickname"
+        :lable="watchers.id" 
+        :value="watchers.Time">
         <img slot="icon" :src="watchers.icon||icon" alt="" srcset="">
       </van-cell>
     </dida-list>
@@ -18,6 +18,7 @@
 <script>
 import img from "../../assets/logo.png";
 import didaList from "../../components/didaList.vue";
+import { timestamp_switch_time } from "lputils";
 export default {
   data() {
     return {
@@ -35,9 +36,9 @@ export default {
     getWatchersList(data) {
       this.total = data.total;
       this.watchersList = data.list;
-      if (this.watchersList.length < 0) {
+      if (this.watchersList.length > 0) {
         this.watchersList.forEach(w => {
-          this.watchersList.Time = timestamp_switch_time(d.time);
+          w.Time = timestamp_switch_time(w.time);
         });
       }
     }

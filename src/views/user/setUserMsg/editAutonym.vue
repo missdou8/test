@@ -1,32 +1,32 @@
 <template>
   <div id="editAutonym">
-    <div class="mask" :class="{ 'maskShow': !userinfo.certification==0||!userinfo.certification==1}"></div>
-    <h3 class="dec dec_err" v-if="userinfo.certification==2">
+    <div class="mask" :class="{ 'maskShow': !status==0||!status==1}"></div>
+    <h3 class="dec dec_err" v-if="status==2">
       <i></i>认证未通过请修改后重新提交</h3>
-    <h3 class="dec dec_sucess" v-if="userinfo.certification==1">
+    <h3 class="dec dec_sucess" v-if="status==1">
       <i></i>认证已通过</h3>
     <van-cell-group class="input_box">
-      <van-field v-model="name" placeholder="请输入您的真实姓名">
+      <van-field v-model="name" placeholder="请输入您的真实姓名" :disabled="status==1||status==3">
         <img class="left_icon" slot="icon" src="../../../assets/shiming_icon01.png" alt="">
       </van-field>
-      <van-field v-model="IDcard" placeholder="请输入身份证号">
+      <van-field v-model="IDcard" placeholder="请输入身份证号" :disabled="status==1||status==3">
         <img class="left_icon" slot="icon" src="../../../assets/shiming_icon02.png" alt="">
       </van-field>
     </van-cell-group>
     <van-cell-group>
       <van-row class="row">
         <van-col span="12">
-          <van-uploader class="uploader" :after-read="onFrontPic">
+          <van-uploader class="uploader" :after-read="onFrontPic" :disabled="status==1||status==3">
             <h3>手持身份证正面照</h3>
-            <div class="img_box" :class="{ 'img_box__err': userinfo.certification==2}">
+            <div class="img_box" :class="{ 'img_box__err': status==2}">
               <img ref="frontPic" :src="imgBox.frontPic" alt="">
             </div>
           </van-uploader>
         </van-col>
         <van-col span="12">
-          <van-uploader class="uploader" :after-read="onBackPic">
+          <van-uploader class="uploader" :after-read="onBackPic" :disabled="status==1||status==3">
             <h3>手持身份证反面照</h3>
-            <div class="img_box" :class="{ 'img_box__err': userinfo.certification==2}">
+            <div class="img_box" :class="{ 'img_box__err': status==2}">
               <img ref="backPic" :src="imgBox.backPic" alt="">
             </div>
           </van-uploader>
@@ -38,7 +38,7 @@
         <span>提交认证代表你已同意 </span>
         <router-link to="/user/edit/autonym/tips">《实名认证协议》</router-link>
       </p>
-      <van-button :disabled="btnEnable" class="autonym_btn" size="large" @click="Autonym()">{{userinfo.certification==0?'审核中':'提交'}}</van-button>
+      <van-button v-if="!pass" :disabled="btnEnable||status==3" class="autonym_btn" size="large" @click="Autonym()">{{btnTxt}}</van-button>
     </div>
   </div>
 </template>
@@ -50,8 +50,10 @@ export default {
       name: "",
       IDcard: "",
       imgBox: {},
-      userinfo: {},
-      reqData: null
+      status:0,  // 实名认证状态 0未实名认证 1已经实名认证 2 认证驳回 3 审核中
+      reqData: null,
+      btnTxt: "", //认证按钮文案
+      pass: false //认证成功状态
     };
   },
   computed: {
@@ -72,22 +74,22 @@ export default {
     },
     getCertification() {
       this.http.user.getCertification().then(res => {
-        // 实名认证状态 4 未提交 0审核中 1审核通过 2 审核未通过
-        this.userinfo = res.data;
-        // if (res.data.certification == 0) {
-        //   this.btnTxt = "审核中...";
-        // } else if (res.data.certification == 1) {
-        //   this.autonym = false;
-        // }
+        this.status = res.data.status;
+        this.name = res.data.realname;
+        this.IDcard = res.data.idCard;
+        this.imgBox.frontPic = res.data.frontPic;
+        this.imgBox.backPic = res.data.backPic;
+        if (res.data.status == 3) {
+          this.btnTxt = "审核中...";
+        } else if (res.data.status == 1) {
+          this.pass = true;
+        } else {
+          this.btnTxt = "提交";
+        }
       });
     },
     Autonym() {
-      if (
-        this.imgBox.frontPic &&
-        this.imgBox.backPic &&
-        this.IDcard == "" &&
-        this.name == ""
-      )
+      if (this.imgBox.frontPic=="" &&this.imgBox.backPic=="" )
         return this.$toast("信息不能为空");
       //上传的图片【使用FormData上传】
       this.http.user
@@ -253,7 +255,14 @@ export default {
 }
 </style>
 <style>
+#editAutonym .van-field__body {
+  position: relative;
+}
+#editAutonym .van-field__control {
+  padding-left: 0.55rem;
+}
 #editAutonym .van-field__icon {
+  position: absolute;
   left: 0;
   width: 0.5rem;
   height: 0.5rem;
@@ -267,6 +276,9 @@ export default {
 }
 #editAutonym .van-cell:not(:last-child)::after {
   height: 195%;
+}
+#editAutonym .uploader .van-uploader__input{
+  z-index: 999;
 }
 </style>
 
