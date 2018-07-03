@@ -11,7 +11,8 @@ const match = {
     gameName: { id: 0, name: "未选择" }, //游戏名字
     ifSave: false,
     detail: {}, //赛事信息：标题，封面和内容
-    gainPrizeAddress: "" //自提地址
+    gainPrizeAddress: "", //自提地址
+    prizeCover: ""
   },
   mutations: {
     setId(state, id) {
@@ -43,6 +44,9 @@ const match = {
     },
     setTotalValue(state, value) {
       state.totalValue = value;
+    },
+    setPrizeCover(state, src) {
+      state.prizeCover = src;
     }
   }
 };

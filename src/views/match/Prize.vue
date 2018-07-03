@@ -62,9 +62,9 @@ export default {
           value: "客户自取"
         }
       ],
-      coverImg: "",
       address: "",
-      contact: ""
+      contact: "",
+      prizeShow: ""
     };
   },
   components: {
@@ -72,6 +72,9 @@ export default {
   },
   computed: {
     totalPrize() {
+      if (this.$store.state.match.totalValue) {
+        return this.$store.state.match.totalValue;
+      }
       let total = 0;
       this.rankPrize.forEach(item => {
         if (item.prize) {
@@ -81,8 +84,8 @@ export default {
       return total;
     },
     ...mapState({
-      prizeShow() {
-        return this.$store.state.match.rankPrize;
+      coverImg() {
+        return this.$store.state.match.prizeCover;
       }
     })
   },
@@ -122,25 +125,32 @@ export default {
         let data = res.data;
         this.rankList = data.prizesList.map((item, index) => {
           let rankItem = item.rank.split(",").join("-");
-          this.rankPrize[index] = {};
-          this.rankPrize[index].rank = rankItem;
+          if (!this.prizeShow) {
+            this.rankPrize[index] = {};
+            this.rankPrize[index].rank = rankItem;
+          }
           return {
             id: item.index,
             value: rankItem,
             name: ""
           };
         });
+        if (this.$store.state.match.rankPrize.length != 0) {
+          this.prizeShow = this.$store.state.match.rankPrize;
+        } else {
+          this.prizeShow = this.rankList;
+        }
       });
   },
   methods: {
     onRead(file) {
       this.upload(file).then(src => {
-        this.coverImg = src;
+        this.$store.commit("setPrizeCover", src);
         this.prizeImageShow = false;
       });
     },
     cancelClick() {
-      this.$emit("prizeShow", false);
+      this.$router.go(-1);
     },
     saveClick() {
       /**

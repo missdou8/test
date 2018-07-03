@@ -28,8 +28,8 @@
       <van-datetime-picker v-model="currentDate" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="timeConfirm" @cancel="timeShow = false" />
     </van-popup>
     <div class="footer">
-      <button>保存</button>
-      <button>提交审核</button>
+      <button @click="saveClick">保存</button>
+      <button @click="submit">提交审核</button>
     </div>
   </div>
 </template>
@@ -160,6 +160,34 @@ export default {
     },
     attendStyleClick(data) {
       this.$store.commit("setAttendStyle", data);
+    },
+    saveClick() {},
+    submit(type) {
+      let match = this.$store.state.match;
+      let detail = match.detail;
+      let gameName = match.gameName;
+      this.http.match
+        .createMatch({
+          isAudit: type,
+          title: detail.title,
+          cover: detail.coverImg,
+          content: detail.content,
+          gameId: gameName.id,
+          beginTime: match.time,
+          templateId: match,
+          signupType: match.attendStyle.id,
+          img: match.prizeCover,
+          type: match.sendStyle,
+          address: match.gainPrizeAddress.address,
+          regionName: match.gainPrizeAddress.regionName,
+          provinceId: match.gainPrizeAddress.provinceId,
+          cityId: match.gainPrizeAddress.cityId,
+          areaId: match.gainPrizeAddress.areaId,
+          rankingSet: match.rankPrize
+        })
+        .then(res => {
+          console.log("你好");
+        });
     }
   },
   beforeRouteLeave(to, from, next) {
