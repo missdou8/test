@@ -110,7 +110,7 @@ export default {
                 message: res.msg
               })
               .then(() => {
-                this.$router.push({ path: "/user/index" });
+                this.$router.go(-1);
               });
           });
       // }
