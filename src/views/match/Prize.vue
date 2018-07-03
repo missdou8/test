@@ -8,7 +8,7 @@
             <span>添加店铺封面</span>
           </p>
         </div>
-        <img class="cover-img" :src="coverImg" v-show="!prizeImageShow" alt="封面图片">
+        <img class="cover-img" ref="prizeImage" :src="coverImg" v-show="!prizeImageShow" alt="封面图片">
       </van-uploader>
     </div>
     <div class="rank">
@@ -32,7 +32,7 @@
       <radio-btn class="send_type" :data="sendStyle" @select="typeSelect"></radio-btn>
       <div class="address" v-show="addressShow">
         <p class="address_title">请选择自提地址</p>
-        <van-cell class="address_info" title="姓名和电话" label="地址地址地址" is-link center to="prize/address"></van-cell>
+        <van-cell class="address_info" :title="contact" :label="address" is-link center to="prize/address"></van-cell>
       </div>
     </div>
     <div class="footer">
@@ -61,7 +61,9 @@ export default {
           value: "客户自取"
         }
       ],
-      coverImg: ""
+      coverImg: "",
+      address: "",
+      contact: ""
     };
   },
   components: {
@@ -92,6 +94,20 @@ export default {
         this.$emit("prizeShow", false);
       }, 2000);
     }
+    // 检测自提地址是否存在，存在用自提地址，不存在用店铺地址
+    let gainPrizeAddress = this.$store.state.match.gainPrizeAddress;
+    if (gainPrizeAddress) {
+      this.address = gainPrizeAddress.regionName;
+      this.subAddress = gainPrizeAddress.address;
+    } else {
+      this.address =
+        this.$store.state.user.userInfo.regionName +
+        this.$store.state.user.userInfo.address;
+    }
+    this.contact =
+      this.$store.state.user.userInfo.name +
+      " " +
+      this.$store.state.user.userInfo.mobile;
     this.http.match
       .prizesList({
         templateId: this.$store.state.match.attendPerson
@@ -111,8 +127,10 @@ export default {
   },
   methods: {
     onRead(file) {
-      this.$refs.prizeImage.src = file.content;
-      this.prizeImageShow = true;
+      this.upload(file).then(src => {
+        this.$refs.prizeImage.src = src;
+        this.prizeImageShow = true;
+      });
     },
     cancelClick() {
       this.$emit("prizeShow", false);

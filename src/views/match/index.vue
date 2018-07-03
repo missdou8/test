@@ -151,7 +151,7 @@ export default {
     //获取用户信息
     this.http.user.getUserInfo().then(res => {
       this.userInfo = res.data;
-      this.$store.commit("setAddress", this.userInfo.address);
+      this.$store.commit("setInfo", this.userInfo);
     });
     this.fetchList(1, 1);
   },

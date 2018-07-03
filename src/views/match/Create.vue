@@ -91,20 +91,6 @@ export default {
         return containDom.appendChild(div);
       }
       this.$refs.createIntro.insertBefore(div, range.startContainer);
-    },
-    upload(file) {
-      let config = {
-        headers: { "Content-Type": "multipart/form-data" }
-      }; //
-      let formData = new FormData();
-      formData.append("file", file.file);
-      console.log(formData)
-      return this.http.resource
-        .uploadImg(formData, "post", config)
-        .then(res => {
-          let data = res.data;
-          return data.src[0];
-        });
     }
   }
 };

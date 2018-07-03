@@ -69,7 +69,21 @@ Vue.use(Tab)
   .use(NavBar);
 
 Vue.config.productionTip = false;
+// 自定义全局方法
 Vue.prototype.http = new ApiService();
+Vue.prototype.upload = file => {
+  let config = {
+    headers: { "Content-Type": "multipart/form-data" }
+  }; //
+  let formData = new FormData();
+  formData.append("file", file.file);
+  return Vue.prototype.http.resource
+    .uploadImg(formData, "post", config)
+    .then(res => {
+      let data = res.data;
+      return data.src[0];
+    });
+};
 
 export default new Vue({
   router,

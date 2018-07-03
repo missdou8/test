@@ -6,10 +6,11 @@ const match = {
     type: "",
     rankPrize: [],
     sendStyle: "",
-    sendAddress: "",
+    sendAddress: {},
     ifSave: false,
     title: "",
-    detail: ""
+    detail: "",
+    gainPrizeAddress: ""
   },
   mutations: {
     setId(state, id) {
@@ -29,6 +30,9 @@ const match = {
     },
     setDetail(state, detail) {
       state.detail = detail;
+    },
+    setgainPrizeAddress(state, gainPrizeAddress) {
+      state.gainPrizeAddress = gainPrizeAddress;
     }
   }
 };
