@@ -1,7 +1,7 @@
 <template>
     <div id="shearImg">
       <van-uploader class="uploader" :after-read="getImgUrl">
-        <img :src="imgUrl" alt="图片" srcset="">
+        <img :src="imgSrc||defImg" alt="logo" srcset="">
       </van-uploader>
     </div>
 </template>
@@ -11,7 +11,7 @@ import AlloyCrop from "alloycrop";
 export default {
   data() {
     return {
-      imgUrl: ""
+      imgSrc:''
     };
   },
   /**
@@ -19,13 +19,9 @@ export default {
    * imgWidth   目的图片宽
    * imgHeight  目的图片高
    */
-  created() {
-    this.imgUrl = this.defImg;
-  },
   props: ["imgWidth", "imgHeight", "defImg"],
   methods: {
     getImgUrl(file) {
-      console.log(file.file);
       let _this = this;
       //对图片进行裁剪
       new AlloyCrop({
@@ -37,19 +33,20 @@ export default {
         ok_text: "剪切",
         cancel_text: "取消",
         ok: function(base64, canvas) {
-          _this.imgUrl = base64;
+          //不能去修改父组件的数据，所以要使用一个微数据
+          _this.imgSrc = base64;
           // 将base64文件转换为bolb文件
           let formData = new FormData();
           let blob = _this.convertBase64UrlToBlob(base64, "image/png");
-          formData.append("icon", blob);
+          formData.append("file", blob, Date.now() + ".png");
           //在此处发送一个ajax请求
           let config = {
             headers: { "Content-Type": "multipart/form-data" }
           };
           _this.http.resource.uploadImg(formData, "post", config).then(res => {
-              let data = res.data.src[0];
-              //将后端生成的图片路径抛出
-              _this.$emit("getImgUrl", data);
+            let data = res.data.src[0];
+            //将后端生成的图片路径抛出
+            _this.$emit("getImgUrl", data);
           });
         },
         cancel: function() {
@@ -59,19 +56,19 @@ export default {
     },
     /**
      * base64转文件流
-     * @param {base64} //base64数据 
+     * @param {base64} //base64数据
      * @param {string} //format格式
      * @return {file}  文件blob
      */
-    convertBase64UrlToBlob(base64, mimeType){
-      let bytes = window.atob(base64.split(',')[1])
-      let ab = new ArrayBuffer(bytes.length)
-      let ia = new Uint8Array(ab)
+    convertBase64UrlToBlob(base64, mimeType) {
+      let bytes = window.atob(base64.split(",")[1]);
+      let ab = new ArrayBuffer(bytes.length);
+      let ia = new Uint8Array(ab);
       for (let i = 0; i < bytes.length; i++) {
-        ia[i] = bytes.charCodeAt(i)
+        ia[i] = bytes.charCodeAt(i);
       }
-      let _blob = new Blob([ab], { type: mimeType })
-      return _blob
+      let _blob = new Blob([ab], { type: mimeType });
+      return _blob;
     }
   }
 };

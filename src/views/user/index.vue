@@ -3,7 +3,7 @@
     <van-cell-group>
       <van-cell class="user_box">
         <div class="user_img_box">
-          <shear-img ref="shear_img" :def-img="imgUrl" :img-width="300" :img-height="300" @getImgUrl='getImgUrl($event)'></shear-img>
+          <shear-img ref="shear_img" :def-img="userinfo.icon" :img-width="300" :img-height="300" @getImgUrl='getImgUrl($event)'></shear-img>
         </div>
         <div class="user_msg">
           <h3>点击修改头像</h3>
@@ -29,14 +29,12 @@
 </template>
 
 <script>
-import img from "../../assets/logo.png";
 import shearImg from "../../components/shearImg.vue";
 export default {
   data() {
     return {
       userinfo: {},
       autonymText: "", //认证状态文案
-      imgUrl: img
     };
   },
   created() {
@@ -49,8 +47,8 @@ export default {
     getUserInfo() {
       this.http.user.getUserInfo().then(res => {
         this.userinfo = res.data;
-        // 实名认证状态 0 未实名认证 1 已实名认证 2认证驳回 3审核中 
-        let textArr = ['未认证','已认证','认证驳回','审核中'];
+        // 实名认证状态 0 未实名认证 1 已实名认证 2认证驳回 3审核中
+        let textArr = ["未认证", "已认证", "认证驳回", "审核中"];
         this.autonymText = textArr[res.data.certification];
       });
     },
@@ -74,8 +72,15 @@ export default {
     },
     //修改头像(图片剪切上传后获取url)
     getImgUrl(imgUrl) {
-      console.log(imgUrl);
-      this.imgUrl = imgUrl;
+      this.http.user
+        .setUserInfo({icon: imgUrl,})
+        .then(res => {
+          this.$dialog
+            .alert({
+              title: "嘀嗒比赛",
+              message: res.msg
+            })
+        });
     }
   }
 };
