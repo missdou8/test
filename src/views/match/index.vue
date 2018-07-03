@@ -67,7 +67,7 @@
         <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh">
           <van-list v-model="loading" :finished="finished" @load="onLoad">
             <div class="match_list_content">
-              <div class="match_list_item" v-for="item in list" :key="item" @click="toDetail">
+              <div class="match_list_item" v-for="item in list" :key="item.id" @click="toDetail">
                 <img :src="item.cover ||cover" alt="封面图片">
                 <div class="list_attri">
                   <span v-show="matchType == 1" class="list_person-num">{{ 0 | trimNum}}</span>
@@ -107,7 +107,7 @@ export default {
       finished: false,
       matchType: 1,
       matchPage: 1,
-      pageSize: 6
+      pageSize: 4
     };
   },
   watch: {
@@ -153,7 +153,6 @@ export default {
       this.userInfo = res.data;
       this.$store.commit("setInfo", this.userInfo);
     });
-    this.fetchList(1, 1);
   },
   methods: {
     onLoad() {
@@ -173,6 +172,8 @@ export default {
       this.$router.push("match/detail");
     },
     createClick() {
+      //清空赛事信息
+      this.$store.commit("setDetail", {});
       this.$router.push("match/create");
     },
     fetchList() {

@@ -8,8 +8,7 @@ const match = {
     sendStyle: "",
     sendAddress: {},
     ifSave: false,
-    title: "",
-    detail: "",
+    detail: {}, //赛事信息：标题，封面和内容
     gainPrizeAddress: ""
   },
   mutations: {

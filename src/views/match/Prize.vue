@@ -8,7 +8,7 @@
             <span>添加店铺封面</span>
           </p>
         </div>
-        <img class="cover-img" ref="prizeImage" :src="coverImg" v-show="!prizeImageShow" alt="封面图片">
+        <img class="cover-img" :src="coverImg" v-show="!prizeImageShow" alt="封面图片">
       </van-uploader>
     </div>
     <div class="rank">
@@ -128,17 +128,25 @@ export default {
   methods: {
     onRead(file) {
       this.upload(file).then(src => {
-        this.$refs.prizeImage.src = src;
-        this.prizeImageShow = true;
+        this.coverImg = src;
+        this.prizeImageShow = false;
       });
     },
     cancelClick() {
       this.$emit("prizeShow", false);
     },
     saveClick() {
+      /**
+       * 判断是否可以保存
+       */
+      //判断是否存在图片
+      if (!this.coverImg) {
+        return this.$toast("请选择奖品图片");
+      }
+      console.log(this.rankPrize);
       this.$store.commit("setRankPrize", this.rankPrize);
       this.$store.commit("setIfSave", true);
-      this.$emit("prizeShow", false);
+      this.$router.go(-1);
     },
     prizeInput(index, evt) {
       let dom = evt.target;
@@ -146,7 +154,6 @@ export default {
     },
     valueInput(index, evt) {
       let dom = evt.target;
-      // this.rankPrize[index].price = dom.value;
       let obj = this.rankPrize[index];
       obj.prize = dom.value;
       this.$set(this.rankPrize, index, obj);
@@ -175,16 +182,18 @@ export default {
   text-align: center;
 }
 .uploader {
-  background-color: #000;
-  border-radius: 0.1rem;
   color: #fff;
   margin: 0.3rem 0;
   width: 100%;
 }
 .addCover {
+  background-color: #000;
+  border-radius: 0.1rem;
   margin: 0.3rem;
+  padding: 0.3rem;
 }
 .cover-img {
+  height: 2.65rem;
   vertical-align: middle;
 }
 .add {

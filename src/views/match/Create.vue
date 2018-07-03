@@ -14,7 +14,7 @@
         <span class="title_name">标题</span>
         <span contenteditable="true" ref="matchTitle">{{titlePlace}}</span>
       </div>
-      <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" @keyup.enter="nextLine" ref="createIntro">{{contentPlace}}</div>
+      <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" @keyup.enter="nextLine" ref="createIntro" v-html="contentPlace"></div>
     </div>
     <van-uploader v-show="appendShow" class="append" :after-read="append">
       <img src="../../assets/img_add.png" alt="添加图片">
@@ -27,19 +27,25 @@
 export default {
   data() {
     return {
-      titlePlace: "添加比赛名称",
-      contentPlace: "请添加图文介绍",
-      addShow: true,
-      coverImg: "",
+      titlePlace: this.$store.state.match.detail.title || "添加比赛名称",
+      contentPlace: this.$store.state.match.detail.content || "请添加图文介绍",
+      coverImg: this.$store.state.match.detail.coverImg,
       appendShow: false
     };
   },
   mounted() {},
+  computed: {
+    /**
+     * 是否展示添加封面
+     */
+    addShow() {
+      return this.coverImg ? false : true;
+    }
+  },
   methods: {
     onRead(file) {
       this.upload(file).then(src => {
         this.coverImg = src;
-        this.addShow = false;
       });
     },
     contentFocus() {
@@ -70,7 +76,11 @@ export default {
         return this.$toast("需要填写赛事详情");
       }
       this.$store.commit("setTitle", title);
-      this.$store.commit("setDetail", content);
+      this.$store.commit("setDetail", {
+        title: title,
+        content: content,
+        coverImg: this.coverImg
+      });
       this.$router.push("style");
     },
     append(file) {
@@ -90,7 +100,18 @@ export default {
       if (range.startContainer == this.$refs.createIntro) {
         return containDom.appendChild(div);
       }
-      this.$refs.createIntro.insertBefore(div, range.startContainer);
+      var elem = range.commonAncestorContainer;
+      if (elem.nodeType != 1) {
+        elem = elem.parentNode;
+      }
+      this.$refs.createIntro.insertBefore(div, elem);
+
+      var parent = this.$refs.createIntro;
+      if (parent.lastChild == elem) {
+        parent.appendChild(div);
+      } else {
+        parent.insertBefore(div, elem.nextSibling);
+      }
     }
   }
 };
