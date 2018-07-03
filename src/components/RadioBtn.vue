@@ -24,6 +24,7 @@ export default {
 <style scoped>
 .btn {
   margin-right: 0.25rem;
+  margin: 0.15rem 0.25rem 0.15rem 0;
   padding: 0.15rem 0.5rem;
 }
 .active {

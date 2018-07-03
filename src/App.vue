@@ -1,17 +1,25 @@
 <template>
   <div id="app">
     <transition :name="transitionName">
+      <!-- <nav></nav> -->
       <router-view class="router"></router-view>
     </transition>
   </div>
 </template>
 <script>
 import axios from "axios";
+import Nav from "./components/Nav.vue";
 export default {
+  components: {
+    Nav
+  },
   data() {
     return {
       transitionName: "fade"
     };
+  },
+  mounted() {
+    //检测浏览器类型决定是否展示栏
   },
   beforeRouteEnter(to, from, next) {
     let currentPath = to.path;

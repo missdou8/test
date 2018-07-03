@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import match from "./match.js";
+import user from "./user.js";
+import VuexPersistence from "vuex-persist";
 
 Vue.use(Vuex);
 
@@ -10,7 +12,8 @@ const vuexLocal = new VuexPersistence({
 
 export default new Vuex.Store({
   modules: {
-    match
+    match,
+    user
   },
   plugins: [vuexLocal.plugin]
 });
