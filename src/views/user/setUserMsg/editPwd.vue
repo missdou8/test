@@ -1,11 +1,11 @@
 <template>
   <div class="changePwd">
     <van-cell-group class="input_top">
-      <van-field v-model="oldPassword" type="password" placeholder="请输入旧密码" icon="clear" @click-icon="oldPassword = ''"/>
+      <van-field v-model="oldPassword" type="password" placeholder="请输入旧密码"/>
     </van-cell-group>
     <van-cell-group>
-      <van-field v-model="newPassword" type="password" placeholder="请输入新密码" icon="clear" @click-icon="newPassword = ''"/>
-      <van-field v-model="rePassword" type="password" placeholder="请再次输入新密码" icon="clear" @click-icon="rePassword = ''"/>
+      <van-field v-model="newPassword" type="password" placeholder="请输入新密码"/>
+      <van-field v-model="rePassword" type="password" placeholder="请再次输入新密码"/>
     </van-cell-group>
     <dida-btn :btn-enable="btnEnable" @submetData="changePwd()"></dida-btn>
   </div>

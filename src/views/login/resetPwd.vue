@@ -1,8 +1,8 @@
 <template>
   <div class="resetPwd">
      <van-cell-group>
-        <van-field v-model="password" type="password" placeholder="请设置您的登录密码" icon="clear" @click-icon="password = ''"/>
-        <van-field v-model="rePassword" type="password" placeholder="请再次输入您的密码" icon="clear" @click-icon="rePassword = ''"/>
+        <van-field v-model="password" type="password" placeholder="请设置您的登录密码"/>
+        <van-field v-model="rePassword" type="password" placeholder="请再次输入您的密码"/>
       </van-cell-group>
       <div class="btn_box">
         <van-button :disabled="btnEnable" class="reg_btn" size="large" @click="resetPwd()">提交</van-button>

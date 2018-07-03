@@ -1,13 +1,13 @@
 <template>
   <div class="findpwd">
     <van-cell-group>
-      <van-field v-model="phone" placeholder="请输入手机号" icon="clear" @click-icon="phone = ''"/>
-      <van-field class="code_box" center v-model="imgCode" placeholder="请输入验证码" icon="clear" @click-icon="imgCode = ''">
+      <van-field v-model="phone" placeholder="请输入手机号"/>
+      <van-field class="code_box" center v-model="imgCode" placeholder="请输入验证码">
         <van-button id="code" slot="button" size="small" @click="codeImgClick">
           <img class="img" ref="codeImg" src="/api/verify/imgCode?type=forget" alt="" srcset="">
         </van-button>
       </van-field>
-      <van-field class="phone_box" center v-model="phoneCode" placeholder="请输入手机验证码" icon="clear" @click-icon="phoneCode = ''">
+      <van-field class="phone_box" center v-model="phoneCode" placeholder="请输入手机验证码">
         <van-button id="phonecode" slot="button" size="small" type="primary" @click="sendClick()" :disabled="!ifSend">
           <span v-if="ifSend">发送验证码</span>
           <span class="disabled__btn" v-else>{{time}}s后可重新发送</span>
@@ -184,10 +184,10 @@ export default {
 .findpwd .van-field__button {
   height: 0.95rem;
 }
-.findpwd .code_box .van-cell__value,
+/* .findpwd .code_box .van-cell__value,
 .findpwd .phone_box .van-cell__value {
   margin-top: 0.2rem;
-}
+} */
 .findpwd .code_box::after {
   height: 198%;
 }
