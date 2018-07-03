@@ -1,23 +1,33 @@
 <template>
     <div id="exchangeIndex">
       <dida-list ref="dida_list" post-module="prizes" post-url="prizeList" @returnData="getPrizeList($event)">
-        <van-panel class="panel" v-for="(i,index) in prizeList" :key="index">
+        <van-panel class="panel" v-for="(prize,index) in prizeList" :key="index">
           <div class="panel_header" slot="header">
-            <van-cell value="2018/5/3 12:34:45" label="10000001" title="用户昵">
-              <img slot="icon" src="../../assets/logo.png" alt="" srcset="">
+            <van-cell :value="prize.time" :label="prize.matchdec" :title="prize.nickname">
+              <img slot="icon" :src="prize.icon" alt="" srcset="">
             </van-cell>
           </div>
-          <van-card title="九阳榨汁机" desc="收货地址：北京市昌平区回龙观东大街338号腾讯众创空间 A322  陈奕迅  18888888888" currency="" price="邮寄奖品" :thumb="imageURL"/>
+          <van-card :title="prize.prize.name" :desc="prize.receivingDec" currency="" :price="prize.prizeType" :thumb="prize.prize.img"/>
           <div class="footer" slot="footer">
-              <van-button style="margin-right:15px;" class="btn gobtn" size="small" @click="showAlert(index)">去发货</van-button>
-              <van-button class="btn sendbtn" size="small" @click="showPopup(index)">未取货</van-button>
+            <van-button v-if="prize.prize.type == 0" class="btn"
+              :class="{'gobtn':prize.receiving.status==1,'sendbtn':prize.receiving.status==2||shipInfoArr.indexOf(prize.id)!=-1,'outbtn':prize.receiving.status==3}" 
+              size="small" @click="showAlert(prize.id)" :disabled="prize.receiving.status!=1||shipInfoArr.indexOf(prize.id)!=-1">
+              {{shipInfoArr.indexOf(prize.id)!=-1?'已发货':prize.btnText}}
+            </van-button>
+            <van-button v-else class="btn" size="small" @click="showPopup(prize.id)" 
+              :class="{'gobtn':prize.receiving.status==1,'outbtn':prize.receiving.status==3||pickUpPrizeArr.indexOf(prize.id)!=-1}" 
+              :disabled="prize.receiving.status!=1||pickUpPrizeArr.indexOf(prize.id)!=-1">
+              {{pickUpPrizeArr.indexOf(prize.id)!=-1?'已取出':prize.btnText}}
+            </van-button>
           </div>
         </van-panel>
       </dida-list>
+      <!-- 模态弹框 -->
       <van-dialog title= '嘀嗒比赛' v-model="showDialog" show-cancel-button :before-close="beforeClose">
-          <van-field v-model="express_name" label="快递公司" placeholder="请输入快递公司名称"/>
-          <van-field v-model="express_number" label="快递单号" placeholder="请输入快递单号"/>
+        <van-field v-model="express_name" label="快递公司" placeholder="请输入快递公司名称"/>
+        <van-field v-model="express_number" label="快递单号" placeholder="请输入快递单号"/>
       </van-dialog>
+      <!-- 数字键盘 -->
       <number-word-input ref="number_word_input" @goodsIdAjax="goodsIdAjax($event)"></number-word-input>
     </div>
 </template>
@@ -35,7 +45,9 @@ export default {
       showDialog: false,
       express_name: "",
       express_number: "",
-      prizesId: null //选中的奖品id
+      prizesId: null, //选中的奖品id
+      pickUpPrizeArr:[], //存储点击自提取货按钮的物品id
+      shipInfoArr:[], //存储点击邮寄取按钮的物品id
     };
   },
   components: {
@@ -48,22 +60,26 @@ export default {
       this.total = data.total;
       this.prizeList = data.list;
       //数据处理(确保数据存在)
-      if (this.prizeList.length < 0) {
+      if (this.prizeList.length > 0) {
         this.prizeList.forEach(p => {
-          this.prizeList.time = timestamp_switch_time(p.prize.time);
-          this.prizeList.matchdec = `${p.match.name}第${p.match.ranking}名`;
-          if (p.prize.type == 0) this.prizeList.prizeType = "邮寄奖品";
-          else this.prizeList.prizeType = "自取奖品";
-          this.receivingDec = `收货地址${p.receiving.address} ${
-            p.receiving.consignee
-          } ${p.receiving.mobile}`;
+          p.time = timestamp_switch_time(p.prize.time);
+          p.matchdec = `${p.match.name}第${p.match.ranking}名`;
+          if (p.prize.type == 0){
+            p.prizeType = "邮寄奖品";
+            //根据状态改变按钮文案
+            if(p.receiving.status==1) p.btnText = '去发货'
+            else if(p.receiving.status==2) p.btnText = '已发货'
+            else p.btnText = '已收货'
+          } else{
+            p.prizeType = "自取奖品";
+            if(p.receiving.status==1) p.btnText = '确认取出'
+            else p.btnText = '已取出'
+          }
+          p.receivingDec = `收货地址${p.receiving.address} ${p.receiving.consignee} ${p.receiving.mobile}`;
         });
       }
     },
-    //无限加载数据
     goodsIdAjax(value) {
-      console.log(value);
-      console.log(this.prizesId);
       this.http.prizes
         .pickUpPrize({
           code: value,
@@ -72,6 +88,8 @@ export default {
         .then(res => {
           //请求成功后关闭输入框
           this.$refs.number_word_input.closePop();
+          //修改按钮状态
+          this.pickUpPrizeArr.push(this.prizesId)
         });
     },
     showPopup(id) {
@@ -93,16 +111,16 @@ export default {
             }提交后不能修改，确认提交？`
           })
           .then(() => {
-            console.log(this.prizesId);
-            console.log(this.express_name);
-            console.log(this.express_number);
             this.http.prizes
-              .pickUpPrize({
+              .shipInfo({
                 id: this.prizesId,
                 express: this.express_name,
                 waybillNumber: this.express_number
               })
-              .then(res => {});
+              .then(res => {
+                //修改按钮状态
+                this.shipInfoArr.push(this.prizesId)
+              });
           })
           .catch(() => {
             this.express_name = "";
@@ -140,16 +158,18 @@ export default {
   color: rgb(17, 17, 17);
   border: 0;
 }
+.sendbtn {
+  background: none;
+  border: 1px solid rgb(252, 198, 0);
+  color: rgb(252, 198, 0);
+}
 .outbtn {
   background: none;
   color: rgb(255, 80, 0);
   border: 0;
   padding: 0;
 }
-.sendbtn {
-  border-color: rgb(252, 198, 0);
-  color: rgb(252, 198, 0);
-}
+
 </style>
 <style>
 #exchangeIndex .van-card__desc {
