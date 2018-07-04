@@ -32,7 +32,7 @@
       <radio-btn class="send_type" :data="sendStyle" @select="typeSelect"></radio-btn>
       <div class="address" v-show="addressShow">
         <p class="address_title">请选择自提地址</p>
-        <van-cell class="address_info" :title="contact" :label="address" is-link center to="prize/address"></van-cell>
+        <van-cell class="address_info" :title="contact" :label="address" is-link center @click="toAddress"></van-cell>
       </div>
     </div>
     <div class="footer">
@@ -49,7 +49,6 @@ export default {
   data() {
     return {
       addressShow: false,
-      prizeImageShow: true,
       rankList: [],
       rankPrize: [],
       sendStyle: [
@@ -84,17 +83,18 @@ export default {
       return total;
     },
     ...mapState({
-      coverImg() {
-        return this.$store.state.match.prizeCover;
+      coverImg(state) {
+        console.log(state.match.prizeCover);
+        return state.match.prizeCover;
+      },
+      prizeImageShow(state) {
+        return state.match.prizeCover ? false : true;
       }
     })
   },
   created() {
     if (!this.$store.state.match.gameName.id) {
       this.$toast("需要选择游戏之后才可以设置奖品");
-      setTimeout(() => {
-        this.$emit("prizeShow", false);
-      }, 2000);
       return;
     }
     if (!this.$store.state.match.attendPerson) {
@@ -146,7 +146,6 @@ export default {
     onRead(file) {
       this.upload(file).then(src => {
         this.$store.commit("setPrizeCover", src);
-        this.prizeImageShow = false;
       });
     },
     cancelClick() {
@@ -160,6 +159,7 @@ export default {
       if (!this.coverImg) {
         return this.$toast("请选择奖品图片");
       }
+      this.$store.commit("setIfSave", true);
       this.$router.go(-1);
     },
     prizeInput(index, evt) {
@@ -177,14 +177,16 @@ export default {
         return (this.addressShow = true);
       }
       this.addressShow = false;
+    },
+    toAddress() {
+      this.$store.commit("setRankPrize", this.rankPrize);
+      this.$store.commit("setTotalValue", this.totalPrize);
+      this.$router.push("prize/address");
     }
-  },
-  beforeRouteLeave(to, from, next) {
-    this.$store.commit("setRankPrize", this.rankPrize);
-    this.$store.commit("setTotalValue", this.totalPrize);
-    this.$store.commit("setIfSave", true);
-    next();
   }
+  // beforeRouteLeave(to, from, next) {
+  //   next();
+  // }
 };
 </script>
 
