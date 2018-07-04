@@ -84,7 +84,6 @@ export default {
     },
     ...mapState({
       coverImg(state) {
-        console.log(state.match.prizeCover);
         return state.match.prizeCover;
       },
       prizeImageShow(state) {
@@ -99,9 +98,6 @@ export default {
     }
     if (!this.$store.state.match.attendPerson) {
       this.$toast("需要设置比赛规模后才可以设置奖品");
-      setTimeout(() => {
-        this.$emit("prizeShow", false);
-      }, 2000);
     }
     // 检测自提地址是否存在，存在用自提地址，不存在用店铺地址
     let gainPrizeAddress = this.$store.state.match.gainPrizeAddress;
@@ -179,14 +175,14 @@ export default {
       this.addressShow = false;
     },
     toAddress() {
-      this.$store.commit("setRankPrize", this.rankPrize);
-      this.$store.commit("setTotalValue", this.totalPrize);
       this.$router.push("prize/address");
     }
+  },
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit("setRankPrize", this.rankPrize);
+    this.$store.commit("setTotalValue", this.totalPrize);
+    next();
   }
-  // beforeRouteLeave(to, from, next) {
-  //   next();
-  // }
 };
 </script>
 
