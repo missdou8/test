@@ -15,7 +15,7 @@
 
 <style scoped>
 .share {
-  background: url("../../assets/share.png") no-repeat;
+  background: url("../../assets/share.png") center/ 100% 100% no-repeat;
   position: relative;
 }
 .prizeImg {
@@ -31,15 +31,31 @@
 }
 .match_title {
   position: absolute;
-  top: 37.28%;
+  top: 37.6%;
+  width: 100%;
+  text-align: center;
+  font-size: 0.42rem;
+  color: #fff;
 }
 .match_code {
   position: absolute;
-  top: 48.79%;
+  top: 50.5%;
+  width: 100%;
+  color: #fff;
+  font-size: 0.8rem;
+  text-align: center;
+}
+.match_code span {
+  margin: 0 2.2%;
+  margin-right: 2.25%;
 }
 .match_code_desc {
   position: absolute;
   top: 57.44%;
+  font-size: 0.36rem;
+  color: #fff;
+  width: 100%;
+  text-align: center;
 }
 .qr_code {
   position: absolute;
@@ -47,7 +63,11 @@
 }
 .qr_code_desc {
   position: absolute;
-  bottom: 4.33%;
+  bottom: 6%;
+  font-size: 0.36rem;
+  color: #deca83;
+  width: 100%;
+  text-align: center;
 }
 </style>
 

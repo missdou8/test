@@ -56,15 +56,15 @@
       <div class="like_info">
         <div class="like_info_item">
           <img class="icon" src="../assets/logo.png" alt="头像">
-          <span>7851</span>
+          <span>{{merchant.watchersCount}}</span>
         </div>
         <router-link class="like_info_item" :to="{path: '/user/record/like', query: {id:this.$store.state.match.id}}">
           <img src="../assets/like.png" alt="点赞">
-          <span>12.3w</span>
+          <span>{{match.likeCount}}</span>
         </router-link>
         <div class="like_info_item">
           <img src="../assets/share_default.png" alt="分享">
-          <span>5270</span>
+          <span>{{match.shareCount}}</span>
         </div>
         <div class="scroll_top" @click="backToTop">
           <img src="" alt="">
@@ -84,7 +84,8 @@ export default {
     return {
       current: true,
       match: {},
-      prizes: {}
+      prizes: {},
+      merchant: {}
     };
   },
   filters: {
@@ -96,6 +97,7 @@ export default {
     data() {
       this.match = this.data.match;
       this.prizes = this.data.prizes;
+      this.merchant = this.data.merchant;
     }
   },
   methods: {

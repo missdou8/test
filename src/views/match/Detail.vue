@@ -3,16 +3,16 @@
     <match-detail :data="matchData"></match-detail>
     <div class="footer">
       <p class="footer_time">
-        <span>2018/5/22 12:43</span>
+        <span>{{match.beginTime | formateTime}}</span>
         <span>开赛</span>
       </p>
       <p class="footer_num">
         <router-link :to="{path: '/user/record/join', query: {id: this.$store.state.match.id}}">
-          <i>人数</i>
+          <i>{{match.signupCount}}</i>
           <i>已报名</i>
         </router-link>
         <a>
-          <i>人数</i>
+          <i>{{match.arrivedCount}}</i>
           <i>开赛人数</i>
         </a>
       </p>
@@ -23,13 +23,16 @@
 
 <script>
 import MatchDetail from "../../components/MatchDetail.vue";
+import { timeFormate } from "lputils";
+
 export default {
   components: {
     MatchDetail
   },
   data() {
     return {
-      matchData: {}
+      matchData: {},
+      match: {}
     };
   },
   created() {
@@ -39,11 +42,17 @@ export default {
       })
       .then(res => {
         this.matchData = res.data;
+        this.match = this.matchData.match;
       });
+  },
+  filters: {
+    formateTime(time) {
+      return timeFormate(time * 1000, "YY/MM/DD HH:mm:ss");
+    }
   },
   methods: {
     toShare() {
-      this.$router.push("");
+      this.$router.push("/match/share");
     }
   }
 };

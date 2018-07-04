@@ -115,6 +115,7 @@ export default {
       this.matchType = this.active + 1;
       //清空列表数据
       this.matchPage = 1;
+      this.finished = false;
       this.list = [];
       this.fetchList();
     }
