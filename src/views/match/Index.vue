@@ -75,7 +75,7 @@
                   <span class="list_like">{{item.likeCount || 0 | trimNum}}</span>
                 </div>
                 <div :class="progressTag(0)" v-show="matchType == 1">
-                  <p>{{item.auditStatus || 2 | code2Word}}</p>
+                  <p>{{item.status || 2 | code2Word}}</p>
                 </div>
               </div>
             </div>
@@ -113,6 +113,8 @@ export default {
   watch: {
     active() {
       this.matchType = this.active + 1;
+      //清空列表数据
+      this.list = [];
       this.fetchList();
     }
   },
@@ -153,9 +155,11 @@ export default {
       this.userInfo = res.data;
       this.$store.commit("setInfo", this.userInfo);
     });
+    this.fetchList();
   },
   methods: {
     onLoad() {
+      this.matchPage += 1;
       this.fetchList().then(data => {
         this.loading = false;
         if (data.total <= this.matchPage * this.pageSize) {
@@ -164,6 +168,9 @@ export default {
       });
     },
     onRefresh() {
+      this.list = [];
+      this.matchPage = 1;
+      this.finished = false;
       this.fetchList(1).then(() => {
         this.refreshing = false;
       });

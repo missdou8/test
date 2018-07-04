@@ -37,8 +37,10 @@ export default {
       })
       .then(res => {});
   },
-  toShare() {
-    this.$router.push('')
+  methods: {
+    toShare() {
+      this.$router.push("");
+    }
   }
 };
 </script>
