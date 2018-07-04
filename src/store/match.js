@@ -5,7 +5,6 @@ const match = {
     attendPerson: { id: 0, value: "未选择" }, //参加比赛的人数
     attendStyle: { id: 0, value: "未选择" }, //报名类型
     rankPrize: [],
-    totalValue: "",
     sendStyle: "", //邮寄方式
     sendAddress: {},
     gameName: { id: 0, name: "未选择" }, //游戏名字
@@ -42,9 +41,6 @@ const match = {
     },
     setAttendStyle(state, style) {
       state.attendStyle = style;
-    },
-    setTotalValue(state, value) {
-      state.totalValue = value;
     },
     setPrizeCover(state, src) {
       state.prizeCover = src;

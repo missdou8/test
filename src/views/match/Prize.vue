@@ -14,9 +14,9 @@
     <div class="rank">
       <div class="prize_info" v-for="(item,index) in rankList">
         <p class="prize_rank">第{{item.value}}名</p>
-        <input class="prize_prize" type="text" placeholder="点击输入奖品名称，没有则不填" v-model="prizeShow[index].name" @blur="prizeInput(index,$event)">
+        <input class="prize_prize" type="text" placeholder="点击输入奖品名称，没有则不填" v-model="rankPrize[index].name" @blur="prizeInput(index,$event)">
         <div class="prize_value_content">
-          <input class="prize_value" v-model="prizeShow[index].prize" type="text" @blur="valueInput(index, $event)">
+          <input class="prize_value" v-model="rankPrize[index].prize" type="number" @blur="valueInput(index, $event)">
           <span class="prize_tag">元</span>
         </div>
       </div>
@@ -62,8 +62,7 @@ export default {
         }
       ],
       address: "",
-      contact: "",
-      prizeShow: ""
+      contact: ""
     };
   },
   components: {
@@ -71,9 +70,6 @@ export default {
   },
   computed: {
     totalPrize() {
-      if (this.$store.state.match.totalValue) {
-        return this.$store.state.match.totalValue;
-      }
       let total = 0;
       this.rankPrize.forEach(item => {
         if (item.prize) {
@@ -119,9 +115,22 @@ export default {
       })
       .then(res => {
         let data = res.data;
+        // 如果有奖品名称或者价值的话，那么说明页面本有数据，进行赋值
+        let state = this.$store.state.match.rankPrize;
+        let flag = false;
+        state.forEach((item, index) => {
+          if (item.name || item.prize) {
+            flag = true;
+          }
+        });
+
+        if (flag) {
+          this.rankPrize = state;
+        }
+
         this.rankList = data.prizesList.map((item, index) => {
           let rankItem = item.rank.split(",").join("-");
-          if (!this.prizeShow) {
+          if (!flag) {
             this.rankPrize[index] = {};
             this.rankPrize[index].rank = rankItem;
           }
@@ -131,11 +140,6 @@ export default {
             name: ""
           };
         });
-        if (this.$store.state.match.rankPrize.length != 0) {
-          this.prizeShow = this.$store.state.match.rankPrize;
-        } else {
-          this.prizeShow = this.rankList;
-        }
       });
   },
   methods: {
@@ -180,7 +184,6 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     this.$store.commit("setRankPrize", this.rankPrize);
-    this.$store.commit("setTotalValue", this.totalPrize);
     next();
   }
 };
