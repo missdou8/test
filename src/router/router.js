@@ -30,7 +30,7 @@ const routes = [
 
 const router = new VueRouter({
   mode: "history",
-  // baes: "/front/",
+  base: "/front/",
   routes
 });
 

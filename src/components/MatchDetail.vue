@@ -30,9 +30,9 @@
         <p class="prize_header">
           <span class="game_tag"></span>
           <span>比赛详情</span>
-          <div class="detail_page" v-html="match.content">
-          </div>
         </p>
+        <div class="detail_page" v-html="match.content">
+        </div>
       </div>
       <div id="prize" class="prize">
         <p class="prize_header">
@@ -40,14 +40,17 @@
           <span>比赛奖品</span>
         </p>
         <ul class="prize_list">
-          <li class="prize_list_item">
-            <p>第1名：奖品名称</p>
-            <img src="../assets/logo.png" alt="奖品">
+          <li class="prize_list_item" v-for="item in prizes.rankingSet">
+            <p>第{{item.rank}}名：{{item.name}}</p>
+            <img :src="prizes.img" alt="奖品">
           </li>
         </ul>
-        <div>
-          <p>自提地址：</p>
-          <p>北京回龙观</p>
+        <div v-show="prizes.type ==0">
+          <p class="prize_header">
+            <span class="game_tag"></span>
+            <span>自提地址</span>
+          </p>
+          <p class="address">{{prizes.regionName}} {{prizes.address}}</p>
         </div>
       </div>
       <div class="like_info">
@@ -324,6 +327,10 @@ a {
   margin-top: 0.2rem;
 }
 .detail_page {
+  text-indent: 2em;
+}
+.address {
+  background-color: #fff;
   text-indent: 2em;
 }
 </style>
