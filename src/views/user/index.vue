@@ -3,7 +3,7 @@
     <van-cell-group>
       <van-cell class="user_box">
         <div class="user_img_box">
-          <shear-img ref="shear_img" :def-img="userinfo.icon" :img-width="300" :img-height="300" @getImgUrl='getImgUrl($event)'></shear-img>
+          <shear-img ref="shear_img" :def-img="userinfo.icon||defImg" :img-width="300" :img-height="300" @getImgUrl='getImgUrl($event)'></shear-img>
         </div>
         <div class="user_msg">
           <h3>点击修改头像</h3>
@@ -29,10 +29,12 @@
 </template>
 
 <script>
+import icon from "../../assets/logo.png";
 import shearImg from "../../components/shearImg.vue";
 export default {
   data() {
     return {
+      defImg:icon, //默认头像
       userinfo: {},
       autonymText: "", //认证状态文案
     };

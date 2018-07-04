@@ -1,6 +1,6 @@
 <template>
     <div id="exchangeIndex">
-      <dida-list ref="dida_list" post-module="prizes" post-url="prizeList" @returnData="getPrizeList($event)">
+      <dida-list ref="dida_list" post-module="prizes" post-url="prizeList" no-data-text="暂无兑奖信息" @returnData="getPrizeList($event)">
         <van-panel class="panel" v-for="(prize,index) in prizeList" :key="index">
           <div class="panel_header" slot="header">
             <van-cell :value="prize.time" :label="prize.matchdec" :title="prize.nickname">
@@ -46,8 +46,8 @@ export default {
       express_name: "",
       express_number: "",
       prizesId: null, //选中的奖品id
-      pickUpPrizeArr:[], //存储点击自提取货按钮的物品id
-      shipInfoArr:[], //存储点击邮寄取按钮的物品id
+      pickUpPrizeArr: [], //存储点击自提取货按钮的物品id
+      shipInfoArr: [] //存储点击邮寄取按钮的物品id
     };
   },
   components: {
@@ -64,18 +64,20 @@ export default {
         this.prizeList.forEach(p => {
           p.time = timestamp_switch_time(p.prize.time);
           p.matchdec = `${p.match.name}第${p.match.ranking}名`;
-          if (p.prize.type == 0){
+          if (p.prize.type == 0) {
             p.prizeType = "邮寄奖品";
             //根据状态改变按钮文案
-            if(p.receiving.status==1) p.btnText = '去发货'
-            else if(p.receiving.status==2) p.btnText = '已发货'
-            else p.btnText = '已收货'
-          } else{
+            if (p.receiving.status == 1) p.btnText = "去发货";
+            else if (p.receiving.status == 2) p.btnText = "已发货";
+            else p.btnText = "已收货";
+          } else {
             p.prizeType = "自取奖品";
-            if(p.receiving.status==1) p.btnText = '确认取出'
-            else p.btnText = '已取出'
+            if (p.receiving.status == 1) p.btnText = "确认取出";
+            else p.btnText = "已取出";
           }
-          p.receivingDec = `收货地址${p.receiving.address} ${p.receiving.consignee} ${p.receiving.mobile}`;
+          p.receivingDec = `收货地址${p.receiving.address} ${
+            p.receiving.consignee
+          } ${p.receiving.mobile}`;
         });
       }
     },
@@ -89,7 +91,7 @@ export default {
           //请求成功后关闭输入框
           this.$refs.number_word_input.closePop();
           //修改按钮状态
-          this.pickUpPrizeArr.push(this.prizesId)
+          this.pickUpPrizeArr.push(this.prizesId);
         });
     },
     showPopup(id) {
@@ -119,7 +121,7 @@ export default {
               })
               .then(res => {
                 //修改按钮状态
-                this.shipInfoArr.push(this.prizesId)
+                this.shipInfoArr.push(this.prizesId);
               });
           })
           .catch(() => {
@@ -169,7 +171,6 @@ export default {
   border: 0;
   padding: 0;
 }
-
 </style>
 <style>
 #exchangeIndex .van-card__desc {

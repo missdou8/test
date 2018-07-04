@@ -1,5 +1,6 @@
 <template>
   <div id="didaList">
+    <h3 v-if="total==0&&noDataText" class="noDataText">{{noDataText}}</h3>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-list v-model="loading" :finished="finished" @load="onLoad">
         <!-- 开放html架构 -->
@@ -27,8 +28,9 @@ export default {
    * postUrl    接口地址名
    * dataName   接口中数据参数名不传与接口地址名一样
    * reqData    传递参数对象
+   *            没有记录时显示的文本提示
    */
-  props: ["postModule", "postUrl", "dataName","reqData"],
+  props: ["postModule", "postUrl", "dataName","reqData","noDataText"],
   watch: {
     list() {
       this.$emit("returnData", {
@@ -88,7 +90,7 @@ export default {
 </script>
 
 <style>
-#didaList {
+#didaList,#didaList .van-pull-refresh{
   height: 100%;
 }
 #didaList .title {
@@ -117,5 +119,12 @@ export default {
 }
 #didaList .van-cell:not(:last-child)::after {
   height: 198%;
+}
+#didaList .noDataText {
+  font-size: 0.4rem;
+  padding: 0.2rem;
+  margin-top: 1rem;
+  line-height: 0.6rem;
+  text-align: center;
 }
 </style>

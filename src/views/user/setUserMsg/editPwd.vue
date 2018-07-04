@@ -51,7 +51,7 @@ export default {
               message: res.msg
             })
             .then(() => {
-              this.$router.push({ path: "/login", replace: true });
+              this.$router.go(-1);
             });
         });
     }
