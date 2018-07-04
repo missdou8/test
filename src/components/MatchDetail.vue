@@ -7,14 +7,14 @@
     </div>
     <div class="detail_content">
       <div id="detail" class="cover_img">
-        <img src="../assets/banner_task.png" alt="比赛封面">
+        <img :src="match.cover" alt="比赛封面">
       </div>
       <div class="header">
-        <h1 class="header_title">大洋百货500ml洗发露争夺赛</h1>
+        <h1 class="header_title">{{match.title}}</h1>
         <p class="header_info">
-          <span class="header_info_time">09:00</span>
-          <span class="header_info_send">09:00</span>
-          <span class="header_info_type">09:00</span>
+          <span class="header_info_time">{{match.beginTime | formateTime}}</span>
+          <span class="header_info_send">{{prizes.type == 0 ? '邮寄': '自取'}}</span>
+          <span class="header_info_type">{{match.signupType == 1 ? '免费报名': '邀请码报名'}}</span>
         </p>
         <button class="edit-btn" @click="toEdit">信息有误，去修改>></button>
       </div>
@@ -22,11 +22,18 @@
         <p class="game_info">
           <span class="game_tag"></span>
           <span>玩法：</span>
-          <span class="game_name">推倒胡麻将</span>
+          <span class="game_name">{{match.gameName}}</span>
         </p>
-        <span class="game_rule">规则</span>
+        <span class="game_rule" @click="toRule">规则</span>
       </div>
-      <div>比赛详情</div>
+      <div class="detail">
+        <p class="prize_header">
+          <span class="game_tag"></span>
+          <span>比赛详情</span>
+          <div class="detail_page" v-html="match.content">
+          </div>
+        </p>
+      </div>
       <div id="prize" class="prize">
         <p class="prize_header">
           <span class="game_tag"></span>
@@ -67,12 +74,26 @@
 </template>
 
 <script>
+import { timeFormate } from "lputils";
 export default {
-  props: ["type"],
+  props: ["type", "data"],
   data() {
     return {
-      current: true
+      current: true,
+      match: {},
+      prizes: {}
     };
+  },
+  filters: {
+    formateTime(time) {
+      return timeFormate(time * 1000, "HH:mm:ss");
+    }
+  },
+  watch: {
+    data() {
+      this.match = this.data.match;
+      this.prizes = this.data.prizes;
+    }
   },
   methods: {
     jump() {
@@ -85,6 +106,11 @@ export default {
     backToTop() {},
     toEdit() {
       this.$router.push("edit");
+    },
+    toRule() {
+      location.href =
+        "https://hbjxqp.happypoker.cn/appweb/gamerule/gamerules.html?activityId=" +
+        this.match.gameId;
     }
   }
 };
@@ -292,5 +318,12 @@ a {
   position: absolute;
   bottom: -1rem;
   right: 0;
+}
+.detail {
+  background-color: #fff;
+  margin-top: 0.2rem;
+}
+.detail_page {
+  text-indent: 2em;
 }
 </style>

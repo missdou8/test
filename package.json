@@ -11,7 +11,7 @@
     "alloycrop": "^1.0.4",
     "axios": "^0.18.0",
     "lpreset.css": "0.0.9",
-    "lputils": "0.0.3",
+    "lputils": "0.0.4",
     "postcss-preset-env": "^5.2.1",
     "qs": "^6.5.2",
     "vant": "^1.1.10",

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <match-detail></match-detail>
+    <match-detail :data="matchData"></match-detail>
     <div class="footer">
       <p class="footer_time">
         <span>2018/5/22 12:43</span>
@@ -28,14 +28,18 @@ export default {
     MatchDetail
   },
   data() {
-    return {};
+    return {
+      matchData: {}
+    };
   },
   created() {
     this.http.match
       .detail({
         id: this.$store.state.match.id
       })
-      .then(res => {});
+      .then(res => {
+        this.matchData = res.data;
+      });
   },
   methods: {
     toShare() {
