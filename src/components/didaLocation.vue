@@ -10,7 +10,7 @@ export default {
     let script = document.createElement("script");
     script.type = "text/javascript";
     script.src =
-      "http://webapi.amap.com/maps?v=1.4.6&key=4851ba7a49267a6ed906605fa1e2970c"; // 高德地图
+      "https://webapi.amap.com/maps?v=1.4.6&key=4851ba7a49267a6ed906605fa1e2970c"; // 高德地图
     document.body.appendChild(script);
   },
   methods: {

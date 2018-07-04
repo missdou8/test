@@ -66,7 +66,7 @@ export default {
               message: res.data.msg
             })
             .then(() => {
-              this.$router.push({ path: "/register", replace: true });
+              this.$router.push({ path: "/login", replace: true });
             });
         });
     },
