@@ -19,7 +19,7 @@
           <radio-btn :data="attendStyle" @select="attendStyleClick"></radio-btn>
         </van-collapse-item>
       </van-collapse>
-      <van-cell title="请填写奖品信息" value="未选择" is-link @click="toPrize" />
+      <van-cell title="请填写奖品信息" :value="prizeMsg" is-link @click="toPrize" />
     </van-cell-group>
     <van-popup v-model="gameShow" position="bottom">
       <van-picker :columns="gameList" show-toolbar @confirm="gameConfirm" @cancel="gameShow = false" />
@@ -29,7 +29,7 @@
     </van-popup>
     <div class="footer">
       <button @click="saveClick">保存</button>
-      <button @click="submit">提交审核</button>
+      <button @click="checkClick">提交审核</button>
     </div>
   </div>
 </template>
@@ -82,6 +82,9 @@ export default {
       },
       selectAttendType(state) {
         return state.match.attendStyle;
+      },
+      prizeMsg(state) {
+        return state.match.ifSave ? "已选择" : "未选择";
       }
     })
   },
@@ -161,7 +164,12 @@ export default {
     attendStyleClick(data) {
       this.$store.commit("setAttendStyle", data);
     },
-    saveClick() {},
+    saveClick() {
+      this.submit(0);
+    },
+    checkClick() {
+      this.submit(1);
+    },
     submit(type) {
       let match = this.$store.state.match;
       let detail = match.detail;

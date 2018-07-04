@@ -16,7 +16,7 @@
           <i>开赛人数</i>
         </a>
       </p>
-      <button class="share-btn">分享邀请码>></button>
+      <button class="share-btn" @click="toShare">分享邀请码>></button>
     </div>
   </div>
 </template>
@@ -31,7 +31,14 @@ export default {
     return {};
   },
   created() {
-    this.http.match.detail().then(res => {});
+    this.http.match
+      .detail({
+        id: this.$store.state.match.id
+      })
+      .then(res => {});
+  },
+  toShare() {
+    this.$router.push('')
   }
 };
 </script>
