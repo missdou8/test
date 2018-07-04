@@ -195,6 +195,7 @@ export default {
         })
         .then(res => {
           console.log("你好");
+          this.$router.go(-2);
         });
     }
   },

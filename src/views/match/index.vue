@@ -185,6 +185,9 @@ export default {
       if (this.userInfo.certification != 1) {
         return this.$toast("请先实名认证");
       }
+      if (this.userInfo.latitude == 0) {
+        return this.$toast("请先设置店铺的信息");
+      }
       this.$router.push("match/create");
     },
     fetchList() {
@@ -370,12 +373,13 @@ export default {
 .match_list_content {
   display: flex;
   flex-wrap: wrap;
-  padding-top: 0.2rem;
+  padding: 0.2rem;
+  justify-content: space-between;
 }
 .match_list_item {
   background-color: #fff;
   box-shadow: 0 0.1rem 0.1rem #e3e3e3;
-  margin: 0 auto 0.2rem auto;
+  margin-bottom: 0.2rem;
   width: 45%;
   height: 2.35rem;
   padding: 0.25rem 0 0.45rem 0;
