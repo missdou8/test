@@ -63,7 +63,7 @@ export default {
           this.$dialog
             .alert({
               title: "嘀嗒比赛",
-              message: res.data.msg
+              message: res.msg
             })
             .then(() => {
               this.$router.push({ path: "/login", replace: true });
