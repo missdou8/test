@@ -2,10 +2,10 @@
   <div class="match-detail">
     <div class="navbar">
       <span :class="{back: type=='mobile'}" @click="backClick"></span>
-      <a :class="{active: current}" href="#detail" @click="jump">比赛详情</a>
-      <a :class="{active: !current}" href="#prize" @click="jump">比赛奖品</a>
+      <a :class="{active: current}" href="#detail" @click="jump($event)" replace>比赛详情</a>
+      <a :class="{active: !current}" href="#prize" @click="jump($event)" replace>比赛奖品</a>
     </div>
-    <div class="detail_content">
+    <div class="detail_content" ref="detail_content">
       <div id="detail" class="cover_img">
         <img :src="match.cover" alt="比赛封面">
       </div>
@@ -66,7 +66,7 @@
           <img src="../assets/share_default.png" alt="分享">
           <span>{{match.shareCount}}</span>
         </div>
-        <div class="scroll_top" @click="backToTop">
+        <div v-if="top!=0" class="scroll_top" @click="backToTop">
           <img src="" alt="">
           <span></span>
         </div>
@@ -85,7 +85,8 @@ export default {
       current: true,
       match: {},
       prizes: {},
-      merchant: {}
+      merchant: {},
+      top: 0
     };
   },
   filters: {
@@ -100,15 +101,23 @@ export default {
       this.merchant = this.data.merchant;
     }
   },
+  mounted() {
+    this.$refs.detail_content.addEventListener("scroll",()=>{
+      this.top = this.$refs.detail_content.scrollTop
+    });
+  },
   methods: {
-    jump() {
+    jump(e) {
       this.current = !this.current;
+      location.replace(e.target.href);
     },
     backClick() {
       //当在浏览器中和客户端中都跳
       console.log("点击跳回上一页");
     },
-    backToTop() {},
+    backToTop() {
+      this.$refs.detail_content.scrollTop = 0;
+    },
     toEdit() {
       this.$router.push("edit");
     },
@@ -116,7 +125,7 @@ export default {
       location.href =
         "https://hbjxqp.happypoker.cn/appweb/gamerule/gamerules.html?activityId=" +
         this.match.gameId;
-    }
+    },
   }
 };
 </script>
