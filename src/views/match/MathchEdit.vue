@@ -52,6 +52,7 @@ export default {
       let editImg = document.createElement("button");
       editImg.classList.add("edit_btn");
       editImg.innerHTML = "编辑图片";
+      editImg.setAttribute('contenteditable',false);
       editImg.addEventListener("click", function() {
         console.log(" 编辑图片");
       });
