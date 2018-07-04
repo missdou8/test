@@ -133,6 +133,7 @@ export default {
           if (!flag) {
             this.rankPrize[index] = {};
             this.rankPrize[index].rank = rankItem;
+            this.rankPrize[index].index = item.index;
           }
           return {
             id: item.index,
@@ -169,7 +170,7 @@ export default {
     valueInput(index, evt) {
       let dom = evt.target;
       let obj = this.rankPrize[index];
-      obj.prize = dom.value;
+      obj.price = dom.value;
       this.$set(this.rankPrize, index, obj);
     },
     typeSelect(data) {
