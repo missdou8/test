@@ -4,7 +4,7 @@
       <div class="addCover" v-show="addShow">
         <p class="add">
           <span class="add_img"></span>
-          <span>添加店铺封面</span>
+          <span>添加赛事封面</span>
         </p>
       </div>
       <img class="cover-img" :src="coverImg" v-show="!addShow" alt="封面图片">
@@ -80,6 +80,7 @@ export default {
         content: content,
         coverImg: this.coverImg
       });
+      this.$store.commit("setIsEdit", false);
       this.$router.push("style");
     },
     append(file) {
@@ -117,9 +118,6 @@ export default {
 </script>
 
 <style scoped>
-img {
-  width: 100%;
-}
 .create::before {
   content: "";
   display: table;
@@ -133,17 +131,19 @@ img {
   text-align: center;
 }
 .uploader {
-  background-color: #000;
-  border-radius: 0.1rem;
   color: #fff;
   margin: 0.3rem 0;
   width: 100%;
 }
 .cover-img {
+  height: 2.65rem;
   vertical-align: middle;
 }
 .addCover {
+  background-color: #000;
+  border-radius: 0.1rem;
   margin: 0.3rem;
+  padding: 0.3rem;
 }
 .create_content {
   display: flex;

@@ -43,6 +43,41 @@ export default {
       .then(res => {
         this.matchData = res.data;
         this.match = this.matchData.match;
+        //设置属性，以备编辑
+        this.$store.commit("setDetail", {
+          title: this.match.title,
+          content: this.match.content,
+          coverImg: this.match.cover
+        });
+        this.$store.commit("setGameName", {
+          id: this.match.gameId,
+          name: this.match.gameName
+        });
+        let attendStyle = [
+          {
+            id: 1,
+            value: "免费赛"
+          },
+          {
+            id: 2,
+            value: "邀请赛"
+          }
+        ];
+        let att = {};
+        attendStyle.forEach(item => {
+          if (item.id == this.match.signupType) {
+            att = item;
+          }
+        });
+        this.$store.commit("setTime", this.match.beginTime);
+        this.$store.commit("setAttendPerson", {
+          id: this.match.templateId,
+          value: this.match.templateTitle
+        });
+        this.$store.commit("setAttendStyle", att);
+        this.$store.commit("setIfSave", true);
+        this.$store.commit("setTotalValue", "");
+        this.$store.commit("setIsEdit", true);
       });
   },
   filters: {

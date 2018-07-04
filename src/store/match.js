@@ -12,7 +12,8 @@ const match = {
     ifSave: false,
     detail: {}, //赛事信息：标题，封面和内容
     gainPrizeAddress: "", //自提地址
-    prizeCover: ""
+    prizeCover: "",
+    isEdit: false //标记是否为编辑
   },
   mutations: {
     setId(state, id) {
@@ -47,6 +48,9 @@ const match = {
     },
     setPrizeCover(state, src) {
       state.prizeCover = src;
+    },
+    setIsEdit(state, bl) {
+      state.isEdit = bl;
     }
   }
 };

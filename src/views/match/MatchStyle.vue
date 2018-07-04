@@ -171,19 +171,21 @@ export default {
       this.submit(1);
     },
     submit(type) {
+      let isEdit = this.$store.state.match.isEdit;
+      let action = "createMatch";
       let match = this.$store.state.match;
       let detail = match.detail;
       let gameName = match.gameName;
-      this.http.match
-        .createMatch({
-          isAudit: type,
-          title: detail.title,
-          cover: detail.coverImg,
-          content: detail.content,
-          gameId: gameName.id,
-          beginTime: match.time,
-          templateId: match,
-          signupType: match.attendStyle.id,
+      let params = {
+        isAudit: type,
+        title: detail.title,
+        cover: detail.coverImg,
+        content: detail.content,
+        gameId: gameName.id,
+        beginTime: match.time,
+        templateId: match.attendPerson.id,
+        signupType: match.attendStyle.id,
+        prizes: {
           img: match.prizeCover,
           type: match.sendStyle,
           address: match.gainPrizeAddress.address,
@@ -192,11 +194,19 @@ export default {
           cityId: match.gainPrizeAddress.cityId,
           areaId: match.gainPrizeAddress.areaId,
           rankingSet: match.rankPrize
-        })
-        .then(res => {
-          console.log("你好");
+        }
+      };
+      if (isEdit) {
+        action = "editMatch";
+        params.id = match.id;
+      }
+      this.http.match[action](params).then(res => {
+        if (isEdit) {
+          this.$router.go(-3);
+        } else {
           this.$router.go(-2);
-        });
+        }
+      });
     }
   },
   beforeRouteLeave(to, from, next) {

@@ -65,7 +65,7 @@
     <van-tabs v-model="active" class="match_main" :line-width="40">
       <van-tab v-for="(item, index) in tabs.length" :title="tabs[index]" :key="index">
         <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh">
-          <van-list v-model="loading" :finished="finished" @load="onLoad">
+          <van-list v-model="loading" :finished="finished" @load="onLoad" :immediate-check="false" :offset="100">
             <div class="match_list_content">
               <div class="match_list_item" v-for="item in list" :key="item.id" @click="toDetail(item.id)">
                 <img :src="item.cover ||cover" alt="封面图片">
@@ -107,7 +107,7 @@ export default {
       finished: false,
       matchType: 1,
       matchPage: 1,
-      pageSize: 4
+      pageSize: 10
     };
   },
   watch: {
@@ -122,27 +122,19 @@ export default {
   },
   filters: {
     code2Word(code) {
-      let word = "";
-      switch (code) {
-        case 0:
-          word = "新建未审核";
-          break;
-        case 1:
-          word = "新建提审中";
-          break;
-        case 2:
-          word = "信息修改提审中";
-          break;
-        case 3:
-          word = "申请被驳回";
-          break;
-        case 4:
-          word = "审核通过，等待发布";
-          break;
-        case 5:
-          word = "已发布";
-      }
-      return word;
+      let word = {
+        0: "新建未审核",
+        1: "新建提审中",
+        2: "信息修改未提审",
+        3: "信息修改审核中",
+        4: "审核不通过",
+        5: "审核已通过",
+        6: "已发布",
+        7: "被取消",
+        8: "比赛中",
+        9: "赛事已结束"
+      };
+      return word[code];
     },
     trimNum(num) {
       if (num > 10000) {
@@ -161,6 +153,7 @@ export default {
   },
   methods: {
     onLoad() {
+      console.log("你好");
       this.matchPage += 1;
       this.fetchList().then(data => {
         this.loading = false;

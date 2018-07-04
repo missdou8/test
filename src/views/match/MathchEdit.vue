@@ -1,35 +1,63 @@
 <template>
-    <div class="edit">
-        <div class="cover">
-            <img src="../../assets/logo.png" alt="封面">
-            <van-uploader class="cover_edit">修改封面</van-uploader>
-        </div>
-        <div class="title">
-            <span>标题</span>
-            <span>TCL超大屏液晶电视争夺赛</span>
-        </div>
-        <div class="content">
-
-        </div>
-        <div class="btn">
-            <button>保存</button>
-            <button>申请修改</button>
-        </div>
+  <div class="edit">
+    <div class="cover">
+      <img :src="cover" alt="封面">
+      <van-uploader class="cover_edit" :after-read="onRead">修改封面</van-uploader>
     </div>
+    <div class="title">
+      <span>标题</span>
+      <span class="can-edit" ref="title" contenteditable="true">{{title}}</span>
+    </div>
+    <div contenteditable="true" ref="content" class="content can-edit" v-html="content">
+
+    </div>
+    <div class="btn">
+      <button @click="next">下一步</button>
+    </div>
+  </div>
 </template>
 
 
 <script>
+import { mapState } from "vuex";
 export default {
+  data() {
+    return {
+      detail: this.$store.state.match.detail
+    };
+  },
+  computed: {
+    ...mapState({
+      cover(state) {
+        return state.match.detail.coverImg;
+      },
+      title(state) {
+        return state.match.detail.title;
+      },
+      content(state) {
+        return state.match.detail.content;
+      }
+    })
+  },
+  created() {},
   mounted() {
     let imgContentDoms = document.querySelectorAll(".img_content");
     imgContentDoms.forEach(item => {
       let editBtn = document.createElement("div");
+      editBtn.style.position = "absolute";
+      editBtn.style.right = "0.2rem";
+      editBtn.style.bottom = "0.15rem";
+      editBtn.style.display = "flex";
+      editBtn.style.flexDirection = "column";
       let editImg = document.createElement("button");
+      editImg.classList.add("edit_btn");
+      editImg.innerHTML = "编辑图片";
       editImg.addEventListener("click", function() {
         console.log(" 编辑图片");
       });
       let deleteImg = document.createElement("button");
+      deleteImg.innerHTML = "删除图片";
+      deleteImg.classList.add("edit_btn");
       deleteImg.addEventListener("click", function() {
         console.log("删除图片");
       });
@@ -37,11 +65,33 @@ export default {
       editBtn.appendChild(deleteImg);
       item.appendChild(editBtn);
     });
+  },
+  methods: {
+    onRead(file) {
+      this.upload(file).then(src => {
+        this.detail.coverImg = src;
+        this.$store.commit("setDetail", this.detail);
+      });
+    },
+    next() {
+      this.detail.title = this.$refs.title.innerHTML;
+      this.detail.content = this.$refs.content.innerHTML;
+      this.$store.commit("setDetail", this.detail);
+      this.$router.push("style");
+    }
   }
 };
 </script>
 
-
+<style>
+.edit_btn {
+  background-color: rgba(0, 0, 0, 0.8);
+  box-shadow: 0.1rem 0.1rem 0.2rem #000;
+  color: #ffde00;
+  margin-bottom: 0.25rem;
+  padding: 0.1rem 0.3rem;
+}
+</style>
 <style scoped>
 /* 距离顶部高度 */
 .title,
@@ -85,8 +135,10 @@ export default {
   flex-basis: 0;
   flex-grow: 1;
   padding-bottom: 2rem;
+  overflow-y: auto;
 }
 .btn {
+  background-color: #fff;
   padding: 0.2rem 0;
   position: absolute;
   bottom: 0;
@@ -105,6 +157,9 @@ export default {
 }
 .btn button:nth-child(2) {
   border: 0.01rem solid #ffde00;
+}
+.can-edit {
+  outline: none;
 }
 </style>
 
