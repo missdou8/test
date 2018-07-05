@@ -52,13 +52,14 @@ export default {
       let editImg = document.createElement("button");
       editImg.classList.add("edit_btn");
       editImg.innerHTML = "编辑图片";
-      editImg.setAttribute('contenteditable',false);
+      editImg.setAttribute("contenteditable", false);
       editImg.addEventListener("click", function() {
         console.log(" 编辑图片");
       });
       let deleteImg = document.createElement("button");
       deleteImg.innerHTML = "删除图片";
       deleteImg.classList.add("edit_btn");
+      deleteImg.setAttribute("contenteditable", false);
       deleteImg.addEventListener("click", function() {
         console.log("删除图片");
       });
