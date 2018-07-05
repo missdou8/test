@@ -47,6 +47,9 @@ const match = {
     },
     setIsEdit(state, bl) {
       state.isEdit = bl;
+    },
+    setSendStyle(state, type) {
+      state.sendStyle = type;
     }
   }
 };

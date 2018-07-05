@@ -29,7 +29,7 @@
     </p>
     <div class="send">
       <p class="send_title">请选择发奖方式</p>
-      <radio-btn class="send_type" :data="sendStyle" @select="typeSelect"></radio-btn>
+      <radio-btn class="send_type" :data="sendStyle" @select="typeSelect" :selected="sendType"></radio-btn>
       <div class="address" v-show="addressShow">
         <p class="address_title">请选择自提地址</p>
         <van-cell class="address_info" :title="contact" :label="address" is-link center @click="toAddress"></van-cell>
@@ -48,7 +48,6 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      addressShow: false,
       rankList: [],
       rankPrize: [],
       sendStyle: [
@@ -84,6 +83,15 @@ export default {
       },
       prizeImageShow(state) {
         return state.match.prizeCover ? false : true;
+      },
+      sendType(state) {
+        return state.match.sendStyle;
+      },
+      addressShow(state) {
+        if (state.match.sendStyle == 1) {
+          return true;
+        }
+        return false;
       }
     })
   },
@@ -98,8 +106,7 @@ export default {
     // 检测自提地址是否存在，存在用自提地址，不存在用店铺地址
     let gainPrizeAddress = this.$store.state.match.gainPrizeAddress;
     if (gainPrizeAddress) {
-      this.address = gainPrizeAddress.regionName;
-      this.subAddress = gainPrizeAddress.address;
+      this.address = gainPrizeAddress.regionName + gainPrizeAddress.address;
     } else {
       this.address =
         this.$store.state.user.userInfo.regionName +
@@ -184,10 +191,7 @@ export default {
       this.$set(this.rankPrize, index, obj);
     },
     typeSelect(data) {
-      if (data.id == 1) {
-        return (this.addressShow = true);
-      }
-      this.addressShow = false;
+      this.$store.commit("setSendStyle", data.id);
     },
     toAddress() {
       this.$router.push("prize/address");

@@ -12,8 +12,8 @@ export default {
       select: 0
     };
   },
-  watch: {
-    selected() {
+  mounted() {
+    if (this.selected) {
       this.select = this.selected;
     }
   },

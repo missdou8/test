@@ -45,7 +45,7 @@
             <img :src="prizes.img" alt="奖品">
           </li>
         </ul>
-        <div v-show="prizes.type ==0">
+        <div v-show="prizes.type == 1">
           <p class="prize_header">
             <span class="game_tag"></span>
             <span>自提地址</span>
@@ -55,7 +55,7 @@
       </div>
       <div class="like_info">
         <div class="like_info_item">
-          <img class="icon" src="../assets/logo.png" alt="头像">
+          <img class="icon" :src="merchant.icon" alt="头像">
           <span>{{merchant.watchersCount}}</span>
         </div>
         <router-link class="like_info_item" :to="{path: '/user/record/like', query: {id:this.$store.state.match.id}}">

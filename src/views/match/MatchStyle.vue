@@ -142,7 +142,6 @@ export default {
               value: item.title
             };
           });
-          console.log(this.personList);
         });
     },
     gameConfirm(value, index) {

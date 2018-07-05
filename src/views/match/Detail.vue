@@ -1,7 +1,7 @@
 <template>
   <div>
     <match-detail :data="matchData"></match-detail>
-    <div class="footer">
+    <div class="footer" :class="{free: match.signupType == 1}">
       <p class="footer_time">
         <span>{{match.beginTime | formateTime}}</span>
         <span>开赛</span>
@@ -16,7 +16,7 @@
           <i>开赛人数</i>
         </a>
       </p>
-      <button class="share-btn" @click="toShare">分享邀请码>></button>
+      <button v-show="match.signupType != 1" class="share-btn" @click="toShare">分享邀请码>></button>
     </div>
   </div>
 </template>
@@ -146,6 +146,14 @@ a {
   right: 0;
   bottom: 0;
   text-align: right;
+}
+.free .footer_num,
+.free .footer_time {
+  flex-basis: 0;
+  flex-grow: 1;
+}
+.free .footer_num {
+  justify-content: center;
 }
 </style>
 
