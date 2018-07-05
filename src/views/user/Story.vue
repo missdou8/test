@@ -10,7 +10,7 @@
       <img class="cover-img" :src="coverImg" v-show="!addShow" alt="封面图片">
     </van-uploader>
     <div class="create_content">
-      <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" ref="createIntro">{{contentPlace}}</div>
+      <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" ref="createIntro" v-html="contentPlace"></div>
     </div>
     <van-uploader v-show="appendShow" class="append" :after-read="append">
       <img src="../../assets/img_add.png" alt="添加图片">
@@ -25,17 +25,26 @@ export default {
     return {
       titlePlace: "添加比赛名称",
       contentPlace: "请添加图文介绍",
-      addShow: true,
       coverImg: "",
       appendShow: false
     };
   },
-  mounted() {},
+  created() {
+    this.http.user.getShopInfo().then(res => {
+      let data = res.data;
+      this.coverImg = data.cover;
+      this.contentPlace = data.content;
+    });
+  },
+  computed: {
+    addShow() {
+      return this.coverImg ? false : true;
+    }
+  },
   methods: {
     onRead(file) {
       this.upload(file).then(src => {
         this.coverImg = src;
-        this.addShow = false;
       });
     },
     titleInput(evt) {
