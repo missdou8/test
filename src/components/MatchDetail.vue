@@ -102,8 +102,8 @@ export default {
     }
   },
   mounted() {
-    this.$refs.detail_content.addEventListener("scroll",()=>{
-      this.top = this.$refs.detail_content.scrollTop
+    this.$refs.detail_content.addEventListener("scroll", () => {
+      this.top = this.$refs.detail_content.scrollTop;
     });
   },
   methods: {
@@ -119,13 +119,21 @@ export default {
       this.$refs.detail_content.scrollTop = 0;
     },
     toEdit() {
+      //如果正在审核中，那么不能修改
+      if (
+        this.data.match.status == 0 ||
+        this.data.match.status == 1 ||
+        this.data.match.status == 3
+      ) {
+        return this.$toast("正在审核中的赛事不能修改");
+      }
       this.$router.push("edit");
     },
     toRule() {
       location.href =
         "https://hbjxqp.happypoker.cn/appweb/gamerule/gamerules.html?activityId=" +
         this.match.gameId;
-    },
+    }
   }
 };
 </script>

@@ -76,7 +76,6 @@ export default {
         });
         this.$store.commit("setAttendStyle", att);
         this.$store.commit("setIfSave", true);
-        this.$store.commit("setTotalValue", "");
         this.$store.commit("setIsEdit", true);
       });
   },
