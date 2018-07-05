@@ -44,11 +44,7 @@ export default {
     let imgContentDoms = document.querySelectorAll(".img_content");
     imgContentDoms.forEach(item => {
       let editBtn = document.createElement("div");
-      editBtn.style.position = "absolute";
-      editBtn.style.right = "0.2rem";
-      editBtn.style.bottom = "0.15rem";
-      editBtn.style.display = "flex";
-      editBtn.style.flexDirection = "column";
+      editBtn.classList.add("edit_cover");
       let editImg = document.createElement("button");
       editImg.classList.add("edit_btn");
       editImg.innerHTML = "编辑图片";
@@ -61,7 +57,10 @@ export default {
       deleteImg.classList.add("edit_btn");
       deleteImg.setAttribute("contenteditable", false);
       deleteImg.addEventListener("click", function() {
-        console.log("删除图片");
+        //删除整个容器
+        deleteImg.parentElement.parentElement.parentElement.removeChild(
+          deleteImg.parentElement.parentElement
+        );
       });
       editBtn.appendChild(editImg);
       editBtn.appendChild(deleteImg);
@@ -76,6 +75,11 @@ export default {
       });
     },
     next() {
+      //当保存的时候要将按钮删掉
+      let btns = document.querySelectorAll(".edit_cover");
+      btns.forEach(item => {
+        document.body.removeChild(item);
+      });
       this.detail.title = this.$refs.title.innerHTML;
       this.detail.content = this.$refs.content.innerHTML;
       this.$store.commit("setDetail", this.detail);
@@ -86,6 +90,13 @@ export default {
 </script>
 
 <style>
+.edit_cover {
+  position: absolute;
+  right: 0.2rem;
+  bottom: 0.15rem;
+  display: flex;
+  flex-direction: column;
+}
 .edit_btn {
   background-color: rgba(0, 0, 0, 0.8);
   box-shadow: 0.1rem 0.1rem 0.2rem #000;
@@ -134,10 +145,12 @@ export default {
   margin-right: 0.3rem;
 }
 .content {
+  background-color: #fff;
   flex-basis: 0;
   flex-grow: 1;
   padding-bottom: 2rem;
   overflow-y: auto;
+  text-indent: 2em;
 }
 .btn {
   background-color: #fff;
