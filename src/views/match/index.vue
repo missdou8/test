@@ -153,7 +153,6 @@ export default {
   },
   methods: {
     onLoad() {
-      console.log("你好");
       this.matchPage += 1;
       this.fetchList().then(data => {
         this.loading = false;
