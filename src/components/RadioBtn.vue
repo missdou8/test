@@ -6,11 +6,16 @@
 
 <script>
 export default {
-  props: ["data"],
+  props: ["data", "selected"],
   data() {
     return {
       select: 0
     };
+  },
+  watch: {
+    selected() {
+      this.select = this.selected;
+    }
   },
   methods: {
     radioClick(data, index) {
