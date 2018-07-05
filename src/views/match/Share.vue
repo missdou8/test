@@ -117,6 +117,6 @@ export default {
 
 <style>
 .share .qr_code img{
-   border-radius: .2rem;
+   border-radius: .15rem;
 }
 </style>
