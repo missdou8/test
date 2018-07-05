@@ -100,6 +100,17 @@ export default {
       this.match = this.data.match;
       this.prizes = this.data.prizes;
       this.merchant = this.data.merchant;
+      //判断是否显示可以修改的按钮
+      let matchStatus = this.match.status;
+      if (
+        matchStatus == 0 ||
+        matchStatus == 2 ||
+        matchStatus == 4 ||
+        matchStatus == 5 ||
+        matchStatus == 6
+      ) {
+        this.editShow = true;
+      }
     }
   },
   mounted() {
