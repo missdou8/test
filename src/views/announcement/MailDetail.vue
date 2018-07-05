@@ -1,15 +1,16 @@
 <template>
-    <div class="detail">
-        <h1>{mail.title}</h1>
-        <p>{{mail.content}}</p>
-    </div>
+  <div class="detail">
+    <h1>{{mail.title}}</h1>
+    <p v-html="mail.content"></p>
+  </div>
 </template>
 
 <script>
 export default {
   data() {
-    mail: {
-    }
+    return {
+      mail: {}
+    };
   },
   created() {
     this.http.notice
