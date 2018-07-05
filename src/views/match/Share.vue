@@ -87,7 +87,10 @@ export default {
 }
 .qr_code {
   position: absolute;
-  top: 68.43%;
+  top: 65%;
+  max-width: 40%;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 .qr_code_desc {
   position: absolute;
