@@ -6,13 +6,14 @@ import match from "./match.js";
 import user from "./user.js";
 import publicHttp from "./publicHttp.js";
 import prizes from "./prizes.js";
+import notice from "./notice.js";
 
 /**
  * 常量
  */
 const hostname = "/api/";
 
-const reqAndUrl = Object.assign(match, user, publicHttp, prizes);
+const reqAndUrl = Object.assign(match, user, publicHttp, prizes, notice);
 
 class ApiService {
   getSessionData(sessionItem) {
@@ -116,15 +117,21 @@ for (const key in reqAndUrl) {
       reqURL = url[0];
       trueURL = url[1];
     }
-    ApiService.prototype[key][reqURL] = function(data, method = "post") {
-      return axios[method](
-        hostname + key + "/" + trueURL,
-        method == "post"
-          ? qs.stringify(data)
-          : {
-              params: data
-            }
-      )
+    ApiService.prototype[key][reqURL] = function(
+      data,
+      method = "post",
+      config = {}
+    ) {
+      let queryData = data;
+      if (method == "post" && Object.keys(config).length == 0) {
+        queryData = qs.stringify(data);
+      }
+      if (method == "get") {
+        queryData = {
+          params: data
+        };
+      }
+      return axios[method](hostname + key + "/" + trueURL, queryData, config)
         .then(res => {
           return res.data;
         })

@@ -1,16 +1,16 @@
 <template>
   <div class="register">
      <van-cell-group>
-        <van-field v-model="name" placeholder="请输入姓名" icon="clear" @click-icon="name = ''" :disabled="ispass"/>
-        <van-field v-model="phone" placeholder="请输入手机号" icon="clear" @click-icon="phone = ''" :disabled="ispass"/>
-        <van-field class="code_box" center v-model="code" placeholder="请输入手机验证码" icon="clear" @click-icon="code = ''" :disabled="ispass">
-          <van-button id="code" slot="button" size="small" type="primary" @click="sendClick()" :disabled="ispass||!ifSend">
+        <van-field v-model="name" placeholder="请输入姓名"/>
+        <van-field v-model="phone" placeholder="请输入手机号"/>
+        <van-field class="code_box" center v-model="code" placeholder="请输入手机验证码">
+          <van-button id="code" slot="button" size="small" type="primary" @click="sendClick()" :disabled="!ifSend">
             <span v-if="ifSend">发送验证码</span>
             <span class="disabled__btn" v-else>{{time}}s后可重新发送</span>
           </van-button>
         </van-field>
-        <van-field v-model="password" type="password" placeholder="请设置您的登录密码" icon="clear" @click-icon="password = ''" :disabled="ispass"/>
-        <van-field v-model="rePassword" type="password" placeholder="请再次输入您的密码" icon="clear" @click-icon="rePassword = ''" :disabled="ispass"/>
+        <van-field v-model="password" type="password" placeholder="请设置您的登录密码"/>
+        <van-field v-model="rePassword" type="password" placeholder="请再次输入您的密码"/>
       </van-cell-group>
       <div class="btn_box">
         <van-button :disabled="btnEnable" class="reg_btn" size="large" @click="register()">申请</van-button>
@@ -63,10 +63,10 @@ export default {
           this.$dialog
             .alert({
               title: "嘀嗒比赛",
-              message: res.data.msg
+              message: res.msg
             })
             .then(() => {
-              this.$router.push({ path: "/register", replace: true });
+              this.$router.push({ path: "/login", replace: true });
             });
         });
     },
@@ -190,7 +190,7 @@ export default {
 .register .van-field__button {
   height: 0.95rem;
 }
-.register .code_box .van-cell__value {
+/* .register .code_box .van-cell__value {
   margin-top: 0.2rem;
-}
+} */
 </style>

@@ -4,13 +4,13 @@
       <div class="addCover" v-show="addShow">
         <p class="add">
           <span class="add_img"></span>
-          <span>添加店铺封面</span>
+          <span>添加故事封面</span>
         </p>
       </div>
       <img class="cover-img" :src="coverImg" v-show="!addShow" alt="封面图片">
     </van-uploader>
     <div class="create_content">
-      <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" @keyup.enter="nextLine" ref="createIntro">{{contentPlace}}</div>
+      <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" ref="createIntro" v-html="contentPlace"></div>
     </div>
     <van-uploader v-show="appendShow" class="append" :after-read="append">
       <img src="../../assets/img_add.png" alt="添加图片">
@@ -25,19 +25,26 @@ export default {
     return {
       titlePlace: "添加比赛名称",
       contentPlace: "请添加图文介绍",
-      addShow: true,
       coverImg: "",
       appendShow: false
     };
   },
-  mounted() {
-    this.$refs.matchTitle.focus();
+  created() {
+    this.http.user.getShopInfo().then(res => {
+      let data = res.data;
+      this.coverImg = data.cover;
+      this.contentPlace = data.content || "请添加图文介绍";
+    });
+  },
+  computed: {
+    addShow() {
+      return this.coverImg ? false : true;
+    }
   },
   methods: {
     onRead(file) {
       this.upload(file).then(src => {
         this.coverImg = src;
-        this.addShow = false;
       });
     },
     titleInput(evt) {
@@ -53,13 +60,16 @@ export default {
       this.appendShow = false;
     },
     blur(val, evt) {},
-    nextLine() {},
     nextClick() {
       let containDom = this.$refs.createIntro;
-      let titleDom = this.$refs.matchTitle;
-      this.$store.commit("setTitle", titleDom.innerHTML);
-      this.$store.commit("setDetail", containDom.innerHTML);
-      this.$router.push("style");
+      this.http.user
+        .setShopInfo({
+          cover: this.coverImg,
+          content: containDom.innerHTML
+        })
+        .then(res => {
+          this.$router.go(-1);
+        });
     },
     append(file) {
       let containDom = this.$refs.createIntro;
@@ -79,21 +89,12 @@ export default {
         return containDom.appendChild(div);
       }
       this.$refs.createIntro.insertBefore(div, range.startContainer);
-    },
-    upload(file) {
-      return this.resource.uploadImg({ file: file }).then(res => {
-        let data = res.data;
-        return data.src[0];
-      });
     }
   }
 };
 </script>
 
 <style scoped>
-img {
-  width: 100%;
-}
 .create::before {
   content: "";
   display: table;
@@ -107,17 +108,19 @@ img {
   text-align: center;
 }
 .uploader {
-  background-color: #000;
-  border-radius: 0.1rem;
   color: #fff;
   margin: 0.3rem 0;
   width: 100%;
 }
 .cover-img {
+  height: 2.65rem;
   vertical-align: middle;
 }
 .addCover {
+  border-radius: 0.1rem;
+  background-color: #000;
   margin: 0.3rem;
+  padding: 0.3rem 0;
 }
 .create_content {
   display: flex;

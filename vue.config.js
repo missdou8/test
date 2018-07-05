@@ -5,5 +5,6 @@ module.exports = {
   },
   productionSourceMap: false,
   lintOnSave: false,
-  outputDir: "web"
+  outputDir: "web/front",
+  baseUrl: "front"
 };

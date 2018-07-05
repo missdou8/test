@@ -5,6 +5,7 @@ import MatchStyle from "../views/match/MatchStyle.vue";
 import MathchEdit from "../views/match/MathchEdit.vue";
 import Prize from "../views/match/Prize.vue";
 import PrizeAddress from "../views/match/PrizeAddress.vue";
+import Share from "../views/match/Share.vue";
 
 const MATCH_ROUTERS = [
   {
@@ -54,6 +55,13 @@ const MATCH_ROUTERS = [
     component: PrizeAddress,
     meta: {
       title: "自提地址"
+    }
+  },
+  {
+    path: "match/share",
+    component: Share,
+    meta: {
+      title: "分享邀请码"
     }
   }
 ];

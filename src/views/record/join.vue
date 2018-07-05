@@ -1,15 +1,15 @@
 <template>
   <div id="fans">
-    <dida-list ref="dida_list" post-module="match" post-url="playerCountList" @returnData="getPlayerCountList($event)">
+    <dida-list ref="dida_list" post-module="match" post-url="applyList" :req-data="{id:$route.query.id}" @returnData="getApplyList($event)">
       <div class="title">
         <span>本场报名</span>
         <span>{{total}}人</span>
       </div>
-      <van-cell v-for="playerCount in playerCountList" :key="playerCount.id" 
-        :title="playerCount.nickname||'王小花'"
-        :label="playerCount.id||'100000001'" 
-        :value="playerCount.Time||'2018-6-27 00:00:00'">
-        <img slot="icon" :src="playerCount.icon||icon" alt="" srcset="">
+      <van-cell v-for="apply in applyList" :key="apply.id" 
+        :title="apply.nickname"
+        :lable="apply.id" 
+        :value="apply.Time">
+        <img slot="icon" :src="apply.icon||icon" alt="" srcset="">
       </van-cell>
     </dida-list>
   </div>
@@ -18,11 +18,12 @@
 <script>
 import img from "../../assets/logo.png";
 import didaList from "../../components/didaList.vue";
+import { timestamp_switch_time } from "lputils";
 export default {
   data() {
     return {
       icon: img,
-      playerCountList: [],
+      applyList: [],
       total: 0
     };
   },
@@ -32,12 +33,12 @@ export default {
   methods: {
     /** 组建中返回的数据结构
      */
-    getPlayerCountList(data) {
+    getApplyList(data) {
       this.total = data.total;
-      this.playerCountList = data.list;
-      if (this.playerCountList.length < 0) {
-        this.playerCountList.forEach(p => {
-          this.playerCountList.Time = timestamp_switch_time(d.time);
+      this.getApplyList = data.list;
+      if (this.getApplyList.length > 0) {
+        this.getApplyList.forEach(p => {
+          p.Time = timestamp_switch_time(p.time);
         });
       }
     }

@@ -4,14 +4,17 @@
       <div class="addCover" v-show="addShow">
         <p class="add">
           <span class="add_img"></span>
-          <span>添加店铺封面</span>
+          <span>添加赛事封面</span>
         </p>
       </div>
       <img class="cover-img" :src="coverImg" v-show="!addShow" alt="封面图片">
     </van-uploader>
     <div class="create_content">
-      <h1 contenteditable="true" ref="matchTitle" @input="titleInput" @focus="focus(titlePlace, $event)" @blur="blur(titlePlace,$event)">{{titlePlace}}</h1>
-      <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" @keyup.enter="nextLine" ref="createIntro">{{contentPlace}}</div>
+      <div class="title">
+        <span class="title_name">标题</span>
+        <span contenteditable="true" ref="matchTitle">{{titlePlace}}</span>
+      </div>
+      <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" @keyup.enter="nextLine" ref="createIntro" v-html="contentPlace"></div>
     </div>
     <van-uploader v-show="appendShow" class="append" :after-read="append">
       <img src="../../assets/img_add.png" alt="添加图片">
@@ -24,48 +27,67 @@
 export default {
   data() {
     return {
-      titlePlace: "添加比赛名称",
-      contentPlace: "请添加图文介绍",
-      addShow: true,
-      coverImg: "",
+      titlePlace: this.$store.state.match.detail.title || "添加比赛名称",
+      contentPlace: this.$store.state.match.detail.content || "请添加图文介绍",
+      coverImg: this.$store.state.match.detail.coverImg,
       appendShow: false
     };
   },
-  mounted() {
-    this.$refs.matchTitle.focus();
+  mounted() {},
+  computed: {
+    /**
+     * 是否展示添加封面
+     */
+    addShow() {
+      return this.coverImg ? false : true;
+    }
   },
   methods: {
     onRead(file) {
       this.upload(file).then(src => {
         this.coverImg = src;
-        this.addShow = false;
       });
     },
-    titleInput(evt) {
-      let value = evt.target.innerHTML;
-      if (value === "添加比赛名称") {
-      }
-    },
-    focus(val, evt) {},
     contentFocus() {
       this.appendShow = true;
     },
     contentBlur() {
       this.appendShow = false;
     },
-    blur(val, evt) {},
     nextLine() {},
     nextClick() {
+      // 获取标题和内容的dom节点
       let containDom = this.$refs.createIntro;
       let titleDom = this.$refs.matchTitle;
-      this.$store.commit("setTitle", titleDom.innerHTML);
-      this.$store.commit("setDetail", containDom.innerHTML);
+
+      //标题和内容
+      let title = titleDom.innerHTML;
+      let content = containDom.innerHTML;
+
+      //TODO: 提示是否有更好的方法
+      //判断是否可以跳转，单独提示
+      if (!this.coverImg) {
+        return this.$toast("需要添加赛事封面");
+      }
+      if (title == "添加比赛名称" || !title) {
+        return this.$toast("需要填写赛事名称");
+      }
+      if (!content || content == "请添加图文介绍") {
+        return this.$toast("需要填写赛事详情");
+      }
+      this.$store.commit("setDetail", {
+        title: title,
+        content: content,
+        coverImg: this.coverImg
+      });
+      this.$store.commit("setIsEdit", false);
       this.$router.push("style");
     },
     append(file) {
       let containDom = this.$refs.createIntro;
       let div = document.createElement("div");
       div.style.position = "relative";
+      div.style.marginBottom = "0.2rem";
       div.classList.add("img_content");
       let img = document.createElement("img");
       div.appendChild(img);
@@ -74,27 +96,23 @@ export default {
       this.upload(file).then(src => {
         img.src = src;
       });
+      //获取光标位置
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);
-      if (range.startContainer == this.$refs.createIntro) {
-        return containDom.appendChild(div);
+      var elem = range.commonAncestorContainer;
+      if (elem.parentElement == this.$refs.createIntro) {
+        return containDom.insertBefore(div, elem.nextSibling);
       }
-      this.$refs.createIntro.insertBefore(div, range.startContainer);
-    },
-    upload(file) {
-      return this.http.resource.uploadImg({ file: file }).then(res => {
-        let data = res.data;
-        return data.src[0];
-      });
+      if (elem.nodeType != 1) {
+        elem = elem.parentNode;
+      }
+      this.$refs.createIntro.insertBefore(div, elem);
     }
   }
 };
 </script>
 
 <style scoped>
-img {
-  width: 100%;
-}
 .create::before {
   content: "";
   display: table;
@@ -108,17 +126,19 @@ img {
   text-align: center;
 }
 .uploader {
-  background-color: #000;
-  border-radius: 0.1rem;
   color: #fff;
   margin: 0.3rem 0;
   width: 100%;
 }
 .cover-img {
+  height: 2.65rem;
   vertical-align: middle;
 }
 .addCover {
+  background-color: #000;
+  border-radius: 0.1rem;
   margin: 0.3rem;
+  padding: 0.3rem;
 }
 .create_content {
   display: flex;
@@ -138,7 +158,7 @@ img {
 }
 
 .create_content_intro:focus,
-.create_content h1:focus {
+.create_content span:focus {
   outline: none;
 }
 .append {
@@ -170,6 +190,17 @@ img {
   height: 0.39rem;
   width: 0.49rem;
   margin-right: 0.1rem;
+}
+
+.title {
+  border-top: 0.025rem solid #f5f5f5;
+  border-bottom: 0.025rem solid #f5f5f5;
+  padding: 0.2rem;
+}
+.title_name {
+  color: #000;
+  font-size: 0.32rem;
+  margin-right: 0.2rem;
 }
 </style>
 

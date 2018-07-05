@@ -1,40 +1,41 @@
 <template>
   <div class="style">
     <van-cell-group>
-      <van-cell title="请选择游戏名称" value="未选择" is-link @click="gameSelect" />
-      <van-cell title="请选择比赛时间" value="未选择" is-link @click="timeSelect" />
-      <van-collapse v-model="activeNames" :accordion="true">
+      <van-cell title="请选择游戏名称" :value="selectGame.name" is-link @click="gameSelect" />
+      <van-cell title="请选择比赛时间" :value="selectTime" is-link @click="timeSelect" />
+      <van-collapse v-model="activeNames" :accordion="true" @change="personShow">
         <van-collapse-item name="1">
           <div slot="title" class="personGame">
             <span>请预估比赛人数</span>
-            <span>{{selectPerson}}</span>
+            <span>{{selectPerson.value}}</span>
           </div>
           <radio-btn :data="personList" @select="selectPersonClick"></radio-btn>
         </van-collapse-item>
         <van-collapse-item name="2">
           <div slot="title" class="personGame">
             <span>请选择报名类型</span>
-            <span>{{attendStyle[radio-1].valueSimple || attendStyle[radio-1].value}}</span>
+            <span>{{selectAttendType.value}}</span>
           </div>
-          <radio-btn :data="personList" @select="selectPersonClick"></radio-btn>
+          <radio-btn :data="attendStyle" @select="attendStyleClick"></radio-btn>
         </van-collapse-item>
       </van-collapse>
-      <van-cell title="请填写奖品信息" value="未选择" is-link @click="toPrize" />
+      <van-cell title="请填写奖品信息" :value="prizeMsg" is-link @click="toPrize" />
     </van-cell-group>
     <van-popup v-model="gameShow" position="bottom">
-      <van-picker :columns="columns" show-toolbar @confirm="gameShow = false" @cancel="gameShow = false" />
+      <van-picker :columns="gameList" show-toolbar @confirm="gameConfirm" @cancel="gameShow = false" />
     </van-popup>
     <van-popup v-model="timeShow" position="bottom">
-      <van-datetime-picker v-model="currentDate" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="timeShow = false" @cancel="timeShow = false" />
+      <van-datetime-picker v-model="currentDate" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="timeConfirm" @cancel="timeShow = false" />
     </van-popup>
     <div class="footer">
-      <button>保存</button>
-      <button>提交审核</button>
+      <button @click="saveClick">保存</button>
+      <button @click="checkClick">提交审核</button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 import RadioBtn from "../../components/RadioBtn.vue";
 import { timeFormate } from "lputils";
 import Prize from "../../views/match/Prize.vue";
@@ -48,11 +49,9 @@ export default {
       gameShow: false,
       timeShow: false,
       keyList: [5, 6],
-      gameList: ["石家庄麻将", "保定麻将"],
+      gameList: [],
       allGameList: [],
-      selectGame: {},
-      selectTime: "",
-      selectPerson: 0,
+      selectGame: this.$store.state.match.gameName,
       minHour: 10,
       maxHour: 20,
       minDate: new Date(),
@@ -61,35 +60,36 @@ export default {
       activeNames: ["1"],
       attendStyle: [
         {
-          name: 1,
+          id: 1,
           value: "免费赛"
         },
         {
-          name: 2,
-          value: "邀请赛(用户需输入您分享的邀请码才能参赛)",
-          valueSimple: "邀请赛"
+          id: 2,
+          value: "邀请赛"
         }
       ],
-      personList: [
-        {
-          id: 9,
-          value: "9人",
-          name: "person",
-          content: "根据比赛报名的情况，这里有很多人"
-        },
-        {
-          id: 10,
-          value: "10人",
-          name: "person",
-          content: "根据报名情况，这里情势很危急"
-        }
-      ],
-      radio: 1
+      personList: []
     };
+  },
+  computed: {
+    ...mapState({
+      selectTime(state) {
+        let time = state.match.time;
+        return time ? timeFormate(time * 1000, "YY年MM月DD日") : "未选择";
+      },
+      selectPerson(state) {
+        return state.match.attendPerson;
+      },
+      selectAttendType(state) {
+        return state.match.attendStyle;
+      },
+      prizeMsg(state) {
+        return state.match.ifSave ? "已选择" : "未选择";
+      }
+    })
   },
   created() {
     this.fetchGameList();
-    this.fetchPersonStyle();
   },
   methods: {
     gameSelect() {
@@ -99,7 +99,24 @@ export default {
       this.timeShow = true;
     },
     toPrize() {
+      if (this.selectPerson.id === 0) {
+        return this.$toast("请先选择人数");
+      }
       this.$router.push("style/prize");
+    },
+    personShow(activeNames) {
+      if (activeNames == 1) {
+        if (this.selectGame.id == 0) {
+          this.personList = [
+            {
+              id: 0,
+              value: "0人"
+            }
+          ];
+          return this.$toast("请选择游戏");
+        }
+        this.fetchPersonStyle();
+      }
     },
     //获取游戏列表
     fetchGameList() {
@@ -107,43 +124,98 @@ export default {
         let data = res.data;
         this.allGameList = data.gameList;
         this.gameList = this.allGameList.map(item => {
-          return item.title;
+          return item.name;
         });
       });
     },
     //获取比赛人数
     fetchPersonStyle() {
-      this.http.match.playerCountList().then(res => {
-        let data = res.data;
-        this.personList = data.playerCountList.map(item => {
-          return {
-            id: item,
-            value: itme + "人",
-            name: "person",
-            content: `请根据您实际的客户量来选择，预估人数仅为保守估计，当实际参赛人数大于${item}人时比赛才能正常开赛，小于${item}人时比赛自动取消`
-          };
+      this.http.match
+        .playerCountList({
+          gameId: this.selectGame.id
+        })
+        .then(res => {
+          let data = res.data;
+          this.personList = data.playerCountList.map(item => {
+            return {
+              id: item.templateId,
+              value: item.title
+            };
+          });
+          console.log(this.personList);
         });
-      });
     },
     gameConfirm(value, index) {
       this.gameShow = false;
       this.selectGame = this.allGameList[index];
-      this.$store.commit("setId", this.selectGame.id);
+      this.$store.commit("setGameName", this.selectGame);
     },
     timeConfirm(value) {
       this.timeShow = false;
-      this.selectTime = timeFormate(
-        new Date(this.currentDate).getTime(),
-        "YY年MM月DD日"
-      );
+      let time = Math.round(new Date(this.currentDate).getTime() / 1000);
+      this.$store.commit("setTime", time);
     },
     selectPersonClick(data) {
-      this.selectPerson = data.value;
-      this.$store.commit("setAttendPerson", data.id);
+      if (data.id == 0) {
+        return this.$toast("请选择游戏");
+      }
+      this.$store.commit("setAttendPerson", data);
     },
-    attendStyleClick() {
-      console.log(this.radio);
+    attendStyleClick(data) {
+      this.$store.commit("setAttendStyle", data);
+    },
+    saveClick() {
+      this.submit(0);
+    },
+    checkClick() {
+      this.submit(1);
+    },
+    submit(type) {
+      let isEdit = this.$store.state.match.isEdit;
+      let action = "createMatch";
+      let match = this.$store.state.match;
+      let detail = match.detail;
+      let gameName = match.gameName;
+      //如果没有奖品的话则传空对象
+      let prizes = {
+        img: match.prizeCover,
+        type: match.sendStyle,
+        address: match.gainPrizeAddress.address,
+        regionName: match.gainPrizeAddress.regionName,
+        provinceId: match.gainPrizeAddress.provinceId,
+        cityId: match.gainPrizeAddress.cityId,
+        areaId: match.gainPrizeAddress.areaId,
+        rankingSet: match.rankPrize
+      };
+      if (!match.ifSave && !isEdit) {
+        prizes = {};
+      }
+      let params = {
+        isAudit: type,
+        title: detail.title,
+        cover: detail.coverImg,
+        content: detail.content,
+        gameId: gameName.id,
+        beginTime: match.time,
+        templateId: match.attendPerson.id,
+        signupType: match.attendStyle.id,
+        prizes: prizes
+      };
+      if (isEdit) {
+        action = "editMatch";
+        params.id = match.id;
+      }
+      this.http.match[action](params).then(res => {
+        if (isEdit) {
+          this.$router.go(-3);
+        } else {
+          this.$router.go(-2);
+        }
+      });
     }
+  },
+  beforeRouteLeave(to, from, next) {
+    next();
   }
 };
 </script>

@@ -12,11 +12,11 @@
       </van-uploader>
     </div>
     <div class="rank">
-      <div class="prize_info" v-for="(item,index) in 3">
-        <p class="prize_rank">名次</p>
-        <input class="prize_prize" type="text" placeholder="点击输入奖品名称，没有则不填" @blur="prizeInput(index,$event)">
+      <div class="prize_info" v-for="(item,index) in rankList">
+        <p class="prize_rank">第{{item.value}}名</p>
+        <input class="prize_prize" type="text" placeholder="点击输入奖品名称，没有则不填" v-model="rankPrize[index].name" @blur="prizeInput(index,$event)">
         <div class="prize_value_content">
-          <input class="prize_value" type="text" @blur="valueInput(index, $event)">
+          <input class="prize_value" v-model="rankPrize[index].prize" type="number" @blur="valueInput(index, $event)">
           <span class="prize_tag">元</span>
         </div>
       </div>
@@ -25,14 +25,14 @@
       <span>
         共计
       </span>
-      <span>{{totalPrize}}</span>元
+      <span>{{ totalPrize}}</span>元
     </p>
     <div class="send">
       <p class="send_title">请选择发奖方式</p>
       <radio-btn class="send_type" :data="sendStyle" @select="typeSelect"></radio-btn>
       <div class="address" v-show="addressShow">
         <p class="address_title">请选择自提地址</p>
-        <van-cell class="address_info" title="姓名和电话" label="地址地址地址" is-link center to="prize/address"></van-cell>
+        <van-cell class="address_info" :title="contact" :label="address" is-link center @click="toAddress"></van-cell>
       </div>
     </div>
     <div class="footer">
@@ -44,11 +44,11 @@
 
 <script>
 import RadioBtn from "../../components/RadioBtn.vue";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
       addressShow: false,
-      prizeImageShow: true,
       rankList: [],
       rankPrize: [],
       sendStyle: [
@@ -61,7 +61,8 @@ export default {
           value: "客户自取"
         }
       ],
-      coverImg: ""
+      address: "",
+      contact: ""
     };
   },
   components: {
@@ -69,53 +70,108 @@ export default {
   },
   computed: {
     totalPrize() {
-      if (!this.rankPrize) {
-        return this.rankPrize.reduce((total, item) => {
-          return total.price + item.price;
-        });
+      let total = 0;
+      this.rankPrize.forEach(item => {
+        if (item.prize) {
+          total += Number(item.prize);
+        }
+      });
+      return total;
+    },
+    ...mapState({
+      coverImg(state) {
+        return state.match.prizeCover;
+      },
+      prizeImageShow(state) {
+        return state.match.prizeCover ? false : true;
       }
-    }
+    })
   },
   created() {
-    if (!this.$store.state.match.id) {
+    if (!this.$store.state.match.gameName.id) {
       this.$toast("需要选择游戏之后才可以设置奖品");
-      setTimeout(() => {
-        this.$emit("prizeShow", false);
-      }, 2000);
       return;
     }
     if (!this.$store.state.match.attendPerson) {
       this.$toast("需要设置比赛规模后才可以设置奖品");
-      setTimeout(() => {
-        this.$emit("prizeShow", false);
-      }, 2000);
     }
+    // 检测自提地址是否存在，存在用自提地址，不存在用店铺地址
+    let gainPrizeAddress = this.$store.state.match.gainPrizeAddress;
+    if (gainPrizeAddress) {
+      this.address = gainPrizeAddress.regionName;
+      this.subAddress = gainPrizeAddress.address;
+    } else {
+      this.address =
+        this.$store.state.user.userInfo.regionName +
+        this.$store.state.user.userInfo.address;
+    }
+    this.contact =
+      this.$store.state.user.userInfo.name +
+      " " +
+      this.$store.state.user.userInfo.mobile;
     this.http.match
       .prizesList({
-        gameId: this.$store.state.match.id,
-        playerCount: this.$store.state.match.attendPerson
+        templateId: this.$store.state.match.attendPerson
       })
       .then(res => {
         let data = res.data;
-        this.rankList = data.prizesList.map(item => {
+        // 如果有奖品名称或者价值的话，那么说明页面本有数据，进行赋值
+        let state = this.$store.state.match.rankPrize;
+        let flag = false;
+        state.forEach((item, index) => {
+          if (item.name || item.prize) {
+            flag = true;
+          }
+        });
+
+        if (flag) {
+          this.rankPrize = state;
+        }
+
+        this.rankList = data.prizesList.map((item, index) => {
           let rankItem = item.rank.split(",").join("-");
-          this.rankPrize[index].rank = rankItem;
-          return rankItem;
+          if (!flag) {
+            this.rankPrize[index] = {};
+            this.rankPrize[index].rank = rankItem;
+            this.rankPrize[index].index = item.index;
+          }
+          return {
+            id: item.index,
+            value: rankItem,
+            name: ""
+          };
         });
       });
   },
   methods: {
     onRead(file) {
-      this.$refs.prizeImage.src = file.content;
-      this.prizeImageShow = true;
+      this.upload(file).then(src => {
+        this.$store.commit("setPrizeCover", src);
+      });
     },
     cancelClick() {
-      this.$emit("prizeShow", false);
+      this.$router.go(-1);
     },
     saveClick() {
-      this.$store.commit("setRankPrize", this.rankPrize);
+      /**
+       * 判断是否可以保存
+       */
+      //判断是否存在图片
+      if (!this.coverImg) {
+        return this.$toast("请选择奖品图片");
+      }
+      //判断是否每个奖品都填写了
+      let canSave = false;
+      this.rankPrize.forEach(item => {
+        if (!item.name || !item.price) {
+          canSave = true;
+        }
+      });
+      if (canSave) {
+        return this.$toast("奖品没有填写完整");
+      }
       this.$store.commit("setIfSave", true);
-      this.$emit("prizeShow", false);
+      this.$router.go(-1);
     },
     prizeInput(index, evt) {
       let dom = evt.target;
@@ -123,14 +179,23 @@ export default {
     },
     valueInput(index, evt) {
       let dom = evt.target;
-      this.rankPrize[index].price = dom.value;
+      let obj = this.rankPrize[index];
+      obj.price = dom.value;
+      this.$set(this.rankPrize, index, obj);
     },
-    typeSelect(id) {
-      if (id == 1) {
+    typeSelect(data) {
+      if (data.id == 1) {
         return (this.addressShow = true);
       }
       this.addressShow = false;
+    },
+    toAddress() {
+      this.$router.push("prize/address");
     }
+  },
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit("setRankPrize", this.rankPrize);
+    next();
   }
 };
 </script>
@@ -149,16 +214,18 @@ export default {
   text-align: center;
 }
 .uploader {
-  background-color: #000;
-  border-radius: 0.1rem;
   color: #fff;
   margin: 0.3rem 0;
   width: 100%;
 }
 .addCover {
+  background-color: #000;
+  border-radius: 0.1rem;
   margin: 0.3rem;
+  padding: 0.3rem;
 }
 .cover-img {
+  height: 2.65rem;
   vertical-align: middle;
 }
 .add {

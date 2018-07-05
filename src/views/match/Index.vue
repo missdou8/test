@@ -65,9 +65,9 @@
     <van-tabs v-model="active" class="match_main" :line-width="40">
       <van-tab v-for="(item, index) in tabs.length" :title="tabs[index]" :key="index">
         <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh">
-          <van-list v-model="loading" :finished="finished" @load="onLoad">
+          <van-list v-model="loading" :finished="finished" @load="onLoad" :immediate-check="false" :offset="100">
             <div class="match_list_content">
-              <div class="match_list_item" v-for="item in list" :key="item" @click="toDetail">
+              <div class="match_list_item" v-for="item in list" :key="item.id" @click="toDetail(item.id)">
                 <img :src="item.cover ||cover" alt="封面图片">
                 <div class="list_attri">
                   <span v-show="matchType == 1" class="list_person-num">{{ 0 | trimNum}}</span>
@@ -75,7 +75,7 @@
                   <span class="list_like">{{item.likeCount || 0 | trimNum}}</span>
                 </div>
                 <div :class="progressTag(0)" v-show="matchType == 1">
-                  <p>{{item.auditStatus || 2 | code2Word}}</p>
+                  <p>{{item.status || 2 | code2Word}}</p>
                 </div>
               </div>
             </div>
@@ -107,38 +107,34 @@ export default {
       finished: false,
       matchType: 1,
       matchPage: 1,
-      pageSize: 6
+      pageSize: 10
     };
   },
   watch: {
     active() {
       this.matchType = this.active + 1;
+      //清空列表数据
+      this.matchPage = 1;
+      this.finished = false;
+      this.list = [];
       this.fetchList();
     }
   },
   filters: {
     code2Word(code) {
-      let word = "";
-      switch (code) {
-        case 0:
-          word = "新建未审核";
-          break;
-        case 1:
-          word = "新建提审中";
-          break;
-        case 2:
-          word = "信息修改提审中";
-          break;
-        case 3:
-          word = "申请被驳回";
-          break;
-        case 4:
-          word = "审核通过，等待发布";
-          break;
-        case 5:
-          word = "已发布";
-      }
-      return word;
+      let word = {
+        0: "新建未审核",
+        1: "新建提审中",
+        2: "信息修改未提审",
+        3: "信息修改审核中",
+        4: "审核不通过",
+        5: "审核已通过",
+        6: "已发布",
+        7: "被取消",
+        8: "比赛中",
+        9: "赛事已结束"
+      };
+      return word[code];
     },
     trimNum(num) {
       if (num > 10000) {
@@ -151,11 +147,13 @@ export default {
     //获取用户信息
     this.http.user.getUserInfo().then(res => {
       this.userInfo = res.data;
+      this.$store.commit("setInfo", this.userInfo);
     });
-    this.fetchList(1, 1);
+    this.fetchList();
   },
   methods: {
     onLoad() {
+      this.matchPage += 1;
       this.fetchList().then(data => {
         this.loading = false;
         if (data.total <= this.matchPage * this.pageSize) {
@@ -164,14 +162,34 @@ export default {
       });
     },
     onRefresh() {
+      this.list = [];
+      this.matchPage = 1;
+      this.finished = false;
       this.fetchList(1).then(() => {
         this.refreshing = false;
       });
     },
-    toDetail() {
+    toDetail(id) {
+      this.$store.commit("setId", id);
       this.$router.push("match/detail");
     },
     createClick() {
+      //清空赛事信息
+      this.$store.commit("setDetail", {});
+      this.$store.commit("setGameName", { id: 0, name: "未选择" });
+      this.$store.commit("setTime", "");
+      this.$store.commit("setAttendPerson", { id: 0, value: "未选择" });
+      this.$store.commit("setAttendStyle", { id: 0, value: "未选择" });
+      this.$store.commit("setIfSave", false);
+      this.$store.commit("setPrizeCover", "");
+      this.$store.commit("setRankPrize", []);
+      //判断是否有权限创建
+      if (this.userInfo.certification != 1) {
+        return this.$toast("请先实名认证");
+      }
+      if (this.userInfo.latitude == 0) {
+        return this.$toast("请先设置店铺的信息");
+      }
       this.$router.push("match/create");
     },
     fetchList() {
@@ -357,12 +375,13 @@ export default {
 .match_list_content {
   display: flex;
   flex-wrap: wrap;
-  padding-top: 0.2rem;
+  padding: 0.2rem;
+  justify-content: space-between;
 }
 .match_list_item {
   background-color: #fff;
   box-shadow: 0 0.1rem 0.1rem #e3e3e3;
-  margin: 0 auto 0.2rem auto;
+  margin-bottom: 0.2rem;
   width: 45%;
   height: 2.35rem;
   padding: 0.25rem 0 0.45rem 0;

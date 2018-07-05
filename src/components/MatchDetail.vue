@@ -2,61 +2,71 @@
   <div class="match-detail">
     <div class="navbar">
       <span :class="{back: type=='mobile'}" @click="backClick"></span>
-      <a :class="{active: current}" href="#detail" @click="jump">比赛详情</a>
-      <a :class="{active: !current}" href="#prize" @click="jump">比赛奖品</a>
+      <a :class="{active: current}" href="#detail" @click="jump($event)" replace>比赛详情</a>
+      <a :class="{active: !current}" href="#prize" @click="jump($event)" replace>比赛奖品</a>
     </div>
-    <div class="detail_content">
+    <div class="detail_content" ref="detail_content">
       <div id="detail" class="cover_img">
-        <img src="../assets/banner_task.png" alt="比赛封面">
+        <img :src="match.cover" alt="比赛封面">
       </div>
       <div class="header">
-        <h1 class="header_title">大洋百货500ml洗发露争夺赛</h1>
+        <h1 class="header_title">{{match.title}}</h1>
         <p class="header_info">
-          <span class="header_info_time">09:00</span>
-          <span class="header_info_send">09:00</span>
-          <span class="header_info_type">09:00</span>
+          <span class="header_info_time">{{match.beginTime | formateTime}}</span>
+          <span class="header_info_send">{{prizes.type == 0 ? '邮寄': '自取'}}</span>
+          <span class="header_info_type">{{match.signupType == 1 ? '免费报名': '邀请码报名'}}</span>
         </p>
-        <button class="edit-btn" @click="toEdit">信息有误，去修改>></button>
+        <button v-show="editShow" class="edit-btn" @click="toEdit">信息有误，去修改>></button>
       </div>
       <div class="game">
         <p class="game_info">
           <span class="game_tag"></span>
           <span>玩法：</span>
-          <span class="game_name">推倒胡麻将</span>
+          <span class="game_name">{{match.gameName}}</span>
         </p>
-        <span class="game_rule">规则</span>
+        <span class="game_rule" @click="toRule">规则</span>
       </div>
-      <div>比赛详情</div>
+      <div class="detail">
+        <p class="prize_header">
+          <span class="game_tag"></span>
+          <span>比赛详情</span>
+        </p>
+        <div class="detail_page" v-html="match.content">
+        </div>
+      </div>
       <div id="prize" class="prize">
         <p class="prize_header">
           <span class="game_tag"></span>
           <span>比赛奖品</span>
         </p>
         <ul class="prize_list">
-          <li class="prize_list_item">
-            <p>第1名：奖品名称</p>
-            <img src="../assets/logo.png" alt="奖品">
+          <li class="prize_list_item" v-for="item in prizes.rankingSet">
+            <p>第{{item.rank}}名：{{item.name}}</p>
+            <img :src="prizes.img" alt="奖品">
           </li>
         </ul>
-        <div>
-          <p>自提地址：</p>
-          <p>北京回龙观</p>
+        <div v-show="prizes.type ==0">
+          <p class="prize_header">
+            <span class="game_tag"></span>
+            <span>自提地址</span>
+          </p>
+          <p class="address">{{prizes.regionName}} {{prizes.address}}</p>
         </div>
       </div>
       <div class="like_info">
         <div class="like_info_item">
           <img class="icon" src="../assets/logo.png" alt="头像">
-          <span>7851</span>
+          <span>{{merchant.watchersCount}}</span>
         </div>
-        <router-link class="like_info_item" to="/user/record/like">
+        <router-link class="like_info_item" :to="{path: '/user/record/like', query: {id:this.$store.state.match.id}}">
           <img src="../assets/like.png" alt="点赞">
-          <span>12.3w</span>
+          <span>{{match.likeCount}}</span>
         </router-link>
         <div class="like_info_item">
           <img src="../assets/share_default.png" alt="分享">
-          <span>5270</span>
+          <span>{{match.shareCount}}</span>
         </div>
-        <div class="scroll_top" @click="backToTop">
+        <div v-if="top!=0" class="scroll_top" @click="backToTop">
           <img src="" alt="">
           <span></span>
         </div>
@@ -67,24 +77,74 @@
 </template>
 
 <script>
+import { timeFormate } from "lputils";
 export default {
-  props: ["type"],
+  props: ["type", "data"],
   data() {
     return {
-      current: true
+      current: true,
+      match: {},
+      prizes: {},
+      merchant: {},
+      top: 0,
+      editShow: false
     };
   },
+  filters: {
+    formateTime(time) {
+      return timeFormate(time * 1000, "HH:mm:ss");
+    }
+  },
+  watch: {
+    data() {
+      this.match = this.data.match;
+      this.prizes = this.data.prizes;
+      this.merchant = this.data.merchant;
+      //判断是否显示可以修改的按钮
+      let matchStatus = this.match.status;
+      if (
+        matchStatus == 0 ||
+        matchStatus == 2 ||
+        matchStatus == 4 ||
+        matchStatus == 5 ||
+        matchStatus == 6
+      ) {
+        this.editShow = true;
+      }
+    }
+  },
+  mounted() {
+    this.$refs.detail_content.addEventListener("scroll", () => {
+      this.top = this.$refs.detail_content.scrollTop;
+    });
+  },
   methods: {
-    jump() {
+    jump(e) {
       this.current = !this.current;
+      location.replace(e.target.href);
     },
     backClick() {
       //当在浏览器中和客户端中都跳
       console.log("点击跳回上一页");
     },
-    backToTop() {},
+    backToTop() {
+      this.$refs.detail_content.scrollTop = 0;
+    },
     toEdit() {
+      //如果正在审核中，那么不能修改
+      if (
+        this.data.match.status == 0 ||
+        this.data.match.status == 1 ||
+        this.data.match.status == 3
+      ) {
+        return this.$toast("正在审核中的赛事不能修改");
+      }
       this.$router.push("edit");
+    },
+    toRule() {
+      location.href =
+        "https://hbjxqp.happypoker.cn/appweb/gamerule/gamerules.html?activityId=" +
+        this.match.gameId;
     }
   }
 };
@@ -292,5 +352,16 @@ a {
   position: absolute;
   bottom: -1rem;
   right: 0;
+}
+.detail {
+  background-color: #fff;
+  margin-top: 0.2rem;
+}
+.detail_page {
+  text-indent: 2em;
+}
+.address {
+  background-color: #fff;
+  text-indent: 2em;
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div id="didaList">
+    <h3 v-if="total==0&&noDataText" class="noDataText">{{noDataText}}</h3>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-list v-model="loading" :finished="finished" @load="onLoad">
         <!-- 开放html架构 -->
@@ -23,9 +24,13 @@ export default {
     };
   },
   /**
-   * postUrl 接口地址
+   * postModule 接口模块名
+   * postUrl    接口地址名
+   * dataName   接口中数据参数名不传与接口地址名一样
+   * reqData    传递参数对象
+   *            没有记录时显示的文本提示
    */
-  props: ["postModule", "postUrl"],
+  props: ["postModule", "postUrl", "dataName","reqData","noDataText"],
   watch: {
     list() {
       this.$emit("returnData", {
@@ -37,10 +42,10 @@ export default {
   methods: {
     getData() {
       return this.http[this.postModule]
-        [this.postUrl]({
+        [this.postUrl](Object.assign({
           pagesize: this.pagesize,
           currentpage: this.currentpage
-        })
+        },this.reqData))
         .then(res => {
           let data = res.data;
           this.total = data.total;
@@ -49,34 +54,29 @@ export default {
           //   data[this.postUrl].Time = timestamp_switch_time(d.time);
           // });
           // this.$emit("returnData",data)
-          this.list = this.list.concat(data[this.postUrl]);
+          this.list = this.list.concat(data[this.dataName || this.postUrl]);
           return data;
         });
     },
     onLoad() {
       this.getData().then(data => {
         this.loading = false;
-        if (data.total <= this.currentpage * this.pagesize)
+        if (this.total <= this.currentpage * this.pagesize)
           this.finished = true;
         else this.currentpage++;
       });
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
-        this.loading = false;
-        if (this.list.length >= 40) {
-          this.finished = true;
-        } else {
-          this.currentpage++;
-        }
-      }, 500);
     },
     onRefresh() {
+      //下拉的时候第一步清空数组列表
+      this.list = [];
       this.currentpage = 1;
+      //请求第一页数据
       this.getData(1).then(() => {
         this.isLoading = false;
-        this.currentpage = 1;
+        //如果首屏不够的情况下从第二页开始继续执行onLoad()方法
+        this.currentpage++;
+        // 切记要将finished变为false[如果下拉加载到底不，finished变为了true，再次请求数据的时候将不会再执行下拉加载]
+        this.finished = false;
       });
     },
     hideLoading() {
@@ -90,7 +90,7 @@ export default {
 </script>
 
 <style>
-#didaList {
+#didaList,#didaList .van-pull-refresh{
   height: 100%;
 }
 #didaList .title {
@@ -119,5 +119,12 @@ export default {
 }
 #didaList .van-cell:not(:last-child)::after {
   height: 198%;
+}
+#didaList .noDataText {
+  font-size: 0.4rem;
+  padding: 0.2rem;
+  margin-top: 1rem;
+  line-height: 0.6rem;
+  text-align: center;
 }
 </style>
