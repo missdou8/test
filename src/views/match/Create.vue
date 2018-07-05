@@ -96,23 +96,17 @@ export default {
       this.upload(file).then(src => {
         img.src = src;
       });
+      //获取光标位置
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);
-      if (range.startContainer == this.$refs.createIntro) {
-        return containDom.appendChild(div);
-      }
       var elem = range.commonAncestorContainer;
+      if (elem.parentElement == this.$refs.createIntro) {
+        return containDom.insertBefore(div, elem.nextSibling);
+      }
       if (elem.nodeType != 1) {
         elem = elem.parentNode;
       }
       this.$refs.createIntro.insertBefore(div, elem);
-
-      var parent = this.$refs.createIntro;
-      if (parent.lastChild == elem) {
-        parent.appendChild(div);
-      } else {
-        parent.insertBefore(div, elem.nextSibling);
-      }
     }
   }
 };

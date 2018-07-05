@@ -8,9 +8,11 @@
       <span>标题</span>
       <span class="can-edit" ref="title" contenteditable="true">{{title}}</span>
     </div>
-    <div contenteditable="true" ref="content" class="content can-edit" v-html="content">
-
+    <div contenteditable="true" class="content can-edit" v-html="content" @focus="contentFocus()" @blur="contentBlur()" ref="createIntro">
     </div>
+    <van-uploader v-show="appendShow" class="append" :after-read="append">
+      <img src="../../assets/img_add.png" alt="添加图片">
+    </van-uploader>
     <div class="btn">
       <button @click="next">下一步</button>
     </div>
@@ -23,7 +25,8 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      detail: this.$store.state.match.detail
+      detail: this.$store.state.match.detail,
+      appendShow: false
     };
   },
   computed: {
@@ -96,6 +99,43 @@ export default {
       this.detail.content = this.$refs.content.innerHTML;
       this.$store.commit("setDetail", this.detail);
       this.$router.push("style");
+    },
+    contentFocus() {
+      this.appendShow = true;
+    },
+    contentBlur() {
+      this.appendShow = false;
+    },
+    append(file) {
+      let containDom = this.$refs.createIntro;
+      let div = document.createElement("div");
+      div.style.position = "relative";
+      div.style.marginBottom = "0.2rem";
+      div.classList.add("img_content");
+      let img = document.createElement("img");
+      div.appendChild(img);
+      img.style.width = "100%";
+      img.style.display = "block";
+      this.upload(file).then(src => {
+        img.src = src;
+      });
+      //获取光标位置
+      let selection = window.getSelection();
+      let range = selection.getRangeAt(0);
+      var elem = range.commonAncestorContainer;
+      if (elem.parentElement == this.$refs.createIntro) {
+        return containDom.insertBefore(div, elem.nextSibling);
+      }
+      if (elem.nodeType != 1) {
+        elem = elem.parentNode;
+      }
+      this.$refs.createIntro.insertBefore(div, elem);
+
+      // if (containDom.lastChild == elem) {
+      //   containDom.appendChild(div);
+      // } else {
+      //   containDom.insertBefore(div, elem.nextSibling);
+      // }
     }
   }
 };
@@ -194,6 +234,13 @@ export default {
 }
 .can-edit {
   outline: none;
+}
+.append {
+  color: red;
+  position: fixed;
+  top: 50%;
+  right: 10%;
+  transform: translateY(-50%);
 }
 </style>
 
