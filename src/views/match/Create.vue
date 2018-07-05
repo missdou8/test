@@ -100,6 +100,9 @@ export default {
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);
       var elem = range.commonAncestorContainer;
+            if (elem == this.$refs.createIntro) {
+        return containDom.appendChild(div);
+      }
       if (elem.parentElement == this.$refs.createIntro) {
         return containDom.insertBefore(div, elem.nextSibling);
       }

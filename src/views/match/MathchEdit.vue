@@ -123,6 +123,13 @@ export default {
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);
       var elem = range.commonAncestorContainer;
+      console.log("你好");
+      console.log(range.startContainer);
+      console.log(range.endContainer);
+      console.log(elem);
+      if (elem == this.$refs.createIntro) {
+        return containDom.appendChild(div);
+      }
       if (elem.parentElement == this.$refs.createIntro) {
         return containDom.insertBefore(div, elem.nextSibling);
       }
