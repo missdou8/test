@@ -53,7 +53,14 @@ export default {
     blur(val, evt) {},
     nextClick() {
       let containDom = this.$refs.createIntro;
-      this.$router.go(-1);
+      this.http.user
+        .setShopInfo({
+          cover: this.coverImg,
+          content: containDom.innerHTML
+        })
+        .then(res => {
+          this.$router.go(-1);
+        });
     },
     append(file) {
       let containDom = this.$refs.createIntro;

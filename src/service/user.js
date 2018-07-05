@@ -13,7 +13,8 @@ const USER_INFO = {
     "setUserShop", //设置用户商铺信息
     "certification", //实名认证
     "getCertification", //获取实名认证信息
-    "setShopInfo"
+    "setShopInfo", //设置我的故事
+    "getShopInfo" //获取我的故事
   ]
 };
 
