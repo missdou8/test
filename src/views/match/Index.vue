@@ -181,10 +181,8 @@ export default {
       this.$store.commit("setAttendPerson", { id: 0, value: "未选择" });
       this.$store.commit("setAttendStyle", { id: 0, value: "未选择" });
       this.$store.commit("setIfSave", false);
-      this.$store.commit("setTotalValue", "");
       this.$store.commit("setPrizeCover", "");
       this.$store.commit("setRankPrize", "");
-      this.$store.commit("setTotalValue", "");
       //判断是否有权限创建
       if (this.userInfo.certification != 1) {
         return this.$toast("请先实名认证");
