@@ -16,7 +16,7 @@
           <span class="header_info_send">{{prizes.type == 0 ? '邮寄': '自取'}}</span>
           <span class="header_info_type">{{match.signupType == 1 ? '免费报名': '邀请码报名'}}</span>
         </p>
-        <button class="edit-btn" @click="toEdit">信息有误，去修改>></button>
+        <button v-show="editShow" class="edit-btn" @click="toEdit">信息有误，去修改>></button>
       </div>
       <div class="game">
         <p class="game_info">
@@ -86,7 +86,8 @@ export default {
       match: {},
       prizes: {},
       merchant: {},
-      top: 0
+      top: 0,
+      editShow: false
     };
   },
   filters: {
