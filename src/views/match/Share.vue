@@ -8,7 +8,8 @@
       <span v-for="item in code">{{item}}</span>
     </p>
     <p class="match_code_desc">输入邀请码即可报名成功</p>
-    <img class="qr_code" src="#" alt="二维码图片">
+    <!-- 生成二维码 -->
+    <me-qrcode class="qr_code" v-if="link" :qr-url='link' :qr-size='300'></me-qrcode>
     <p class="qr_code_desc">长按识别二维码下载客户端参加比赛</p>
   </div>
 </template>
@@ -16,11 +17,18 @@
 
 <script>
 import { mapState } from "vuex";
+import icon from "../../assets/logo.png";
+import meQrcode from "../../components/meQrcode.vue";
 export default {
   data() {
     return {
-      code: ""
+      code: "",
+      logo: icon,
+      link: "你好你好你好你好你好你好你好你好"
     };
+  },
+  components: {
+    meQrcode
   },
   computed: {
     ...mapState({
@@ -80,22 +88,35 @@ export default {
 .match_code_desc {
   position: absolute;
   top: 57.44%;
-  font-size: 0.36rem;
+  font-size: 0.3rem;
   color: #fff;
   width: 100%;
   text-align: center;
 }
 .qr_code {
   position: absolute;
-  top: 68.43%;
+  bottom:1.65rem;
+  width: 2rem;
+  height: 2rem;
+  left: 50%;
+  transform: translate(-50%, 0%);
 }
 .qr_code_desc {
   position: absolute;
-  bottom: 6%;
-  font-size: 0.36rem;
-  color: #deca83;
+  bottom: .7rem;
+  font-size: 0.3rem;
+  color: rgb(255,242,157);
   width: 100%;
   text-align: center;
+  margin-left: .1rem;
+  font-weight: 600;
+  text-shadow: #000 1px 0 0, #000 0 1px 0,
+    #000 -1px 0 0, #000 0 -1px 0;
 }
 </style>
 
+<style>
+.share .qr_code img{
+   border-radius: .2rem;
+}
+</style>
