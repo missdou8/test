@@ -45,15 +45,26 @@ export default {
     imgContentDoms.forEach(item => {
       let editBtn = document.createElement("div");
       editBtn.classList.add("edit_cover");
-      let editImg = document.createElement("button");
-      editImg.classList.add("edit_btn");
-      editImg.innerHTML = "编辑图片";
-      editImg.setAttribute("contenteditable", false);
-      editImg.addEventListener("click", function() {
-        console.log(" 编辑图片");
+      let editImgShow = document.createElement("button");
+      editImgShow.innerHTML = "修改图片";
+      editImgShow.classList.add("edit_btn");
+      let editImg = document.createElement("input");
+      editImg.classList.add("edit_input");
+      editImg.readOnly = "readonly";
+      editImg.type = "file";
+      let that = this;
+      editImg.addEventListener("change", function() {
+        let file = this.files[0];
+        let files = {
+          file: file
+        };
+        that.upload(files).then(src => {
+          this.parentElement.parentElement.querySelector("img").src = src;
+          console.log(src);
+        });
       });
       let deleteImg = document.createElement("button");
-      deleteImg.innerHTML = "删除图片";
+      deleteImg.innerHTML = "删除";
       deleteImg.classList.add("edit_btn");
       deleteImg.setAttribute("contenteditable", false);
       deleteImg.addEventListener("click", function() {
@@ -62,6 +73,7 @@ export default {
           deleteImg.parentElement.parentElement
         );
       });
+      editBtn.appendChild(editImgShow);
       editBtn.appendChild(editImg);
       editBtn.appendChild(deleteImg);
       item.appendChild(editBtn);
@@ -78,7 +90,7 @@ export default {
       //当保存的时候要将按钮删掉
       let btns = document.querySelectorAll(".edit_cover");
       btns.forEach(item => {
-        document.body.removeChild(item);
+        item.parentElement.removeChild(item);
       });
       this.detail.title = this.$refs.title.innerHTML;
       this.detail.content = this.$refs.content.innerHTML;
@@ -103,6 +115,13 @@ export default {
   color: #ffde00;
   margin-bottom: 0.25rem;
   padding: 0.1rem 0.3rem;
+  max-width: 1.8rem;
+}
+.edit_input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
 }
 </style>
 <style scoped>
