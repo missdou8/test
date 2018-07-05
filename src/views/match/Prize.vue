@@ -160,6 +160,16 @@ export default {
       if (!this.coverImg) {
         return this.$toast("请选择奖品图片");
       }
+      //判断是否每个奖品都填写了
+      let canSave = false;
+      this.rankPrize.forEach(item => {
+        if (!item.name || !item.price) {
+          canSave = true;
+        }
+      });
+      if (canSave) {
+        return this.$toast("奖品没有填写完整");
+      }
       this.$store.commit("setIfSave", true);
       this.$router.go(-1);
     },

@@ -86,7 +86,12 @@ export default {
   },
   methods: {
     toShare() {
-      this.$router.push("/match/share");
+      this.$router.push({
+        path: "/match/share",
+        query: {
+          code: this.match.signupCode
+        }
+      });
     }
   }
 };

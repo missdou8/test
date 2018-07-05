@@ -5,7 +5,7 @@
     </div>
     <p class="match_title">{{title}}</p>
     <p class="match_code">
-      <span v-for="item in 6">5</span>
+      <span v-for="item in code">{{item}}</span>
     </p>
     <p class="match_code_desc">输入邀请码即可报名成功</p>
     <img class="qr_code" src="#" alt="二维码图片">
@@ -15,17 +15,26 @@
 
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      code: ""
+    };
   },
   computed: {
-    img() {
-      return this.$store.state.match.detail.coverImg;
-    },
-    title() {
-      return this.$store.state.match.detail.title;
-    }
+    ...mapState({
+      img(state) {
+        return state.match.detail.coverImg;
+      },
+      title(state) {
+        return state.match.detail.title;
+      }
+    })
+  },
+  created() {
+    this.code = this.$route.query.code;
+    this.code = String(this.code).split("");
   }
 };
 </script>

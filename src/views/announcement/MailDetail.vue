@@ -14,7 +14,7 @@ export default {
   created() {
     this.http.notice
       .mailNotification({
-        id: this.$router.query.id
+        id: this.$route.query.id
       })
       .then(res => {
         this.mail = res.data;

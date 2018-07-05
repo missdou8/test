@@ -4,7 +4,7 @@
       <van-pull-refresh v-show="0==active" class="list" v-model="refreshing" @refresh="onRefresh">
         <van-list v-model="mailLoading" :finished="finished" @load="onLoadMail" :immediate-check="false">
           <van-cell-group>
-            <van-cell v-for="item in mailList" :title="item.title" icon="mail" :label="item.description" :value="item.time | formateTime" @click="toMailDetail(item.id)">
+            <van-cell v-for="item in mailList" :key="item.id" :title="item.title" icon="mail" :label="item.description" :value="item.time | formateTime" @click="toMailDetail(item.id)">
               <img class="mail_icon" slot="icon" src="../../assets/message.png" alt="邮件">
             </van-cell>
           </van-cell-group>
@@ -12,7 +12,7 @@
       </van-pull-refresh>
       <van-pull-refresh v-show="1==active" v-model="refreshing" class="list">
         <van-list :immediate-check="false" v-model="loading" :finished="finished">
-          <div class="cover" v-for="item in noticeList" @click="toNoticeDetail(item.type, item.url, item.id)">
+          <div class="cover" v-for="item in noticeList" :key="item.id" @click="toNoticeDetail(item.type, item.url, item.id)">
             <img :src="item.cover" alt="封面图片">
           </div>
         </van-list>

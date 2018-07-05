@@ -1,8 +1,8 @@
 <template>
-    <div>
-        <h1>{{data.title}}</h1>
-        <p v-html="data.content"></p>
-    </div>
+  <div>
+    <h1>{{data.title}}</h1>
+    <p v-html="data.content"></p>
+  </div>
 </template>
 <script>
 export default {
@@ -14,7 +14,7 @@ export default {
   created() {
     this.http.notice
       .noticeDetail({
-        id: this.$router.query.id
+        id: this.$route.query.id
       })
       .then(res => {
         this.data = res.data;
