@@ -122,11 +122,7 @@ export default {
       //获取光标位置
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);
-      var elem = range.commonAncestorContainer;
-      console.log("你好");
-      console.log(range.startContainer);
-      console.log(range.endContainer);
-      console.log(elem);
+      let elem = range.commonAncestorContainer;
       if (elem == this.$refs.createIntro) {
         return containDom.appendChild(div);
       }
