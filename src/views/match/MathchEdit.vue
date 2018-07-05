@@ -96,7 +96,7 @@ export default {
         item.parentElement.removeChild(item);
       });
       this.detail.title = this.$refs.title.innerHTML;
-      this.detail.content = this.$refs.content.innerHTML;
+      this.detail.content = this.$refs.createIntro.innerHTML;
       this.$store.commit("setDetail", this.detail);
       this.$router.push("style");
     },
