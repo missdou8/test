@@ -9,6 +9,8 @@ import recordConfig from "./record.js";
 
 //组件
 import Announcement from "../views/announcement/Announcement.vue";
+import MailDetail from "../views/announcement/MailDetail.vue";
+import NoticeDetail from "../views/announcement/NoticeDetail.vue";
 
 Vue.use(VueRouter);
 
@@ -24,6 +26,20 @@ const routes = [
     component: Announcement,
     meta: {
       title: "公告/活动"
+    }
+  },
+  {
+    path: "/announce/detail/mail",
+    component: MailDetail,
+    meta: {
+      title: "邮件详情"
+    }
+  },
+  {
+    path: "/announce/detail/notice",
+    component: NoticeDetail,
+    meta: {
+      title: "公告详情"
     }
   }
 ];

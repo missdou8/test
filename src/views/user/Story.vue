@@ -33,7 +33,7 @@ export default {
     this.http.user.getShopInfo().then(res => {
       let data = res.data;
       this.coverImg = data.cover;
-      this.contentPlace = data.content;
+      this.contentPlace = data.content || "请添加图文介绍";
     });
   },
   computed: {
