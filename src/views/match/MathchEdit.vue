@@ -63,7 +63,6 @@ export default {
         };
         that.upload(files).then(src => {
           this.parentElement.parentElement.querySelector("img").src = src;
-          console.log(src);
         });
       });
       let deleteImg = document.createElement("button");

@@ -176,18 +176,9 @@ export default {
       let detail = match.detail;
       let gameName = match.gameName;
       //如果没有奖品的话则传空对象
-      let prizes = {
-        img: match.prizeCover,
-        type: match.sendStyle,
-        address: match.gainPrizeAddress.address,
-        regionName: match.gainPrizeAddress.regionName,
-        provinceId: match.gainPrizeAddress.provinceId,
-        cityId: match.gainPrizeAddress.cityId,
-        areaId: match.gainPrizeAddress.areaId,
-        rankingSet: match.rankPrize
-      };
+      let rankingSet = match.rankPrize;
       if (!match.ifSave && !isEdit) {
-        prizes = {};
+        rankingSet = {};
       }
       let params = {
         isAudit: type,
@@ -198,7 +189,14 @@ export default {
         beginTime: match.time,
         templateId: match.attendPerson.id,
         signupType: match.attendStyle.id,
-        prizes: prizes
+        prizePic: match.prizeCover,
+        getPrizeWay: match.sendStyle,
+        address: match.gainPrizeAddress.address,
+        regionName: match.gainPrizeAddress.regionName,
+        provinceId: match.gainPrizeAddress.provinceId,
+        cityId: match.gainPrizeAddress.cityId,
+        areaId: match.gainPrizeAddress.areaId,
+        rankingSet: rankingSet
       };
       if (isEdit) {
         action = "editMatch";

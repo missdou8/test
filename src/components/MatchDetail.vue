@@ -34,13 +34,13 @@
         <div class="detail_page" v-html="match.content">
         </div>
       </div>
-      <div id="prize" class="prize">
+      <div id="prize" class="prize" v-show="prizeset.length > 0">
         <p class="prize_header">
           <span class="game_tag"></span>
           <span>比赛奖品</span>
         </p>
         <ul class="prize_list">
-          <li class="prize_list_item" v-for="item in prizes.rankingSet">
+          <li class="prize_list_item" v-for="item in prizeset">
             <p>第{{item.rank}}名：{{item.name}}</p>
             <img :src="prizes.img" alt="奖品">
           </li>
@@ -85,6 +85,7 @@ export default {
       current: true,
       match: {},
       prizes: {},
+      prizeset: {},
       merchant: {},
       top: 0,
       editShow: false
@@ -99,6 +100,7 @@ export default {
     data() {
       this.match = this.data.match;
       this.prizes = this.data.prizes;
+      this.prizeset = this.prizes.rankingSet;
       this.merchant = this.data.merchant;
       //判断是否显示可以修改的按钮
       let matchStatus = this.match.status;

@@ -1,38 +1,40 @@
 <template>
   <div class="prize">
-    <div class="add-content">
-      <van-uploader class="uploader" :after-read="onRead">
-        <div class="addCover" v-show="prizeImageShow">
-          <p class="add">
-            <span class="add_img"></span>
-            <span>添加店铺封面</span>
-          </p>
-        </div>
-        <img class="cover-img" :src="coverImg" v-show="!prizeImageShow" alt="封面图片">
-      </van-uploader>
-    </div>
-    <div class="rank">
-      <div class="prize_info" v-for="(item,index) in rankList">
-        <p class="prize_rank">第{{item.value}}名</p>
-        <input class="prize_prize" type="text" placeholder="点击输入奖品名称，没有则不填" v-model="rankPrize[index].name" @blur="prizeInput(index,$event)">
-        <div class="prize_value_content">
-          <input class="prize_value" v-model="rankPrize[index].prize" type="number" @blur="valueInput(index, $event)">
-          <span class="prize_tag">元</span>
+    <div class="top">
+      <div class="add-content">
+        <van-uploader class="uploader" :after-read="onRead">
+          <div class="addCover" v-show="prizeImageShow">
+            <p class="add">
+              <span class="add_img"></span>
+              <span>添加店铺封面</span>
+            </p>
+          </div>
+          <img class="cover-img" :src="coverImg" v-show="!prizeImageShow" alt="封面图片">
+        </van-uploader>
+      </div>
+      <div class="rank">
+        <div class="prize_info" v-for="(item,index) in rankList">
+          <p class="prize_rank">第{{item.value}}名</p>
+          <input class="prize_prize" type="text" placeholder="点击输入奖品名称，没有则不填" v-model="rankPrize[index].name" @blur="prizeInput(index,$event)">
+          <div class="prize_value_content">
+            <input class="prize_value" v-model="rankPrize[index].prize" type="number" @blur="valueInput(index, $event)">
+            <span class="prize_tag">元</span>
+          </div>
         </div>
       </div>
-    </div>
-    <p class="total_value">
-      <span>
-        共计
-      </span>
-      <span>{{ totalPrize}}</span>元
-    </p>
-    <div class="send">
-      <p class="send_title">请选择发奖方式</p>
-      <radio-btn class="send_type" :data="sendStyle" @select="typeSelect" :selected="sendType"></radio-btn>
-      <div class="address" v-show="addressShow">
-        <p class="address_title">请选择自提地址</p>
-        <van-cell class="address_info" :title="contact" :label="address" is-link center @click="toAddress"></van-cell>
+      <p class="total_value">
+        <span>
+          共计
+        </span>
+        <span>{{ totalPrize}}</span>元
+      </p>
+      <div class="send">
+        <p class="send_title">请选择发奖方式</p>
+        <radio-btn class="send_type" :data="sendStyle" @select="typeSelect" :selected="sendType"></radio-btn>
+        <div class="address" v-show="addressShow">
+          <p class="address_title">请选择自提地址</p>
+          <van-cell class="address_info" :title="contact" :label="address" is-link center @click="toAddress"></van-cell>
+        </div>
       </div>
     </div>
     <div class="footer">
@@ -192,6 +194,17 @@ export default {
     },
     typeSelect(data) {
       this.$store.commit("setSendStyle", data.id);
+      //如果没有选择自提地址并且自提地址为空，那么地址为商家地址
+      if (data.id == 1 && this.$store.state.match.gainPrizeAddress) {
+        let userInfo = this.$store.state.user.userInfo;
+        this.$store.commit("setgainPrizeAddress", {
+          address: userInfo.address,
+          regionName: userInfo.regionName,
+          provinceId: userInfo.provinceId,
+          cityId: userInfo.cityId,
+          areaId: userInfo.areaId
+        });
+      }
     },
     toAddress() {
       this.$router.push("prize/address");
@@ -205,6 +218,11 @@ export default {
 </script>
 
 <style scoped>
+.top {
+  padding-bottom: 1.5rem;
+  height: 100%;
+  overflow-y: auto;
+}
 /* 设置padding */
 .add-content,
 .rank,
@@ -324,6 +342,7 @@ export default {
   padding: 0.3rem 0;
 }
 .footer {
+  background-color: #fff;
   padding: 0.2rem 0;
   position: absolute;
   bottom: 0;
