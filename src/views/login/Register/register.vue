@@ -4,9 +4,8 @@
         <van-field v-model="name" placeholder="请输入姓名"/>
         <van-field v-model="phone" placeholder="请输入手机号"/>
         <van-field class="code_box" center v-model="code" placeholder="请输入手机验证码">
-          <van-button id="code" slot="button" size="small" type="primary" @click="sendClick()" :disabled="!ifSend">
-            <span v-if="ifSend">发送验证码</span>
-            <span class="disabled__btn" v-else>{{time}}s后可重新发送</span>
+          <van-button id="code" slot="button" size="small" type="primary">
+            <verifica-code code-type="SMS" :code-mobile="phone"></verifica-code>
           </van-button>
         </van-field>
         <van-field v-model="password" type="password" placeholder="请设置您的登录密码"/>
@@ -19,6 +18,7 @@
 </template>
 
 <script>
+import verificaCode from "../../../components/verificaCode.vue";
 export default {
   data() {
     return {
@@ -27,8 +27,6 @@ export default {
       code: "",
       password: "",
       rePassword: "",
-      ifSend: true,
-      time: 10,
     };
   },
   computed: {
@@ -45,7 +43,9 @@ export default {
       return true;
     }
   },
-  components: {},
+   components: {
+    verificaCode
+  },
   methods: {
     register() {
       if (this.password !== this.rePassword)
@@ -68,31 +68,6 @@ export default {
             .then(() => {
               this.$router.push({ path: "/login", replace: true });
             });
-        });
-    },
-    finish() {
-      this.ifSend = false;
-      //进行倒计时提示
-      let Time = setInterval(() => {
-        if (this.time <= 1) {
-          clearInterval(Time);
-          this.ifSend = true;
-          this.time = 10;
-        } else {
-          this.time--;
-        }
-      }, 1000);
-    },
-    sendClick() {
-      if(this.phone=='') return this.$toast("请检查手机号是否正确");
-      this.finish();
-      this.http.verify
-        .SMSCode({
-          mobile: this.phone,
-          r: Math.random()
-        })
-        .then(res => {
-          this.$toast(res.msg)
         });
     }
   }
@@ -154,7 +129,7 @@ export default {
   border-width: 0;
   font-weight: 600;
 }
-.reg_btn.van-button--disabled,.disabled__btn{
+.reg_btn.van-button--disabled{
   opacity: 0.6;
 }
 </style>

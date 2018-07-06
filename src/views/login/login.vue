@@ -4,8 +4,8 @@
         <van-field v-model="phone" placeholder="请输入手机号"/>
         <van-field v-model="password" type="password" placeholder="请输入密码"/>
         <van-field class="code_box" center v-model="code" placeholder="请输入验证码">
-          <van-button id="code" slot="button" size="small"  @click="codeImgClick">
-            <img class="img" ref="codeImg" src="/api/verify/imgCode?type=forget" alt="" srcset="">
+          <van-button id="code" slot="button" size="small">
+            <verifica-code code-type="IMG" ref="verifica_code"></verifica-code>
           </van-button>
         </van-field>
       </van-cell-group>
@@ -26,6 +26,7 @@
   </div>
 </template>
 <script>
+import verificaCode from "../../components/verificaCode.vue";
 export default {
   data() {
     return {
@@ -43,10 +44,10 @@ export default {
       return true;
     }
   },
+  components: {
+    verificaCode
+  },
   methods: {
-    codeImgClick() {
-      this.$refs.codeImg.src = `/api/verify/imgCode?r=${Math.random()}`;
-    },
     goRegister() {
       this.$router.push("/register");
     },
@@ -63,7 +64,7 @@ export default {
         })
         .catch(() => {
           //重新获取二维码
-          this.codeImgClick()
+          this.$refs.verifica_code.getImgCode()
         });
     }
   }

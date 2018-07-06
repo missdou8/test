@@ -3,14 +3,13 @@
     <van-cell-group>
       <van-field v-model="phone" placeholder="请输入手机号"/>
       <van-field class="code_box" center v-model="imgCode" placeholder="请输入验证码">
-        <van-button id="code" slot="button" size="small" @click="codeImgClick">
-          <img class="img" ref="codeImg" src="/api/verify/imgCode?type=forget" alt="" srcset="">
+        <van-button id="code" slot="button" size="small">
+          <verifica-code code-type="IMG" ref="verifica_code"></verifica-code>
         </van-button>
       </van-field>
       <van-field class="phone_box" center v-model="phoneCode" placeholder="请输入手机验证码">
-        <van-button id="phonecode" slot="button" size="small" type="primary" @click="sendClick()" :disabled="!ifSend">
-          <span v-if="ifSend">发送验证码</span>
-          <span class="disabled__btn" v-else>{{time}}s后可重新发送</span>
+        <van-button id="phonecode" slot="button" size="small" type="primary">
+          <verifica-code code-type="SMS" :code-mobile="phone"></verifica-code>
         </van-button>
       </van-field>
     </van-cell-group>
@@ -21,14 +20,13 @@
 </template>
 
 <script>
+import verificaCode from "../../components/verificaCode.vue";
 export default {
   data() {
     return {
       phone: "",
       imgCode: "",
       phoneCode: "",
-      ifSend: true,
-      time: 10
     };
   },
   computed: {
@@ -39,36 +37,10 @@ export default {
       return true;
     }
   },
+  components: {
+    verificaCode
+  },
   methods: {
-    finish() {
-      this.ifSend = false;
-      //进行倒计时提示
-      let Time = setInterval(() => {
-        if (this.time <= 1) {
-          clearInterval(Time);
-          this.ifSend = true;
-          this.time = 10;
-        } else {
-          this.time--;
-        }
-      }, 1000);
-    },
-    sendClick() {
-      if(this.phone=='') return this.$toast("请检查手机号是否正确");
-      this.finish();
-      this.http.verify
-        .SMSCode({
-          mobile: this.phone,
-          r: Math.random()
-        })
-        .then(res => {
-          //验证码发送成功时显示
-          this.$toast(res.msg)
-        });
-    },
-    codeImgClick() {
-      this.$refs.codeImg.src = `/api/verify/imgCode?r=${Math.random()}`;
-    },
     goResetPwd() {
       this.http.user
         .forgetPassword({
@@ -81,7 +53,7 @@ export default {
         })
         .catch(() => {
           //重新获取二维码
-          this.codeImgClick();
+          this.$refs.verifica_code.getImgCode()
         });
     }
   }
@@ -129,6 +101,7 @@ export default {
 #phonecode:active::before {
   opacity: 0;
 }
+
 .findpwd .phone_box {
   padding-top: 0;
   padding-bottom: 0;
@@ -147,8 +120,7 @@ export default {
   border-width: 0;
   font-weight: 600;
 }
-.find_btn.van-button--disabled,
-.disabled__btn {
+.find_btn.van-button--disabled {
   opacity: 0.6;
 }
 </style>
