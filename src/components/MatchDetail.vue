@@ -39,10 +39,12 @@
           <span class="game_tag"></span>
           <span>比赛奖品</span>
         </p>
+        <div class="prize_img">
+          <img :src="prizes.img" alt="奖品">
+        </div>
         <ul class="prize_list">
           <li class="prize_list_item" v-for="item in prizeset">
             <p>第{{item.rank}}名：{{item.name}}</p>
-            <img :src="prizes.img" alt="奖品">
           </li>
         </ul>
         <div v-show="prizes.type == 1">
@@ -333,16 +335,22 @@ a {
   font-weight: bold;
   margin-right: 0.1rem;
 }
+.prize_img,
 .prize_list {
   background-color: #fff;
+}
+.prize_list {
   margin-top: 0.02rem;
   padding: 0 0.2rem;
 }
 .prize_list_item p {
   padding: 0.2rem 0;
 }
-.prize_list_item img {
-  width: 100%;
+.prize_img {
+  text-align: center;
+}
+.prize_img img {
+  height: 2.65rem;
 }
 
 .scroll_top {
