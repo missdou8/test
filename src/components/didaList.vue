@@ -90,7 +90,7 @@ export default {
 </script>
 
 <style>
-#didaList,#didaList .van-pull-refresh{
+#didaList{
   height: 100%;
 }
 #didaList .title {
