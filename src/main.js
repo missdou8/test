@@ -3,7 +3,7 @@ import router from "./router/router.js";
 import App from "./App.vue";
 import ApiService from "./service/http.js";
 import store from "./store/index.js";
-
+require("es6-promise").polyfill();
 // 导入公共CSS
 import "lpreset.css";
 import "./style/base.css";
