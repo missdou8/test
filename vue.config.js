@@ -6,5 +6,8 @@ module.exports = {
   productionSourceMap: false,
   lintOnSave: false,
   outputDir: "web/front",
-  baseUrl: "front"
+  baseUrl: "front",
+  configureWebpack: (config) => {
+    config.entry = ["babel-polyfill", "./src/main.js"]
+  },
 };

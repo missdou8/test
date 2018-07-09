@@ -10,6 +10,8 @@
   "dependencies": {
     "alloycrop": "^1.0.4",
     "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
+    "es6-promise": "^4.2.4",
     "lpreset.css": "0.0.9",
     "lputils": "0.0.4",
     "postcss-preset-env": "^5.2.1",
