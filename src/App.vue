@@ -1,39 +1,44 @@
 <template>
   <div id="app">
-    <transition :name="transitionName">
-      <!-- <nav></nav> -->
-      <router-view class="router"></router-view>
-    </transition>
+    <NavGation v-show="navShow" :title="title"></NavGation>
+    <div class="child">
+      <transition :name="transitionName">
+        <router-view class="router"></router-view>
+      </transition>
+    </div>
   </div>
 </template>
 <script>
-import axios from "axios";
-import Nav from "./components/Nav.vue";
+import NavGation from "./components/NavGation.vue";
+import { isWeChat } from "lputils";
 export default {
   components: {
-    Nav
+    NavGation
   },
   data() {
     return {
-      transitionName: "fade"
+      transitionName: "fade",
+      title: "滴答比赛",
+      navShow: false
     };
   },
   mounted() {
     //检测浏览器类型决定是否展示栏
-  },
-  beforeRouteEnter(to, from, next) {
-    let currentPath = to.path;
+    let isWe = isWeChat();
+    this.navShow = !isWe;
+    this.title = this.$route.meta.title;
+    let currentPath = this.$route.path;
     if (
       //设置不需要检测登录的页面
       currentPath == "/registerTips" ||
       currentPath == "/register" ||
       currentPath == "/login"
     ) {
-      return next();
+      return;
     }
     //检测用户登录状态与用户权限
     let userInfo = localStorage.getItem("userInfo");
-    axios.post("/api/user/checkLogin").then(result => {
+    this.http.user.checkLogin().then(result => {
       /**
        * 判断是否登录
        * 1. true: 判断是否认证
@@ -42,16 +47,17 @@ export default {
        *     2：审核未通过  （跳转登录页显示状态）
        * 2. false: 跳到登录页
        */
-      if (result.data.data.isLogin == 1) {
-        next();
+      if (result.data.isLogin == 1) {
+        return;
       } else {
-        next({ path: "/login", replace: true });
+        this.$router.push({ path: "/login", replace: true });
       }
     });
   },
   // 基于路线变化的动态设置路由切换动画
   watch: {
     $route(to, from) {
+      this.title = to.meta.title;
       const toDepth = to.path.split("/").length;
       const fromDepth = from.path.split("/").length;
       if (toDepth != fromDepth) {
@@ -64,6 +70,7 @@ export default {
   }
 };
 </script>
+
 <style scoped>
 #router_box {
   position: relative;
@@ -72,10 +79,15 @@ export default {
 .router {
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 93%;
+  height: calc(100%-46px);
   background-color: #f5f5f5;
   transition: all 500ms ease;
   box-shadow: -2px 0 30px rgba(0, 0, 0, 0.1);
+}
+.child {
+  height: 100%;
+  padding-top: 46px;
 }
 
 .slide-left-enter,

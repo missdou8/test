@@ -69,8 +69,12 @@ Vue.use(Tab)
   .use(NavBar);
 
 Vue.config.productionTip = false;
-// 自定义全局方法
+
+/**
+ * 自定义全局方法
+ */
 Vue.prototype.http = new ApiService();
+//上传图片
 Vue.prototype.upload = file => {
   let config = {
     headers: { "Content-Type": "multipart/form-data" }

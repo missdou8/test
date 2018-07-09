@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="detail">
     <match-detail :data="matchData"></match-detail>
     <div class="footer" :class="{free: match.signupType == 1}">
       <p class="footer_time">

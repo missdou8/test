@@ -1,5 +1,4 @@
 import VueRouter from "vue-router";
-import App from "../App.vue";
 import Vue from "vue";
 //路由配置
 import loginConfig from "./login.js";
@@ -12,15 +11,13 @@ import Announcement from "../views/announcement/Announcement.vue";
 import MailDetail from "../views/announcement/MailDetail.vue";
 import NoticeDetail from "../views/announcement/NoticeDetail.vue";
 
+//比赛
+import Match from "../views/match/Match.vue";
+import Index from "../views/match/Index.vue";
+
 Vue.use(VueRouter);
 
-const routes = [
-  {
-    path: "/",
-    component: App,
-    redirect: "/match",
-    children: [].concat(loginConfig, matchConfig, userConfig, recordConfig)
-  },
+let routes = [
   {
     path: "/announce/index",
     component: Announcement,
@@ -43,6 +40,8 @@ const routes = [
     }
   }
 ];
+
+routes = routes.concat(loginConfig, userConfig, recordConfig, matchConfig);
 
 const router = new VueRouter({
   mode: "history",

@@ -9,56 +9,56 @@ import Share from "../views/match/Share.vue";
 
 const MATCH_ROUTERS = [
   {
-    path: "match",
+    path: "/match",
     component: Index,
     meta: {
       title: "广告主"
     }
   },
   {
-    path: "match/detail",
+    path: "/match/detail",
     component: Detail,
     meta: {
       title: "比赛详情"
     }
   },
   {
-    path: "match/create",
+    path: "/match/create",
     component: Create,
     meta: {
       title: "创建比赛"
     }
   },
   {
-    path: "match/style",
+    path: "/match/style",
     component: MatchStyle,
     meta: {
       title: "赛制设置"
     }
   },
   {
-    path: "match/edit",
+    path: "/match/edit",
     component: MathchEdit,
     meta: {
       title: "修改比赛信息"
     }
   },
   {
-    path: "match/style/prize",
+    path: "/match/style/prize",
     component: Prize,
     meta: {
       title: "填写奖品信息"
     }
   },
   {
-    path: "match/style/prize/address",
+    path: "/match/style/prize/address",
     component: PrizeAddress,
     meta: {
       title: "自提地址"
     }
   },
   {
-    path: "match/share",
+    path: "/match/share",
     component: Share,
     meta: {
       title: "分享邀请码"

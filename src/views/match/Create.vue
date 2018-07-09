@@ -99,17 +99,21 @@ export default {
       //获取光标位置
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);
-      var elem = range.commonAncestorContainer;
-            if (elem == this.$refs.createIntro) {
-        return containDom.appendChild(div);
-      }
-      if (elem.parentElement == this.$refs.createIntro) {
-        return containDom.insertBefore(div, elem.nextSibling);
-      }
-      if (elem.nodeType != 1) {
-        elem = elem.parentNode;
-      }
-      this.$refs.createIntro.insertBefore(div, elem);
+
+      // var elem = range.commonAncestorContainer;
+      // if (elem == this.$refs.createIntro) {
+      //   return containDom.appendChild(div);
+      // }
+
+      range.insertNode(div);
+
+      // if (elem.parentElement == this.$refs.createIntro) {
+      //   return containDom.insertBefore(div, elem.nextSibling);
+      // }
+      // if (elem.nodeType != 1) {
+      //   elem = elem.parentNode;
+      // }
+      // this.$refs.createIntro.insertBefore(div, elem);
     }
   }
 };

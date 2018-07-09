@@ -121,17 +121,18 @@ export default {
       //获取光标位置
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);
-      let elem = range.commonAncestorContainer;
-      if (elem == this.$refs.createIntro) {
-        return containDom.appendChild(div);
-      }
-      if (elem.parentElement == this.$refs.createIntro) {
-        return containDom.insertBefore(div, elem.nextSibling);
-      }
-      if (elem.nodeType != 1) {
-        elem = elem.parentNode;
-      }
-      this.$refs.createIntro.insertBefore(div, elem);
+      range.insertNode(div);
+      // let elem = range.commonAncestorContainer;
+      // if (elem == this.$refs.createIntro) {
+      //   return containDom.appendChild(div);
+      // }
+      // if (elem.parentElement == this.$refs.createIntro) {
+      //   return containDom.insertBefore(div, elem.nextSibling);
+      // }
+      // if (elem.nodeType != 1) {
+      //   elem = elem.parentNode;
+      // }
+      // this.$refs.createIntro.insertBefore(div, elem);
 
       // if (containDom.lastChild == elem) {
       //   containDom.appendChild(div);

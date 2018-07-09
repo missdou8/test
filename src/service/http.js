@@ -74,10 +74,7 @@ axios.interceptors.request.use(
 let errorCatch = (code, msg) => {
   switch (code) {
     case 100002:
-      _this.$router.push("/front/login");
-      break;
-    case 100012:
-      _this.$router.push("/front/certification");
+      _this.$router.push("/login");
       break;
     case code:
       _this.$toast(msg || "接口404");
