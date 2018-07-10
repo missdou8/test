@@ -39,9 +39,6 @@ export default {
 
 
 <style scoped>
-#editName {
-  height: 100%;
-}
 .title {
   padding: 0 15px;
   line-height: 0.65rem;

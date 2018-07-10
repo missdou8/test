@@ -121,9 +121,6 @@ export default {
 
 
 <style scoped>
-#editAddress {
-  height: 100%;
-}
 .btn_box {
   padding: 0 15px;
   background: #f5f5f5;

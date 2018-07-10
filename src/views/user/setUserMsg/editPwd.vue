@@ -61,8 +61,6 @@ export default {
 
 <style scoped>
 .changePwd {
-  /* background-color: #fff; */
-  height: 100%;
   text-align: center;
   padding-top: 20px;
 }

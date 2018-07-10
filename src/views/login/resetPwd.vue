@@ -55,7 +55,6 @@ export default {
 
 <style scoped>
 .resetPwd {
-  height: 100%;
   text-align: center;
   padding-top: 3.7rem;
   background-image: url(../../assets/zhuce_back.png);

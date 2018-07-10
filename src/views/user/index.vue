@@ -91,9 +91,7 @@ export default {
 
 <style scoped>
 #userIndex {
-  height: 100%;
   background-color: #fff;
-  position: relative;
 }
 .user_box {
   display: flex;
