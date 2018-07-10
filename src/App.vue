@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <NavGation v-show="navShow" :title="title"></NavGation>
-    <div class="child">
+    <div :class="{child: navShow}">
       <transition :name="transitionName">
         <router-view class="router"></router-view>
       </transition>
@@ -79,8 +79,7 @@ export default {
 .router {
   position: absolute;
   width: 100%;
-  height: 93%;
-  height: calc(100%-46px);
+  height: 100%;
   background-color: #f5f5f5;
   transition: all 500ms ease;
   box-shadow: -2px 0 30px rgba(0, 0, 0, 0.1);
@@ -88,6 +87,10 @@ export default {
 .child {
   height: 100%;
   padding-top: 46px;
+}
+.child > div {
+  height: 93%;
+  height: calc(100%-46px);
 }
 
 .slide-left-enter,
