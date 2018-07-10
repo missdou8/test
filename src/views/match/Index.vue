@@ -14,7 +14,7 @@
           <p>
             <span :class="userInfo.certification == 1? 'authyes':'authno'"></span>
             <span class="user_id">
-              <i class="user_id_title">滴答号：</i>{{userInfo.id}}</span>
+              <i class="user_id_title">嘀嗒号：</i>{{userInfo.id}}</span>
           </p>
         </div>
         <router-link to="user/story" class="my-story">我的故事>></router-link>
