@@ -20,7 +20,7 @@ export default {
       isLoading: false,
       pagesize: 10,
       currentpage: 1, //当前页(默认从第一页开始)
-      total: 0 //总条数
+      total: null //总条数
     };
   },
   /**
@@ -119,7 +119,6 @@ export default {
 #didaList .noDataText {
   font-size: 0.4rem;
   padding: 0.2rem;
-  margin-top: 1rem;
   line-height: 0.6rem;
   text-align: center;
 }
