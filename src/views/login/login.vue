@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div id="login">
       <van-cell-group>
         <van-field v-model="phone" placeholder="请输入手机号"/>
         <van-field v-model="password" type="password" placeholder="请输入密码"/>
@@ -72,8 +72,9 @@ export default {
 </script>
 
 <style scoped>
-.login {
+#login {
   height: 100%;
+  position: relative;
   text-align: center;
   padding-top: 3.7rem;
   background-image: url(../../assets/zhuce_back.png);
@@ -94,7 +95,7 @@ export default {
 #code:active::before {
   opacity: 0;
 }
-.login .code_box {
+#login .code_box {
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -167,55 +168,52 @@ export default {
 </style>
 
 <style>
-.login .van-field__button {
+#login .van-field__button {
   padding-left: 10px;
   height: 44px;
 }
-.login .van-cell {
+#login .van-cell {
   padding: 0.4rem 0.3rem 0.2rem 0.35rem;
   color: #fff;
 }
-.login .van-cell input {
+#login .van-cell input {
   color: #fff;
 }
-.login .van-cell-group,
-.login .van-cell,
-.login .van-cell input,
-.login .van-cell button {
+#login .van-cell-group,
+#login .van-cell,
+#login .van-cell input,
+#login .van-cell button {
   background-color: initial;
 }
-.login .van-hairline--top-bottom::after {
+#login .van-hairline--top-bottom::after {
   border-top-width: 0;
   border-color: rgb(54, 44, 18);
   left: 0.3rem;
   width: 13.2rem;
 }
-.login .van-cell:not(:last-child)::after {
+#login .van-cell:not(:last-child)::after {
   border-color: rgb(54, 44, 18);
   left: 0.3rem;
   width: 6.6rem;
 }
-.login .van-field__button {
+#login .van-field__button {
   height: 0.95rem;
 }
-/* .login .code_box .van-cell__value {
-  margin-top: 0.2rem;
-} */
-.login .van-checkbox__label {
+#login .van-checkbox__label {
   margin-left: 0.1rem;
 }
-.login .van-checkbox__icon {
-  color: initial;
+#login .van-checkbox__icon--round .van-icon{
+  color: #3b3a39;
   border: 0;
   background-color: initial;
-  font-size: 0;
   background-image: url(../../assets/zhuce_icon01.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
-.login .van-checkbox--checked {
+#login .van-checkbox__icon--checked .van-icon {
   background-image: url(../../assets/zhuce_icon02.png);
+  color:#000;
 }
 </style>
 
