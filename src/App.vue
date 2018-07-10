@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <NavGation v-show="navShow" :title="title"></NavGation>
-    <div :class="{child: navShow}">
+    <div style="height:100%" :class="{child: navShow}">
       <transition :name="transitionName">
         <router-view class="router"></router-view>
       </transition>
