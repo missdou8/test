@@ -90,7 +90,7 @@ export default {
 }
 .child > div {
   height: 93%;
-  height: calc(100%-46px);
+  height: calc(100% - 46px);
 }
 
 .slide-left-enter,
