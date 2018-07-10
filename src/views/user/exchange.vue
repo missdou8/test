@@ -185,6 +185,7 @@ export default {
 #exchangeIndex .panel_header .van-cell::after {
   border-bottom-width: 1px;
   left: 0.12rem;
+  height: 194%;
 }
 #exchangeIndex .panel_header img {
   width: 0.6rem;
@@ -195,13 +196,21 @@ export default {
 #exchangeIndex .panel_header .van-cell__title span {
   font-size: 0.25rem;
   font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 #exchangeIndex .panel_header .van-cell__label {
   color: rgb(117, 117, 117);
   font-size: 0.2rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 70%;
 }
 #exchangeIndex .panel_header .van-cell__value {
   font-size: 0.14rem;
+  text-align: right;
 }
 #exchangeIndex .van-card {
   background: #fff;
