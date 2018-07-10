@@ -48,5 +48,6 @@ export default {
 <style scoped>
 #fans {
   height: 100%;
+  position: relative;
 }
 </style>

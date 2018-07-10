@@ -50,10 +50,6 @@ export default {
           let data = res.data;
           this.total = data.total;
           //这里返回的是原数据列表
-          // data[this.postUrl].forEach(d => {
-          //   data[this.postUrl].Time = timestamp_switch_time(d.time);
-          // });
-          // this.$emit("returnData",data)
           this.list = this.list.concat(data[this.dataName || this.postUrl]);
           return data;
         });
