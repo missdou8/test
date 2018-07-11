@@ -79,6 +79,7 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  overflow: auto;
 }
 .img {
   height: 100%;
