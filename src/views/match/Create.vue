@@ -114,7 +114,6 @@ export default {
       input.type = "file";
       input.style.position = "absolute";
       input.style.width = "100%";
-      input.style.height = "100%";
       input.style.opacity = 0;
       input.classList.add("s_edit");
       let that = this;
@@ -141,6 +140,10 @@ export default {
       this.upload(file, src => {
         img.src = src;
       });
+      img.onload = function() {
+        input.style.height = this.offsetHeight + "px";
+      };
+
       //获取光标位置
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);
