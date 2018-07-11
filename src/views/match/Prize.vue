@@ -154,7 +154,7 @@ export default {
   },
   methods: {
     onRead(file) {
-      this.upload(file).then(src => {
+      this.upload(file, src => {
         this.$store.commit("setPrizeCover", src);
       });
     },

@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     onRead(file) {
-      this.upload(file).then(src => {
+      this.upload(file, src => {
         this.coverImg = src;
       });
     },
@@ -93,7 +93,7 @@ export default {
       div.appendChild(img);
       img.style.width = "100%";
       img.style.display = "block";
-      this.upload(file).then(src => {
+      this.upload(file, src => {
         img.src = src;
       });
       //获取光标位置

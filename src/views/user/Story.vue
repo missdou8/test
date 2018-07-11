@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     onRead(file) {
-      this.upload(file).then(src => {
+      this.upload(file, src => {
         this.coverImg = src;
       });
     },
@@ -80,15 +80,12 @@ export default {
       div.appendChild(img);
       img.style.width = "100%";
       img.style.display = "block";
-      this.upload(file).then(src => {
+      this.upload(file, src => {
         img.src = src;
       });
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);
-      if (range.startContainer == this.$refs.createIntro) {
-        return containDom.appendChild(div);
-      }
-      this.$refs.createIntro.insertBefore(div, range.startContainer);
+      range.insertNode(div);
     }
   }
 };

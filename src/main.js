@@ -3,6 +3,8 @@ import router from "./router/router.js";
 import App from "./App.vue";
 import ApiService from "./service/http.js";
 import store from "./store/index.js";
+import ImageCompressor from "image-compressor.js";
+
 // 导入公共CSS
 import "lpreset.css";
 import "./style/base.css";
@@ -73,19 +75,42 @@ Vue.config.productionTip = false;
  * 自定义全局方法
  */
 Vue.prototype.http = new ApiService();
-//上传图片
-Vue.prototype.upload = file => {
+/**
+ * 上传图片
+ */
+let uploadImg = (data, name, callBack) => {
   let config = {
     headers: { "Content-Type": "multipart/form-data" }
-  }; //
+  };
   let formData = new FormData();
-  formData.append("file", file.file);
-  return Vue.prototype.http.resource
-    .uploadImg(formData, "post", config)
-    .then(res => {
-      let data = res.data;
-      return data.src[0];
+  formData.append("file", data, name);
+  console.log(name);
+  Vue.prototype.http.resource.uploadImg(formData, "post", config).then(res => {
+    let data = res.data;
+    callBack(data.src[0]);
+  });
+};
+
+Vue.prototype.upload = (file, callBack) => {
+  /**
+   * 对图片进行压缩，如果图片小于200kb直接上传，如果大于等于200则压缩后再上传
+   */
+  let maxSize = 200 * 1024;
+  let dataURI = file.content;
+  let imgSize = dataURI.length;
+  if (imgSize > maxSize) {
+    let radio = maxSize / imgSize;
+    new ImageCompressor(file.file, {
+      quality: radio,
+      convertSize: 1000000,
+      success(newFile) {
+        uploadImg(newFile, newFile.name, callBack);
+      }
     });
+    return;
+  }
+  let data = file.file;
+  uploadImg(data, data.name, callBack);
 };
 
 export default new Vue({
