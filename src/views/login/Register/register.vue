@@ -82,6 +82,7 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  overflow: auto;
 }
 .title_dec {
   color: #f00;
