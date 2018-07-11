@@ -12,7 +12,7 @@
     <div class="create_content">
       <div class="title">
         <span class="title_name">标题</span>
-        <span contenteditable="true" ref="matchTitle">{{titlePlace}}</span>
+        <span contenteditable="true" ref="matchTitle" class="title_name_content">{{titlePlace}}</span>
       </div>
       <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" @keyup.enter="nextLine" ref="createIntro" v-html="contentPlace"></div>
     </div>
@@ -33,7 +33,26 @@ export default {
       appendShow: false
     };
   },
-  mounted() {},
+  mounted() {
+    let inputs = document.querySelectorAll(".s_edit");
+    let that = this;
+    inputs.forEach(item => {
+      item.addEventListener("change", function() {
+        let file = this.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          let files = {
+            file: file,
+            content: reader.result
+          };
+          that.upload(files, src => {
+            this.parentElement.parentElement.querySelector("img").src = src;
+          });
+        };
+      });
+    });
+  },
   computed: {
     /**
      * 是否展示添加封面
@@ -218,6 +237,10 @@ export default {
   color: #000;
   font-size: 0.32rem;
   margin-right: 0.2rem;
+}
+.title_name_content {
+  display: inline-block;
+  width: 5rem;
 }
 </style>
 
