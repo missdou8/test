@@ -115,6 +115,12 @@ export default {
       ) {
         this.editShow = true;
       }
+      this.$nextTick(() => {
+        let inputs = document.querySelectorAll(".s_edit");
+        inputs.forEach(item => {
+          item.parentElement.removeChild(item);
+        });
+      });
     }
   },
   mounted() {
