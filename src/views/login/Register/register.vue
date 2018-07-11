@@ -77,7 +77,7 @@ export default {
 <style scoped>
 .register {
   text-align: center;
-  padding-top: 3.7rem;
+  padding-top: 3.5rem;
   background-image: url(../../../assets/zhuce_back.png);
   background-position: center;
   background-repeat: no-repeat;
@@ -118,7 +118,7 @@ export default {
 .btn_box {
   position: relative;
   overflow: hidden;
-  padding: 0.95rem 0.3rem 0.6rem 0.3rem;
+  padding: 0.6rem 0.3rem 0.6rem 0.3rem;
 }
 .reg_btn {
   background-color: rgb(252, 198, 0);
