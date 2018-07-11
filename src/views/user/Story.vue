@@ -120,9 +120,12 @@ export default {
         };
       });
       let img = document.createElement("img");
+      let br = document.createElement("br");
+
       //插入动作
       div.appendChild(input);
       div.appendChild(img);
+      div.appendChild(br);
       img.style.width = "100%";
       img.style.display = "block";
       this.upload(file, src => {

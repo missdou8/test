@@ -6,7 +6,7 @@
           <div class="addCover" v-show="prizeImageShow">
             <p class="add">
               <span class="add_img"></span>
-              <span>添加店铺封面</span>
+              <span>添加奖品封面</span>
             </p>
           </div>
           <img class="cover-img" :src="coverImg" v-show="!prizeImageShow" alt="封面图片">

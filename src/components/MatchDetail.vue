@@ -137,13 +137,20 @@ export default {
     toEdit() {
       //如果正在审核中，那么不能修改
       if (
-        this.data.match.status == 0 ||
+        this.data.match.status == 7 ||
         this.data.match.status == 1 ||
-        this.data.match.status == 3
+        this.data.match.status == 3 ||
+        this.data.match.status == 8 ||
+        this.data.match.status == 9
       ) {
         return this.$toast("正在审核中的赛事不能修改");
       }
-      this.$router.push("edit");
+      this.$router.push({
+        path: "edit",
+        query: {
+          id: this.data.match.status
+        }
+      });
     },
     toRule() {
       location.href =

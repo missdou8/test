@@ -13,8 +13,12 @@
     <van-uploader v-show="appendShow" class="append" :after-read="append">
       <img src="../../assets/img_add.png" alt="添加图片">
     </van-uploader>
-    <div class="btn">
+    <div class="btn" v-show="isPublish">
       <button @click="next">下一步</button>
+    </div>
+    <div class="footer" v-show="!isPublish">
+      <button @click="saveClick">保存</button>
+      <button @click="checkClick">提交审核</button>
     </div>
   </div>
 </template>
@@ -26,7 +30,8 @@ export default {
   data() {
     return {
       detail: this.$store.state.match.detail,
-      appendShow: false
+      appendShow: false,
+      isPublish: true
     };
   },
   computed: {
@@ -42,7 +47,11 @@ export default {
       }
     })
   },
-  created() {},
+  created() {
+    if (this.$route.query.id == 6) {
+      this.isPublish = false;
+    }
+  },
   mounted() {
     //把所有的input全部删掉
     let inputs = document.querySelectorAll(".s_edit");
@@ -133,6 +142,53 @@ export default {
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);
       range.insertNode(div);
+    },
+    saveClick() {
+      this.submit(0);
+    },
+    checkClick() {
+      this.submit(1);
+    },
+    submit(type) {
+      let isEdit = this.$store.state.match.isEdit;
+      let action = "createMatch";
+      let match = this.$store.state.match;
+      let detail = match.detail;
+      let gameName = match.gameName;
+      //如果没有奖品的话则传空对象
+      let rankingSet = match.rankPrize;
+      if (!match.ifSave && !isEdit) {
+        rankingSet = {};
+      }
+      let params = {
+        isAudit: type,
+        title: detail.title,
+        cover: detail.coverImg,
+        content: detail.content,
+        gameId: gameName.id,
+        beginTime: match.time,
+        templateId: match.attendPerson.id,
+        signupType: match.attendStyle.id,
+        prizePic: match.prizeCover,
+        getPrizeWay: match.sendStyle,
+        address: match.gainPrizeAddress.address,
+        regionName: match.gainPrizeAddress.regionName,
+        provinceId: match.gainPrizeAddress.provinceId,
+        cityId: match.gainPrizeAddress.cityId,
+        areaId: match.gainPrizeAddress.areaId,
+        rankingSet: rankingSet
+      };
+      if (isEdit) {
+        action = "editMatch";
+        params.id = match.id;
+      }
+      this.http.match[action](params).then(res => {
+        if (isEdit) {
+          this.$router.go(-3);
+        } else {
+          this.$router.go(-2);
+        }
+      });
     }
   }
 };
@@ -238,6 +294,25 @@ export default {
   top: 50%;
   right: 10%;
   transform: translateY(-50%);
+}
+.footer {
+  margin-top: 0.5rem;
+  padding: 0.2rem 0;
+  text-align: center;
+  width: 100%;
+}
+.footer button {
+  font-size: 0.35rem;
+  margin: 0 0.45rem;
+  padding: 0.2rem 0;
+  width: 2.35rem;
+}
+.footer button:first-child {
+  background-color: #ffde00;
+}
+.footer button:nth-child(2) {
+  background-color: #000;
+  color: #ffd321;
 }
 </style>
 
