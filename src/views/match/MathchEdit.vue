@@ -50,7 +50,13 @@ export default {
       item.parentElement.removeChild(item);
     });
     let imgContentDoms = document.querySelectorAll(".img_content");
+    let trueContent = [];
     imgContentDoms.forEach(item => {
+      if ((item.content = "content")) {
+        trueContent.push(item);
+      }
+    });
+    trueContent.forEach(item => {
       let editBtn = document.createElement("div");
       editBtn.classList.add("edit_cover");
       let editImgShow = document.createElement("button");

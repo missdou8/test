@@ -103,8 +103,10 @@ export default {
       this.$router.push("style");
     },
     append(file) {
+      console.log("这里会执行么");
       let containDom = this.$refs.createIntro;
       let div = document.createElement("div");
+      div.content = "content";
       div.style.position = "relative";
       div.style.marginBottom = "0.2rem";
       //为了使修改图片更加好用，在图片表面覆盖一个图片选择器
