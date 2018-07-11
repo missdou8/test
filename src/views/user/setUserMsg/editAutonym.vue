@@ -129,7 +129,6 @@ export default {
 
 <style scoped>
 #editAutonym {
-  height: 100%;
   text-align: center;
 }
 #file {

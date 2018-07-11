@@ -35,9 +35,4 @@ export default {
   methods: {}
 };
 </script>
-<style scoped>
-#editPlane {
-  height: 100%;
-}
-</style>
 

@@ -41,7 +41,6 @@ export default {
 
 <style scoped>
 #editImg {
-  height: 100%;
   display: flex;
   flex-flow: column;
   text-align: center;

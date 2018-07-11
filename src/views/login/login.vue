@@ -73,8 +73,6 @@ export default {
 
 <style scoped>
 #login {
-  height: 100%;
-  position: relative;
   text-align: center;
   padding-top: 3.5rem;
   background-image: url(../../assets/zhuce_back.png);

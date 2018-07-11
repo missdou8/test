@@ -16,7 +16,6 @@ export default {
 
 <style scoped>
 #autonymTips {
-  height: 100%;
   text-align: center;
 }
 </style>

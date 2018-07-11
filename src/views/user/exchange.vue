@@ -141,7 +141,7 @@ export default {
 <style scoped>
 #exchangeIndex {
   height: 100%;
-  position: relative;
+  position: initial;
 }
 .panel {
   margin-top: 0.2rem;
