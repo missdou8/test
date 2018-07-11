@@ -23,7 +23,7 @@
         <li>
           <router-link to="#">
             <span>
-              {{userInfo.visitCount || 100}}
+              {{userInfo.visitCount}}
             </span>
             <span>
               浏览
@@ -33,7 +33,7 @@
         <li>
           <router-link to="#">
             <span>
-              {{userInfo.likeCount || 100}}
+              {{userInfo.likeCount}}
             </span>
             <span>
               赞
@@ -43,7 +43,7 @@
         <li>
           <router-link to="#">
             <span>
-              {{userInfo.matchCount || 100}}
+              {{userInfo.matchCount}}
             </span>
             <span>
               比赛
@@ -53,7 +53,7 @@
         <li>
           <router-link to="user/record/fans">
             <span>
-              {{userInfo.watchersCount || 100}}
+              {{userInfo.watchersCount}}
             </span>
             <span>
               粉丝
