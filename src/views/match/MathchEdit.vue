@@ -61,7 +61,7 @@ export default {
         let files = {
           file: file
         };
-        that.upload(files).then(src => {
+        that.upload(files, src => {
           this.parentElement.parentElement.querySelector("img").src = src;
         });
       });
@@ -123,23 +123,6 @@ export default {
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);
       range.insertNode(div);
-      // let elem = range.commonAncestorContainer;
-      // if (elem == this.$refs.createIntro) {
-      //   return containDom.appendChild(div);
-      // }
-      // if (elem.parentElement == this.$refs.createIntro) {
-      //   return containDom.insertBefore(div, elem.nextSibling);
-      // }
-      // if (elem.nodeType != 1) {
-      //   elem = elem.parentNode;
-      // }
-      // this.$refs.createIntro.insertBefore(div, elem);
-
-      // if (containDom.lastChild == elem) {
-      //   containDom.appendChild(div);
-      // } else {
-      //   containDom.insertBefore(div, elem.nextSibling);
-      // }
     }
   }
 };

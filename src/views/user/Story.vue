@@ -76,7 +76,25 @@ export default {
       let div = document.createElement("div");
       div.style.position = "relative";
       div.classList.add("img_content");
+      //为了使修改图片更加好用，在图片表面覆盖一个图片选择器
+      let input = document.createElement("input");
+      input.type = "file";
+      input.style.position = "absolute";
+      input.style.width = "100%";
+      input.style.height = "100%";
+      let that = this;
+      input.addEventListener("change", function() {
+        let file = this.files[0];
+        let files = {
+          file: file
+        };
+        that.upload(files, src => {
+          this.parentElement.parentElement.querySelector("img").src = src;
+        });
+      });
       let img = document.createElement("img");
+      //插入动作
+      div.appendChild(input);
       div.appendChild(img);
       img.style.width = "100%";
       img.style.display = "block";
@@ -134,6 +152,9 @@ export default {
   user-select: initial;
   margin-top: 0.2rem;
   overflow: auto;
+}
+.create_content_intro div {
+  text-indent: 2em;
 }
 
 .create_content_intro:focus {
