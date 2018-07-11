@@ -50,7 +50,7 @@ export default {
       name: "",
       IDcard: "",
       imgBox: {},
-      status:0,  // 实名认证状态 0未实名认证 1已经实名认证 2 认证驳回 3 审核中
+      status: 0, // 实名认证状态 0未实名认证 1已经实名认证 2 认证驳回 3 审核中
       reqData: null,
       btnTxt: "", //认证按钮文案
       pass: false //认证成功状态
@@ -67,10 +67,16 @@ export default {
   },
   methods: {
     onFrontPic(file) {
-      this.upload(file, "frontPic");
+      this.upload(file, src => {
+        this.imgBox["frontPic"] = src;
+        this.$refs["frontPic"].src = src;
+      });
     },
     onBackPic(file) {
-      this.upload(file, "backPic");
+      this.upload(file, src => {
+        this.imgBox["backPic"] = src;
+        this.$refs["backPic"].src = src;
+      });
     },
     getCertification() {
       this.http.user.getCertification().then(res => {
@@ -89,7 +95,7 @@ export default {
       });
     },
     Autonym() {
-      if (this.imgBox.frontPic=="" &&this.imgBox.backPic=="" )
+      if (this.imgBox.frontPic == "" && this.imgBox.backPic == "")
         return this.$toast("信息不能为空");
       //上传的图片【使用FormData上传】
       this.http.user
@@ -110,18 +116,19 @@ export default {
             });
         });
     },
-    upload(file, type) {
-      let config = {
-        headers: { "Content-Type": "multipart/form-data" }
-      };
-      let formData = new FormData();
-      formData.append("file", file.file);
-      this.http.resource.uploadImg(formData, "post", config).then(res => {
-        let data = res.data.src[0];
-        this.imgBox[type] = data;
-        this.$refs[type].src = data;
-      });
-    }
+    // upload(file, type) {
+    //   let config = {
+    //     headers: { "Content-Type": "multipart/form-data" }
+    //   };
+    //   let formData = new FormData();
+    //   formData.append("file", file.file);
+    //   this.http.resource.uploadImg(formData, "post", config).then(res => {
+    //     let data = res.data.src[0];
+
+    //     this.imgBox[type] = data;
+    //     this.$refs[type].src = data;
+    //   });
+    // }
   }
 };
 </script>
@@ -276,7 +283,7 @@ export default {
 #editAutonym .van-cell:not(:last-child)::after {
   height: 195%;
 }
-#editAutonym .uploader .van-uploader__input{
+#editAutonym .uploader .van-uploader__input {
   z-index: 999;
 }
 </style>
