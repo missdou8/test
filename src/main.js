@@ -84,7 +84,6 @@ let uploadImg = (data, name, callBack) => {
   };
   let formData = new FormData();
   formData.append("file", data, name);
-  console.log(name);
   Vue.prototype.http.resource.uploadImg(formData, "post", config).then(res => {
     let data = res.data;
     callBack(data.src[0]);

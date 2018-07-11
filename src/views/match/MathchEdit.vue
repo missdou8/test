@@ -44,6 +44,11 @@ export default {
   },
   created() {},
   mounted() {
+    //把所有的input全部删掉
+    let inputs = document.querySelectorAll(".s_edit");
+    inputs.forEach(item => {
+      item.parentElement.removeChild(item);
+    });
     let imgContentDoms = document.querySelectorAll(".img_content");
     imgContentDoms.forEach(item => {
       let editBtn = document.createElement("div");
@@ -118,7 +123,6 @@ export default {
       this.upload(file, src => {
         img.src = src;
       });
-
       //获取光标位置
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);

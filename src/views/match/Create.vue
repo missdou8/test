@@ -88,8 +88,32 @@ export default {
       let div = document.createElement("div");
       div.style.position = "relative";
       div.style.marginBottom = "0.2rem";
+      //为了使修改图片更加好用，在图片表面覆盖一个图片选择器
+      let input = document.createElement("input");
+      input.type = "file";
+      input.style.position = "absolute";
+      input.style.width = "100%";
+      input.style.height = "100%";
+      input.style.opacity = 0;
+      input.classList.add("s_edit");
+      let that = this;
+      input.addEventListener("change", function() {
+        let file = this.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          let files = {
+            file: file,
+            content: reader.result
+          };
+          that.upload(files, src => {
+            this.parentElement.parentElement.querySelector("img").src = src;
+          });
+        };
+      });
       div.classList.add("img_content");
       let img = document.createElement("img");
+      div.appendChild(input);
       div.appendChild(img);
       img.style.width = "100%";
       img.style.display = "block";
@@ -99,21 +123,7 @@ export default {
       //获取光标位置
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);
-
-      // var elem = range.commonAncestorContainer;
-      // if (elem == this.$refs.createIntro) {
-      //   return containDom.appendChild(div);
-      // }
-
       range.insertNode(div);
-
-      // if (elem.parentElement == this.$refs.createIntro) {
-      //   return containDom.insertBefore(div, elem.nextSibling);
-      // }
-      // if (elem.nodeType != 1) {
-      //   elem = elem.parentNode;
-      // }
-      // this.$refs.createIntro.insertBefore(div, elem);
     }
   }
 };

@@ -126,6 +126,7 @@ export default {
         this.gameList = this.allGameList.map(item => {
           return item.name;
         });
+        console.log(this.gameList);
       });
     },
     //获取比赛人数
@@ -210,9 +211,6 @@ export default {
         }
       });
     }
-  },
-  beforeRouteLeave(to, from, next) {
-    next();
   }
 };
 </script>
