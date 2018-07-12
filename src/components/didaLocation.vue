@@ -16,7 +16,6 @@ export default {
   },
   methods: {
     onLocation() {
-      this.$toast.loading({duration: 0,message: '定位中...'});
       let _this = this;
       /***************************************
         由于Chrome、IOS10等已不再支持非安全域的浏览器定位请求，为保证定位成功率和精度，请尽快升级您的站点到HTTPS。

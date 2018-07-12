@@ -73,7 +73,11 @@ export default {
       this.show = false;
     },
     onLocation() {
-      this.$refs.location.onLocation();
+      this.$toast.loading({duration: 0,message: '定位中...'});
+      //提供一个缓冲定位时间
+      setTimeout(() => {
+          this.$refs.location.onLocation();
+      }, 500);
     },
     getResData(resData) {
       this.address = resData.detailAddress;
