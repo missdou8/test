@@ -200,7 +200,7 @@ a {
   border: 0.01rem solid #d0d0d0;
   border-radius: 0.41rem;
   position: fixed;
-  top: 55%;
+  bottom: 20%;
   right: 0.2rem;
   display: flex;
   align-items: center;
