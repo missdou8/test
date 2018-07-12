@@ -1,7 +1,7 @@
 <template>
     <div id="editPhone">
       <van-cell-group>
-        <van-field v-model="mobile" placeholder="请输入您的手机号" />
+        <van-field v-model="mobile" type="number" placeholder="请输入您的手机号" />
       </van-cell-group>
       <dida-btn :btn-enable="btnEnable" :type="0" :dataList="{'mobile': mobile}" :detection-list="detection"></dida-btn>
     </div>
