@@ -17,7 +17,7 @@
       <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" ref="createIntro" v-html="contentPlace"></div>
     </div>
     <van-uploader v-show="appendShow" class="append" :after-read="append">
-      <img src="../../assets/img_add.png" alt="添加图片">
+      <img src="../../assets/add.png" alt="添加图片">
     </van-uploader>
     <van-button @click="nextClick" class="next">下一步</van-button>
   </div>
@@ -70,7 +70,7 @@ export default {
     contentFocus(content, evt) {
       this.appendShow = true;
       //如果存在默认文字，那么清空
-      if (content == "请添加图文介绍") {
+      if (evt.target.innerHTML == "请添加图文介绍") {
         evt.target.innerHTML = "";
       }
     },
