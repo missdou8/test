@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import img from "../../assets/logo.png";
+import img from "../../assets/icon.png";
 import numberWordInput from "../../components/numberWordInput.vue";
 import didaList from "../../components/didaList.vue";
 import { timestamp_switch_time } from "lputils";

@@ -17,7 +17,7 @@
 
 <script>
 import { mapState } from "vuex";
-import icon from "../../assets/logo.png";
+import icon from "../../assets/icon.png";
 import meQrcode from "../../components/meQrcode.vue";
 export default {
   data() {

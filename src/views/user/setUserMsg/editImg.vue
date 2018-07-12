@@ -6,12 +6,12 @@
       <div class="img_box">
         <van-button class="updata_btn"  type="default" @click="updataImg()">上传您的最新头像</van-button>
         <van-row gutter="10">
-          <van-col span="8"><img src="../../../assets/logo.png" alt="" srcset="" @click="updataImg()"></van-col>
-          <van-col span="8"><img src="../../../assets/logo.png" alt="" srcset=""></van-col>
-          <van-col span="8"><img src="../../../assets/logo.png" alt="" srcset=""></van-col>
-          <van-col span="8"><img src="../../../assets/logo.png" alt="" srcset=""></van-col>
-          <van-col span="8"><img src="../../../assets/logo.png" alt="" srcset=""></van-col>
-          <van-col span="8"><img src="../../../assets/logo.png" alt="" srcset=""></van-col>
+          <van-col span="8"><img src="../../../assets/icon.png" alt="" srcset="" @click="updataImg()"></van-col>
+          <van-col span="8"><img src="../../../assets/icon.png" alt="" srcset=""></van-col>
+          <van-col span="8"><img src="../../../assets/icon.png" alt="" srcset=""></van-col>
+          <van-col span="8"><img src="../../../assets/icon.png" alt="" srcset=""></van-col>
+          <van-col span="8"><img src="../../../assets/icon.png" alt="" srcset=""></van-col>
+          <van-col span="8"><img src="../../../assets/icon.png" alt="" srcset=""></van-col>
         </van-row>
       </div>
     </div>
