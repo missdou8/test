@@ -175,6 +175,22 @@ export default {
       let match = this.$store.state.match;
       let detail = match.detail;
       let gameName = match.gameName;
+      /**
+       * 对数据进行判空
+       */
+      //游戏名称
+      if (!gameName.id) {
+        return this.$toast("请选择游戏名称");
+      }
+      if (!match.time) {
+        return this.$toast("请选择游戏开始时间");
+      }
+      if (!match.attendPerson.id) {
+        return this.$toast("请选择游戏人数");
+      }
+      if (!match.attendStyle.id) {
+        return this.$toast("请选择报名类型");
+      }
       //如果没有奖品的话则传空对象
       let rankingSet = match.rankPrize;
       if (!match.ifSave && !isEdit) {

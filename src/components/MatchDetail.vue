@@ -16,7 +16,7 @@
           <span class="header_info_send">{{prizes.type == 0 ? '邮寄': '自取'}}</span>
           <span class="header_info_type">{{match.signupType == 1 ? '免费报名': '邀请码报名'}}</span>
         </p>
-        <button v-show="editShow" class="edit-btn" @click="toEdit">信息有误，去修改>></button>
+        <button v-show="editShow" class="edit-btn" @click="toEdit">我要修改>></button>
       </div>
       <div class="game">
         <p class="game_info">
@@ -397,6 +397,7 @@ a {
 }
 .detail_page {
   text-indent: 2em;
+  padding: 0.2rem;
 }
 .address {
   background-color: #fff;

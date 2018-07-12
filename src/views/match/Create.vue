@@ -12,7 +12,7 @@
     <div class="create_content">
       <div class="title">
         <span class="title_name">标题</span>
-        <span contenteditable="true" ref="matchTitle" class="title_name_content">{{titlePlace}}</span>
+        <input type="text" placeholder="请添加比赛名称" v-model="titlePlace">
       </div>
       <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" @keyup.enter="nextLine" ref="createIntro" v-html="contentPlace"></div>
     </div>
@@ -77,10 +77,9 @@ export default {
     nextClick() {
       // 获取标题和内容的dom节点
       let containDom = this.$refs.createIntro;
-      let titleDom = this.$refs.matchTitle;
 
       //标题和内容
-      let title = titleDom.innerHTML;
+      let title = this.titlePlace;
       let content = containDom.innerHTML;
 
       //TODO: 提示是否有更好的方法
@@ -190,6 +189,9 @@ export default {
   overflow: hidden;
   text-align: left;
 }
+.create_content input {
+  background-color: transparent;
+}
 .create_content_intro {
   flex-grow: 1;
   flex-basis: 0;
@@ -199,8 +201,7 @@ export default {
   overflow: auto;
 }
 
-.create_content_intro:focus,
-.create_content span:focus {
+.create_content_intro:focus {
   outline: none;
 }
 .append {
