@@ -1,5 +1,6 @@
 <template>
   <div id="login">
+    <div class="login">
       <van-cell-group>
         <van-field v-model="phone" type="number" placeholder="请输入手机号"/>
         <van-field v-model="password" type="password" placeholder="请输入密码"/>
@@ -23,6 +24,7 @@
       <div class="new_user">
         <van-button class="new_user_btn" type="default" @click="goRegister()">新用户申请办比赛</van-button>
       </div>
+    </div>
   </div>
 </template>
 <script>
@@ -73,7 +75,9 @@ export default {
 
 <style scoped>
 #login {
-  height: auto;
+  overflow: auto;
+}
+#login .login{
   min-height: 100%;
   text-align: center;
   padding-top: 35vh;
@@ -215,6 +219,9 @@ export default {
 #login .van-checkbox__icon--checked .van-icon {
   background-image: url(../../assets/zhuce_icon02.png);
   color:#000;
+}
+#login .van-checkbox__icon--checked .van-icon::before{
+  content: "";
 }
 </style>
 

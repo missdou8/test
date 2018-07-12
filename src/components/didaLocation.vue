@@ -4,7 +4,8 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+    };
   },
   created() {
     let script = document.createElement("script");
@@ -39,6 +40,8 @@ export default {
       });
       //解析定位结果
       function onComplete(data) {
+        //定位成功的时候关闭lading
+        _this.$toast.clear();
         let resData = {
           longitude: data.position.getLng(), //经度
           latitude: data.position.getLat(), //维度
@@ -50,7 +53,8 @@ export default {
       }
       //解析定位错误信息
       function onError(data) {
-        alert("定位失败请输入详细地址信息");
+        _this.$toast.clear();
+        _this.$toast("定位失败请输入详细地址信息");
       }
     }
   }

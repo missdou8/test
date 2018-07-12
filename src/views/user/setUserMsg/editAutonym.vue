@@ -109,7 +109,7 @@ export default {
           this.$dialog
             .alert({
               title: "嘀嗒比赛",
-              message: res.msg
+              message: "已提交，请耐心等待！"
             })
             .then(() => {
               this.$router.go(-1);
