@@ -74,7 +74,7 @@
                   <span class="list_pv">{{item.visitCount | trimNum}}</span>
                   <span class="list_like">{{item.likeCount | trimNum}}</span>
                 </div>
-                <div :class="progressTag(0)" v-show="matchType == 1">
+                <div :class="progressTag(item.status)" v-show="matchType == 1">
                   <p>{{item.status | code2Word}}</p>
                 </div>
               </div>
@@ -212,7 +212,13 @@ export default {
       }&partnerId=${this.userInfo.id}&uname=广告主${this.userInfo.name}`;
     },
     progressTag(code) {
-      return "edit_info" + code;
+      if (code == 0 || code == 5) {
+        return "edit_info0";
+      } else if (code == 2 || code == 3 || code == 4) {
+        return "edit_info2";
+      } else {
+        return "edit_info1";
+      }
     }
   }
 };
@@ -382,15 +388,15 @@ export default {
   background-color: #fff;
   box-shadow: 0 0.1rem 0.1rem #e3e3e3;
   margin-bottom: 0.2rem;
-  width: 45%;
+  width: 48%;
   height: 2.35rem;
-  padding: 0.25rem 0 0.45rem 0;
+  padding: 0 0 0.45rem;
   position: relative;
   text-align: center;
 }
 .match_list_item img {
   height: 100%;
-  max-width: 2.45rem;
+  max-width: 100%;
   padding-bottom: 0.08rem;
 }
 
@@ -411,6 +417,9 @@ export default {
   background: url("../../assets/user_icon.png") left/0.18rem 0.18rem no-repeat;
   padding-left: 0.23rem;
 }
+.list_person-num {
+  color: #fca600;
+}
 .list_pv {
   background-image: url("../../assets/user_attri.png");
   background-size: 0.21rem 0.18rem;
@@ -418,13 +427,23 @@ export default {
 .list_like {
   background-image: url("../../assets/user_like.png");
 }
-.edit_info0 {
-  background: url("../../assets/di_green.png") left/100% 100% no-repeat;
+.edit_info0,
+.edit_info1,
+.edit_info2 {
   color: #fff;
   font-size: 0.21rem;
   padding: 0 0.2rem 0 0.1rem;
   position: absolute;
-  bottom: 0.45rem;
+  top: 0;
+}
+.edit_info0 {
+  background: url("../../assets/di_green.png") left/100% 100% no-repeat;
+}
+.edit_info1 {
+  background: url("../../assets/di_ju.png") left/100% 100% no-repeat;
+}
+.edit_info2 {
+  background: url("../../assets/di_red.png") left/100% 100% no-repeat;
 }
 </style>
 
