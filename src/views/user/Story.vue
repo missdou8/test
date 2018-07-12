@@ -102,7 +102,6 @@ export default {
       input.type = "file";
       input.style.position = "absolute";
       input.style.width = "100%";
-      input.style.height = "100%";
       input.style.opacity = 0;
       input.classList.add("s_edit");
       let that = this;
@@ -121,14 +120,20 @@ export default {
         };
       });
       let img = document.createElement("img");
+      let br = document.createElement("br");
+
       //插入动作
       div.appendChild(input);
       div.appendChild(img);
+      div.appendChild(br);
       img.style.width = "100%";
       img.style.display = "block";
       this.upload(file, src => {
         img.src = src;
       });
+      img.onload = function() {
+        input.style.height = this.offsetHeight + "px";
+      };
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);
       range.insertNode(div);

@@ -12,7 +12,7 @@
     <div class="create_content">
       <div class="title">
         <span class="title_name">标题</span>
-        <span contenteditable="true" ref="matchTitle">{{titlePlace}}</span>
+        <span contenteditable="true" ref="matchTitle" class="title_name_content">{{titlePlace}}</span>
       </div>
       <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" @keyup.enter="nextLine" ref="createIntro" v-html="contentPlace"></div>
     </div>
@@ -33,7 +33,26 @@ export default {
       appendShow: false
     };
   },
-  mounted() {},
+  mounted() {
+    let inputs = document.querySelectorAll(".s_edit");
+    let that = this;
+    inputs.forEach(item => {
+      item.addEventListener("change", function() {
+        let file = this.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          let files = {
+            file: file,
+            content: reader.result
+          };
+          that.upload(files, src => {
+            this.parentElement.parentElement.querySelector("img").src = src;
+          });
+        };
+      });
+    });
+  },
   computed: {
     /**
      * 是否展示添加封面
@@ -86,6 +105,7 @@ export default {
     append(file) {
       let containDom = this.$refs.createIntro;
       let div = document.createElement("div");
+      div.content = "content";
       div.style.position = "relative";
       div.style.marginBottom = "0.2rem";
       //为了使修改图片更加好用，在图片表面覆盖一个图片选择器
@@ -93,7 +113,6 @@ export default {
       input.type = "file";
       input.style.position = "absolute";
       input.style.width = "100%";
-      input.style.height = "100%";
       input.style.opacity = 0;
       input.classList.add("s_edit");
       let that = this;
@@ -113,13 +132,19 @@ export default {
       });
       div.classList.add("img_content");
       let img = document.createElement("img");
+      let br = document.createElement("br");
       div.appendChild(input);
       div.appendChild(img);
+      div.appendChild(br);
       img.style.width = "100%";
       img.style.display = "block";
       this.upload(file, src => {
         img.src = src;
       });
+      img.onload = function() {
+        input.style.height = this.offsetHeight + "px";
+      };
+
       //获取光标位置
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);
@@ -218,6 +243,10 @@ export default {
   color: #000;
   font-size: 0.32rem;
   margin-right: 0.2rem;
+}
+.title_name_content {
+  display: inline-block;
+  width: 5rem;
 }
 </style>
 

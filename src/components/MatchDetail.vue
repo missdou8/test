@@ -115,6 +115,12 @@ export default {
       ) {
         this.editShow = true;
       }
+      this.$nextTick(() => {
+        let inputs = document.querySelectorAll(".s_edit");
+        inputs.forEach(item => {
+          item.parentElement.removeChild(item);
+        });
+      });
     }
   },
   mounted() {
@@ -137,13 +143,20 @@ export default {
     toEdit() {
       //如果正在审核中，那么不能修改
       if (
-        this.data.match.status == 0 ||
+        this.data.match.status == 7 ||
         this.data.match.status == 1 ||
-        this.data.match.status == 3
+        this.data.match.status == 3 ||
+        this.data.match.status == 8 ||
+        this.data.match.status == 9
       ) {
         return this.$toast("正在审核中的赛事不能修改");
       }
-      this.$router.push("edit");
+      this.$router.push({
+        path: "edit",
+        query: {
+          id: this.data.match.status
+        }
+      });
     },
     toRule() {
       location.href =
@@ -187,7 +200,7 @@ a {
   border: 0.01rem solid #d0d0d0;
   border-radius: 0.41rem;
   position: fixed;
-  top: 55%;
+  bottom: 20%;
   right: 0.2rem;
   display: flex;
   align-items: center;

@@ -2,8 +2,8 @@
   <div class="register">
      <van-cell-group>
         <van-field v-model="name" placeholder="请输入姓名"/>
-        <van-field v-model="phone" placeholder="请输入手机号"/>
-        <van-field class="code_box" center v-model="code" placeholder="请输入手机验证码">
+        <van-field v-model="phone" type="number" placeholder="请输入手机号"/>
+        <van-field class="code_box" type="number" center v-model="code" placeholder="请输入手机验证码">
           <van-button id="code" slot="button" size="small" type="primary">
             <verifica-code code-type="SMS" :code-mobile="phone"></verifica-code>
           </van-button>

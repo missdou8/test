@@ -71,11 +71,11 @@
                 <img :src="item.cover ||cover" alt="封面图片">
                 <div class="list_attri">
                   <span v-show="matchType == 1" class="list_person-num">{{ 0 | trimNum}}</span>
-                  <span class="list_pv">{{item.visitCount || 0 | trimNum}}</span>
-                  <span class="list_like">{{item.likeCount || 0 | trimNum}}</span>
+                  <span class="list_pv">{{item.visitCount | trimNum}}</span>
+                  <span class="list_like">{{item.likeCount | trimNum}}</span>
                 </div>
                 <div :class="progressTag(0)" v-show="matchType == 1">
-                  <p>{{item.status || 2 | code2Word}}</p>
+                  <p>{{item.status | code2Word}}</p>
                 </div>
               </div>
             </div>
@@ -188,7 +188,7 @@ export default {
         return this.$toast("请先实名认证");
       }
       if (this.userInfo.latitude == 0) {
-        return this.$toast("请先设置店铺的信息");
+        return this.$toast("请先设置店铺地址");
       }
       this.$router.push("match/create");
     },

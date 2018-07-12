@@ -1,9 +1,9 @@
 <template>
   <div id="login">
       <van-cell-group>
-        <van-field v-model="phone" placeholder="请输入手机号"/>
+        <van-field v-model="phone" type="number" placeholder="请输入手机号"/>
         <van-field v-model="password" type="password" placeholder="请输入密码"/>
-        <van-field class="code_box" center v-model="code" placeholder="请输入验证码">
+        <van-field class="code_box" type="number" center v-model="code" placeholder="请输入验证码">
           <van-button id="code" slot="button" size="small">
             <verifica-code code-type="IMG" ref="verifica_code"></verifica-code>
           </van-button>
