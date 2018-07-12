@@ -94,7 +94,7 @@ Vue.prototype.upload = (file, callBack) => {
   /**
    * 对图片进行压缩，如果图片小于200kb直接上传，如果大于等于200则压缩后再上传
    */
-  let maxSize = 200 * 1024;
+  let maxSize = 300 * 1024;
   let dataURI = file.content;
   let imgSize = dataURI.length;
   if (imgSize > maxSize) {
