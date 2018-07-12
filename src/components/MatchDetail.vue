@@ -12,7 +12,7 @@
       <div class="header">
         <h1 class="header_title">{{match.title}}</h1>
         <p class="header_info">
-          <span class="header_info_time">{{match.beginTime | formateTime}}</span>
+          <span class="header_info_time">{{countDown}}</span>
           <span class="header_info_send">{{prizes.type == 0 ? '邮寄': '自取'}}</span>
           <span class="header_info_type">{{match.signupType == 1 ? '免费报名': '邀请码报名'}}</span>
         </p>
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { timeFormate } from "lputils";
+import { secondsToTime } from "lputils";
 export default {
   props: ["type", "data"],
   data() {
@@ -90,17 +90,28 @@ export default {
       prizeset: {},
       merchant: {},
       top: 0,
-      editShow: false
+      editShow: false,
+      time: 0,
+      timer: ""
     };
   },
-  filters: {
-    formateTime(time) {
-      return timeFormate(time * 1000, "HH:mm:ss");
+  computed: {
+    countDown(value) {
+      if (this.time <= 0) {
+        clearInterval(this.timer);
+        this.time = 0;
+      }
+      return secondsToTime(this.time);
     }
   },
   watch: {
     data() {
       this.match = this.data.match;
+      console.log(this.match.countdown);
+      this.time = this.match.countdown;
+      this.timer = setInterval(() => {
+        this.time -= 1;
+      }, 1000);
       this.prizes = this.data.prizes;
       this.prizeset = this.prizes.rankingSet;
       this.merchant = this.data.merchant;
@@ -271,6 +282,9 @@ a {
 .header_title {
   font-size: 0.3rem;
   font-weight: bold;
+}
+.header_info span {
+  border-radius: 0.05rem;
 }
 .header_info_time {
   background: url("../assets/light.png") 0.05rem center/.2rem 0.24rem no-repeat;

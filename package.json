@@ -13,7 +13,7 @@
     "babel-polyfill": "^6.26.0",
     "image-compressor.js": "^1.1.4",
     "lpreset.css": "0.0.9",
-    "lputils": "0.0.4",
+    "lputils": "0.1.2",
     "postcss-preset-env": "^5.2.1",
     "qrcode": "^1.2.0",
     "qs": "^6.5.2",
