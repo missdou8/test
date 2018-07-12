@@ -70,14 +70,14 @@ export default {
     contentFocus(content, evt) {
       this.appendShow = true;
       //如果存在默认文字，那么清空
-      if(content == '请添加图文介绍') {
-        evt.target.innerHTML = ''
+      if (content == "请添加图文介绍") {
+        evt.target.innerHTML = "";
       }
     },
     contentBlur(content, evt) {
       this.appendShow = false;
-      if(evt.target.innerHTML == '') {
-        evt.target.innerHTML = '请添加图文介绍'
+      if (evt.target.innerHTML == "") {
+        evt.target.innerHTML = "请添加图文介绍";
       }
     },
     nextClick() {
