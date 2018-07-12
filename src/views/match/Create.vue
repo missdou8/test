@@ -14,7 +14,7 @@
         <span class="title_name">标题</span>
         <input type="text" placeholder="请添加比赛名称" v-model="titlePlace">
       </div>
-      <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" @keyup.enter="nextLine" ref="createIntro" v-html="contentPlace"></div>
+      <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" ref="createIntro" v-html="contentPlace"></div>
     </div>
     <van-uploader v-show="appendShow" class="append" :after-read="append">
       <img src="../../assets/img_add.png" alt="添加图片">
@@ -27,7 +27,7 @@
 export default {
   data() {
     return {
-      titlePlace: this.$store.state.match.detail.title || "添加比赛名称",
+      titlePlace: this.$store.state.match.detail.title,
       contentPlace: this.$store.state.match.detail.content || "请添加图文介绍",
       coverImg: this.$store.state.match.detail.coverImg,
       appendShow: false
@@ -67,13 +67,19 @@ export default {
         this.coverImg = src;
       });
     },
-    contentFocus() {
+    contentFocus(content, evt) {
       this.appendShow = true;
+      //如果存在默认文字，那么清空
+      if(content == '请添加图文介绍') {
+        evt.target.innerHTML = ''
+      }
     },
-    contentBlur() {
+    contentBlur(content, evt) {
       this.appendShow = false;
+      if(evt.target.innerHTML == '') {
+        evt.target.innerHTML = '请添加图文介绍'
+      }
     },
-    nextLine() {},
     nextClick() {
       // 获取标题和内容的dom节点
       let containDom = this.$refs.createIntro;
@@ -87,7 +93,7 @@ export default {
       if (!this.coverImg) {
         return this.$toast("需要添加赛事封面");
       }
-      if (title == "添加比赛名称" || !title) {
+      if (!title) {
         return this.$toast("需要填写赛事名称");
       }
       if (!content || content == "请添加图文介绍") {
