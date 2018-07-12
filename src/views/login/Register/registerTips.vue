@@ -183,7 +183,7 @@
 </template>
 <style scoped>
 #tips{
-    height: auto;
+    overflow: auto;
 }
 article {
   padding: 20px 15px;
