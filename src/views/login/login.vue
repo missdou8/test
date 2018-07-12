@@ -216,5 +216,8 @@ export default {
   background-image: url(../../assets/zhuce_icon02.png);
   color:#000;
 }
+#login .van-checkbox__icon--checked .van-icon::before{
+  content: "";
+}
 </style>
 
