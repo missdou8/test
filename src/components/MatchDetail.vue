@@ -57,7 +57,7 @@
       </div>
       <div class="like_info">
         <div class="like_info_item">
-          <img class="icon" :src="merchant.icon" alt="头像">
+          <img class="icon" :src="merchant.icon || icon" alt="头像">
           <span>{{merchant.watchersCount}}</span>
         </div>
         <router-link class="like_info_item" :to="{path: '/user/record/like', query: {id:this.$store.state.match.id}}">
@@ -80,6 +80,7 @@
 
 <script>
 import { secondsToTime } from "lputils";
+import icon from "../assets/icon.png";
 export default {
   props: ["type", "data"],
   data() {
@@ -92,7 +93,8 @@ export default {
       top: 0,
       editShow: false,
       time: 0,
-      timer: ""
+      timer: "",
+      icon: icon
     };
   },
   computed: {
@@ -107,7 +109,6 @@ export default {
   watch: {
     data() {
       this.match = this.data.match;
-      console.log(this.match.countdown);
       this.time = this.match.countdown;
       this.timer = setInterval(() => {
         this.time -= 1;
