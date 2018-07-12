@@ -1,7 +1,7 @@
 <template>
     <div id="editPlane">
       <van-cell-group>
-        <van-field v-model="telephone" placeholder="请输入您的座机号" />
+        <van-field v-model="telephone" placeholder="请输入您的座机号"/>
       </van-cell-group>
       <dida-btn :btn-enable="btnEnable" :type="1" :dataList="{'telephone': telephone}" :detection-list="detection"></dida-btn>
     </div>
@@ -15,7 +15,7 @@ export default {
       telephone: "",
       detection:{
         "name":"telephone",
-        "reg":/^((0[1-9]\d{1,2})-)([1-9]{7,8})(-(\d{3,}))?$/,
+        "reg":/0\d{2,3}-\d{7,8}/,
         "msg":"请输入正确的座机号"
       }
     };

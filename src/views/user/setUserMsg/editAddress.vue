@@ -88,7 +88,6 @@ export default {
     },
     //发送请求
     setUserShop() {
-      console.log(this.areaVal);
       //重点一定要让用户定位成功才可以
       // if (this.longitude == null || this.latitude == null) {
       //   return this.$toast("请您重新定位");

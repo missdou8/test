@@ -4,7 +4,8 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+    };
   },
   created() {
     let script = document.createElement("script");
@@ -15,6 +16,7 @@ export default {
   },
   methods: {
     onLocation() {
+      this.$toast.loading({duration: 0,message: '定位中...'});
       let _this = this;
       /***************************************
         由于Chrome、IOS10等已不再支持非安全域的浏览器定位请求，为保证定位成功率和精度，请尽快升级您的站点到HTTPS。
@@ -39,6 +41,8 @@ export default {
       });
       //解析定位结果
       function onComplete(data) {
+        //定位成功的时候关闭lading
+        _this.$toast.clear();
         let resData = {
           longitude: data.position.getLng(), //经度
           latitude: data.position.getLat(), //维度
@@ -50,7 +54,8 @@ export default {
       }
       //解析定位错误信息
       function onError(data) {
-        alert("定位失败请输入详细地址信息");
+        _this.$toast.clear();
+        _this.$toast("定位失败请输入详细地址信息");
       }
     }
   }
