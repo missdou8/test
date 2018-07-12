@@ -1,13 +1,13 @@
 <template>
   <div class="findpwd">
     <van-cell-group>
-      <van-field v-model="phone" placeholder="请输入手机号"/>
-      <van-field class="code_box" center v-model="imgCode" placeholder="请输入验证码">
+      <van-field v-model="phone" type="number" placeholder="请输入手机号"/>
+      <van-field class="code_box" type="number" center v-model="imgCode" placeholder="请输入验证码">
         <van-button id="code" slot="button" size="small">
           <verifica-code code-type="IMG" ref="verifica_code"></verifica-code>
         </van-button>
       </van-field>
-      <van-field class="phone_box" center v-model="phoneCode" placeholder="请输入手机验证码">
+      <van-field class="phone_box" center v-model="phoneCode" type="number" placeholder="请输入手机验证码">
         <van-button id="phonecode" slot="button" size="small" type="primary">
           <verifica-code code-type="SMS" :code-mobile="phone"></verifica-code>
         </van-button>
