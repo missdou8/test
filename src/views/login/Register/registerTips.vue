@@ -223,6 +223,7 @@ article h3 {
 article p,
 article ul {
   margin: 0 0 0.8em;
+  text-align: justify;
 }
 
 article li {
