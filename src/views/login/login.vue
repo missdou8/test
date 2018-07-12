@@ -78,6 +78,7 @@ export default {
   overflow: auto;
 }
 #login .login{
+  min-height: 100%;
   text-align: center;
   padding-top: 35vh;
   background-image: url(../../assets/zhuce_back.png);

@@ -1,21 +1,23 @@
 <template>
   <div id="findpwd">
-    <van-cell-group>
-      <van-field v-model="phone" type="number" placeholder="请输入手机号"/>
-      <van-field class="code_box" type="number" center v-model="imgCode" placeholder="请输入验证码">
-        <van-button id="code" slot="button" size="small">
-          <verifica-code code-type="IMG" ref="verifica_code"></verifica-code>
-        </van-button>
-      </van-field>
-      <van-field class="phone_box" center v-model="phoneCode" type="number" placeholder="请输入手机验证码">
-        <van-button id="phonecode" slot="button" size="small" type="primary">
-          <verifica-code code-type="SMS" :code-mobile="phone"></verifica-code>
-        </van-button>
-      </van-field>
-    </van-cell-group>
-     <div class="btn_box">
+    <div class="findpwd">
+      <van-cell-group>
+        <van-field v-model="phone" type="number" placeholder="请输入手机号"/>
+        <van-field class="code_box" type="number" center v-model="imgCode" placeholder="请输入验证码">
+          <van-button id="code" slot="button" size="small">
+            <verifica-code code-type="IMG" ref="verifica_code"></verifica-code>
+          </van-button>
+        </van-field>
+        <van-field class="phone_box" center v-model="phoneCode" type="number" placeholder="请输入手机验证码">
+          <van-button id="phonecode" slot="button" size="small" type="primary">
+            <verifica-code code-type="SMS" :code-mobile="phone"></verifica-code>
+          </van-button>
+        </van-field>
+      </van-cell-group>
+      <div class="btn_box">
         <van-button :disabled="btnEnable" class="find_btn" size="large" @click="goResetPwd()">下一步</van-button>
       </div>
+    </div>
   </div>
 </template>
 
@@ -26,7 +28,7 @@ export default {
     return {
       phone: "",
       imgCode: "",
-      phoneCode: "",
+      phoneCode: ""
     };
   },
   computed: {
@@ -53,7 +55,7 @@ export default {
         })
         .catch(() => {
           //重新获取二维码
-          this.$refs.verifica_code.getImgCode()
+          this.$refs.verifica_code.getImgCode();
         });
     }
   }
@@ -61,7 +63,9 @@ export default {
 </script>
 <style scoped>
 #findpwd {
-  height: auto;
+  overflow: auto;
+}
+#findpwd .findpwd{
   min-height: 100%;
   text-align: center;
   padding-top: 35vh;
@@ -99,6 +103,7 @@ export default {
   font-size: 0.26rem;
   font-weight: 600;
 }
+
 #phonecode:active::before {
   opacity: 0;
 }

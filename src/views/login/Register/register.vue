@@ -1,6 +1,7 @@
 <template>
   <div id="register">
-     <van-cell-group>
+    <div class="register">
+      <van-cell-group>
         <van-field v-model="name" placeholder="请输入姓名"/>
         <van-field v-model="phone" type="number" placeholder="请输入手机号"/>
         <van-field class="code_box" type="number" center v-model="code" placeholder="请输入手机验证码">
@@ -14,6 +15,7 @@
       <div class="btn_box">
         <van-button :disabled="btnEnable" class="reg_btn" size="large" @click="register()">申请</van-button>
       </div>
+    </div>
   </div>
 </template>
 
@@ -76,7 +78,9 @@ export default {
 
 <style scoped>
 #register {
-  height: auto;
+overflow: auto;
+}
+#register .register{
   min-height: 100%;
   text-align: center;
   padding-top: 35vh;
@@ -120,8 +124,7 @@ export default {
 .btn_box {
   position: relative;
   overflow: hidden;
-  padding: 0.6rem 0.3rem 0 0.3rem;
-  margin-bottom:0.6rem
+  padding: 0.6rem 0.3rem 0.6rem 0.3rem;
 }
 .reg_btn {
   background-color: rgb(252, 198, 0);

@@ -1,12 +1,14 @@
 <template>
   <div id="resetPwd">
-     <van-cell-group>
+    <div class="resetPwd">
+      <van-cell-group>
         <van-field v-model="password" type="password" placeholder="请设置您的登录密码"/>
         <van-field v-model="rePassword" type="password" placeholder="请再次输入您的密码"/>
       </van-cell-group>
       <div class="btn_box">
         <van-button :disabled="btnEnable" class="reg_btn" size="large" @click="resetPwd()">提交</van-button>
       </div>
+    </div>
   </div>
 </template>
 
@@ -55,7 +57,9 @@ export default {
 
 <style scoped>
 #resetPwd {
-  height: auto;
+  overflow: auto;
+}
+#resetPwd .resetPwd{
   min-height: 100%;
   text-align: center;
   padding-top: 35vh;
