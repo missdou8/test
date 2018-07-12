@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import icon from "../../assets/logo.png";
+import icon from "../../assets/icon.png";
 import shearImg from "../../components/shearImg.vue";
 export default {
   data() {

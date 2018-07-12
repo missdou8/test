@@ -1,5 +1,5 @@
 <template>
-  <div class="findpwd">
+  <div id="findpwd">
     <van-cell-group>
       <van-field v-model="phone" type="number" placeholder="请输入手机号"/>
       <van-field class="code_box" type="number" center v-model="imgCode" placeholder="请输入验证码">
@@ -60,11 +60,13 @@ export default {
 };
 </script>
 <style scoped>
-.findpwd {
+#findpwd {
+  height: auto;
+  min-height: 100%;
   text-align: center;
-  padding-top: 3.7rem;
+  padding-top: 35vh;
   background-image: url(../../assets/zhuce_back.png);
-  background-position: center;
+  background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -81,7 +83,7 @@ export default {
 #code:active::before {
   opacity: 0;
 }
-.findpwd .code_box {
+#findpwd .code_box {
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -101,7 +103,7 @@ export default {
   opacity: 0;
 }
 
-.findpwd .phone_box {
+#findpwd .phone_box {
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -124,42 +126,42 @@ export default {
 }
 </style>
 <style>
-.findpwd .van-field__button {
+#findpwd .van-field__button {
   padding-left: 10px;
   height: 44px;
 }
-.findpwd .van-cell {
+#findpwd .van-cell {
   padding: 0.4rem 0.3rem 0.2rem 0.35rem;
   color: #fff;
 }
-.findpwd .van-cell input {
+#findpwd .van-cell input {
   color: #fff;
 }
-.findpwd .van-cell-group,
-.findpwd .van-cell,
-.findpwd .van-cell input,
-.findpwd .van-cell button {
+#findpwd .van-cell-group,
+#findpwd .van-cell,
+#findpwd .van-cell input,
+#findpwd .van-cell button {
   background-color: initial;
 }
-.findpwd .van-hairline--top-bottom::after {
+#findpwd .van-hairline--top-bottom::after {
   border-top-width: 0;
   border-color: rgb(54, 44, 18);
   left: 0.3rem;
   width: 13.2rem;
 }
-.findpwd .van-cell:not(:last-child)::after {
+#findpwd .van-cell:not(:last-child)::after {
   border-color: rgb(54, 44, 18);
   left: 0.3rem;
   width: 6.6rem;
 }
-.findpwd .van-field__button {
+#findpwd .van-field__button {
   height: 0.95rem;
 }
 /* .findpwd .code_box .van-cell__value,
 .findpwd .phone_box .van-cell__value {
   margin-top: 0.2rem;
 } */
-.findpwd .code_box::after {
+#findpwd .code_box::after {
   height: 198%;
 }
 </style>

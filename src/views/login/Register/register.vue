@@ -1,5 +1,5 @@
 <template>
-  <div class="register">
+  <div id="register">
      <van-cell-group>
         <van-field v-model="name" placeholder="请输入姓名"/>
         <van-field v-model="phone" type="number" placeholder="请输入手机号"/>
@@ -75,14 +75,15 @@ export default {
 </script>
 
 <style scoped>
-.register {
+#register {
+  height: auto;
+  min-height: 100%;
   text-align: center;
-  padding-top: 3.5rem;
+  padding-top: 35vh;
   background-image: url(../../../assets/zhuce_back.png);
-  background-position: center;
+  background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
-  overflow: auto;
 }
 .title_dec {
   color: #f00;
@@ -112,14 +113,15 @@ export default {
 #code:active::before {
   opacity: 0;
 }
-.register .code_box {
+#register .code_box {
   padding-top: 0;
   padding-bottom: 0;
 }
 .btn_box {
   position: relative;
   overflow: hidden;
-  padding: 0.6rem 0.3rem 0.6rem 0.3rem;
+  padding: 0.6rem 0.3rem 0 0.3rem;
+  margin-bottom:0.6rem
 }
 .reg_btn {
   background-color: rgb(252, 198, 0);
@@ -134,35 +136,35 @@ export default {
 }
 </style>
 <style>
-.register .van-field__button {
+#register .van-field__button {
   padding-left: 10px;
   height: 44px;
 }
-.register .van-cell {
+#register .van-cell {
   padding: 0.4rem 0.3rem 0.2rem 0.35rem;
   color: #fff;
 }
-.register .van-cell input {
+#register .van-cell input {
   color: #fff;
 }
-.register .van-cell-group,
-.register .van-cell,
-.register .van-cell input,
-.register .van-cell button {
+#register .van-cell-group,
+#register .van-cell,
+#register .van-cell input,
+#register .van-cell button {
   background-color: initial;
 }
-.register .van-hairline--top-bottom::after {
+#register .van-hairline--top-bottom::after {
   border-top-width: 0;
   border-color: rgb(54, 44, 18);
   left: 0.3rem;
   width: 13.2rem;
 }
-.register .van-cell:not(:last-child)::after {
+#register .van-cell:not(:last-child)::after {
   border-color: rgb(54, 44, 18);
   left: 0.3rem;
   width: 6.6rem;
 }
-.register .van-field__button {
+#register .van-field__button {
   height: 0.95rem;
 }
 /* .register .code_box .van-cell__value {

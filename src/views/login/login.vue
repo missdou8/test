@@ -73,13 +73,14 @@ export default {
 
 <style scoped>
 #login {
+  height: auto;
+  min-height: 100%;
   text-align: center;
-  padding-top: 3.5rem;
+  padding-top: 35vh;
   background-image: url(../../assets/zhuce_back.png);
-  background-position: center;
+  background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
-  overflow: auto;
 }
 .img {
   height: 100%;
@@ -142,6 +143,7 @@ export default {
   border-color: rgb(93, 79, 24);
   color: rgb(228, 186, 29);
   padding: 0 0.2rem;
+  margin-bottom:0.6rem;
   height: 0.7rem;
   line-height: 0.7rem;
   font-size: 0.26rem;

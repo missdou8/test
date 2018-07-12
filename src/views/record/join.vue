@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import img from "../../assets/logo.png";
+import img from "../../assets/icon.png";
 import didaList from "../../components/didaList.vue";
 import { timestamp_switch_time } from "lputils";
 export default {
