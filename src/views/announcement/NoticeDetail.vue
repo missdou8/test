@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="notice_detail">
     <h1>{{data.title}}</h1>
     <p v-html="data.content"></p>
   </div>
@@ -22,3 +22,13 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#notice_detail {
+  background-color: #fff;
+}
+.notice_detail img {
+  width: 100%;
+}
+</style>
+

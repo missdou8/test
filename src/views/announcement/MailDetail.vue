@@ -1,5 +1,5 @@
 <template>
-  <div class="detail">
+  <div id="detail">
     <h1>{{mail.title}}</h1>
     <p v-html="mail.content"></p>
   </div>
@@ -25,13 +25,16 @@ export default {
 </script>
 
 <style scoped>
-.detail {
+#detail {
   background-color: #fff;
   padding: 0.2rem;
 }
-.detail p {
+#detail p {
   margin-top: 0.3rem;
   text-indent: 2em;
+}
+#detail img {
+  width: 100%;
 }
 </style>
 

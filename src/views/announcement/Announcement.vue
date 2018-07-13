@@ -5,7 +5,7 @@
         <van-list v-model="mailLoading" :finished="finished" @load="onLoadMail" :immediate-check="false">
           <van-cell-group>
             <van-cell v-for="item in mailList" :key="item.id" :title="item.title" icon="mail" :label="item.description" :value="item.time | formateTime" @click="toMailDetail(item.id)">
-              <img class="mail_icon" slot="icon" src="../../assets/message.png" alt="邮件">
+              <img class="mail_icon" slot="icon" :src="item.isRead | mailStatus" alt="邮件">
             </van-cell>
           </van-cell-group>
         </van-list>
@@ -23,6 +23,8 @@
 
 <script>
 import { timeFormate } from "lputils";
+import mailImg from '../../assets/message.png'
+import mailImgNew from '../../assets/message_new.png'
 
 export default {
   data() {
@@ -37,7 +39,7 @@ export default {
       currentNotice: 1,
       mailList: [],
       noticeList: [],
-      loading: false
+      loading: false,
     };
   },
   watch: {
@@ -50,6 +52,9 @@ export default {
   filters: {
     formateTime(time) {
       return timeFormate(time * 1000, "YY-MM-DD HH:mm");
+    },
+    mailStatus(status) {
+      return status ? mailImg : mailImgNew;
     }
   },
   created() {
