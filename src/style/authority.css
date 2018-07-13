@@ -1,0 +1,121 @@
+/* 注册，登录，找回密码，重置密码公共样式 */
+
+/* 背景 */
+
+#authority {
+    overflow: auto;
+}
+
+#authority .authority {
+    min-height: 100%;
+    text-align: center;
+    padding-top: 35vh;
+    background-image: url(../assets/zhuce_back.png);
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* 表单样式 */
+
+#authority .van-field__button {
+    padding-left: 10px;
+    height: 44px;
+}
+
+#authority .van-cell {
+    padding: 0.4rem 0.3rem 0.2rem 0.35rem;
+    color: #fff;
+}
+
+#authority .van-cell input {
+    color: #fff;
+}
+
+#authority .van-cell-group,
+#authority .van-cell,
+#authority .van-cell input,
+#authority .van-cell button {
+    background-color: initial;
+}
+
+#authority .van-hairline--top-bottom::after {
+    border-top-width: 0;
+    border-color: rgb(54, 44, 18);
+    left: 0.3rem;
+    width: 13.2rem;
+    height: 202%;
+}
+
+#authority .van-cell:not(:last-child)::after {
+    border-color: rgb(54, 44, 18);
+    left: 0.3rem;
+    width: 6.6rem;
+    height: 198%;
+}
+
+#authority .van-field__button {
+    height: 0.95rem;
+}
+
+/* 图片二维码 */
+
+#authority .imgcode_box {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+#authority .imgcode {
+    border: none;
+    padding: 0;
+    height: 0.95rem;
+    width: 2.2rem;
+}
+
+#authority .imgcode:active::before {
+    opacity: 0;
+}
+
+/* 短信二维码 */
+
+#authority .phonecode_box {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+#authority .phonecode {
+    padding: 0;
+    height: 0.75rem;
+    line-height: .75rem;
+    margin-top: 0.18rem;
+    width: 2.2rem;
+    border-color: rgb(93, 79, 24);
+    color: rgb(228, 186, 29);
+    font-size: 0.26rem;
+    font-weight: 600;
+}
+
+#authority .phonecode:active::before {
+    opacity: 0;
+}
+
+/* 底部长按钮 */
+
+#authority .btn_box {
+    position: relative;
+    overflow: hidden;
+    padding: 0.5rem 0.3rem 0.6rem 0.3rem;
+}
+
+#authority .btn {
+    background-color: rgb(252, 198, 0);
+    height: 0.9rem;
+    line-height: 0.9rem;
+    color: rgb(17, 17, 17);
+    border-width: 0;
+    font-weight: 600;
+}
+
+#authority .btn.van-button--disabled {
+    opacity: 0.6;
+}
