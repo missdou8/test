@@ -1,5 +1,5 @@
 <template>
-    <div id="tips">
+    <div id="article">
       <article>
         <h1>嘀嗒比赛广告主后台广告主协议</h1>
         <section>
@@ -182,54 +182,6 @@
     </div>
 </template>
 <style scoped>
-#tips{
-    overflow: auto;
-}
-article {
-  padding: 20px 15px;
-  font-size: 15px;
-  line-height: 1.6;
-}
-
-article * {
-  max-width: 100%;
-  box-sizing: border-box;
-  word-wrap: break-word;
-}
-
-article h1 {
-  font-size: 18px;
-  font-weight: 400;
-  margin-bottom: 0.9em;
-  text-align: center;
-}
-
-article section {
-  margin-bottom: 1.5em;
-}
-
-article h2 {
-  font-size: 16px;
-  font-weight: 400;
-  margin-bottom: 0.34em;
-}
-
-article h3 {
-  font-weight: 400;
-  font-size: 15px;
-  margin-bottom: 0.34em;
-}
-
-article p,
-article ul {
-  margin: 0 0 0.8em;
-  text-align: justify;
-}
-
-article li {
-  list-style: none;
-  padding-left: 15px;
-  font-size: 14px;
-}
+@import "../../../style/article.css";
 </style>
 

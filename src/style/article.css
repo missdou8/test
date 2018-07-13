@@ -1,0 +1,51 @@
+/* 文章公共css样式 */
+
+#article{
+    overflow: auto;
+}
+#article article {
+  padding: 20px 15px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+#article article * {
+  max-width: 100%;
+  box-sizing: border-box;
+  word-wrap: break-word;
+}
+
+#article article h1 {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 0.9em;
+  text-align: center;
+}
+
+#article article section {
+  margin-bottom: 1.5em;
+}
+
+#article article h2 {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 0.34em;
+}
+
+#article article h3 {
+  font-weight: 400;
+  font-size: 15px;
+  margin-bottom: 0.34em;
+}
+
+#article article p,
+#article article ul {
+  margin: 0 0 0.8em;
+  text-align: justify;
+}
+
+#article article li {
+  list-style: none;
+  padding-left: 15px;
+  font-size: 14px;
+}
