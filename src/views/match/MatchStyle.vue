@@ -25,7 +25,7 @@
       <van-picker :columns="gameList" show-toolbar @confirm="gameConfirm" @cancel="gameShow = false" />
     </van-popup>
     <van-popup v-model="timeShow" position="bottom">
-      <van-datetime-picker v-model="currentDate" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="timeConfirm" @cancel="timeShow = false" />
+      <van-datetime-picker title="选择时间（年月日时分）" v-model="currentDate" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="timeConfirm" @cancel="timeShow = false" />
     </van-popup>
     <div class="footer">
       <button @click="saveClick">保存</button>
@@ -75,7 +75,7 @@ export default {
     ...mapState({
       selectTime(state) {
         let time = state.match.time;
-        return time ? timeFormate(time * 1000, "YY年MM月DD日") : "未选择";
+        return time ? timeFormate(time * 1000, "YY年MM月DD日HH时mm分") : "未选择";
       },
       selectPerson(state) {
         return state.match.attendPerson;
