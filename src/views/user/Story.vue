@@ -175,7 +175,6 @@ export default {
   flex-direction: column;
   flex-basis: 0;
   flex-grow: 1;
-  overflow: hidden;
   text-align: left;
 }
 .create_content_intro {
@@ -184,7 +183,6 @@ export default {
   text-indent: 2em;
   user-select: initial;
   margin-top: 0.2rem;
-  overflow: auto;
 }
 .create_content_intro div {
   text-indent: 2em;
@@ -205,7 +203,7 @@ export default {
   font-size: 0.3rem;
   font-weight: bold;
   position: fixed;
-  bottom: 0.3rem;
+  bottom: 0rem;
   left: 50%;
   width: 100%;
   transform: translate(-50%);

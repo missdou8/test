@@ -15,7 +15,7 @@
       <div class="rank">
         <div class="prize_info" v-for="(item,index) in rankList">
           <p class="prize_rank">第{{item.value}}名</p>
-          <input class="prize_prize" type="text" placeholder="点击输入奖品名称，没有则不填" v-model="rankPrize[index].name" @blur="prizeInput(index,$event)">
+          <input class="prize_prize" type="text" placeholder="点击输入奖品名称" v-model="rankPrize[index].name" @blur="prizeInput(index,$event)">
           <div class="prize_value_content">
             <input class="prize_value" v-model="rankPrize[index].prize" type="number" @blur="valueInput(index, $event)">
             <span class="prize_tag">元</span>

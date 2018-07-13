@@ -10,7 +10,7 @@
 </template>
 <script>
 import NavGation from "./components/NavGation.vue";
-import { isWeChat } from "lputils";
+import { isWeChat, isQQ } from "lputils";
 export default {
   components: {
     NavGation
@@ -24,7 +24,7 @@ export default {
   },
   mounted() {
     //检测浏览器类型决定是否展示栏
-    let isWe = isWeChat();
+    let isWe = isWeChat() || isQQ();
     this.navShow = !isWe;
     this.title = this.$route.meta.title;
     let currentPath = this.$route.path;

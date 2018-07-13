@@ -262,6 +262,7 @@ export default {
   flex-grow: 1;
   padding-bottom: 2rem;
   overflow-y: auto;
+  overflow-x: hidden;
   text-indent: 2em;
 }
 .btn {
