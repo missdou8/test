@@ -96,7 +96,7 @@ import cover from "../../assets/banner_task.png";
 export default {
   data() {
     return {
-      active: 0,
+      active: "",
       icon: icon,
       cover: cover,
       userInfo: Object, //头像地址
@@ -112,6 +112,7 @@ export default {
   },
   watch: {
     active() {
+      this.$store.commit("setTabActive", this.active);
       this.matchType = this.active + 1;
       //清空列表数据
       this.matchPage = 1;
@@ -145,11 +146,11 @@ export default {
   },
   created() {
     //获取用户信息
+    this.active = this.$store.state.match.tabActive;
     this.http.user.getUserInfo().then(res => {
       this.userInfo = res.data;
       this.$store.commit("setInfo", this.userInfo);
     });
-    this.fetchList();
   },
   methods: {
     onLoad() {

@@ -260,7 +260,7 @@ export default {
   background-color: #fff;
   flex-basis: 0;
   flex-grow: 1;
-  padding-bottom: 2rem;
+  padding: 0 0.2rem 2rem 0;
   overflow-y: auto;
   overflow-x: hidden;
   text-indent: 2em;

@@ -12,7 +12,8 @@ const match = {
     detail: {}, //赛事信息：标题，封面和内容
     gainPrizeAddress: "", //自提地址
     prizeCover: "",
-    isEdit: false //标记是否为编辑
+    isEdit: false, //标记是否为编辑
+    tabActive: 0
   },
   mutations: {
     setId(state, id) {
@@ -50,6 +51,9 @@ const match = {
     },
     setSendStyle(state, type) {
       state.sendStyle = type;
+    },
+    setTabActive(state, status) {
+      state.tabActive = status;
     }
   }
 };
