@@ -137,7 +137,7 @@ export default {
       });
       div.classList.add("img_content");
       let img = document.createElement("img");
-      let br = document.createElement("br");
+      let br = document.createElement("p");
       div.appendChild(input);
       div.appendChild(img);
       div.appendChild(br);
