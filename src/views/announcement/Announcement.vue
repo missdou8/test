@@ -23,8 +23,8 @@
 
 <script>
 import { timeFormate } from "lputils";
-import mailImg from '../../assets/message.png'
-import mailImgNew from '../../assets/message_new.png'
+import mailImg from "../../assets/message.png";
+import mailImgNew from "../../assets/message_new.png";
 
 export default {
   data() {
@@ -39,7 +39,7 @@ export default {
       currentNotice: 1,
       mailList: [],
       noticeList: [],
-      loading: false,
+      loading: false
     };
   },
   watch: {
@@ -61,9 +61,7 @@ export default {
     this.onLoadMail();
   },
   methods: {
-    onRefresh() {
-      console.log("刷新");
-    },
+    onRefresh() {},
     onLoadMail() {
       this.http.notice
         .mailNotificationList({

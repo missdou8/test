@@ -75,6 +75,11 @@ export default {
     nextClick() {
       // 获取标题和内容的dom节点
       let containDom = this.$refs.createIntro;
+      //将文中所有的换行都删掉
+      let brs = containDom.querySelectorAll("br");
+      brs.forEach(item => {
+        item.parentElement.removeChild(item);
+      });
 
       //标题和内容
       let title = this.titlePlace;
@@ -105,9 +110,7 @@ export default {
      * 2. 替换当前选中的图片
      */
     append(file) {
-      console.log(this.uploadType);
       if (this.uploadType == "replace") {
-        console.log("这里");
         this.upload(file, src => {
           this.replaceDom.src = src;
         });
@@ -135,7 +138,7 @@ export default {
         that.replaceDom = img;
         input.click();
       });
-      let br = document.createElement("p");
+      let br = document.createElement("br");
       div.appendChild(img);
       div.appendChild(br);
       img.style.width = "100%";
