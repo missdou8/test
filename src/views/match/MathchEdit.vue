@@ -53,11 +53,6 @@ export default {
     }
   },
   mounted() {
-    //把所有的input全部删掉
-    let inputs = document.querySelectorAll(".s_edit");
-    inputs.forEach(item => {
-      item.parentElement.removeChild(item);
-    });
     let imgContentDoms = document.querySelectorAll(".img_content");
     let trueContent = [];
     imgContentDoms.forEach(item => {

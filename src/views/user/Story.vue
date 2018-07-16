@@ -34,27 +34,6 @@ export default {
       let data = res.data;
       this.coverImg = data.cover;
       this.contentPlace = data.content || "请添加图文介绍";
-      //为input注册事件
-      this.$nextTick(() => {
-        let inputs = document.querySelectorAll(".s_edit");
-        let that = this;
-        inputs.forEach(item => {
-          item.addEventListener("change", function() {
-            let file = this.files[0];
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => {
-              let files = {
-                file: file,
-                content: reader.result
-              };
-              that.upload(files, src => {
-                this.parentElement.parentElement.querySelector("img").src = src;
-              });
-            };
-          });
-        });
-      });
     });
   },
   computed: {
