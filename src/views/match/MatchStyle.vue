@@ -20,7 +20,7 @@
         </van-collapse-item>
       </van-collapse>
       <van-cell title="请填写奖品信息" :value="prizeMsg" is-link @click="toPrize" />
-      <van-cell title="添加分享图" :value="prizeMsg" is-link @click="toShare" />
+      <van-cell title="添加分享" :value="prizeMsg" is-link @click="toShare" />
     </van-cell-group>
     <van-popup v-model="gameShow" position="bottom">
       <van-picker :columns="gameList" show-toolbar @confirm="gameConfirm" @cancel="gameShow = false" />
