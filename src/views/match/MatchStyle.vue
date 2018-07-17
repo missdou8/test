@@ -1,5 +1,5 @@
 <template>
-  <div class="style">
+  <div id="style">
     <van-cell-group>
       <van-cell title="请选择游戏名称" :value="selectGame.name" is-link @click="gameSelect" />
       <van-cell title="请选择比赛时间" :value="selectTime" is-link @click="timeSelect" />
@@ -32,6 +32,8 @@
       <button @click="saveClick">保存</button>
       <button @click="checkClick">提交审核</button>
     </div>
+    <van-uploader class="append_img" :after-read="append">
+    </van-uploader>
   </div>
 </template>
 
@@ -99,8 +101,14 @@ export default {
     this.fetchGameList();
   },
   methods: {
-    toShare() {
+    append(file) {
+      this.$store.commit("setShareImgFile", file);
       this.$router.push("shareImg");
+    },
+    toShare() {
+      let contain = document.querySelector("#style");
+      let input = contain.querySelector(".van-uploader__input");
+      input.click();
     },
     gameSelect() {
       this.gameShow = true;
@@ -241,7 +249,7 @@ export default {
 </script>
 
 <style>
-.style .van-popup--right {
+#style .van-popup--right {
   height: 100%;
   width: 100%;
 }

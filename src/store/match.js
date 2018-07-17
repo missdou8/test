@@ -13,7 +13,8 @@ const match = {
     gainPrizeAddress: "", //自提地址
     prizeCover: "",
     isEdit: false, //标记是否为编辑
-    tabActive: 0
+    tabActive: 0,
+    shareImgFile: ""
   },
   mutations: {
     setId(state, id) {
@@ -54,6 +55,9 @@ const match = {
     },
     setTabActive(state, status) {
       state.tabActive = status;
+    },
+    setShareImgFile(state, file) {
+      state.shareImgFile = file;
     }
   }
 };

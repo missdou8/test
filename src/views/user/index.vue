@@ -36,9 +36,9 @@ import shearImg from "../../components/shearImg.vue";
 export default {
   data() {
     return {
-      defImg:icon, //默认头像
+      defImg: icon, //默认头像
       userinfo: {},
-      autonymText: "", //认证状态文案
+      autonymText: "" //认证状态文案
     };
   },
   created() {
@@ -76,15 +76,12 @@ export default {
     },
     //修改头像(图片剪切上传后获取url)
     getImgUrl(imgUrl) {
-      this.http.user
-        .setUserInfo({icon: imgUrl,})
-        .then(res => {
-          this.$dialog
-            .alert({
-              title: "嘀嗒比赛",
-              message: res.msg
-            })
+      this.http.user.setUserInfo({ icon: imgUrl }).then(res => {
+        this.$dialog.alert({
+          title: "嘀嗒比赛",
+          message: res.msg
         });
+      });
     }
   }
 };

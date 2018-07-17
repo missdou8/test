@@ -55,8 +55,12 @@ export default {
         });
         let attendStyle = [
           {
+            id: 0,
+            value: "免费报名"
+          },
+          {
             id: 1,
-            value: "免费赛"
+            value: "分享报名"
           },
           {
             id: 2,

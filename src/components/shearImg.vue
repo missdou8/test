@@ -1,9 +1,9 @@
 <template>
-    <div id="shearImg">
-      <van-uploader class="uploader" :after-read="getImgUrl">
-        <img :src="imgSrc||defImg" alt="logo" srcset="">
-      </van-uploader>
-    </div>
+  <div id="shearImg">
+    <van-uploader class="uploader" :after-read="getImgUrl">
+      <img :src="imgSrc||defImg" alt="logo" srcset="">
+    </van-uploader>
+  </div>
 </template>
 
 <script>
@@ -11,7 +11,7 @@ import AlloyCrop from "alloycrop";
 export default {
   data() {
     return {
-      imgSrc:''
+      imgSrc: ""
     };
   },
   /**
