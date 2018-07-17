@@ -1,12 +1,12 @@
 <template>
-    <div id="share-img">
+    <div id="share-img" ref="share">
         <van-uploader class="append_img" :after-read="append">
         </van-uploader>
         <div class="share-img">
             <img :src="finalImg" alt="要分享的图片">
-            <div>
-                <button>重新选择</button>
-                <button>确定</button>
+            <div class="share-btn">
+                <button @click="cancleClick">重新选择</button>
+                <button @click="sureClick">确定</button>
             </div>
         </div>
         <div class="qr-code">
@@ -19,7 +19,7 @@
 <script>
 import AlloyCrop from "alloycrop";
 import meQrcode from "../../components/meQrcode.vue";
-
+const html2canvas = require("html2canvas");
 export default {
   components: {
     meQrcode
@@ -43,18 +43,6 @@ export default {
         cancel_text: "取消",
         ok: function(dataURI, canvas) {
           that.finalImg = dataURI;
-          let formData = new FormData();
-          let blob = _this.convertBase64UrlToBlob(base64, "image/png");
-          formData.append("file", blob, Date.now() + ".png");
-          //在此处发送一个ajax请求
-          let config = {
-            headers: { "Content-Type": "multipart/form-data" }
-          };
-          _this.http.resource.uploadImg(formData, "post", config).then(res => {
-            let data = res.data.src[0];
-            //将后端生成的图片路径抛出
-            _this.$emit("getImgUrl", data);
-          });
         },
         cancel: function() {
           that.$router.go(-1);
@@ -65,6 +53,35 @@ export default {
   methods: {
     append() {
       console.log("获取图片后");
+    },
+    sureClick() {
+      //点击确定后，将当前页面画为图片，上传
+      html2canvas(this.$refs.share, {
+        scale: 1
+      }).then(canvas => {
+        let dataURL = canvas.toDataURL("image/png");
+        let file = this.dataURLtoFile(dataURL, "share");
+        let files = {
+          file: file,
+          content: dataURL
+        };
+        console.log(files);
+        this.upload(files, src => {
+          console.log(src);
+        });
+      });
+    },
+    cancleClick() {},
+    dataURLtoFile(dataurl, filename) {
+      var arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], filename, { type: mime });
     }
   }
 };
@@ -95,5 +112,14 @@ export default {
 }
 .qr-code p {
   padding: 0 0.36rem;
+}
+.share-btn {
+  display: flex;
+  justify-content: space-around;
+  padding: 0.15rem 0;
+}
+.share-btn button {
+  color: #ffcc00;
+  font-size: 0.3rem;
 }
 </style>
