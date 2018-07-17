@@ -4,7 +4,7 @@
         <van-panel class="panel" v-for="(prize,index) in prizeList" :key="index">
           <div class="panel_header" slot="header">
             <van-cell :value="prize.time" :label="prize.matchdec" :title="prize.nickname">
-              <img slot="icon" :src="prize.icon" alt="" srcset="">
+              <img slot="icon" :src="prize.icon||imageURL" alt="" srcset="">
             </van-cell>
           </div>
           <van-card :title="prize.prize.name" :desc="prize.receivingDec" currency="" :price="prize.prizeType" :thumb="prize.prize.img"/>
