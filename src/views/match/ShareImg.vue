@@ -61,7 +61,7 @@ export default {
             content: dataURI
           };
           that.upload(files, src => {
-            that.$store.commit("setShareCropImg", dataURI);
+            that.$store.commit("setShareCropImg", src);
             that.finalImg = dataURI;
           });
         },
