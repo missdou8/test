@@ -9,6 +9,11 @@ import ImageCompressor from "image-compressor.js";
 import "lpreset.css";
 import "./style/base.css";
 
+//导入配置
+import config from "./config/index.js";
+
+Vue.prototype.config = config;
+
 // 引用组件
 import {
   Tab,

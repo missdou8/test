@@ -75,7 +75,7 @@
                   <span class="list_like">{{item.likeCount | trimNum}}</span>
                 </div>
                 <div :class="progressTag(item.status)" v-show="matchType == 1">
-                  <p>{{item.status | code2Word}}</p>
+                  <p>{{code2Word(item.status)}}</p>
                 </div>
               </div>
             </div>
@@ -122,21 +122,6 @@ export default {
     }
   },
   filters: {
-    code2Word(code) {
-      let word = {
-        0: "新建未审核",
-        1: "新建提审中",
-        2: "信息修改未提审",
-        3: "信息修改审核中",
-        4: "审核不通过",
-        5: "审核已通过",
-        6: "已发布",
-        7: "被取消",
-        8: "比赛中",
-        9: "赛事已结束"
-      };
-      return word[code];
-    },
     trimNum(num) {
       if (num > 10000) {
         return num / 10000 + "w";
@@ -153,6 +138,10 @@ export default {
     });
   },
   methods: {
+    code2Word(code) {
+      let word = this.config.matchStatus;
+      return word[code];
+    },
     onLoad() {
       this.matchPage += 1;
       this.fetchList().then(data => {
