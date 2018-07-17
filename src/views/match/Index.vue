@@ -189,7 +189,7 @@ export default {
         return this.$toast("请先实名认证");
       }
       if (this.userInfo.latitude == 0) {
-        return this.$toast("请先设置店铺地址");
+        return this.$toast("需要进行店铺地址定位");
       }
       this.$router.push("match/create");
     },

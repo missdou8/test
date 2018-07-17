@@ -6,6 +6,7 @@ import MathchEdit from "../views/match/MathchEdit.vue";
 import Prize from "../views/match/Prize.vue";
 import PrizeAddress from "../views/match/PrizeAddress.vue";
 import Share from "../views/match/Share.vue";
+import ShareImg from "../views/match/ShareImg.vue";
 
 const MATCH_ROUTERS = [
   {
@@ -62,6 +63,13 @@ const MATCH_ROUTERS = [
     component: Share,
     meta: {
       title: "分享邀请码"
+    }
+  },
+  {
+    path: "/match/shareImg",
+    component: ShareImg,
+    meta: {
+      title: "添加分享图片"
     }
   }
 ];

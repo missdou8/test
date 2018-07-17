@@ -82,8 +82,10 @@ export default {
   text-align: center;
 }
 .match_code span {
-  margin: 0 2.2%;
-  margin-right: 2.25%;
+  display: inline-block;
+  width: 9.73%;
+  height: 13.33%;
+  margin-right: 1.25%;
 }
 .match_code_desc {
   position: absolute;
@@ -95,7 +97,7 @@ export default {
 }
 .qr_code {
   position: absolute;
-  bottom:1.65rem;
+  bottom: 1.65rem;
   width: 2rem;
   height: 2rem;
   left: 50%;
@@ -103,20 +105,19 @@ export default {
 }
 .qr_code_desc {
   position: absolute;
-  bottom: .7rem;
+  bottom: 0.7rem;
   font-size: 0.3rem;
-  color: rgb(255,242,157);
+  color: rgb(255, 242, 157);
   width: 100%;
   text-align: center;
-  margin-left: .1rem;
+  margin-left: 0.1rem;
   font-weight: 600;
-  text-shadow: #000 1px 0 0, #000 0 1px 0,
-    #000 -1px 0 0, #000 0 -1px 0;
+  text-shadow: #000 1px 0 0, #000 0 1px 0, #000 -1px 0 0, #000 0 -1px 0;
 }
 </style>
 
 <style>
-.share .qr_code img{
-   border-radius: .15rem;
+.share .qr_code img {
+  border-radius: 0.15rem;
 }
 </style>

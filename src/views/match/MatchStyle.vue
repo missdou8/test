@@ -20,7 +20,7 @@
         </van-collapse-item>
       </van-collapse>
       <van-cell title="请填写奖品信息" :value="prizeMsg" is-link @click="toPrize" />
-      <van-cell title="添加分享图" :value="prizeMsg" is-link @click="toPrize" />
+      <van-cell title="添加分享图" :value="prizeMsg" is-link @click="toShare" />
     </van-cell-group>
     <van-popup v-model="gameShow" position="bottom">
       <van-picker :columns="gameList" show-toolbar @confirm="gameConfirm" @cancel="gameShow = false" />
@@ -61,8 +61,12 @@ export default {
       activeNames: ["1"],
       attendStyle: [
         {
+          id: 0,
+          value: "免费报名"
+        },
+        {
           id: 1,
-          value: "免费赛"
+          value: "分享报名"
         },
         {
           id: 2,
@@ -95,6 +99,9 @@ export default {
     this.fetchGameList();
   },
   methods: {
+    toShare() {
+      this.$router.push("shareImg");
+    },
     gameSelect() {
       this.gameShow = true;
     },

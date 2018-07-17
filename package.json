@@ -14,7 +14,7 @@
     "image-compressor.js": "^1.1.4",
     "lpreset.css": "0.0.9",
     "lputils": "0.1.3",
-    "postcss-preset-env": "^5.2.1",
+    "postcss-preset-env": "^5.2.2",
     "qrcode": "^1.2.0",
     "qs": "^6.5.2",
     "vant": "^1.1.13",
@@ -46,7 +46,6 @@
   },
   "postcss": {
     "plugins": {
-      "autoprefixer": {},
       "postcss-preset-env": {}
     }
   },
