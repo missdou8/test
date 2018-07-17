@@ -206,7 +206,7 @@ export default {
       if (!match.attendPerson.id) {
         return this.$toast("请选择游戏人数");
       }
-      if (!match.attendStyle.id) {
+      if (match.attendStyle.id < 0) {
         return this.$toast("请选择报名类型");
       }
       //如果没有奖品的话则传空对象

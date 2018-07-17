@@ -3,7 +3,7 @@ const match = {
     id: "",
     time: "",
     attendPerson: { id: 0, value: "未选择" }, //参加比赛的人数
-    attendStyle: { id: 0, value: "未选择" }, //报名类型
+    attendStyle: { id: -1, value: "未选择" }, //报名类型
     rankPrize: [],
     sendStyle: "", //邮寄方式
     sendAddress: {},

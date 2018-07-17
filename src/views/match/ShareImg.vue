@@ -9,8 +9,8 @@
                 <button>确定</button>
             </div>
         </div>
-        <div>
-            <me-qrcode class="qr_code" v-if="link" :qr-url='link' :qr-size='300'></me-qrcode>
+        <div class="qr-code">
+            <me-qrcode class="qr_code" v-if="link" :qr-url='link' :qr-size='150'></me-qrcode>
             <p>嘀嗒比赛，专业的棋牌竞技比赛平台，主打闪电赛，赛程短，夺冠快，奖品丰厚，扫一扫，快速开赛！</p>
         </div>
     </div>
@@ -75,7 +75,7 @@ export default {
 #share-img {
   background-color: #212121;
   overflow: hidden;
-  padding-top: 1rem;
+  padding-top: 0.8rem;
   position: relative;
 }
 .append_img {
@@ -88,6 +88,12 @@ export default {
   text-align: center;
 }
 .share-img img {
-  height: 6.85rem;
+  height: 5.4rem;
+}
+.qr-code {
+  text-align: center;
+}
+.qr-code p {
+  padding: 0 0.36rem;
 }
 </style>
