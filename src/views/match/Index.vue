@@ -184,6 +184,8 @@ export default {
       this.$store.commit("setIfSave", false);
       this.$store.commit("setPrizeCover", "");
       this.$store.commit("setRankPrize", []);
+      this.$store.commit("setShareImg", "");
+
       //判断是否有权限创建
       if (this.userInfo.certification != 1) {
         return this.$toast("请先实名认证");

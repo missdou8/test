@@ -14,7 +14,9 @@ const match = {
     prizeCover: "",
     isEdit: false, //标记是否为编辑
     tabActive: 0,
-    shareImgFile: ""
+    shareImgFile: "",
+    shareImg: "",
+    shareCropImg: ""
   },
   mutations: {
     setId(state, id) {
@@ -58,6 +60,12 @@ const match = {
     },
     setShareImgFile(state, file) {
       state.shareImgFile = file;
+    },
+    setShareImg(state, file) {
+      state.shareImg = file;
+    },
+    setShareCropImg(state, file) {
+      state.shareCropImg = file;
     }
   }
 };
