@@ -174,6 +174,7 @@ export default {
       this.$store.commit("setPrizeCover", "");
       this.$store.commit("setRankPrize", []);
       this.$store.commit("setShareImg", "");
+      this.$store.commit("setShareCropImg", "");
 
       //判断是否有权限创建
       if (this.userInfo.certification != 1) {

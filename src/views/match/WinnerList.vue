@@ -11,7 +11,7 @@
                     <tr v-for="item in list">
                         <td>{{item.order}}</td>
                         <td>
-                            <img :src="item.icon" alt="用户头像"> {{item.nickname}}
+                            <img :src="item.icon || config.defaultIcon" alt="用户头像"> {{item.nickname}}
                         </td>
                         <td>
                             <p v-for="prize in item.prize">{{prize.name}} {{prize.value}}</p>
@@ -65,6 +65,7 @@ export default {
         })
         .then(res => {
           let data = res.data;
+        //   let winnerList = [{id:}]
           this.list = this.list.concat(data.winnerList);
           return data;
         });

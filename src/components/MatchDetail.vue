@@ -118,12 +118,14 @@ export default {
       this.merchant = this.data.merchant;
       //判断是否显示可以修改的按钮
       let matchStatus = this.match.status;
+      //0 新建 1 首次提审 2 修改中 3 修改提审 4 驳回  5 审核通过（=待发布） 6 取消 7 发布/挂牌中 8 报名中 9 比赛中
       if (
         matchStatus == 0 ||
         matchStatus == 2 ||
         matchStatus == 4 ||
         matchStatus == 5 ||
-        matchStatus == 6
+        matchStatus == 7 ||
+        matchStatus == 8
       ) {
         this.editShow = true;
       }
