@@ -8,6 +8,7 @@ import PrizeAddress from "../views/match/PrizeAddress.vue";
 import Share from "../views/match/Share.vue";
 import ShareImg from "../views/match/ShareImg.vue";
 import WinnerList from "../views/match/WinnerList.vue";
+import WaitingCheck from "../views/match/WaitingCheck.vue";
 
 const MATCH_ROUTERS = [
   {
@@ -78,6 +79,13 @@ const MATCH_ROUTERS = [
     component: WinnerList,
     meta: {
       title: "获奖列表"
+    }
+  },
+  {
+    path: "/match/waitingCheck",
+    component: WaitingCheck,
+    meta: {
+      title: "待审核"
     }
   }
 ];

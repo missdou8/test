@@ -248,10 +248,20 @@ export default {
         params.id = match.id;
       }
       this.http.match[action](params).then(res => {
-        if (isEdit) {
-          this.$router.go(-3);
+        if (type == 1) {
+          this.$router.push({
+            path: "waitingCheck",
+            query: {
+              title: detail.title,
+              isEdit: isEdit
+            }
+          });
         } else {
-          this.$router.go(-2);
+          if (isEdit) {
+            this.$router.go(-3);
+          } else {
+            this.$router.go(-2);
+          }
         }
       });
     }
