@@ -118,7 +118,7 @@ export default {
       this.merchant = this.data.merchant;
       //判断是否显示可以修改的按钮
       let matchStatus = this.match.status;
-      //0 新建 1 首次提审 2 修改中 3 修改提审 4 驳回  5 审核通过（=待发布） 6 取消 7 发布/挂牌中 8 报名中 9 比赛中
+      //0 新建 1 首次提审 2 修改中 3 修改提审 4 驳回  5 审核通过（=待发布） 6 取消 7 发布/挂牌中 8 报名中 9 比赛中 10 比赛结束
       if (
         matchStatus == 0 ||
         matchStatus == 2 ||
@@ -151,10 +151,9 @@ export default {
     toEdit() {
       //如果正在审核中，那么不能修改
       if (
-        this.data.match.status == 7 ||
+        this.data.match.status == 6 ||
         this.data.match.status == 1 ||
         this.data.match.status == 3 ||
-        this.data.match.status == 8 ||
         this.data.match.status == 9
       ) {
         return this.$toast("正在审核中的赛事不能修改");
