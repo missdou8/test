@@ -13,7 +13,7 @@
       <div class="header">
         <h1 class="header_title">{{match.title}}</h1>
         <p class="header_info">
-          <span class="header_info_time">{{countDown}}</span>
+          <span class="header_info_time" v-show="!isHistory">{{countDown}}</span>
           <span class="header_info_send">{{prizes.type == 0 ? '邮寄': '自取'}}</span>
           <span class="header_info_type">{{config.attendType[match.signupType]}}</span>
         </p>
@@ -142,6 +142,7 @@ export default {
   },
   methods: {
     reCreate() {
+      this.$store.commit("setIsEdit", false);
       this.$router.push({
         path: "edit",
         query: {
@@ -170,6 +171,7 @@ export default {
       ) {
         return this.$toast("正在审核中的赛事不能修改");
       }
+      this.$store.commit("setIsEdit", true);
       this.$router.push({
         path: "edit",
         query: {
@@ -202,7 +204,7 @@ a {
   flex-grow: 1;
   margin-top: 0.15rem;
   overflow: auto;
-  padding-bottom: 0.7rem;
+  padding-bottom: 0.88rem;
 }
 .cover_img {
   background-color: #fff;
