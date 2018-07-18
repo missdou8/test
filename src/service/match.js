@@ -8,7 +8,8 @@ const match = {
     "detail", //比赛详情
     "createMatch", //创建比赛
     "editMatch", //修改比赛
-    "applyList"  //已报名信息
+    "applyList", //已报名信息
+    "winnerList" //获奖信息
   ]
 };
 

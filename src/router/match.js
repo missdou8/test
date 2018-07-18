@@ -7,6 +7,7 @@ import Prize from "../views/match/Prize.vue";
 import PrizeAddress from "../views/match/PrizeAddress.vue";
 import Share from "../views/match/Share.vue";
 import ShareImg from "../views/match/ShareImg.vue";
+import WinnerList from "../views/match/WinnerList.vue";
 
 const MATCH_ROUTERS = [
   {
@@ -70,6 +71,13 @@ const MATCH_ROUTERS = [
     component: ShareImg,
     meta: {
       title: "添加分享图片"
+    }
+  },
+  {
+    path: "/match/winnerList",
+    component: WinnerList,
+    meta: {
+      title: "获奖列表"
     }
   }
 ];

@@ -16,7 +16,7 @@
           <i>开赛人数</i>
         </a>
       </p>
-      <button v-show="match.signupType != 1" class="share-btn" @click="toShare">分享邀请码>></button>
+      <button v-show="match.signupType != 1" class="share-btn" @click="toShare">{{bottomMsg}}>></button>
     </div>
   </div>
 </template>
@@ -34,6 +34,11 @@ export default {
       matchData: {},
       match: {}
     };
+  },
+  computed: {
+    bottomMsg() {
+      return this.$store.state.match.tabActive == 0 ? "分享邀请码" : "获奖名单";
+    }
   },
   created() {
     this.http.match
@@ -90,10 +95,18 @@ export default {
   },
   methods: {
     toShare() {
+      if (this.$store.state.match.tabActive == 0) {
+        return this.$router.push({
+          path: "/match/share",
+          query: {
+            code: this.match.signupCode
+          }
+        });
+      }
       this.$router.push({
-        path: "/match/share",
+        path: "winnerList",
         query: {
-          code: this.match.signupCode
+          id: this.match.id
         }
       });
     }
@@ -111,8 +124,8 @@ a {
   color: #fbe500;
   display: flex;
   align-items: center;
-  font-size: 0.22rem;
-  padding: 0.25rem 0;
+  font-size: 0.2rem;
+  padding: 0.16rem 0;
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -143,9 +156,9 @@ a {
   background: url("../../assets/footer_right.png") center/ 100% 100% no-repeat;
   font-size: 0.28rem;
   font-weight: bold;
-  height: 1.15rem;
-  width: 2.3rem;
-  padding-right: 0.1rem;
+  height: 0.88rem;
+  width: 2.13rem;
+  padding-right: 0.05rem;
   position: absolute;
   right: 0;
   bottom: 0;

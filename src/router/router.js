@@ -11,9 +11,6 @@ import Announcement from "../views/announcement/Announcement.vue";
 import MailDetail from "../views/announcement/MailDetail.vue";
 import NoticeDetail from "../views/announcement/NoticeDetail.vue";
 
-//比赛
-import Match from "../views/match/Match.vue";
-import Index from "../views/match/Index.vue";
 
 Vue.use(VueRouter);
 

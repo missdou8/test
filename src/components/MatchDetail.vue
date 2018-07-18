@@ -14,7 +14,7 @@
         <p class="header_info">
           <span class="header_info_time">{{countDown}}</span>
           <span class="header_info_send">{{prizes.type == 0 ? '邮寄': '自取'}}</span>
-          <span class="header_info_type">{{match.signupType == 1 ? '免费报名': '邀请码报名'}}</span>
+          <span class="header_info_type">{{config.attendType[match.signupType]}}</span>
         </p>
         <button v-show="editShow" class="edit-btn" @click="toEdit">我要修改>></button>
       </div>
@@ -189,7 +189,7 @@ a {
   flex-grow: 1;
   margin-top: 0.15rem;
   overflow: auto;
-  padding-bottom: 1rem;
+  padding-bottom: 0.7rem;
 }
 .cover_img {
   background-color: #fff;
