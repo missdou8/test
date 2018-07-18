@@ -7,6 +7,7 @@
     <div class="title">
       <span>标题</span>
       <span class="can-edit" ref="title" contenteditable="true">{{title}}</span>
+      <button v-show="!isPublish" class="cover_edit" @click="shareImgClick">修改分享图>></button>
     </div>
     <div contenteditable="true" class="content can-edit" v-html="content" @focus="contentFocus()" @blur="contentBlur()" ref="createIntro">
     </div>
@@ -100,6 +101,9 @@ export default {
     });
   },
   methods: {
+    shareImgClick() {
+      this.$router.push("shareImg");
+    },
     onRead(file) {
       this.upload(file, src => {
         this.detail.coverImg = src;
@@ -217,6 +221,9 @@ export default {
 </style>
 <style scoped>
 /* 距离顶部高度 */
+.title {
+  position: relative;
+}
 .title,
 .content {
   margin-top: 0.01rem;

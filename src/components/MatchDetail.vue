@@ -8,6 +8,7 @@
     <div class="detail_content" ref="detail_content">
       <div id="detail" class="cover_img">
         <img :src="match.cover" alt="比赛封面">
+        <img v-show="isHistory" class="recreate" src="../assets/reCreate.png" alt="再办一场" @click="reCreate">
       </div>
       <div class="header">
         <h1 class="header_title">{{match.title}}</h1>
@@ -104,6 +105,9 @@ export default {
         this.time = 0;
       }
       return secondsToTime(this.time);
+    },
+    isHistory(state) {
+      return this.$store.state.match.tabActive == 0 ? false : true;
     }
   },
   watch: {
@@ -137,6 +141,14 @@ export default {
     });
   },
   methods: {
+    reCreate() {
+      this.$router.push({
+        path: "edit",
+        query: {
+          id: this.data.match.status
+        }
+      });
+    },
     jump(e) {
       this.current = !this.current;
       location.replace(e.target.href);
@@ -198,6 +210,14 @@ a {
   padding: 0.35rem 0;
   margin-bottom: 0.01rem;
   text-align: center;
+  position: relative;
+}
+.cover_img .recreate {
+  width: 1.88rem;
+  height: 0.82rem;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .cover_img img {
   height: 100%;

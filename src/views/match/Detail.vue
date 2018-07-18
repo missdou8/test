@@ -86,6 +86,7 @@ export default {
         this.$store.commit("setAttendStyle", att);
         this.$store.commit("setIfSave", true);
         this.$store.commit("setIsEdit", true);
+        this.$store.commit("setShareCropImg", this.match.shareCropImg);
       });
   },
   filters: {

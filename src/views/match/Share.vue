@@ -24,7 +24,7 @@ export default {
     return {
       code: "",
       logo: icon,
-      link: "你好你好你好你好你好你好你好你好"
+      link: this.config.downLoadURL
     };
   },
   components: {

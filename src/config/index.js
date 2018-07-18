@@ -21,5 +21,6 @@ export default {
     1: "分享报名",
     2: "邀请赛"
   },
-  defaultIcon: require("../assets/icon.png")
+  defaultIcon: require("../assets/icon.png"),
+  downLoadURL: "https://baidu.com"
 };

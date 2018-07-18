@@ -1,19 +1,19 @@
 <template>
-    <div id="share-img" ref="share">
-        <van-uploader class="append_img" :after-read="append">
-        </van-uploader>
-        <div class="share-img">
-            <img :src="finalImg" alt="要分享的图片">
-            <div class="share-btn" v-show="isEdit">
-                <button @click="reChooseClick">重新选择</button>
-                <button @click="sureClick">确定</button>
-            </div>
-        </div>
-        <div class="qr-code">
-            <me-qrcode class="qr_code" v-if="link" :qr-url='link' :qr-size='150'></me-qrcode>
-            <p>嘀嗒比赛，专业的棋牌竞技比赛平台，主打闪电赛，赛程短，夺冠快，奖品丰厚，扫一扫，快速开赛！</p>
-        </div>
+  <div id="share-img" ref="share">
+    <van-uploader class="append_img" :after-read="append">
+    </van-uploader>
+    <div class="share-img">
+      <img :src="finalImg" alt="要分享的图片">
+      <div class="share-btn" v-show="isEdit">
+        <button @click="reChooseClick">重新选择</button>
+        <button @click="sureClick">确定</button>
+      </div>
     </div>
+    <div class="qr-code">
+      <me-qrcode class="qr_code" v-if="link" :qr-url='link' :qr-size='150'></me-qrcode>
+      <p>嘀嗒比赛，专业的棋牌竞技比赛平台，主打闪电赛，赛程短，夺冠快，奖品丰厚，扫一扫，快速开赛！</p>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -26,8 +26,8 @@ export default {
   },
   data() {
     return {
-      finalImg: "",
-      link: "https://baidu.com",
+      finalImg: require("../../assets/logo.png"),
+      link: this.config.downLoadURL,
       isEdit: true
     };
   },
