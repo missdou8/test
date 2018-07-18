@@ -78,7 +78,7 @@ export default {
       this.isEdit = false;
       this.$nextTick(() => {
         html2canvas(this.$refs.share, {
-          scale: 1
+          scale: 2
         }).then(canvas => {
           let dataURL = canvas.toDataURL("image/png");
           let file = this.dataURLtoFile(dataURL, Date.now() + ".png");
