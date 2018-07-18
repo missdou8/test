@@ -1,26 +1,26 @@
 <template>
-    <table>
-        <thead>
-            <th>排名</th>
-            <th>玩家</th>
-            <th>奖品</th>
-        </thead>
-        <tbody>
-            <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh">
-                <van-list v-model="loading" :finished="finished" @load="onLoad" :immediate-check="false" :offset="100">
-                    <tr v-for="item in list">
-                        <td>{{item.order}}</td>
-                        <td>
+    <div id="win-list">
+        <ul class="title">
+            <li>排名</li>
+            <li>玩家</li>
+            <li>奖品</li>
+        </ul>
+        <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh">
+            <van-list v-model="loading" :finished="finished" @load="onLoad" :immediate-check="false" :offset="100">
+                <div>
+                    <div class="th" v-for="item in list">
+                        <div>{{item.order}}</div>
+                        <div>
                             <img :src="item.icon || config.defaultIcon" alt="用户头像"> {{item.nickname}}
-                        </td>
-                        <td>
+                        </div>
+                        <div>
                             <p v-for="prize in item.prize">{{prize.name}} {{prize.value}}</p>
-                        </td>
-                    </tr>
-                </van-list>
-            </van-pull-refresh>
-        </tbody>
-    </table>
+                        </div>
+                    </div>
+                </div>
+            </van-list>
+        </van-pull-refresh>
+    </div>
 </template>
 
 <script>
@@ -57,7 +57,7 @@ export default {
       });
     },
     fetchList() {
-      this.http.match
+      return this.http.match
         .winnerList({
           pagesize: this.pageSize,
           currentpage: this.currentPage,
@@ -65,7 +65,6 @@ export default {
         })
         .then(res => {
           let data = res.data;
-        //   let winnerList = [{id:}]
           this.list = this.list.concat(data.winnerList);
           return data;
         });
@@ -73,3 +72,45 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#win-list {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  display: flex;
+  justify-content: space-around;
+}
+.match_list {
+  flex-basis: 0;
+  flex-grow: 1;
+}
+.th {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+}
+.th::after {
+  content: "";
+  position: absolute;
+  height: 0.01rem;
+  width: 100%;
+  background-color: #f5f5f5;
+}
+.th > div {
+  flex-basis: 0;
+  flex-grow: 1;
+  text-align: center;
+}
+.th > div:nth-child(2) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.th img {
+  width: 0.5rem;
+}
+</style>

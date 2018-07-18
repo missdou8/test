@@ -73,8 +73,11 @@ export default {
       let that = this;
       editImg.addEventListener("change", function() {
         let file = this.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
         let files = {
-          file: file
+          file: file,
+          content: reader.result
         };
         that.upload(files, src => {
           this.parentElement.parentElement.querySelector("img").src = src;
