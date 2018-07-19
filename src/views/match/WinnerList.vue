@@ -1,26 +1,26 @@
 <template>
-    <div id="win-list">
-        <ul class="title">
-            <li>排名</li>
-            <li>玩家</li>
-            <li>奖品</li>
-        </ul>
-        <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh">
-            <van-list v-model="loading" :finished="finished" @load="onLoad" :immediate-check="false" :offset="100">
-                <div>
-                    <div class="th" v-for="item in list">
-                        <div>{{item.order}}</div>
-                        <div>
-                            <img :src="item.icon || config.defaultIcon" alt="用户头像"> {{item.nickname}}
-                        </div>
-                        <div>
-                            <p v-for="prize in item.prize">{{prize.name}} {{prize.value}}</p>
-                        </div>
-                    </div>
-                </div>
-            </van-list>
-        </van-pull-refresh>
-    </div>
+  <div id="win-list">
+    <ul class="title">
+      <li>排名</li>
+      <li>玩家</li>
+      <li>奖品</li>
+    </ul>
+    <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh">
+      <van-list v-model="loading" :finished="finished" @load="onLoad" :immediate-check="false" :offset="100">
+        <div>
+          <div class="th" v-for="item in list">
+            <div>{{item.order}}</div>
+            <div>
+              <img :src="item.icon || config.defaultIcon" alt="用户头像"> {{item.nickname}}
+            </div>
+            <div>
+              <p v-for="prize in item.prize">{{prize.name}} {{prize.value}}</p>
+            </div>
+          </div>
+        </div>
+      </van-list>
+    </van-pull-refresh>
+  </div>
 </template>
 
 <script>
@@ -92,10 +92,12 @@ export default {
   align-items: center;
   justify-content: space-around;
   position: relative;
+  padding: 0.2rem 0;
 }
 .th::after {
   content: "";
   position: absolute;
+  bottom: 0;
   height: 0.01rem;
   width: 100%;
   background-color: #f5f5f5;
@@ -111,6 +113,8 @@ export default {
   justify-content: center;
 }
 .th img {
+  border-radius: 50%;
+  margin-right: .1rem;
   width: 0.5rem;
 }
 </style>
