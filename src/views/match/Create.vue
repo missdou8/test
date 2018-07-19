@@ -123,6 +123,10 @@ export default {
         return;
       }
       let containDom = this.$refs.createIntro;
+      //判断文中是否只有默认文本，如果是则清除
+      if (containDom.innerHTML == "请添加图文介绍") {
+        containDom.innerHTML = "";
+      }
       let div = document.createElement("div");
       div.content = "content";
       div.style.position = "relative";

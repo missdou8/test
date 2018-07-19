@@ -114,7 +114,7 @@ export default {
 }
 .th img {
   border-radius: 50%;
-  margin-right: .1rem;
+  margin-right: 0.1rem;
   width: 0.5rem;
 }
 </style>

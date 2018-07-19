@@ -141,7 +141,7 @@ export default {
 .qr-code p {
   font-size: 0.24rem;
   margin-top: 0.1rem;
-  padding: 0 0.5rem;
+  padding: 0 0.42rem;
   line-height: 1.2;
 }
 .share-btn {

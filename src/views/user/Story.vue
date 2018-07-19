@@ -209,9 +209,10 @@ export default {
 }
 .append_img {
   position: absolute;
-  left: 1000px;
-  top: 1000px;
+  left: 0px;
+  top: 0px;
   opacity: 0;
+  z-index: -1000;
 }
 </style>
 
