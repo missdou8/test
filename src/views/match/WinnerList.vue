@@ -93,14 +93,7 @@ export default {
   justify-content: space-around;
   position: relative;
   padding: 0.2rem 0;
-}
-.th::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  height: 0.01rem;
-  width: 100%;
-  background-color: #f5f5f5;
+  border-bottom: 0.01rem solid #f5f5f5;
 }
 .th > div {
   flex-basis: 0;
@@ -110,7 +103,8 @@ export default {
 .th > div:nth-child(2) {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-left: 0.3rem;
 }
 .th img {
   border-radius: 50%;
