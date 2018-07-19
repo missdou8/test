@@ -188,7 +188,7 @@ export default {
       }
       this.http.match[action](params).then(res => {
         if (!this.isPublish) {
-          return this.$route.go(-1);
+          return this.$router.go(-1);
         }
         if (isEdit) {
           this.$router.go(-3);
