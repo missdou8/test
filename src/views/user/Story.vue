@@ -137,6 +137,7 @@ export default {
   padding: 0.3rem;
   padding-bottom: 1.5rem;
   text-align: center;
+  overflow-y: auto;
 }
 .uploader {
   color: #fff;
