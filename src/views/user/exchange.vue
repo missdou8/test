@@ -3,8 +3,13 @@
       <dida-list ref="dida_list" post-module="prizes" post-url="prizeList" no-data-text="暂无兑奖信息" @returnData="getPrizeList($event)">
         <van-panel class="panel" v-for="(prize,index) in prizeList" :key="index">
           <div class="panel_header" slot="header">
-            <van-cell :value="prize.time" :label="prize.matchdec" :title="prize.nickname">
+            <van-cell :value="prize.time">
               <img slot="icon" :src="prize.icon||imageURL" alt="" srcset="">
+              <div class="panel_title" slot="title">
+                <p>{{prize.nickname}}</p>
+                <p>{{prize.match.name}}</p>
+                <p>第{{prize.match.ranking}}名</p>
+              </div>
             </van-cell>
           </div>
           <van-card :title="prize.prize.name" :desc="prize.receivingDec" currency="" :price="prize.prizeType" :thumb="prize.prize.img"/>
@@ -63,7 +68,6 @@ export default {
       if (this.prizeList.length > 0) {
         this.prizeList.forEach(p => {
           p.time = timestamp_switch_time(p.prize.time);
-          p.matchdec = `${p.match.name}第${p.match.ranking}名`;
           if (p.prize.type == 0) {
             p.prizeType = "邮寄奖品";
             //根据状态改变按钮文案
@@ -193,24 +197,30 @@ export default {
   border-radius: 50%;
   margin-right: 0.2rem;
 }
-#exchangeIndex .panel_header .van-cell__title span {
-  font-size: 0.25rem;
-  font-weight: 600;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+#exchangeIndex .panel_header .van-cell__title{
+  width: 40%;
 }
-#exchangeIndex .panel_header .van-cell__label {
+#exchangeIndex .panel_header .panel_title{
   color: rgb(117, 117, 117);
   font-size: 0.2rem;
+  line-height: 18px;
+}
+#exchangeIndex .panel_header .panel_title p{
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 70%;
 }
+#exchangeIndex .panel_header .panel_title p:nth-child(1){
+  color:#000;
+  font-size: 0.25rem;
+  font-weight: 600;
+}
+
 #exchangeIndex .panel_header .van-cell__value {
   font-size: 0.14rem;
   text-align: right;
+  align-self: flex-end;
+  line-height: 18px;
 }
 #exchangeIndex .van-card {
   background: #fff;
