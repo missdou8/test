@@ -12,7 +12,7 @@
     <div contenteditable="true" class="content can-edit" v-html="content" @focus="contentFocus()" @blur="contentBlur()" ref="createIntro">
     </div>
     <van-uploader v-show="appendShow" class="append" :after-read="append">
-      <img src="../../assets/img_add.png" alt="添加图片">
+      <img src="../../assets/add.png" alt="添加图片">
     </van-uploader>
     <div class="btn" v-show="isPublish">
       <button @click="next">下一步</button>
@@ -49,7 +49,7 @@ export default {
     })
   },
   created() {
-    if (this.$route.query.id == 6) {
+    if (this.$route.query.id == 7 || this.$route.query.id == 8) {
       this.isPublish = false;
     }
   },

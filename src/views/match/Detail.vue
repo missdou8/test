@@ -43,10 +43,10 @@ export default {
       if (this.$store.state.match.tabActive == 1) {
         return true;
       } else {
-        if (this.match.signupType == 1) {
-          return false;
-        } else {
+        if (this.match.signupType == 2) {
           return true;
+        } else {
+          return false;
         }
       }
     }
