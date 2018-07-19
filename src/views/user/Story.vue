@@ -1,6 +1,6 @@
 <template>
   <div class="create">
-    <van-uploader class="uploader" :after-read="onRead">
+    <div class="uploader" @click="onRead">
       <div class="addCover" v-show="addShow">
         <p class="add">
           <span class="add_img"></span>
@@ -8,12 +8,14 @@
         </p>
       </div>
       <img class="cover-img" :src="coverImg" v-show="!addShow" alt="封面图片">
-    </van-uploader>
+    </div>
     <div class="create_content">
       <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" ref="createIntro" v-html="contentPlace"></div>
     </div>
-    <van-uploader v-show="appendShow" class="append" :after-read="append">
-      <img src="../../assets/img_add.png" alt="添加图片">
+    <div v-show="appendShow" class="append" @click="appendImg">
+      <img src="../../assets/add.png" alt="添加图片">
+    </div>
+    <van-uploader class="append_img" :after-read="append">
     </van-uploader>
     <van-button @click="nextClick" class="next">完成</van-button>
   </div>
@@ -26,7 +28,9 @@ export default {
       titlePlace: "添加比赛名称",
       contentPlace: "请添加图文介绍",
       coverImg: "",
-      appendShow: false
+      appendShow: false,
+      uploadType: "append",
+      replaceDom: ""
     };
   },
   created() {
@@ -42,10 +46,16 @@ export default {
     }
   },
   methods: {
+    appendImg(evt) {
+      this.uploadType = "append";
+      //获取插入图片按钮
+      let input = document.querySelector(".van-uploader__input");
+      input.click();
+    },
     onRead(file) {
-      this.upload(file, src => {
-        this.coverImg = src;
-      });
+      this.uploadType = "upload";
+      let input = document.querySelector(".van-uploader__input");
+      input.click();
     },
     titleInput(evt) {
       let value = evt.target.innerHTML;
@@ -72,37 +82,34 @@ export default {
         });
     },
     append(file) {
+      if (this.uploadType == "replace") {
+        this.upload(file, src => {
+          this.replaceDom.src = src;
+        });
+        return;
+      }
+      if (this.uploadType == "upload") {
+        this.upload(file, src => {
+          this.coverImg = src;
+        });
+        return;
+      }
       let containDom = this.$refs.createIntro;
       let div = document.createElement("div");
       div.style.position = "relative";
       div.classList.add("img_content");
-      //为了使修改图片更加好用，在图片表面覆盖一个图片选择器
-      let input = document.createElement("input");
-      input.type = "file";
-      input.style.position = "absolute";
-      input.style.width = "100%";
-      input.style.opacity = 0;
-      input.classList.add("s_edit");
       let that = this;
-      input.addEventListener("change", function() {
-        let file = this.files[0];
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          let files = {
-            file: file,
-            content: reader.result
-          };
-          that.upload(files, src => {
-            this.parentElement.parentElement.querySelector("img").src = src;
-          });
-        };
-      });
       let img = document.createElement("img");
+      //获取插入图片按钮
+      let input = document.querySelector(".van-uploader__input");
+      img.addEventListener("click", function(evt) {
+        that.uploadType = "replace";
+        that.replaceDom = img;
+        input.click();
+      });
       let br = document.createElement("br");
 
       //插入动作
-      div.appendChild(input);
       div.appendChild(img);
       div.appendChild(br);
       img.style.width = "100%";
@@ -110,9 +117,6 @@ export default {
       this.upload(file, src => {
         img.src = src;
       });
-      img.onload = function() {
-        input.style.height = this.offsetHeight + "px";
-      };
       let selection = window.getSelection();
       let range = selection.getRangeAt(0);
       range.insertNode(div);
@@ -162,6 +166,7 @@ export default {
   text-indent: 2em;
   user-select: initial;
   margin-top: 0.2rem;
+  padding-bottom: 0.5rem;
 }
 .create_content_intro div {
   text-indent: 2em;
@@ -201,6 +206,12 @@ export default {
   height: 0.39rem;
   width: 0.49rem;
   margin-right: 0.1rem;
+}
+.append_img {
+  position: absolute;
+  left: 1000px;
+  top: 1000px;
+  opacity: 0;
 }
 </style>
 
