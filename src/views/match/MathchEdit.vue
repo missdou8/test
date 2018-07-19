@@ -178,7 +178,9 @@ export default {
         provinceId: match.gainPrizeAddress.provinceId,
         cityId: match.gainPrizeAddress.cityId,
         areaId: match.gainPrizeAddress.areaId,
-        rankingSet: rankingSet
+        rankingSet: rankingSet,
+        sharePic: match.shareImg,
+        shareCropImg: match.shareCropImg
       };
       if (isEdit) {
         action = "editMatch";
