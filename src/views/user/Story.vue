@@ -1,5 +1,5 @@
 <template>
-  <div class="create">
+  <div id="create">
     <div class="uploader" @click="onRead">
       <div class="addCover" v-show="addShow">
         <p class="add">
@@ -126,11 +126,11 @@ export default {
 </script>
 
 <style scoped>
-.create::before {
+#create::before {
   content: "";
   display: table;
 }
-.create {
+#create {
   background-color: #fff;
   display: flex;
   flex-direction: column;

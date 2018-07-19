@@ -1,7 +1,7 @@
 <template>
   <div class="detail">
     <match-detail :data="matchData"></match-detail>
-    <div class="footer" :class="{free: match.signupType == 1}">
+    <div class="footer" :class="{free: !footerShow}">
       <p class="footer_time">
         <span>{{match.beginTime | formateTime}}</span>
         <span>开赛</span>
@@ -16,7 +16,7 @@
           <i>开赛人数</i>
         </a>
       </p>
-      <button v-show="match.signupType != 1" class="share-btn" @click="toShare">{{bottomMsg}}>></button>
+      <button v-show="footerShow" class="share-btn" @click="toShare">{{bottomMsg}}>></button>
     </div>
   </div>
 </template>
@@ -38,6 +38,17 @@ export default {
   computed: {
     bottomMsg() {
       return this.$store.state.match.tabActive == 0 ? "分享邀请码" : "获奖名单";
+    },
+    footerShow() {
+      if (this.$store.state.match.tabActive == 1) {
+        return true;
+      } else {
+        if (this.match.signupType == 1) {
+          return false;
+        } else {
+          return true;
+        }
+      }
     }
   },
   created() {

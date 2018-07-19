@@ -130,7 +130,6 @@ export default {
       let div = document.createElement("div");
       div.content = "content";
       div.style.position = "relative";
-      div.style.marginBottom = "0.2rem";
       div.classList.add("img_content");
       let img = document.createElement("img");
       //获取插入图片按钮
