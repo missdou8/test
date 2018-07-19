@@ -3,7 +3,7 @@
     <!-- 图片验证码 -->
     <img v-if="codeType=='IMG'" @click="getImgCode" ref="imgCode" src="/api/verify/imgCode?type=forget">
     <!-- 短信验证码 -->
-    <button v-else @click="sendClick" :disabled="sendSuccess">{{sendSuccess?time+'s后可重新发送':'发送验证码'}}</button>
+    <button v-else @click="sendClick" :disabled="sendSuccess">{{sendSuccess?time+'秒后可重新发送':'发送验证码'}}</button>
   </div>
 </template>
 
@@ -37,14 +37,19 @@ export default {
     sendClick() {
       let regMobile = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[45678]|19[89]|16[6])[0-9]{8}$/;
       if (!regMobile.test(this.codeMobile)) return this.$toast("请检查手机号是否正确");
-      this.finish();
       this.http.verify
         .SMSCode({
           mobile: this.codeMobile,
           r: Math.random()
         })
         .then(res => {
+          this.finish();
           this.$toast(res.msg)
+        })
+        .catch(() => {
+          //接口错误的话(清除倒计时并重置时间)
+          this.time = this.codeTime||60;
+          clearInterval(Time);
         });
     },
     //定时器
