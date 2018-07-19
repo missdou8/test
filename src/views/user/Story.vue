@@ -160,6 +160,7 @@ export default {
   flex-basis: 0;
   flex-grow: 1;
   text-align: left;
+  position: relative;
 }
 .create_content_intro {
   flex-grow: 1;
