@@ -9,6 +9,7 @@ import Share from "../views/match/Share.vue";
 import ShareImg from "../views/match/ShareImg.vue";
 import WinnerList from "../views/match/WinnerList.vue";
 import WaitingCheck from "../views/match/WaitingCheck.vue";
+import GameRules from "../components/GameRules.vue";
 
 const MATCH_ROUTERS = [
   {
@@ -87,6 +88,13 @@ const MATCH_ROUTERS = [
     meta: {
       title: "待审核"
     }
+  },
+  {
+    path: "/gameRule",
+    meta: {
+      title: "游戏规则"
+    },
+    component: GameRules
   }
 ];
 

@@ -180,9 +180,12 @@ export default {
       });
     },
     toRule() {
-      location.href =
-        "https://hbjxqp.happypoker.cn/appweb/gamerule/gamerules.html?activityId=" +
-        this.match.gameId;
+      this.$router.push({
+        path: "/gameRule",
+        query: {
+          id: this.match.gameId
+        }
+      });
     }
   }
 };
