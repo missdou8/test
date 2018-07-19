@@ -49,7 +49,11 @@ export default {
     })
   },
   created() {
-    if (this.$route.query.id == 7 || this.$route.query.id == 8) {
+    if (
+      this.$route.query.id == 7 ||
+      this.$route.query.id == 8 ||
+      this.$route.query.type == 1
+    ) {
       this.isPublish = false;
     }
   },

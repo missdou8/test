@@ -10,8 +10,8 @@
           </van-cell-group>
         </van-list>
       </van-pull-refresh>
-      <van-pull-refresh v-show="1==active" v-model="refreshing" class="list">
-        <van-list :immediate-check="false" v-model="loading" :finished="finished">
+      <van-pull-refresh v-show="1==active" v-model="nrefreshing" class="list" @refresh="nonRefresh">
+        <van-list :immediate-check="false" v-model="loading" :finished="nfinished">
           <div class="cover" v-for="item in noticeList" :key="item.id" @click="toNoticeDetail(item.type, item.url, item.id)">
             <img :src="item.cover" alt="封面图片">
           </div>
@@ -32,8 +32,10 @@ export default {
       active: 0,
       tabs: ["邮件通知", "活动"],
       refreshing: false,
+      nrefreshing: false,
       mailLoading: false,
       finished: false,
+      nfinished: false,
       pageNum: 10,
       currentMail: 1,
       currentNotice: 1,
@@ -61,15 +63,30 @@ export default {
     this.onLoadMail();
   },
   methods: {
-    onRefresh() {},
+    onRefresh() {
+      this.currentMail = 1;
+      this.finished = false;
+      this.mailList = [];
+      this.onLoadMail().then(() => {
+        this.refreshing = false;
+      });
+    },
+    nonRefresh() {
+      this.currentNotice = 1;
+      this.nfinished = false;
+      this.noticeList = [];
+      this.onLoadNotice().then(() => {
+        this.nrefreshing = false;
+      });
+    },
     onLoadMail() {
-      this.http.notice
+      return this.http.notice
         .mailNotificationList({
           pagesize: this.pageNum,
           currentpage: this.currentMail
         })
         .then(res => {
-          this.loading = false;
+          this.mailLoading = false;
           this.mailList = res.data.noticeList;
         });
     },

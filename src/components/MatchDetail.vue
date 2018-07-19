@@ -175,7 +175,8 @@ export default {
       this.$router.push({
         path: "edit",
         query: {
-          id: this.data.match.status
+          id: this.data.match.status,
+          type: this.data.match.publishedStatus
         }
       });
     },
