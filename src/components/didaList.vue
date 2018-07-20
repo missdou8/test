@@ -27,8 +27,8 @@ export default {
    * postModule 接口模块名
    * postUrl    接口地址名
    * dataName   接口中数据参数名不传与接口地址名一样
-   * reqData    传递参数对象
-   *            没有记录时显示的文本提示
+   * reqData    传递参数对象(额外)
+   * noDataText 没有记录时显示的文本提示
    */
   props: ["postModule", "postUrl", "dataName","reqData","noDataText"],
   watch: {
