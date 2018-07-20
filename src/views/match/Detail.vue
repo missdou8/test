@@ -40,7 +40,9 @@ export default {
       return this.$store.state.match.tabActive == 0 ? "分享邀请码" : "获奖名单";
     },
     footerShow() {
+      // 显示开赛记录的条件（如果是SNG比赛或者是MTT比赛切是循环）
       let judge = this.match.type==3||(this.match.type==2 && this.match.isLoop==1)
+      //历史赛事
       if (this.$store.state.match.tabActive == 1&&!judge) {
         return true;
       }else {
