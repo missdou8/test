@@ -40,9 +40,10 @@ export default {
       return this.$store.state.match.tabActive == 0 ? "分享邀请码" : "获奖名单";
     },
     footerShow() {
-      if (this.$store.state.match.tabActive == 1) {
+      let judge = this.match.type==3||(this.match.type==2 && this.match.isLoop==1)
+      if (this.$store.state.match.tabActive == 1&&!judge) {
         return true;
-      } else {
+      }else {
         if (this.match.signupType == 2) {
           return true;
         } else {
@@ -116,7 +117,7 @@ export default {
         });
       }
       this.$router.push({
-        path: "winnerList",
+        path: "/match/winner/list",
         query: {
           id: this.match.id
         }

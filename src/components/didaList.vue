@@ -1,6 +1,6 @@
 <template>
   <div id="didaList">
-    <h3 v-if="total==0&&noDataText" class="noDataText">{{noDataText}}</h3>
+    <h3 v-if="total===0&&noDataText" class="noDataText">{{noDataText}}</h3>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-list v-model="loading" :finished="finished" @load="onLoad">
         <!-- 开放html架构 -->

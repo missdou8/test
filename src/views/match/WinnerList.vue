@@ -8,13 +8,13 @@
     <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh">
       <van-list v-model="loading" :finished="finished" @load="onLoad" :immediate-check="false" :offset="100">
         <div>
-          <div class="th" v-for="item in list">
+          <div class="th" v-for="(item,index) in list" :key="index">
             <div>{{item.order}}</div>
             <div>
               <img :src="item.icon || config.defaultIcon" alt="用户头像"> {{item.nickname}}
             </div>
             <div>
-              <p v-for="prize in item.prize">{{prize.name}} {{prize.value}}</p>
+              <p v-for="(prize,index) in item.prize" :key="index">{{prize.name}} {{prize.value}}</p>
             </div>
           </div>
         </div>
@@ -61,7 +61,8 @@ export default {
         .winnerList({
           pagesize: this.pageSize,
           currentpage: this.currentPage,
-          id: this.$route.query.id
+          id: this.$route.query.id,      
+          sn: this.$route.query.sn
         })
         .then(res => {
           let data = res.data;

@@ -18,7 +18,7 @@
           <span class="header_info_type">{{config.attendType[match.signupType]}}</span>
           <!-- 如果是SNG比赛或者是MTT比赛切是循环 -->
           <span class="header_info_record" v-if="match.type==3||(match.type==2&&match.isLoop==1)">
-            <router-link class="rulr" :to="{ path: '/match/detail/record', query: { id: match.id}}">开赛记录</router-link>
+            <router-link class="rulr" :to="{ path: '/match/detail/record', query: { id: match.id}}"></router-link>
           </span>
         </p>
         <button v-show="editShow" class="edit-btn" @click="toEdit">我要修改>></button>
@@ -339,8 +339,14 @@ a {
   position: absolute;
   right: 0;
   top: 0;
-  padding: 0 0.3rem;
-  background-color: #00ffff;
+  background: url("../assets/kaisaijilu.png") center no-repeat;
+  background-position: top;
+  background-size: 100%;
+}
+.header_info_record a{
+  display: inline-block;
+  width: 1.5rem;
+  height: .5rem;
 }
 .edit-btn {
   background-color: #000;

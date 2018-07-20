@@ -77,7 +77,7 @@ const MATCH_ROUTERS = [
     }
   },
   {
-    path: "/match/winnerList",
+    path: "/match/winner/list",
     component: WinnerList,
     meta: {
       title: "获奖列表"
