@@ -10,6 +10,7 @@ import ShareImg from "../views/match/ShareImg.vue";
 import WinnerList from "../views/match/WinnerList.vue";
 import WaitingCheck from "../views/match/WaitingCheck.vue";
 import GameRules from "../components/GameRules.vue";
+import MatchRecord from "../views/match/MatchRecord.vue";
 
 const MATCH_ROUTERS = [
   {
@@ -95,6 +96,13 @@ const MATCH_ROUTERS = [
       title: "游戏规则"
     },
     component: GameRules
+  },
+  {
+    path: "/match/detail/record",
+    meta: {
+      title: "开赛记录"
+    },
+    component: MatchRecord
   }
 ];
 

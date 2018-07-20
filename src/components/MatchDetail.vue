@@ -16,6 +16,10 @@
           <span class="header_info_time" v-show="!isHistory">{{countDown}}</span>
           <span class="header_info_send">{{prizes.type == 0 ? '邮寄': '自取'}}</span>
           <span class="header_info_type">{{config.attendType[match.signupType]}}</span>
+          <!-- 如果是SNG比赛或者是MTT比赛切是循环 -->
+          <span class="header_info_record" v-if="match.type==3||(match.type==2&&match.isLoop==1)">
+            <router-link class="rulr" :to="{ path: '/match/detail/record', query: { id: match.id}}">开赛记录</router-link>
+          </span>
         </p>
         <button v-show="editShow" class="edit-btn" @click="toEdit">我要修改>></button>
       </div>
@@ -305,6 +309,9 @@ a {
   font-size: 0.3rem;
   font-weight: bold;
 }
+.header_info{
+  position: relative;
+}
 .header_info span {
   border-radius: 0.05rem;
 }
@@ -327,6 +334,13 @@ a {
   background: url("../assets/attent_type.png") 0.05rem center/.3rem 0.3rem
     no-repeat;
   background-color: #c64432;
+}
+.header_info_record{
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 0 0.3rem;
+  background-color: #00ffff;
 }
 .edit-btn {
   background-color: #000;

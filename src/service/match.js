@@ -9,7 +9,8 @@ const match = {
     "createMatch", //创建比赛
     "editMatch", //修改比赛
     "applyList", //已报名信息
-    "winnerList" //获奖信息
+    "winnerList", //获奖信息
+    "recordList"  //开赛记录
   ]
 };
 
