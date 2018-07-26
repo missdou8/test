@@ -49,7 +49,7 @@ export default {
       let that = this;
       new AlloyCrop({
         image_src: data.content,
-        width: 300,
+        width: 320,
         height: 300,
         output: 1,
         ok_text: "剪切",
@@ -74,6 +74,10 @@ export default {
       });
     },
     sureClick() {
+      //需要先判断剪切的图片是否存在
+      if (!this.$store.state.match.shareCropImg) {
+        return this.$toast("请上传剪切图");
+      }
       /**
        * 1. 将无用元素设置为不可见
        * 2. 合成图片并上传
@@ -101,17 +105,6 @@ export default {
       let input = contain.querySelector(".van-uploader__input");
       input.click();
     },
-    dataURLtoFile(dataurl, filename) {
-      let arr = dataurl.split(",");
-      let mime = arr[0].match(/:(.*?);/)[1];
-      let bstr = atob(arr[1]);
-      let n = bstr.length;
-      let u8arr = new Uint8Array(n);
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-      return new File([u8arr], filename, { type: mime });
-    },
     convertBase64UrlToBlob(base64, mimeType) {
       let bytes = window.atob(base64.split(",")[1]);
       let ab = new ArrayBuffer(bytes.length);
@@ -129,6 +122,7 @@ export default {
 
 <style scoped>
 #share-img {
+  height: 100%;
   background: url("../../assets/share_bg.png") center/100% 100% no-repeat;
   overflow: hidden;
   position: relative;
@@ -143,9 +137,9 @@ export default {
   text-align: center;
 }
 .share-img img {
-  width: 70%;
+  height: 53.125%;
   margin-bottom: 0.15rem;
-  margin-top: 15%;
+  margin-top: 24%;
 }
 .qr-code {
   margin-top: 0.15rem;
@@ -164,7 +158,7 @@ export default {
 }
 .share-btn button {
   color: #ffcc00;
-  font-size: 0.36rem;
+  font-size: 0.34rem;
 }
 </style>
 <style>
