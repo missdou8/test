@@ -26,7 +26,7 @@
       <van-picker :columns="gameList" show-toolbar @confirm="gameConfirm" @cancel="gameShow = false" />
     </van-popup>
     <van-popup v-model="timeShow" position="bottom">
-      <van-datetime-picker title="选择时间（年月日时分）" v-model="currentDate" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="timeConfirm" @cancel="timeShow = false" />
+      <van-datetime-picker title="选择时间（年月日时分）" v-model="currentDate" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="timeConfirm" @cancel="timeShow = false" :formatter="formatter" />
     </van-popup>
     <div class="footer">
       <button @click="saveClick">保存</button>
@@ -104,6 +104,19 @@ export default {
     this.fetchGameList();
   },
   methods: {
+    formatter(type, value) {
+      if (type === "year") {
+        return value + "年";
+      } else if (type === "month") {
+        return value + "月";
+      } else if (type === "day") {
+        return value + "日";
+      } else if (type === "hour") {
+        return value + "时";
+      } else if (type === "minute") {
+        return value + "分";
+      }
+    },
     append(file) {
       this.$store.commit("setShareImgFile", file);
       this.$router.push("shareImg");

@@ -41,11 +41,13 @@ export default {
     },
     footerShow() {
       // 显示开赛记录的条件（如果是SNG比赛或者是MTT比赛切是循环）
-      let judge = this.match.type==3||(this.match.type==2 && this.match.isLoop==1)
+      let judge =
+        this.match.type == 3 ||
+        (this.match.type == 2 && this.match.isLoop == 1);
       //历史赛事
-      if (this.$store.state.match.tabActive == 1&&!judge) {
+      if (this.$store.state.match.tabActive == 1 && !judge) {
         return true;
-      }else {
+      } else {
         if (this.match.signupType == 2) {
           return true;
         } else {

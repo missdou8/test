@@ -309,7 +309,7 @@ a {
   font-size: 0.3rem;
   font-weight: bold;
 }
-.header_info{
+.header_info {
   position: relative;
 }
 .header_info span {
@@ -335,7 +335,7 @@ a {
     no-repeat;
   background-color: #c64432;
 }
-.header_info_record{
+.header_info_record {
   position: absolute;
   right: 0;
   top: 0;
@@ -343,10 +343,10 @@ a {
   background-position: top;
   background-size: 100%;
 }
-.header_info_record a{
+.header_info_record a {
   display: inline-block;
   width: 1.5rem;
-  height: .5rem;
+  height: 0.5rem;
 }
 .edit-btn {
   background-color: #000;
