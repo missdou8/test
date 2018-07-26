@@ -55,13 +55,16 @@ export default {
         ok_text: "剪切",
         cancel_text: "取消",
         ok: function(dataURI, canvas) {
-          let file = that.dataURLtoFile(dataURI, Date.now() + ".png");
-          let files = {
-            file: file,
-            content: dataURI
+          let formData = new FormData();
+          let blob = that.convertBase64UrlToBlob(dataURI, "image/png");
+          formData.append("file", blob, Date.now() + ".png");
+          //在此处发送一个ajax请求
+          let config = {
+            headers: { "Content-Type": "multipart/form-data" }
           };
-          that.upload(files, src => {
-            that.$store.commit("setShareCropImg", src);
+          that.http.resource.uploadImg(formData, "post", config).then(res => {
+            let data = res.data.src[0];
+            that.$store.commit("setShareCropImg", data);
             that.finalImg = dataURI;
           });
         },
@@ -108,6 +111,16 @@ export default {
         u8arr[n] = bstr.charCodeAt(n);
       }
       return new File([u8arr], filename, { type: mime });
+    },
+    convertBase64UrlToBlob(base64, mimeType) {
+      let bytes = window.atob(base64.split(",")[1]);
+      let ab = new ArrayBuffer(bytes.length);
+      let ia = new Uint8Array(ab);
+      for (let i = 0; i < bytes.length; i++) {
+        ia[i] = bytes.charCodeAt(i);
+      }
+      let _blob = new Blob([ab], { type: mimeType });
+      return _blob;
     }
   }
 };
@@ -116,9 +129,8 @@ export default {
 
 <style scoped>
 #share-img {
-  background-color: #212121;
+  background: url("../../assets/share_bg.png") center/100% 100% no-repeat;
   overflow: hidden;
-  padding-top: 0.6rem;
   position: relative;
 }
 .append_img {
@@ -131,8 +143,9 @@ export default {
   text-align: center;
 }
 .share-img img {
-  width: 85%;
+  width: 70%;
   margin-bottom: 0.15rem;
+  margin-top: 15%;
 }
 .qr-code {
   margin-top: 0.15rem;
