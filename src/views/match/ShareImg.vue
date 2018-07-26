@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="qr-code">
-      <me-qrcode class="qr_code" v-if="link" :qr-url='link' :qr-size='115'></me-qrcode>
+      <me-qrcode class="qr_code" v-if="link" :qr-url='link' :qr-size='qrSize'></me-qrcode>
       <p>嘀嗒比赛，专业的棋牌竞技比赛平台，主打闪电赛，赛程短，夺冠快，奖品丰厚，扫一扫，快速开赛！</p>
     </div>
   </div>
@@ -28,10 +28,12 @@ export default {
     return {
       finalImg: require("../../assets/logo.png"),
       link: this.config.downLoadURL,
-      isEdit: true
+      isEdit: true,
+      qrSize: 115
     };
   },
   mounted() {
+    this.qrSize = document.body.offsetWidth * 0.3;
     let imgURL = this.$store.state.match.shareCropImg;
     if (imgURL) {
       return (this.finalImg = imgURL);
