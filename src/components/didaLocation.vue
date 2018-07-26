@@ -49,8 +49,8 @@ export default {
           detailAddress: data.formattedAddress || "请输入详细地址", //详细地址
           // detailAreaCode: data.addressComponent.adcode || "" //所在城市编号
         };
-        if(data.addressComponent) resData.detailAreaCode = data.addressComponent.adcode
-        else _this.$toast("请选择所在地区");
+        if(data.addressComponent) resData.detailAreaCode = data.addressComponent.adcode;
+        else resData.detailAreaCode = "";
         //抛出一个方法用来进行数据操作
         _this.$emit("getResData", resData);
       }
