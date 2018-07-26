@@ -138,21 +138,21 @@ export default {
   height: 100%;
 }
 .share-img img {
-  max-height: 53.125%;
+  max-height: 52%;
   max-width: 80%;
   margin-bottom: 0.15rem;
   margin-top: 20%;
 }
 .qr-code {
-  /* margin-top: 0.15rem; */
   text-align: center;
   position: absolute;
-  bottom: 0.36rem;
+  bottom: 0.24rem;
 }
 .qr-code p {
+  color: #fff;
   font-size: 0.24rem;
   margin-top: 0.1rem;
-  padding: 0 0.42rem;
+  padding: 0 0.56rem;
   line-height: 1.2;
 }
 .share-btn {
