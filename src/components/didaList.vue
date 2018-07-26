@@ -1,6 +1,6 @@
 <template>
   <div id="didaList">
-    <h3 v-if="total===0&&noDataText" class="noDataText">{{noDataText}}</h3>
+    <h3 v-if="noDataDesc.length!=0" class="noDataText">{{noDataText}}</h3>
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
       <van-list v-model="loading" :finished="finished" @load="onLoad">
         <!-- 开放html架构 -->
@@ -20,7 +20,8 @@ export default {
       isLoading: false,
       pagesize: 10,
       currentpage: 1, //当前页(默认从第一页开始)
-      total: null //总条数
+      total: null, //总条数
+      noDataDesc:''
     };
   },
   /**
@@ -51,6 +52,10 @@ export default {
           this.total = data.total;
           //这里返回的是原数据列表
           this.list = this.list.concat(data[this.dataName || this.postUrl]);
+          setTimeout(() => {  //设置一个数据渲染缓冲
+            if (this.list.length == 0) this.noDataDesc = this.noDataText
+            else this.noDataDesc = ''
+          }, 500);
           return data;
         });
     },
@@ -68,11 +73,15 @@ export default {
       this.currentpage = 1;
       //请求第一页数据
       this.getData(1).then(() => {
-        this.isLoading = false;
-        //如果首屏不够的情况下从第二页开始继续执行onLoad()方法
-        this.currentpage++;
-        // 切记要将finished变为false[如果下拉加载到底不，finished变为了true，再次请求数据的时候将不会再执行下拉加载]
-        this.finished = false;
+        if(this.list.length < this.pagesize){
+          this.isLoading = false;
+        }else{
+          this.isLoading = false;
+          //如果首屏不够的情况下从第二页开始继续执行onLoad()方法
+          this.currentpage++;
+          // 切记要将finished变为false[如果下拉加载到底不，finished变为了true，再次请求数据的时候将不会再执行下拉加载]
+          this.finished = false;
+        }
       });
     },
     hideLoading() {
