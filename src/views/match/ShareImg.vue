@@ -56,11 +56,6 @@ export default {
         cancel_text: "取消",
         ok: function(dataURI, canvas) {
           let file = that.dataURLtoFile(dataURI, Date.now() + ".png");
-          var tarStr = "";
-          for (let i in file) {
-            tarStr += i + ":" + file[i].toString() + "\n";
-          }
-          alert(tarStr);
           let files = {
             file: file,
             content: dataURI
