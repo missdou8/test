@@ -11,7 +11,7 @@ export default {
     let script = document.createElement("script");
     script.type = "text/javascript";
     script.src =
-      "https://webapi.amap.com/maps?v=1.4.6&key=4851ba7a49267a6ed906605fa1e2970c"; // 高德地图
+      "https://webapi.amap.com/maps?v=1.4.6&key=769a44a11f748b9f28a25a8bf3b7b3e3"; // 高德地图
     document.body.appendChild(script);
   },
   methods: {
@@ -42,12 +42,15 @@ export default {
       function onComplete(data) {
         //定位成功的时候关闭lading
         _this.$toast.clear();
+        console.log(data.addressComponent)
         let resData = {
           longitude: data.position.getLng(), //经度
           latitude: data.position.getLat(), //维度
-          detailAddress: data.formattedAddress || "", //详细地址
-          detailAreaCode: data.addressComponent.adcode || "" //所在城市编号
+          detailAddress: data.formattedAddress || "请输入详细地址", //详细地址
+          // detailAreaCode: data.addressComponent.adcode || "" //所在城市编号
         };
+        if(data.addressComponent) resData.detailAreaCode = data.addressComponent.adcode
+        else _this.$toast("请选择所在地区");
         //抛出一个方法用来进行数据操作
         _this.$emit("getResData", resData);
       }
