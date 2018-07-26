@@ -103,6 +103,7 @@ export default {
         this.$store.commit("setIfSave", true);
         this.$store.commit("setShareCropImg", this.match.shareCropImg);
         this.$store.commit("setShareImg", this.match.sharePic);
+        this.$store.commit("setRankPrize", this.matchData.prizes.rankingSet);
       });
   },
   filters: {

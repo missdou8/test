@@ -15,9 +15,11 @@
       <div class="rank">
         <div class="prize_info" v-for="(item,index) in rankList">
           <p class="prize_rank">第{{item.value}}名</p>
-          <input class="prize_prize" type="text" placeholder="点击输入奖品名称" v-model="rankPrize[index].name" @blur="prizeInput(index,$event)">
           <div class="prize_value_content">
-            <input class="prize_value" v-model="rankPrize[index].prize" type="number" @blur="valueInput(index, $event)">
+            <input class="prize_prize" type="text" placeholder="点击输入奖品名称" v-model="rankPrize[index].name" @blur="prizeInput(index,'name',$event)">
+            <input class="prize_prize" type="text" placeholder="数量" v-model="rankPrize[index].prizeCount" @blur="prizeInput(index,'prizeCount',$event)">
+            <input class="prize_prize" type="text" placeholder="单位" v-model="rankPrize[index].unit" @blur="prizeInput(index,'unit',$event)">
+            <input class="prize_value" v-model="rankPrize[index].price" type="number" @blur="valueInput(index, $event)">
             <span class="prize_tag">元</span>
           </div>
         </div>
@@ -182,9 +184,9 @@ export default {
       this.$store.commit("setIfSave", true);
       this.$router.go(-1);
     },
-    prizeInput(index, evt) {
+    prizeInput(index, type, evt) {
       let dom = evt.target;
-      this.rankPrize[index].name = dom.value;
+      this.rankPrize[index][type] = dom.value;
     },
     valueInput(index, evt) {
       let dom = evt.target;
@@ -271,16 +273,12 @@ export default {
 }
 
 .prize_value {
-  background-color: #fafafa;
   height: 0.67rem;
   width: 1.76rem;
   margin-right: 0.1rem;
 }
 .prize_rank {
   text-align: left;
-}
-.prize_tag {
-  flex-grow: 1;
 }
 
 .total_value {
@@ -309,10 +307,21 @@ export default {
   padding-top: 0.2rem;
 }
 .prize_value_content {
-  position: absolute;
-  right: 0.2rem;
-  top: 50%;
-  transform: translateY(-50%);
+  display: flex;
+}
+.prize_value_content input {
+  height: 0.67rem;
+  width: 0;
+  background-color: #fafafa;
+  flex: 1;
+  margin-right: 0.15rem;
+  padding: 0 0.12rem;
+}
+.prize_value_content input:first-child {
+  flex-grow: 4;
+}
+.prize_value_content input:nth-child(4) {
+  flex-grow: 1.5;
 }
 
 /* 名次 */

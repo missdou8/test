@@ -9,7 +9,7 @@ export default {
   props: ["data", "selected"],
   data() {
     return {
-      select: 0
+      select: -1
     };
   },
   mounted() {

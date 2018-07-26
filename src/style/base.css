@@ -35,9 +35,6 @@ body,
 }
 
 /*设置input提示文字的样式*/
-input {
-  font-size: 0.28rem;
-}
 input::placeholder {
   font-size: 0.28rem;
 }
