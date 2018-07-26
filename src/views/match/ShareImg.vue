@@ -89,14 +89,18 @@ export default {
         html2canvas(this.$refs.share, {
           scale: 2
         }).then(canvas => {
-          let dataURL = canvas.toDataURL("image/png");
-          let file = this.dataURLtoFile(dataURL, Date.now() + ".png");
-          let files = {
-            file: file,
-            content: dataURL
+          let dataURI = canvas.toDataURL("image/png");
+
+          let formData = new FormData();
+          let blob = this.convertBase64UrlToBlob(dataURI, "image/png");
+          formData.append("file", blob, Date.now() + ".png");
+          //在此处发送一个ajax请求
+          let config = {
+            headers: { "Content-Type": "multipart/form-data" }
           };
-          this.upload(files, src => {
-            this.$store.commit("setShareImg", src);
+          this.http.resource.uploadImg(formData, "post", config).then(res => {
+            let data = res.data.src[0];
+            this.$store.commit("setShareImg", data);
             this.$router.go(-1);
           });
         });
