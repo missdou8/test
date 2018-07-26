@@ -174,7 +174,7 @@ export default {
       //判断是否每个奖品都填写了
       let canSave = false;
       this.rankPrize.forEach(item => {
-        if (!item.name || !item.price) {
+        if (!item.name || !item.price || !item.prizeCount || !item.unit) {
           canSave = true;
         }
       });
