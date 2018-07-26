@@ -131,7 +131,7 @@ export default {
   text-align: center;
 }
 .share-img img {
-  width: 90%;
+  width: 85%;
   margin-bottom: 0.15rem;
 }
 .qr-code {
