@@ -140,10 +140,10 @@ export default {
   height: 100%;
 }
 .share-img img {
-  max-height: 52%;
+  max-height: 50%;
   max-width: 80%;
   margin-bottom: 0.15rem;
-  margin-top: 20%;
+  margin-top: 18%;
 }
 .qr-code {
   text-align: center;
