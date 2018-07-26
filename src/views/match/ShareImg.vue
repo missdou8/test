@@ -137,9 +137,10 @@ export default {
   text-align: center;
 }
 .share-img img {
-  height: 53.125%;
+  max-height: 53.125%;
+  max-width: 80%;
   margin-bottom: 0.15rem;
-  margin-top: 24%;
+  margin-top: 20%;
 }
 .qr-code {
   margin-top: 0.15rem;
