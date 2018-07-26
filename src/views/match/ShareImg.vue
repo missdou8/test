@@ -51,11 +51,12 @@ export default {
         image_src: data.content,
         width: 300,
         height: 300,
-        output: 2,
+        output: 1,
         ok_text: "剪切",
         cancel_text: "取消",
         ok: function(dataURI, canvas) {
           let file = that.dataURLtoFile(dataURI, Date.now() + ".png");
+          alert(file);
           let files = {
             file: file,
             content: dataURI
