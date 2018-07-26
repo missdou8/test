@@ -87,15 +87,16 @@ let uploadImg = (data, name, callBack) => {
   let config = {
     headers: { "Content-Type": "multipart/form-data" }
   };
+  console.log(data.size);
   var tarStr = "";
   for (let i in data) {
     tarStr += i + ":" + data[i].toString() + "\n";
   }
   alert(tarStr);
-  alert(data);
   let formData = new FormData();
   formData.append("file", data, name);
   Vue.prototype.http.resource.uploadImg(formData, "post", config).then(res => {
+    alert(res.msg);
     let data = res.data;
     callBack(data.src[0]);
   });
