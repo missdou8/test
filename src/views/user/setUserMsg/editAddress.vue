@@ -86,8 +86,11 @@ export default {
       this.latitude = resData.latitude;
       setTimeout(() => {
         //获取van-area的value值
-        let _value = this.$refs.van_area.getValues();
-        this.onConfirm(_value);
+        if(this.areaId=='')this.areaMsg = '请选择 请选择 请选择';
+        else{
+          let _value = this.$refs.van_area.getValues();
+          this.onConfirm(_value);
+        }
       }, 100);
     },
     //发送请求
