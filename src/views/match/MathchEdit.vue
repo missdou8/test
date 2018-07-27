@@ -93,10 +93,21 @@ export default {
       deleteImg.classList.add("edit_btn");
       deleteImg.setAttribute("contenteditable", false);
       deleteImg.addEventListener("click", function() {
+        that.$dialog
+          .confirm({
+            title: "提示",
+            message: "确定要删除这张图片么？"
+          })
+          .then(() => {
+            deleteImg.parentElement.parentElement.parentElement.removeChild(
+              deleteImg.parentElement.parentElement
+            );
+            // on confirm
+          })
+          .catch(() => {
+            // on cancel
+          });
         //删除整个容器
-        deleteImg.parentElement.parentElement.parentElement.removeChild(
-          deleteImg.parentElement.parentElement
-        );
       });
       editBtn.appendChild(editImgShow);
       editBtn.appendChild(editImg);
@@ -115,6 +126,20 @@ export default {
       });
     },
     next() {
+      let containDom = this.$refs.createIntro;
+      let content = containDom.innerHTML;
+
+      //TODO: 提示是否有更好的方法
+      //判断是否可以跳转，单独提示
+      if (!this.cover) {
+        return this.$toast("需要添加赛事封面");
+      }
+      if (!this.title) {
+        return this.$toast("需要填写赛事名称");
+      }
+      if (!content || content == "请添加图文介绍") {
+        return this.$toast("需要填写赛事详情");
+      }
       //当保存的时候要将按钮删掉
       let btns = document.querySelectorAll(".edit_cover");
       btns.forEach(item => {

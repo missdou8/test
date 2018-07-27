@@ -103,7 +103,16 @@ export default {
         this.$store.commit("setIfSave", true);
         this.$store.commit("setShareCropImg", this.match.shareCropImg);
         this.$store.commit("setShareImg", this.match.sharePic);
+        this.$store.commit("setPrizeCover", this.matchData.prizes.img);
         this.$store.commit("setRankPrize", this.matchData.prizes.rankingSet);
+        let userInfo = this.matchData.prizes;
+        this.$store.commit("setgainPrizeAddress", {
+          address: userInfo.address,
+          regionName: userInfo.regionName,
+          provinceId: userInfo.provinceId,
+          cityId: userInfo.cityId,
+          areaId: userInfo.areaId
+        });
       });
   },
   filters: {
