@@ -75,8 +75,8 @@ export default {
     totalPrize() {
       let total = 0;
       this.rankPrize.forEach(item => {
-        if (item.prize) {
-          total += Number(item.prize);
+        if (item.price) {
+          total += Number(item.price);
         }
       });
       return total;
@@ -180,6 +180,12 @@ export default {
       });
       if (canSave) {
         return this.$toast("奖品没有填写完整");
+      }
+      if (
+        this.$store.state.match.sendStyle != 0 &&
+        this.$store.state.match.sendStyle != 1
+      ) {
+        return this.$toast("请选择邮寄方式");
       }
       this.$store.commit("setIfSave", true);
       this.$router.go(-1);

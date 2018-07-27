@@ -22,7 +22,7 @@ export default {
       navShow: false
     };
   },
-  mounted() {
+  created() {
     //检测浏览器类型决定是否展示栏
     let isWe = isWeChat() || isQQ();
     this.navShow = !isWe;
