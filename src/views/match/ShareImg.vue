@@ -53,7 +53,7 @@ export default {
         image_src: data.content,
         width: 320,
         height: 300,
-        output: 1,
+        output: 0.5,
         ok_text: "剪切",
         cancel_text: "取消",
         ok: function(dataURI, canvas) {
@@ -90,11 +90,9 @@ export default {
           scale: 2
         }).then(canvas => {
           let dataURI = canvas.toDataURL("image/png");
-
           let formData = new FormData();
           let blob = this.convertBase64UrlToBlob(dataURI, "image/png");
           formData.append("file", blob, Date.now() + ".png");
-          //在此处发送一个ajax请求
           let config = {
             headers: { "Content-Type": "multipart/form-data" }
           };
