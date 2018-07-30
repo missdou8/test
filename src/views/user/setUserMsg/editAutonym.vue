@@ -56,6 +56,14 @@ export default {
       pass: false //认证成功状态
     };
   },
+  watch: {
+    name() {
+      this.$store.commit("setName", this.name);
+    },
+    IDcard() {
+      this.$store.commit("setIDcard", this.IDcard);
+    }
+  },
   computed: {
     btnEnable() {
       if (this.name && this.IDcard) return false;
@@ -63,19 +71,30 @@ export default {
     }
   },
   created() {
-    this.getCertification();
+    let name = this.$store.state.user.name;
+    let IDcard = this.$store.state.user.IDcard;
+    let imgBox = this.$store.state.user.imgBox;
+    if(name==''&&IDcard==''&&Object.keys(imgBox).length==0) this.getCertification();
+    else{
+      this.name = name;
+      this.IDcard = IDcard;
+      this.imgBox = imgBox;
+      this.btnTxt = "提交";
+    }
   },
   methods: {
     onFrontPic(file) {
       this.upload(file, src => {
         this.imgBox["frontPic"] = src;
         this.$refs["frontPic"].src = src;
+        this.$store.commit("setImgBox","frontPic", src);
       });
     },
     onBackPic(file) {
       this.upload(file, src => {
         this.imgBox["backPic"] = src;
         this.$refs["backPic"].src = src;
+        this.$store.commit("setImgBox","backPic", src);
       });
     },
     getCertification() {
@@ -105,30 +124,24 @@ export default {
           idCard: this.IDcard,
           realname: this.name
         })
-        .then(res => {
+        .then(res => {          
           this.$dialog
             .alert({
               title: "嘀嗒比赛",
               message: "已提交，请耐心等待！"
             })
             .then(() => {
+              //清空store
+              this.clearStore()
               this.$router.go(-1);
             });
         });
     },
-    // upload(file, type) {
-    //   let config = {
-    //     headers: { "Content-Type": "multipart/form-data" }
-    //   };
-    //   let formData = new FormData();
-    //   formData.append("file", file.file);
-    //   this.http.resource.uploadImg(formData, "post", config).then(res => {
-    //     let data = res.data.src[0];
-
-    //     this.imgBox[type] = data;
-    //     this.$refs[type].src = data;
-    //   });
-    // }
+    clearStore(){
+      this.$store.commit("setName", '');
+      this.$store.commit("setIDcard", '');
+      this.$store.commit("setImgBox","clear");
+    }
   }
 };
 </script>
