@@ -6,10 +6,10 @@
     <h3 class="dec dec_sucess" v-if="status==1">
       <i></i>认证已通过</h3>
     <van-cell-group class="input_box">
-      <van-field v-model="name" placeholder="请输入您的真实姓名" :disabled="status==1||status==3">
+      <van-field v-model="name" placeholder="请输入您的真实姓名" @input="nameInput()" :disabled="status==1||status==3">
         <img class="left_icon" slot="icon" src="../../../assets/shiming_icon01.png" alt="">
       </van-field>
-      <van-field v-model="IDcard" placeholder="请输入身份证号" :disabled="status==1||status==3">
+      <van-field v-model="IDcard" placeholder="请输入身份证号" @input="IDcardInput()" :disabled="status==1||status==3">
         <img class="left_icon" slot="icon" src="../../../assets/shiming_icon02.png" alt="">
       </van-field>
     </van-cell-group>
@@ -56,14 +56,6 @@ export default {
       pass: false //认证成功状态
     };
   },
-  watch: {
-    name() {
-      this.$store.commit("setName", this.name);
-    },
-    IDcard() {
-      this.$store.commit("setIDcard", this.IDcard);
-    }
-  },
   computed: {
     btnEnable() {
       if (this.name && this.IDcard) return false;
@@ -73,28 +65,36 @@ export default {
   created() {
     let name = this.$store.state.user.name;
     let IDcard = this.$store.state.user.IDcard;
-    let imgBox = this.$store.state.user.imgBox;
-    if(name==''&&IDcard==''&&Object.keys(imgBox).length==0) this.getCertification();
+    let frontPic = this.$store.state.user.frontPic;
+    let backPic = this.$store.state.user.backPic;
+    if(name==''&&IDcard==''&&frontPic==''&&backPic=='') this.getCertification();
     else{
       this.name = name;
       this.IDcard = IDcard;
-      this.imgBox = imgBox;
+      this.imgBox.frontPic = frontPic;
+      this.imgBox.backPic = backPic;
       this.btnTxt = "提交";
     }
   },
   methods: {
+    nameInput(){
+      this.$store.commit("setName", this.name);
+    },
+    IDcardInput(){
+      this.$store.commit("setIDcard", this.IDcard);
+    },
     onFrontPic(file) {
       this.upload(file, src => {
         this.imgBox["frontPic"] = src;
         this.$refs["frontPic"].src = src;
-        this.$store.commit("setImgBox","frontPic", src);
+        this.$store.commit("setFrontPic", src);
       });
     },
     onBackPic(file) {
       this.upload(file, src => {
         this.imgBox["backPic"] = src;
         this.$refs["backPic"].src = src;
-        this.$store.commit("setImgBox","backPic", src);
+        this.$store.commit("setBackPic", src);
       });
     },
     getCertification() {
@@ -106,6 +106,12 @@ export default {
         this.imgBox.backPic = res.data.backPic;
         if (res.data.status == 3) {
           this.btnTxt = "审核中...";
+        }else if(res.data.status == 2){
+          this.$store.commit("setName", res.data.realname);
+          this.$store.commit("setIDcard", res.data.idCard);
+          this.$store.commit("setFrontPic", res.data.frontPic);
+          this.$store.commit("setBackPic", res.data.backPic);
+          this.btnTxt = "提交";
         } else if (res.data.status == 1) {
           this.pass = true;
         } else {
@@ -140,7 +146,8 @@ export default {
     clearStore(){
       this.$store.commit("setName", '');
       this.$store.commit("setIDcard", '');
-      this.$store.commit("setImgBox","clear");
+      this.$store.commit("setFrontPic", '');
+      this.$store.commit("setBackPic", '');
     }
   }
 };
