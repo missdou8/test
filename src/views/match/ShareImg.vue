@@ -99,7 +99,6 @@ export default {
           };
           this.http.resource.uploadImg(formData, "post", config).then(res => {
             let data = res.data.src[0];
-            console.log(data);
             this.$store.commit("setShareImg", data);
             this.$router.go(-1);
           });
