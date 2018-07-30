@@ -6,7 +6,7 @@
       <img :src="finalImg" alt="要分享的图片">
       <div class="share-btn" v-show="isEdit">
         <button @click="reChooseClick">重新选择</button>
-        <button @click="sureClick">确</button>
+        <button @click="sureClick">确定</button>
       </div>
     </div>
     <div class="qr-code">
