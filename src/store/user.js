@@ -5,7 +5,8 @@ const user = {
     address: "",
     subAddress: "",
     IDcard:"", //存储身份证号
-    imgBox:{}, //身份证正反照
+    frontPic:'', //身份证正面照
+    backPic:'', //身份证反面照
   },
   mutations: {
     setName(state, name) {
@@ -23,15 +24,12 @@ const user = {
     setIDcard(state, IDcard) {
       state.IDcard = IDcard;
     },
-    /** 设置身份证照片
-     *  typt  照片类型  frontPic正  backPic反 clear清空对象
-     *  src   图片链接
-     */
-    setImgBox(state, type,src) {
-      if(type === 'clear') state.imgBox = {}
-      else state.imgBox[type] = src;
-    }
-
+    setFrontPic(state, frontPic) {
+      state.frontPic = frontPic;
+    },
+    setBackPic(state, backPic) {
+      state.backPic = backPic;
+    },
   }
 };
 
