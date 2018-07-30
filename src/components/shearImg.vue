@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import AlloyCrop from "alloycrop";
+import AlloyCrop from "lp-alloycrop";
 export default {
   data() {
     return {

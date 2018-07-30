@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import AlloyCrop from "alloycrop";
+import AlloyCrop from "lp-alloycrop";
 import meQrcode from "../../components/meQrcode.vue";
 const html2canvas = require("html2canvas");
 export default {
