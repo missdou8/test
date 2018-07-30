@@ -61,7 +61,7 @@ export default {
         .winnerList({
           pagesize: this.pageSize,
           currentpage: this.currentPage,
-          id: this.$route.query.id,      
+          id: this.$route.query.id,
           sn: this.$route.query.sn
         })
         .then(res => {
@@ -87,6 +87,7 @@ export default {
 .match_list {
   flex-basis: 0;
   flex-grow: 1;
+  overflow: auto;
 }
 .th {
   display: flex;

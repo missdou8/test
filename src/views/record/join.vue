@@ -1,14 +1,11 @@
 <template>
   <div id="fans">
-    <dida-list ref="dida_list" post-module="match" post-url="applyList" :req-data="{id:$route.query.id}" @returnData="getApplyList($event)">
+    <dida-list ref="dida_list" post-module="match" post-url="signupList" :req-data="{id:$route.query.id}" @returnData="getApplyList($event)">
       <div class="title">
         <span>本场报名</span>
         <span>{{total}}人</span>
       </div>
-      <van-cell v-for="apply in applyList" :key="apply.id" 
-        :title="apply.nickname"
-        :lable="apply.id" 
-        :value="apply.Time">
+      <van-cell v-for="apply in applyList" :key="apply.id" :title="apply.nickname" :lable="apply.id" :value="apply.Time">
         <img slot="icon" :src="apply.icon||icon" alt="" srcset="">
       </van-cell>
     </dida-list>
