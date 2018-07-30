@@ -152,6 +152,19 @@ export default {
             name: ""
           };
         });
+
+        //如果在再办一场中修改了赛制人数，则奖品排名也需要进行相应的变化
+        let differ = state.length - data.prizesList.length;
+        if (differ < 0) {
+          for (let i = 0; i < -differ; i++) {
+            this.rankPrize.push({
+              rank: data.prizesList[i + state.length].rank.split(",").join("-"),
+              index: i + state.length
+            });
+          }
+        } else {
+          this.rankPrize.length = data.prizesList.length;
+        }
       });
   },
   methods: {

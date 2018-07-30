@@ -36,6 +36,7 @@ export default {
     this.qrSize = document.body.offsetWidth * 0.3;
     let imgURL = this.$store.state.match.shareCropImg;
     if (imgURL) {
+      imgURL = imgURL.replace("cdn", "merchant");
       return (this.finalImg = imgURL);
     }
     let file = this.$store.state.match.shareImgFile;
@@ -98,6 +99,7 @@ export default {
           };
           this.http.resource.uploadImg(formData, "post", config).then(res => {
             let data = res.data.src[0];
+            console.log(data);
             this.$store.commit("setShareImg", data);
             this.$router.go(-1);
           });
