@@ -53,7 +53,7 @@ export default {
         image_src: data.content,
         width: 320,
         height: 300,
-        output: 0.5,
+        output: 1,
         ok_text: "剪切",
         cancel_text: "取消",
         ok: function(dataURI, canvas) {
