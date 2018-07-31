@@ -45,7 +45,7 @@ export default {
     this.code = String(this.code).split("");
     this.http.wechat
       .signPackage({
-        url: location.href
+        url: `http://merchant.didabisai.com/front/match/share?code=${this.code}`
       })
       .then(res => {
         let data = res.data;
