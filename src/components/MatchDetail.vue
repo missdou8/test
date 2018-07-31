@@ -11,7 +11,7 @@
         <img v-show="isHistory" class="recreate" src="../assets/reCreate.png" alt="再办一场" @click="reCreate">
       </div>
       <div class="header">
-        <h1 class="header_title">{{match.title}}</h1>
+        <h1 class="header_title">{{match.title}} {{match.id}}</h1>
         <p class="header_info">
           <span class="header_info_time" v-show="!isHistory">{{countDown}}</span>
           <span class="header_info_send">{{prizes.type == 0 ? '邮寄': '自取'}}</span>

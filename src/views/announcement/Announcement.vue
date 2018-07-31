@@ -91,7 +91,7 @@ export default {
         });
     },
     onLoadNotice() {
-      this.http.notice
+      return this.http.notice
         .noticeList({
           pagesize: this.pageNum,
           currentpage: this.currentNotice
