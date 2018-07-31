@@ -11,7 +11,8 @@ const match = {
     "signupList", //已报名信息
     "winnerList", //获奖信息
     "recordList" //开赛记录
-  ]
+  ],
+  wechat: ["signPackage"]
 };
 
 export default match;
