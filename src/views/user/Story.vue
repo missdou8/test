@@ -1,5 +1,6 @@
 <template>
   <div id="create">
+    <div name="content" id="editor"></div>
     <div class="uploader" @click="onRead">
       <div class="addCover" v-show="addShow">
         <p class="add">
@@ -22,6 +23,7 @@
 </template>
 
 <script>
+import ClassicEditor from "@ckeditor/ckeditor5-build-inline";
 export default {
   data() {
     return {
@@ -38,6 +40,24 @@ export default {
       let data = res.data;
       this.coverImg = data.cover;
       this.contentPlace = data.content || "请添加图文介绍";
+    });
+  },
+  mounted() {
+    this.$nextTick(() => {
+      ClassicEditor.create(document.querySelector("#editor"), {
+        toolbar: [
+          "bold",
+          "italic",
+          "bulletedList",
+          "numberedList",
+          "blockQuote"
+        ],
+        image: {
+          toolbar: []
+        }
+      }).catch(error => {
+        console.error(error);
+      });
     });
   },
   computed: {
