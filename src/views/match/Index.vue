@@ -205,7 +205,7 @@ export default {
     serviceClick() {
       location.href = `https://www.sobot.com/chat/h5/index.html?sysNum=ded7079b7502494fad26fc73147a40ca&source=1&moduleType=2&tel=${
         this.userInfo.mobile
-      }&partnerId=${this.userInfo.id}&uname=广告主${this.userInfo.name}`;
+      }&partnerId=${this.userInfo.id}&uname=广告主后台_${this.userInfo.name}`;
     },
     progressTag(code) {
       if (code == 0 || code == 5) {
