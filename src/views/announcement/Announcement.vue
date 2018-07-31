@@ -140,9 +140,11 @@ export default {
 }
 .cover {
   margin: 0.2rem;
+  text-align: center;
 }
 .cover img {
-  width: 100%;
+  max-height: 2rem;
+  max-width: 100%;
 }
 .list {
   margin-top: 0.2rem;

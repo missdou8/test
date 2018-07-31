@@ -3,8 +3,11 @@
     <div class="header">
       <div class="header_lists">
         <a @click="serviceClick"></a>
-        <router-link to="/user/exchange/index"></router-link>
-        <router-link to="/announce/index"></router-link>
+        <router-link to="/user/exchange/index">
+        </router-link>
+        <router-link class="message" to="/announce/index">
+          <span v-show="userInfo.unreadMailCount != 0 ">{{userInfo.unreadMailCount}}</span>
+        </router-link>
         <router-link to="/user/index"></router-link>
       </div>
       <div class="header_icon">
@@ -278,7 +281,7 @@ export default {
 /* 顶部选项 */
 .header_lists {
   line-height: 0;
-  padding: 0.08rem 0 0 0;
+  padding: 0.1rem 0 0 0;
   text-align: right;
 }
 
@@ -288,8 +291,22 @@ export default {
 .header_lists a:nth-child(2) {
   background-image: url("../../assets/header_gift.png");
 }
-.header_lists a:nth-child(3) {
+.message {
   background-image: url("../../assets/header_message.png");
+  position: relative;
+}
+.message span {
+  background-color: red;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 0.24rem;
+  height: 0.3rem;
+  line-height: 0.3rem;
+  width: 0.3rem;
+  position: absolute;
+  top: -0.1rem;
+  right: -0.1rem;
+  text-align: center;
 }
 .header_lists a:nth-child(4) {
   background-image: url("../../assets/header_setting.png");
