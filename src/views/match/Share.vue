@@ -42,10 +42,11 @@ export default {
   },
   created() {
     this.code = this.$route.query.code;
+    let code = this.code;
     this.code = String(this.code).split("");
     this.http.wechat
       .signPackage({
-        url: `http://merchant.didabisai.com/front/match/share?code=${this.code}`
+        url: `http://merchant.didabisai.com/front/match/share?code=${code}`
       })
       .then(res => {
         let data = res.data;
