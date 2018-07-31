@@ -12,8 +12,8 @@
           <i>已报名</i>
         </router-link>
         <a>
-          <i>{{match.arrivedCount}}</i>
-          <i>开赛人数</i>
+          <i>{{attendNum}}</i>
+          <i>{{attendMsg}}</i>
         </a>
       </p>
       <button v-show="footerShow" class="share-btn" @click="toShare">{{bottomMsg}}>></button>
@@ -38,6 +38,14 @@ export default {
   computed: {
     bottomMsg() {
       return this.$store.state.match.tabActive == 0 ? "分享邀请码" : "获奖名单";
+    },
+    attendMsg() {
+      return this.$store.state.match.tabActive == 0 ? "开赛人数" : "参赛人数";
+    },
+    attendNum() {
+      return this.$store.state.match.tabActive == 0
+        ? this.match.playerCount
+        : this.match.arrivedCount;
     },
     footerShow() {
       // 显示开赛记录的条件（如果是SNG比赛或者是MTT比赛切是循环）
