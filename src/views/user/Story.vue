@@ -46,14 +46,18 @@ export default {
     this.$nextTick(() => {
       ClassicEditor.create(document.querySelector("#editor"), {
         toolbar: [
+          "headings",
           "bold",
           "italic",
+          "blockQuote",
           "bulletedList",
           "numberedList",
-          "blockQuote"
+          "link",
+          "insertImage"
         ],
         image: {
-          toolbar: []
+          toolbar: [],
+          styles: ["imageStyleFull"]
         }
       }).catch(error => {
         console.error(error);

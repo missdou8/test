@@ -22,5 +22,5 @@ export default {
     2: "邀请赛"
   },
   defaultIcon: require("../assets/icon.png"),
-  downLoadURL: "https://baidu.com"
+  downLoadURL: "https://www.didabisai.com/download.html"
 };
