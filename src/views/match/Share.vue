@@ -20,6 +20,7 @@ import { mapState } from "vuex";
 import icon from "../../assets/icon.png";
 import qrlogo from "../../assets/logo.png"
 import meQrcode from "../../components/meQrcode.vue";
+import { getUrlString } from "lputils";
 export default {
   data() {
     return {
@@ -42,11 +43,12 @@ export default {
     }
   },
   created() {
-    this.code = this.$route.query.code;
+    this.code = getUrlString("code");
+    let id = getUrlString("id");
     let code = this.code;
     this.http.match
       .detail({
-        id: this.$store.state.match.id
+        id: id
       })
       .then(res => {
         this.matchData = res.data;
