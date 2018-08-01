@@ -5,7 +5,6 @@
 </template>
 
 <script>
-
 export default {
   props: ["data", "selected"],
   data() {
@@ -14,9 +13,7 @@ export default {
     };
   },
   mounted() {
-    if (this.selected) {
-      this.select = this.selected;
-    }
+    this.select = this.selected;
   },
   methods: {
     radioClick(data, index) {
