@@ -21,11 +21,8 @@
 
 <script>
 import InlineEditor from "@ckeditor/ckeditor5-build-inline";
+import ImageCompressor from "image-compressor.js";
 import axios from "axios";
-// import Image from "@ckeditor/ckeditor5-image/src/image";
-// import ImageToolbar from "@ckeditor/ckeditor5-image/src/imagetoolbar";
-// import ImageCaption from "@ckeditor/ckeditor5-image/src/imagecaption";
-// import ImageStyle from "@ckeditor/ckeditor5-image/src/imagestyle";
 export default {
   data() {
     return {
@@ -42,29 +39,46 @@ export default {
         this.loader = loader;
       }
       upload() {
-        let file = this.loader.file;
-        const data = new FormData();
-        const config = {
-          headers: { "content-type": "multipart/form-data" }
-        };
-        data.append("file", this.loader.file);
-        return new Promise((resolve, reject) => {
-          axios
-            .post(
-              "http://merchant.didabisai.com/api/resource/uploadImg",
-              data,
-              config
-            )
-            .then(response => {
-              console.log(response.data.data.src[0]);
-              resolve({
-                default: response.data.data.src[0]
+        let uploadImgMethod = f => {
+          const data = new FormData();
+          const config = {
+            headers: { "content-type": "multipart/form-data" }
+          };
+          data.append("file", f, f.name);
+          return new Promise((resolve, reject) => {
+            axios
+              .post(
+                "http://merchant.didabisai.com/api/resource/uploadImg",
+                data,
+                config
+              )
+              .then(response => {
+                resolve({
+                  default: response.data.data.src[0]
+                });
+              })
+              .catch(error => {
+                reject(error);
               });
-            })
-            .catch(error => {
-              reject(error);
-            });
-        });
+          });
+        };
+
+        let file = this.loader.file;
+        let maxSize = 300 * 1024;
+        let imgSize = file.size;
+        if (imgSize > maxSize) {
+          let radio = maxSize / imgSize;
+          new ImageCompressor(file, {
+            quality: radio,
+            convertSize: 1000000,
+            success(newFile) {
+              return uploadImgMethod(newFile);
+            }
+          });
+          return;
+        }
+        console.log("哈哈");
+        return uploadImgMethod(file);
       }
 
       abort() {

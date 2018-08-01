@@ -6,7 +6,7 @@
         <router-link to="/user/exchange/index">
         </router-link>
         <router-link class="message" to="/announce/index">
-          <span v-show="userInfo.unreadMailCount != 0 ">{{userInfo.unreadMailCount}}</span>
+          <span v-show="userInfo.unreadMailCount != 0 "></span>
         </router-link>
         <router-link to="/user/index"></router-link>
       </div>
@@ -300,12 +300,12 @@ export default {
   border-radius: 50%;
   color: #fff;
   font-size: 0.24rem;
-  height: 0.3rem;
+  height: 0.2rem;
   line-height: 0.3rem;
-  width: 0.3rem;
+  width: 0.2rem;
   position: absolute;
-  top: -0.1rem;
-  right: -0.1rem;
+  top: -0.05rem;
+  right: -0.05rem;
   text-align: center;
 }
 .header_lists a:nth-child(4) {
