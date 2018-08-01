@@ -41,12 +41,13 @@ export default {
     })
   },
   created() {
+    console.log(this.$store.state.user.userInfo.icon);
     this.code = this.$route.query.code;
     let code = this.code;
     this.code = String(this.code).split("");
     this.http.wechat
       .signPackage({
-        url: `http://merchant.didabisai.com/front/match/share?code=${code}`
+        url: `https://merchant.didabisai.com/front/match/share?code=${code}`
       })
       .then(res => {
         let data = res.data;
@@ -58,11 +59,21 @@ export default {
           signature: data.signature, // 必填，签名
           jsApiList: ["onMenuShareTimeline", "onMenuShareAppMessage"] // 必填，需要使用的JS接口列表
         });
-
+        let title = `我在嘀嗒，邀您参加${this.title}比赛`;
+        let url = `https://merchant.didabisai.com/front/match/share?code=${code}`;
+        let iconUrl = this.$store.state.user.userInfo.icon;
         wx.onMenuShareTimeline({
-          title: "图片", // 分享标题
-          link: "http://merchant.didabisai.com/front/match/share?code=544200", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-          imgUrl: "" // 分享图标
+          title: title, // 分享标题
+          link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl: iconUrl // 分享图标
+        });
+
+        wx.onMenuShareAppMessage({
+          title: title, // 分享标题
+          desc: `点击下载客户端，输入${code}邀请码免费报名比赛！`, // 分享描述
+          link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl: iconUrl, // 分享图标
+          type: "link" // 分享类型,music、video或link，不填默认为link
         });
       });
   }

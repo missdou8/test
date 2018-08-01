@@ -62,7 +62,6 @@ export default {
               });
           });
         };
-
         let file = this.loader.file;
         let maxSize = 300 * 1024;
         let imgSize = file.size;

@@ -178,6 +178,28 @@ export default {
       this.submit(0);
     },
     checkClick() {
+      let containDom = this.$refs.createIntro;
+      let content = containDom.innerHTML;
+
+      //TODO: 提示是否有更好的方法
+      //判断是否可以跳转，单独提示
+      if (!this.cover) {
+        return this.$toast("需要添加赛事封面");
+      }
+      if (!this.title) {
+        return this.$toast("需要填写赛事名称");
+      }
+      if (!content || content == "请添加图文介绍") {
+        return this.$toast("需要填写赛事详情");
+      }
+      //当保存的时候要将按钮删掉
+      let btns = document.querySelectorAll(".edit_cover");
+      btns.forEach(item => {
+        item.parentElement.removeChild(item);
+      });
+      this.detail.title = this.$refs.title.innerHTML;
+      this.detail.content = this.$refs.createIntro.innerHTML;
+      this.$store.commit("setDetail", this.detail);
       this.submit(1);
     },
     submit(type) {
