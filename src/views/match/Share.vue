@@ -18,7 +18,7 @@
 <script>
 import { mapState } from "vuex";
 import icon from "../../assets/icon.png";
-import qrlogo from "../../assets/logo.png"
+import qrlogo from "../../assets/logo.png";
 import meQrcode from "../../components/meQrcode.vue";
 import { getUrlString } from "lputils";
 export default {
@@ -26,7 +26,7 @@ export default {
     return {
       code: "",
       logo: icon,
-      qrlogo:qrlogo,
+      qrlogo: qrlogo,
       link: this.config.downLoadURL,
       match: {}
     };
