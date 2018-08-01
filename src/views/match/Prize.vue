@@ -155,6 +155,7 @@ export default {
 
         //如果在再办一场中修改了赛制人数，则奖品排名也需要进行相应的变化
         let differ = state.length - data.prizesList.length;
+        console.log(differ);
         if (state.length == 0) {
           differ = 0;
         }

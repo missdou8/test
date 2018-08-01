@@ -33,7 +33,8 @@ export default {
       //设置不需要检测登录的页面
       currentPath == "/registerTips" ||
       currentPath == "/register" ||
-      currentPath == "/login"
+      currentPath == "/login" ||
+      currentPath == "/match/share"
     ) {
       return;
     }
