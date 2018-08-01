@@ -178,6 +178,7 @@ export default {
       this.$store.commit("setRankPrize", []);
       this.$store.commit("setShareImg", "");
       this.$store.commit("setShareCropImg", "");
+      this.$store.commit("setSendStyle", -1);
 
       //判断是否有权限创建
       if (this.userInfo.certification != 1) {
