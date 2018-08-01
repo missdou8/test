@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="qr-code">
-      <me-qrcode class="qr_code" v-if="link" :qr-url='link' :qr-size='qrSize'></me-qrcode>
+      <me-qrcode class="qr_code" v-if="link" :qr-url='link' :qr-size='qrSize' :qr-logo-size="30" :qr-logo="qrlogo"></me-qrcode>
       <p>嘀嗒比赛，专业的棋牌竞技比赛平台，主打闪电赛，赛程短，夺冠快，奖品丰厚，扫一扫，快速开赛！</p>
     </div>
   </div>
@@ -19,6 +19,7 @@
 <script>
 import AlloyCrop from "lp-alloycrop";
 import meQrcode from "../../components/meQrcode.vue";
+import qrlogo from "../../assets/logo.png"
 const html2canvas = require("html2canvas");
 export default {
   components: {
@@ -29,6 +30,7 @@ export default {
       finalImg: require("../../assets/logo.png"),
       link: this.config.downLoadURL,
       isEdit: true,
+      qrlogo:qrlogo,
       qrSize: 115
     };
   },
