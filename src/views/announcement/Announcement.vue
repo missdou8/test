@@ -143,7 +143,7 @@ export default {
   text-align: center;
 }
 .cover img {
-  max-height: 2rem;
+  max-height: 3rem;
   max-width: 100%;
 }
 .list {
