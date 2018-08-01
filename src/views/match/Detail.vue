@@ -40,7 +40,9 @@ export default {
       return this.$store.state.match.tabActive == 0 ? "分享邀请码" : "获奖名单";
     },
     attendMsg() {
-      return this.$store.state.match.tabActive == 0 ? "开赛人数" : "参赛人数";
+      return this.$store.state.match.tabActive == 0
+        ? "最小开赛人数"
+        : "参赛人数";
     },
     attendNum() {
       return this.$store.state.match.tabActive == 0
