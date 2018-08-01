@@ -138,7 +138,8 @@ export default {
         return this.$router.push({
           path: "/match/share",
           query: {
-            code: this.match.signupCode
+            code: this.match.signupCode,
+            id: this.match.id
           }
         });
       }
