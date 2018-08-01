@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <audio src="" id="buttonAudio"></audio>
     <NavGation v-show="navShow" :title="title"></NavGation>
     <div style="height:100%" :class="{child: navShow}">
       <transition :name="transitionName">
