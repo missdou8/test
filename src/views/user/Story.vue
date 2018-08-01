@@ -1,6 +1,7 @@
 <template>
   <div id="create">
-    <div name="content" id="editor"></div>
+    <div name="content" id="editor">
+    </div>
     <div class="uploader" @click="onRead">
       <div class="addCover" v-show="addShow">
         <p class="add">
@@ -24,6 +25,10 @@
 
 <script>
 import ClassicEditor from "@ckeditor/ckeditor5-build-inline";
+import Image from "@ckeditor/ckeditor5-image/src/image";
+import ImageToolbar from "@ckeditor/ckeditor5-image/src/imagetoolbar";
+import ImageCaption from "@ckeditor/ckeditor5-image/src/imagecaption";
+import ImageStyle from "@ckeditor/ckeditor5-image/src/imagestyle";
 export default {
   data() {
     return {
@@ -44,24 +49,11 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      ClassicEditor.create(document.querySelector("#editor"), {
-        toolbar: [
-          "headings",
-          "bold",
-          "italic",
-          "blockQuote",
-          "bulletedList",
-          "numberedList",
-          "link",
-          "insertImage"
-        ],
-        image: {
-          toolbar: [],
-          styles: ["imageStyleFull"]
+      ClassicEditor.create(document.querySelector("#editor"), {}).catch(
+        error => {
+          console.error(error);
         }
-      }).catch(error => {
-        console.error(error);
-      });
+      );
     });
   },
   computed: {
@@ -127,6 +119,7 @@ export default {
       //获取插入图片按钮
       let input = document.querySelector(".van-uploader__input");
       img.addEventListener("click", function(evt) {
+        evt.preventDefault();
         that.uploadType = "replace";
         that.replaceDom = img;
         input.click();

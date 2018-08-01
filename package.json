@@ -8,7 +8,9 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-balloon": "^11.0.1",
     "@ckeditor/ckeditor5-build-inline": "^11.0.1",
+    "@ckeditor/ckeditor5-easy-image": "^10.0.2",
     "@ckeditor/ckeditor5-image": "^10.2.0",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
