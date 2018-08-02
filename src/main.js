@@ -117,6 +117,17 @@ Vue.prototype.upload = (file, callBack) => {
   uploadImg(data, data.name, callBack);
 };
 
+Vue.prototype.convertBase64UrlToBlob = (base64, mimeType) => {
+  let bytes = window.atob(base64.split(",")[1]);
+  let ab = new ArrayBuffer(bytes.length);
+  let ia = new Uint8Array(ab);
+  for (let i = 0; i < bytes.length; i++) {
+    ia[i] = bytes.charCodeAt(i);
+  }
+  let _blob = new Blob([ab], { type: mimeType });
+  return _blob;
+};
+
 // 引入音频文件
 import audio from "./assets/buttonclick.mp3";
 Vue.prototype.clickButton = () => {
