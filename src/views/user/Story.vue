@@ -11,7 +11,6 @@
       <img class="cover-img" :src="coverImg" v-show="!addShow" alt="封面图片">
     </div>
     <div class="create_content" name="content" id="editor">
-      <p style="height:100%"></p>
     </div>
     <van-uploader class="append_img" :after-read="append">
     </van-uploader>
@@ -34,6 +33,13 @@ export default {
     };
   },
   mounted() {
+    // document.querySelectorAll('input[type="text"],textarea').on("click", function() {
+    //   var target = this;
+    //   setTimeout(function() {
+    //     target.scrollIntoViewIfNeeded();
+    //     console.log("scrollIntoViewIfNeeded");
+    //   }, 400);
+    // });
     let that = this;
     class UploadAdapter {
       constructor(loader) {
@@ -117,6 +123,14 @@ export default {
         .then(editor => {
           window.editor = editor;
           const content = data;
+          //监听事件
+          editor.model.document.on("change:data", () => {
+            var target = document.querySelector("#editor");
+            setTimeout(function() {
+              target.scrollIntoViewIfNeeded();
+              console.log("scrollIntoViewIfNeeded");
+            }, 400);
+          });
           // 转化html
           const viewFragment = editor.data.processor.toView(content);
           const modelFragment = editor.data.toModel(viewFragment);
