@@ -117,7 +117,6 @@ export default {
         this.$store.commit("setRankPrize", this.matchData.prizes.rankingSet);
         this.$store.commit("setSendStyle", this.matchData.prizes.type);
         let userInfo = this.matchData.prizes;
-        console.log(userInfo);
         this.$store.commit("setgainPrizeAddress", {
           address: userInfo.address,
           regionName: userInfo.regionName,

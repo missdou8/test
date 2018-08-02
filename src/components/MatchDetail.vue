@@ -61,7 +61,7 @@
         </div>
       </div>
       <div class="like_info">
-        <div class="like_info_item">
+        <div class="like_info_item" @click="toFans">
           <img class="icon" :src="merchant.icon || icon" alt="头像">
           <span>{{merchant.watchersCount}}</span>
         </div>
@@ -145,6 +145,9 @@ export default {
     });
   },
   methods: {
+    toFans() {
+      this.$router.push("/user/record/fans");
+    },
     reCreate() {
       this.$store.commit("setIsEdit", false);
       this.$router.push({
