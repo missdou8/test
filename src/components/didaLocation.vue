@@ -11,7 +11,7 @@ export default {
     let script = document.createElement("script");
     script.type = "text/javascript";
     script.src =
-      "https://webapi.amap.com/maps?v=1.4.6&key=769a44a11f748b9f28a25a8bf3b7b3e3"; // 高德地图
+      "https://webapi.amap.com/maps?v=1.4.8&key=bbde580275aaedec9c75c661f4e5c35f&plugin=AMap.DistrictSearch"; // 高德地图
     document.body.appendChild(script);
   },
   methods: {
@@ -40,9 +40,9 @@ export default {
       });
       //解析定位结果
       function onComplete(data) {
+        console.log(data)
         //定位成功的时候关闭lading
         _this.$toast.clear();
-        console.log(data.addressComponent)
         let resData = {
           longitude: data.position.getLng(), //经度
           latitude: data.position.getLat(), //维度
@@ -59,6 +59,23 @@ export default {
         _this.$toast.clear();
         _this.$toast("定位失败请输入详细地址信息");
       }
+    },
+    setLngAndlat(city){
+      let _this = this;
+      let map = new AMap.Map("container", {
+          resizeEnable: true
+      });
+      let placeSearch = new AMap.DistrictSearch();  //构造地点查询类
+      //详情查询
+      placeSearch.search(city, function(status, result) {
+          if (status === 'complete' && result.info === 'OK') {
+            let data = {
+              longitude: result.districtList[0].center.lng, //经度
+              latitude: result.districtList[0].center.lat, //维度
+            }
+            _this.$emit("getLngAndlat", data);
+          }
+      });
     }
   }
 };
