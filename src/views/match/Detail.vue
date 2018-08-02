@@ -134,13 +134,10 @@ export default {
   methods: {
     toShare() {
       if (this.$store.state.match.tabActive == 0) {
-        return this.$router.push({
-          path: "/match/share",
-          query: {
-            code: this.match.signupCode,
-            id: this.match.id
-          }
-        });
+        //解决微信bug
+        return (location.href = `/front/match/share?code=${
+          this.match.signupCode
+        }&id=${this.match.id}`);
       }
       this.$router.push({
         path: "/match/winner/list",

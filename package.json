@@ -20,7 +20,7 @@
     "qrcode": "^1.2.2",
     "qs": "^6.5.2",
     "vant": "^1.1.14",
-    "vue": "^2.5.16",
+    "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
     "vuex-persist": "^1.4.3"
@@ -30,7 +30,7 @@
     "@vue/cli-plugin-eslint": "^3.0.0-beta.15",
     "@vue/cli-service": "^3.0.0-beta.15",
     "babel-plugin-import": "^1.8.0",
-    "vue-template-compiler": "^2.5.16"
+    "vue-template-compiler": "^2.5.17"
   },
   "eslintConfig": {
     "root": true,
