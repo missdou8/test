@@ -1,17 +1,21 @@
 <template>
   <div id="create">
-
-    <div class="uploader" @click="onRead">
-      <div class="addCover" v-show="addShow">
-        <p class="add">
-          <span class="add_img"></span>
-          <span>添加故事封面</span>
-        </p>
+    <div class="content">
+      <div class="uploader" @click="onRead">
+        <div class="addCover" v-show="addShow">
+          <p class="add">
+            <span class="add_img"></span>
+            <span>添加故事封面</span>
+          </p>
+        </div>
+        <img class="cover-img" :src="coverImg" v-show="!addShow" alt="封面图片">
       </div>
-      <img class="cover-img" :src="coverImg" v-show="!addShow" alt="封面图片">
+      <div class="create_content">
+        <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" ref="createIntro" v-html="contentPlace"></div>
+      </div>
     </div>
-    <div class="create_content" name="content" id="editor">
-      <p style="height:100%"></p>
+    <div v-show="appendShow" class="append" @click="appendImg">
+      <img src="../../assets/add.png" alt="添加图片">
     </div>
     <van-uploader class="append_img" :after-read="append">
     </van-uploader>
@@ -20,95 +24,22 @@
 </template>
 
 <script>
-import InlineEditor from "@ckeditor/ckeditor5-build-inline";
-import ImageCompressor from "image-compressor.js";
-import axios from "axios";
 export default {
   data() {
     return {
       titlePlace: "添加比赛名称",
       contentPlace: "请添加图文介绍",
       coverImg: "",
+      appendShow: false,
       uploadType: "append",
       replaceDom: ""
     };
   },
-  mounted() {
-    class UploadAdapter {
-      constructor(loader) {
-        this.loader = loader;
-      }
-      upload() {
-        let uploadImgMethod = f => {
-          const data = new FormData();
-          const config = {
-            headers: { "content-type": "multipart/form-data" }
-          };
-          data.append("file", f, f.name);
-          return new Promise((resolve, reject) => {
-            axios
-              .post(
-                "http://merchant.didabisai.com/api/resource/uploadImg",
-                data,
-                config
-              )
-              .then(response => {
-                resolve({
-                  default: response.data.data.src[0]
-                });
-              })
-              .catch(error => {
-                reject(error);
-              });
-          });
-        };
-        let file = this.loader.file;
-        let maxSize = 300 * 1024;
-        let imgSize = file.size;
-        if (imgSize > maxSize) {
-          let radio = maxSize / imgSize;
-          new ImageCompressor(file, {
-            quality: radio,
-            convertSize: 1000000,
-            success(newFile) {
-              return uploadImgMethod(newFile);
-            }
-          });
-          return;
-        }
-        console.log("哈哈");
-        return uploadImgMethod(file);
-      }
-
-      abort() {
-        //
-      }
-    }
-    this.fetchInfo().then(data => {
-      InlineEditor.create(document.querySelector("#editor"), {
-        toolbar: ["imageUpload"]
-        // ckfinder: {
-        //   uploadUrl: "http://merchant.didabisai.com/api/resource/uploadImg"
-        // }
-      })
-        .then(editor => {
-          window.editor = editor;
-          const content = data;
-          // 转化html
-          const viewFragment = editor.data.processor.toView(content);
-          const modelFragment = editor.data.toModel(viewFragment);
-          editor.model.insertContent(
-            modelFragment,
-            editor.model.document.selection
-          );
-          //初始化上传方法
-          editor.plugins.get("FileRepository").createUploadAdapter = loader => {
-            return new UploadAdapter(loader);
-          };
-        })
-        .catch(error => {
-          console.error(error);
-        });
+  created() {
+    this.http.user.getShopInfo().then(res => {
+      let data = res.data;
+      this.coverImg = data.cover;
+      this.contentPlace = data.content || "请添加图文介绍";
     });
   },
   computed: {
@@ -117,24 +48,36 @@ export default {
     }
   },
   methods: {
-    fetchInfo() {
-      return this.http.user.getShopInfo().then(res => {
-        let data = res.data;
-        this.coverImg = data.cover;
-        this.contentPlace = data.content || "请添加图文介绍";
-        return this.contentPlace;
-      });
+    appendImg(evt) {
+      this.uploadType = "append";
+      //获取插入图片按钮
+      let input = document.querySelector(".van-uploader__input");
+      input.click();
     },
     onRead(file) {
       this.uploadType = "upload";
       let input = document.querySelector(".van-uploader__input");
       input.click();
     },
+    titleInput(evt) {
+      let value = evt.target.innerHTML;
+      if (value === "添加比赛名称") {
+      }
+    },
+    focus(val, evt) {},
+    contentFocus() {
+      this.appendShow = true;
+    },
+    contentBlur() {
+      this.appendShow = false;
+    },
+    blur(val, evt) {},
     nextClick() {
+      let containDom = this.$refs.createIntro;
       this.http.user
         .setShopInfo({
           cover: this.coverImg,
-          content: window.editor.getData()
+          content: containDom.innerHTML
         })
         .then(res => {
           this.$router.go(-1);
@@ -153,6 +96,7 @@ export default {
         });
         return;
       }
+      let containDom = this.$refs.createIntro;
       let div = document.createElement("div");
       div.style.position = "relative";
       div.classList.add("img_content");
@@ -161,7 +105,6 @@ export default {
       //获取插入图片按钮
       let input = document.querySelector(".van-uploader__input");
       img.addEventListener("click", function(evt) {
-        evt.preventDefault();
         that.uploadType = "replace";
         that.replaceDom = img;
         input.click();
@@ -184,28 +127,13 @@ export default {
 };
 </script>
 
-<style>
-.ck-content .image {
-  overflow: initial;
-}
-figcaption {
-  display: none;
-}
-</style>
-
-
 <style scoped>
-#editor {
-  text-indent: 2em;
-  text-align: left;
-  height: 100%;
-}
-.editor_content {
-  height: 100%;
-}
 #create::before {
   content: "";
   display: table;
+}
+.content {
+  overflow: auto;
 }
 #create {
   background-color: #fff;
@@ -213,8 +141,9 @@ figcaption {
   flex-direction: column;
   padding: 0.3rem;
   padding-bottom: 1.5rem;
+  position: relative;
   text-align: center;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 .uploader {
   color: #fff;
@@ -265,7 +194,7 @@ figcaption {
   background-color: #ffd321;
   font-size: 0.3rem;
   font-weight: bold;
-  position: fixed;
+  position: absolute;
   bottom: 0rem;
   left: 50%;
   width: 100%;

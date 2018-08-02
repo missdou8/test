@@ -55,7 +55,7 @@ export default {
         this.match = this.matchData.match;
         this.http.wechat
           .signPackage({
-            url: `https://merchant.didabisai.com/front/match/share?code=${code}`
+            url: `https://merchant.didabisai.com/front/match/share?code=${code}&id=${id}`
           })
           .then(res => {
             let data = res.data;
@@ -68,7 +68,7 @@ export default {
               jsApiList: ["onMenuShareTimeline", "onMenuShareAppMessage"] // 必填，需要使用的JS接口列表
             });
             let title = `我在嘀嗒，邀您参加${this.title}比赛`;
-            let url = `https://merchant.didabisai.com/front/match/share?code=${code}`;
+            let url = `https://merchant.didabisai.com/front/match/share?code=${code}&id=${id}`;
             let iconUrl = this.$store.state.user.userInfo.icon;
             wx.onMenuShareTimeline({
               title: title, // 分享标题

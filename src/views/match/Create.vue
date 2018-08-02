@@ -219,7 +219,7 @@ export default {
   transform: translateY(-50%);
 }
 .next {
-  position: fixed;
+  position: absolute;
   bottom: 0.3rem;
   left: 50%;
   width: 40%;
