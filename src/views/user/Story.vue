@@ -10,7 +10,7 @@
       </div>
       <img class="cover-img" :src="coverImg" v-show="!addShow" alt="封面图片">
     </div>
-    <div class="create_content" name="content" id="editor">
+    <div name="content" id="editor">
     </div>
     <van-uploader class="append_img" :after-read="append">
     </van-uploader>
@@ -33,13 +33,6 @@ export default {
     };
   },
   mounted() {
-    // document.querySelectorAll('input[type="text"],textarea').on("click", function() {
-    //   var target = this;
-    //   setTimeout(function() {
-    //     target.scrollIntoViewIfNeeded();
-    //     console.log("scrollIntoViewIfNeeded");
-    //   }, 400);
-    // });
     let that = this;
     class UploadAdapter {
       constructor(loader) {
@@ -116,21 +109,18 @@ export default {
     this.fetchInfo().then(data => {
       InlineEditor.create(document.querySelector("#editor"), {
         toolbar: ["imageUpload"]
-        // ckfinder: {
-        //   uploadUrl: "http://merchant.didabisai.com/api/resource/uploadImg"
-        // }
       })
         .then(editor => {
           window.editor = editor;
           const content = data;
           //监听事件
-          editor.model.document.on("change:data", () => {
-            var target = document.querySelector("#editor");
-            setTimeout(function() {
-              target.scrollIntoViewIfNeeded();
-              console.log("scrollIntoViewIfNeeded");
-            }, 400);
-          });
+          // editor.model.document.on("change:data", () => {
+          //   var target = document.querySelector("#editor");
+          //   setTimeout(function() {
+          //     target.scrollIntoViewIfNeeded();
+          //     console.log("scrollIntoViewIfNeeded");
+          //   }, 400);
+          // });
           // 转化html
           const viewFragment = editor.data.processor.toView(content);
           const modelFragment = editor.data.toModel(viewFragment);
@@ -168,6 +158,7 @@ export default {
       input.click();
     },
     nextClick() {
+      console.log(window.editor.getData());
       this.http.user
         .setShopInfo({
           cover: this.coverImg,
@@ -222,10 +213,7 @@ export default {
 </script>
 
 <style>
-.ck-content .image {
-  overflow: initial;
-}
-figcaption {
+#editor figcaption {
   display: none;
 }
 </style>
