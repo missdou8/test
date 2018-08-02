@@ -11,7 +11,7 @@
       <van-area ref="van_area" :area-list="areaList" @confirm="onConfirm" @cancel="onCancel()" :value="areaId" />
     </van-popup>
     <dida-btn :btn-enable="btnEnable" @submetData="setUserShop()"></dida-btn>
-    <dida-location ref="location" @getResData='getResData($event)'></dida-location>
+    <dida-location ref="location" @getResData='getResData($event)' @getLngAndlat="getLngAndlat($event)"></dida-location>
   </div>
 </template>
 <script>
@@ -50,7 +50,7 @@ export default {
     if(this.areaId=='') this.areaMsg = '请选择 请选择 请选择';
     else{
       let _value = this.$refs.van_area.getValues();
-      this.onConfirm(_value);
+      this.onConfirm(_value,true);
     }
   },
   components: {
@@ -61,16 +61,24 @@ export default {
     showPopup() {
       this.show = true;
     },
-    onConfirm(value) {
+    //type:true //说明不是手动选择地区执行获取地区定位操作
+    onConfirm(value,type) {
       this.areaMsg = "";
       this.areaVal = value;
       value.forEach(a => {
         this.areaMsg += `${a.name}  `;
       });
       this.onCancel();
+      //如果自选地址的话可以重新获取一下定位信息
+      if(!type) this.$refs.location.setLngAndlat(this.areaVal[2].code);
     },
     onCancel() {
       this.show = false;
+    },
+    getLngAndlat(resData){
+      console.log('我执行了')
+      this.longitude = resData.longitude;
+      this.latitude = resData.latitude;
     },
     onLocation() {
       this.$toast.loading({duration: 0,message: '定位中...'});
@@ -89,16 +97,21 @@ export default {
         if(this.areaId=='')this.areaMsg = '请选择 请选择 请选择';
         else{
           let _value = this.$refs.van_area.getValues();
-          this.onConfirm(_value);
+          this.onConfirm(_value,true);
         }
       }, 100);
     },
     //发送请求
     setUserShop() {
-      //重点一定要让用户定位成功才可以
-      // if (this.longitude == null || this.latitude == null) {
-      //   return this.$toast("请您重新定位");
-      // } else {
+      console.log({
+            address: this.address,
+            latitude: this.latitude,
+            longitude: this.longitude,
+            provinceId: this.areaVal[0].code,
+            cityId: this.areaVal[1].code,
+            areaId: this.areaVal[2].code,
+            regionName: this.areaMsg.replace(/\s+/g, "")
+          })
         this.http.user
           .setUserShop({
             address: this.address,
@@ -119,7 +132,6 @@ export default {
                 this.$router.go(-1);
               });
           });
-      // }
     }
   }
 };
