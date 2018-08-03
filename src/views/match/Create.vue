@@ -54,6 +54,65 @@ export default {
     }
   },
   mounted() {
+    class UploadAdapter {
+      constructor(loader) {
+        this.loader = loader;
+      }
+      upload() {
+        let file = this.loader.file;
+
+        return new Promise((resolve, reject) => {
+          let uploadImgMethod = f => {
+            const data = new FormData();
+            const config = {
+              headers: { "content-type": "multipart/form-data" }
+            };
+            data.append("file", f, f.name);
+            axios
+              .post(
+                "http://merchant.didabisai.com/api/resource/uploadImg",
+                data,
+                config
+              )
+              .then(response => {
+                resolve({
+                  default: response.data.data.src[0]
+                });
+              });
+          };
+          // 压缩图片
+          let maxSize = 500 * 1024;
+          let imgSize = file.size;
+          if (imgSize > maxSize) {
+            let radio = maxSize / imgSize;
+            new ImageCompressor(file, {
+              quality: radio,
+              convertSize: 1000000,
+              success(newFile) {
+                let formData = new FormData();
+                formData.append("file", newFile, Date.now() + ".png");
+                let config = {
+                  headers: { "Content-Type": "multipart/form-data" }
+                };
+                that.http.resource
+                  .uploadImg(formData, "post", config)
+                  .then(res => {
+                    let data = res.data.src[0];
+                    resolve({
+                      default: data
+                    });
+                  });
+              }
+            });
+            return;
+          }
+          uploadImgMethod(file);
+        });
+      }
+      abort() {
+        //
+      }
+    }
     //初始化编辑器
     InlineEditor.create(document.querySelector("#editor"), {
       toolbar: ["imageUpload"]
