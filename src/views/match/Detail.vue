@@ -137,7 +137,9 @@ export default {
         //解决微信bug
         return (location.href = `/front/match/share?code=${
           this.match.signupCode
-        }&id=${this.match.id}`);
+        }&src=${encodeURIComponent(
+          this.match.cover
+        )}&title=${encodeURIComponent(this.match.title)}`);
       }
       this.$router.push({
         path: "/match/winner/list",

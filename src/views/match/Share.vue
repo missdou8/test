@@ -28,62 +28,51 @@ export default {
       logo: icon,
       qrlogo: qrlogo,
       link: this.config.downLoadURL,
-      match: {}
+      img: "",
+      title: ""
     };
   },
   components: {
     meQrcode
   },
-  computed: {
-    img(state) {
-      return this.match.cover;
-    },
-    title(state) {
-      return this.match.title;
-    }
-  },
   created() {
     this.code = getUrlString("code");
-    let id = getUrlString("id");
+    this.img = decodeURIComponent(getUrlString("src"));
+    console.log(this.img);
+    this.title = decodeURIComponent(getUrlString("title"));
     let code = this.code;
-    this.http.match
-      .detail({
-        id: id
+    this.http.wechat
+      .signPackage({
+        url: location.href
       })
       .then(res => {
-        this.matchData = res.data;
-        this.match = this.matchData.match;
-        this.http.wechat
-          .signPackage({
-            url: location.href
-          })
-          .then(res => {
-            let data = res.data;
-            wx.config({
-              debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-              appId: data.appId, // 必填，公众号的唯一标识
-              timestamp: data.timestamp, // 必填，生成签名的时间戳
-              nonceStr: data.nonceStr, // 必填，生成签名的随机串
-              signature: data.signature, // 必填，签名
-              jsApiList: ["onMenuShareTimeline", "onMenuShareAppMessage"] // 必填，需要使用的JS接口列表
-            });
-            let title = `我在嘀嗒，邀您参加${this.title}比赛`;
-            let url = `https://merchant.didabisai.com/front/match/share?code=${code}&id=${id}`;
-            let iconUrl = this.$store.state.user.userInfo.icon;
-            wx.onMenuShareTimeline({
-              title: title, // 分享标题
-              link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-              imgUrl: iconUrl // 分享图标
-            });
+        let data = res.data;
+        wx.config({
+          debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          appId: data.appId, // 必填，公众号的唯一标识
+          timestamp: data.timestamp, // 必填，生成签名的时间戳
+          nonceStr: data.nonceStr, // 必填，生成签名的随机串
+          signature: data.signature, // 必填，签名
+          jsApiList: ["onMenuShareTimeline", "onMenuShareAppMessage"] // 必填，需要使用的JS接口列表
+        });
+        let title = `我在嘀嗒，邀您参加${this.title}比赛`;
+        let url = `https://merchant.didabisai.com/front/match/share?code=${code}&src=${encodeURIComponent(
+          this.img
+        )}&title=${encodeURIComponent(this.title)}`;
+        let iconUrl = this.$store.state.user.userInfo.icon;
+        wx.onMenuShareTimeline({
+          title: title, // 分享标题
+          link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl: iconUrl // 分享图标
+        });
 
-            wx.onMenuShareAppMessage({
-              title: title, // 分享标题
-              desc: `点击下载客户端，输入${code}邀请码免费报名比赛！`, // 分享描述
-              link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-              imgUrl: iconUrl, // 分享图标
-              type: "link" // 分享类型,music、video或link，不填默认为link
-            });
-          });
+        wx.onMenuShareAppMessage({
+          title: title, // 分享标题
+          desc: `点击下载客户端，输入${code}邀请码免费报名比赛！`, // 分享描述
+          link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl: iconUrl, // 分享图标
+          type: "link" // 分享类型,music、video或link，不填默认为link
+        });
       });
     this.code = String(this.code).split("");
   }
