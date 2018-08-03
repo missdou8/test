@@ -146,8 +146,11 @@ export default {
               if (value) {
                 document.querySelector(".uploader").style.display = "none";
                 document.querySelector(".next").style.display = "none";
+                document.querySelector("#create").style.paddingBottom = "0";
               } else {
                 document.querySelector(".next").style.display = "block";
+                document.querySelector("#create").style.paddingBottom =
+                  "1.5rem";
                 document.querySelector(".uploader").style.display = "block";
               }
               // var target = document.querySelector("#editor");
