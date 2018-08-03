@@ -60,7 +60,6 @@ export default {
       }
       upload() {
         let file = this.loader.file;
-
         return new Promise((resolve, reject) => {
           let uploadImgMethod = f => {
             const data = new FormData();
@@ -70,7 +69,7 @@ export default {
             data.append("file", f, f.name);
             axios
               .post(
-                "http://merchant.didabisai.com/api/resource/uploadImg",
+                "https://merchant.didabisai.com/api/resource/uploadImg",
                 data,
                 config
               )
