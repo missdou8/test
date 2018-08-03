@@ -23,6 +23,7 @@
 import InlineEditor from "@ckeditor/ckeditor5-build-inline";
 import ImageCompressor from "image-compressor.js";
 import axios from "axios";
+import { isIos } from "lputils";
 export default {
   data() {
     return {
@@ -141,32 +142,33 @@ export default {
           window.editor = editor;
           const content = data;
           //监听事件
-          editor.editing.view.document.on(
-            "change:isFocused",
-            (evt, name, value) => {
-              if (value) {
-                document.querySelector(".uploader").style.display = "none";
-                let next = document.querySelector(".next");
-                next.style.display = "none";
-                document.querySelector(".exit").style.display = "block";
-                // document.querySelector("#create").style.paddingBottom =
-                //   "0.5rem";
-              } else {
-                let next = document.querySelector(".next");
-                next.style.display = "block";
-                document.querySelector(".exit").style.display = "none";
-                // next.addEventListener("click", this.nextClick);
-                // document.querySelector("#create").style.paddingBottom =
-                //   "1.5rem";
-                document.querySelector(".uploader").style.display = "block";
+          isIos() ||
+            editor.editing.view.document.on(
+              "change:isFocused",
+              (evt, name, value) => {
+                if (value) {
+                  document.querySelector(".uploader").style.display = "none";
+                  let next = document.querySelector(".next");
+                  next.style.display = "none";
+                  document.querySelector(".exit").style.display = "block";
+                  // document.querySelector("#create").style.paddingBottom =
+                  //   "0.5rem";
+                } else {
+                  let next = document.querySelector(".next");
+                  next.style.display = "block";
+                  document.querySelector(".exit").style.display = "none";
+                  // next.addEventListener("click", this.nextClick);
+                  // document.querySelector("#create").style.paddingBottom =
+                  //   "1.5rem";
+                  document.querySelector(".uploader").style.display = "block";
+                }
+                // var target = document.querySelector("#editor");
+                // setTimeout(function() {
+                //   target.scrollIntoViewIfNeeded();
+                //   console.log("scrollIntoViewIfNeeded");
+                // }, 400);
               }
-              // var target = document.querySelector("#editor");
-              // setTimeout(function() {
-              //   target.scrollIntoViewIfNeeded();
-              //   console.log("scrollIntoViewIfNeeded");
-              // }, 400);
-            }
-          );
+            );
           // 转化html
           const viewFragment = editor.data.processor.toView(content);
           const modelFragment = editor.data.toModel(viewFragment);
