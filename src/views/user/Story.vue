@@ -151,22 +151,12 @@ export default {
                   let next = document.querySelector(".next");
                   next.style.display = "none";
                   document.querySelector(".exit").style.display = "block";
-                  // document.querySelector("#create").style.paddingBottom =
-                  //   "0.5rem";
                 } else {
                   let next = document.querySelector(".next");
                   next.style.display = "block";
                   document.querySelector(".exit").style.display = "none";
-                  // next.addEventListener("click", this.nextClick);
-                  // document.querySelector("#create").style.paddingBottom =
-                  //   "1.5rem";
                   document.querySelector(".uploader").style.display = "block";
                 }
-                // var target = document.querySelector("#editor");
-                // setTimeout(function() {
-                //   target.scrollIntoViewIfNeeded();
-                //   console.log("scrollIntoViewIfNeeded");
-                // }, 400);
               }
             );
           // 转化html
@@ -181,9 +171,7 @@ export default {
             return new UploadAdapter(loader);
           };
         })
-        .catch(error => {
-          console.error(error);
-        });
+        .catch(error => {});
     });
   },
   computed: {

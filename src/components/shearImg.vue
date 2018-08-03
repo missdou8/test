@@ -50,7 +50,6 @@ export default {
           });
         },
         cancel: function() {
-          console.log("取消剪裁");
         }
       });
     },

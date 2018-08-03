@@ -47,10 +47,10 @@ export default {
     this.areaMsg = this.$route.query.regionName;
   },
   mounted() {
-    if(this.areaId=='') this.areaMsg = '请选择 请选择 请选择';
-    else{
+    if (this.areaId == "") this.areaMsg = "请选择 请选择 请选择";
+    else {
       let _value = this.$refs.van_area.getValues();
-      this.onConfirm(_value,true);
+      this.onConfirm(_value, true);
     }
   },
   components: {
@@ -62,7 +62,7 @@ export default {
       this.show = true;
     },
     //type:true //说明不是手动选择地区执行获取地区定位操作
-    onConfirm(value,type) {
+    onConfirm(value, type) {
       this.areaMsg = "";
       this.areaVal = value;
       value.forEach(a => {
@@ -70,21 +70,20 @@ export default {
       });
       this.onCancel();
       //如果自选地址的话可以重新获取一下定位信息
-      if(!type) this.$refs.location.setLngAndlat(this.areaVal[2].code);
+      if (!type) this.$refs.location.setLngAndlat(this.areaVal[2].code);
     },
     onCancel() {
       this.show = false;
     },
-    getLngAndlat(resData){
-      console.log('我执行了')
+    getLngAndlat(resData) {
       this.longitude = resData.longitude;
       this.latitude = resData.latitude;
     },
     onLocation() {
-      this.$toast.loading({duration: 0,message: '定位中...'});
+      this.$toast.loading({ duration: 0, message: "定位中..." });
       //提供一个缓冲定位时间
       setTimeout(() => {
-          this.$refs.location.onLocation();
+        this.$refs.location.onLocation();
       }, 500);
     },
     getResData(resData) {
@@ -94,44 +93,35 @@ export default {
       this.latitude = resData.latitude;
       setTimeout(() => {
         //获取van-area的value值
-        if(this.areaId=='')this.areaMsg = '请选择 请选择 请选择';
-        else{
+        if (this.areaId == "") this.areaMsg = "请选择 请选择 请选择";
+        else {
           let _value = this.$refs.van_area.getValues();
-          this.onConfirm(_value,true);
+          this.onConfirm(_value, true);
         }
       }, 100);
     },
     //发送请求
     setUserShop() {
-      console.log({
-            address: this.address,
-            latitude: this.latitude,
-            longitude: this.longitude,
-            provinceId: this.areaVal[0].code,
-            cityId: this.areaVal[1].code,
-            areaId: this.areaVal[2].code,
-            regionName: this.areaMsg.replace(/\s+/g, "")
-          })
-        this.http.user
-          .setUserShop({
-            address: this.address,
-            latitude: this.latitude,
-            longitude: this.longitude,
-            provinceId: this.areaVal[0].code,
-            cityId: this.areaVal[1].code,
-            areaId: this.areaVal[2].code,
-            regionName: this.areaMsg.replace(/\s+/g, "")
-          })
-          .then(res => {
-            this.$dialog
-              .alert({
-                title: "嘀嗒比赛",
-                message: res.msg
-              })
-              .then(() => {
-                this.$router.go(-1);
-              });
-          });
+      this.http.user
+        .setUserShop({
+          address: this.address,
+          latitude: this.latitude,
+          longitude: this.longitude,
+          provinceId: this.areaVal[0].code,
+          cityId: this.areaVal[1].code,
+          areaId: this.areaVal[2].code,
+          regionName: this.areaMsg.replace(/\s+/g, "")
+        })
+        .then(res => {
+          this.$dialog
+            .alert({
+              title: "嘀嗒比赛",
+              message: res.msg
+            })
+            .then(() => {
+              this.$router.go(-1);
+            });
+        });
     }
   }
 };
