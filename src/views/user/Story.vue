@@ -15,6 +15,7 @@
     <van-uploader class="append_img" :after-read="append">
     </van-uploader>
     <van-button @click="nextClick" class="next">完成</van-button>
+    <van-button class="exit next">点击退出编辑</van-button>
   </div>
 </template>
 
@@ -145,12 +146,18 @@ export default {
             (evt, name, value) => {
               if (value) {
                 document.querySelector(".uploader").style.display = "none";
-                document.querySelector(".next").style.display = "none";
-                document.querySelector("#create").style.paddingBottom = "0";
+                let next = document.querySelector(".next");
+                next.style.display = "none";
+                document.querySelector(".exit").style.display = "block";
+                // document.querySelector("#create").style.paddingBottom =
+                //   "0.5rem";
               } else {
-                document.querySelector(".next").style.display = "block";
-                document.querySelector("#create").style.paddingBottom =
-                  "1.5rem";
+                let next = document.querySelector(".next");
+                next.style.display = "block";
+                document.querySelector(".exit").style.display = "none";
+                // next.addEventListener("click", this.nextClick);
+                // document.querySelector("#create").style.paddingBottom =
+                //   "1.5rem";
                 document.querySelector(".uploader").style.display = "block";
               }
               // var target = document.querySelector("#editor");
@@ -258,6 +265,9 @@ export default {
 
 
 <style scoped>
+.exit {
+  display: none;
+}
 #editor {
   text-indent: 2em;
   text-align: left;
