@@ -140,13 +140,23 @@ export default {
           window.editor = editor;
           const content = data;
           //监听事件
-          // editor.model.document.on("change:data", () => {
-          //   var target = document.querySelector("#editor");
-          //   setTimeout(function() {
-          //     target.scrollIntoViewIfNeeded();
-          //     console.log("scrollIntoViewIfNeeded");
-          //   }, 400);
-          // });
+          editor.editing.view.document.on(
+            "change:isFocused",
+            (evt, name, value) => {
+              if (value) {
+                document.querySelector(".uploader").style.display = "none";
+                document.querySelector(".next").style.display = "none";
+              } else {
+                document.querySelector(".next").style.display = "block";
+                document.querySelector(".uploader").style.display = "block";
+              }
+              // var target = document.querySelector("#editor");
+              // setTimeout(function() {
+              //   target.scrollIntoViewIfNeeded();
+              //   console.log("scrollIntoViewIfNeeded");
+              // }, 400);
+            }
+          );
           // 转化html
           const viewFragment = editor.data.processor.toView(content);
           const modelFragment = editor.data.toModel(viewFragment);
