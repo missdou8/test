@@ -8,6 +8,7 @@
 
 <script>
 import AlloyCrop from "lp-alloycrop";
+import ImageCompressor from "image-compressor.js";
 export default {
   data() {
     return {
@@ -21,11 +22,35 @@ export default {
    */
   props: ["imgWidth", "imgHeight", "defImg"],
   methods: {
-    getImgUrl(file) {
+    getImgUrl(file){
+      let that = this;
+      let maxSize = 300 * 1024;
+      let dataURI = file.content;
+      let imgSize = dataURI.length;
+      //压缩图片处理
+      if (imgSize > maxSize) {
+        let radio = maxSize / imgSize;
+        new ImageCompressor(file.file,{
+          quality: radio,
+          convertSize: 1000000,
+          success(newFile) {
+            //将压缩后的图像(一个Blob对象)。转化成bas64
+            let file = new FileReader();
+            file.readAsDataURL(newFile);
+            file.onload =  (e)=>  {
+              that.getAlloyCrop(e.target.result);
+            };
+          }
+        });
+      }else{
+        this.getAlloyCrop(file.content)
+      }
+    },
+    getAlloyCrop(file) {
       let _this = this;
       //对图片进行裁剪
       new AlloyCrop({
-        image_src: file.content,
+        image_src: file,
         width: _this.imgWidth,
         height: _this.imgHeight,
         output: 1,
