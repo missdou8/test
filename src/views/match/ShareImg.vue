@@ -140,7 +140,7 @@ export default {
 }
 .share-img-content img {
   max-width: 100%;
-  max-height: 57vh;
+  max-height: 52vh;
   vertical-align: top;
 }
 #share-img {
