@@ -63,7 +63,6 @@ export default {
               });
           };
           // 压缩图片
-
           let maxSize = 500 * 1024;
           let imgSize = file.size;
           if (imgSize > maxSize) {
@@ -89,47 +88,9 @@ export default {
             });
             return;
           }
-
-          // let maxSize = 1000 * 1024;
-          // let width = 800;
-          // if (file.size > maxSize) {
-          //   let reader = new FileReader();
-          //   reader.readAsDataURL(file);
-          //   reader.onprogress = function(e) {
-          //     reader.onload = function(e) {
-          //       let img = new Image();
-          //       img.src = e.target.result;
-          //       img.onload = () => {
-          //         let canvas = document.createElement("canvas");
-          //         let radio = img.height / img.width;
-          //         canvas.width = width;
-          //         canvas.height = width * radio;
-          //         let ctx = canvas.getContext("2d");
-          //         ctx.drawImage(img, 0, 0, width, width * radio);
-          //         canvas.toBlob(function(blob) {
-          //           let formData = new FormData();
-          //           formData.append("file", blob, Date.now() + ".png");
-          //           let config = {
-          //             headers: { "Content-Type": "multipart/form-data" }
-          //           };
-          //           that.http.resource
-          //             .uploadImg(formData, "post", config)
-          //             .then(res => {
-          //               let data = res.data.src[0];
-          //               resolve({
-          //                 default: data
-          //               });
-          //             });
-          //         });
-          //       };
-          //     };
-          //   };
-          // } else {
           uploadImgMethod(file);
-          // }
         });
       }
-
       abort() {
         //
       }
