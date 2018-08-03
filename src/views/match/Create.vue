@@ -14,18 +14,25 @@
         <span class="title_name">标题</span>
         <input type="text" placeholder="请添加比赛名称" v-model="titlePlace">
       </div>
-      <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" ref="createIntro" v-html="contentPlace"></div>
+      <div name="content" id="editor">
+      </div>
+      <!-- <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" ref="createIntro" v-html="contentPlace"></div> -->
     </div>
     <div v-show="appendShow" class="append" @click="appendImg">
       <img src="../../assets/add.png" alt="添加图片">
     </div>
     <van-button @click="nextClick" class="next">下一步</van-button>
+    <van-button class="exit next">点击退出编辑</van-button>
     <van-uploader class="append_img" :after-read="append">
     </van-uploader>
   </div>
 </template>
 
 <script>
+import InlineEditor from "@ckeditor/ckeditor5-build-inline";
+import ImageCompressor from "image-compressor.js";
+import axios from "axios";
+import { isIos } from "lputils";
 export default {
   data() {
     return {
@@ -45,6 +52,103 @@ export default {
     addShow() {
       return this.coverImg ? false : true;
     }
+  },
+  mounted() {
+    class UploadAdapter {
+      constructor(loader) {
+        this.loader = loader;
+      }
+      upload() {
+        let file = this.loader.file;
+        return new Promise((resolve, reject) => {
+          let uploadImgMethod = f => {
+            const data = new FormData();
+            const config = {
+              headers: { "content-type": "multipart/form-data" }
+            };
+            data.append("file", f, f.name);
+            axios
+              .post(
+                "https://merchant.didabisai.com/api/resource/uploadImg",
+                data,
+                config
+              )
+              .then(response => {
+                resolve({
+                  default: response.data.data.src[0]
+                });
+              });
+          };
+          // 压缩图片
+          let maxSize = 500 * 1024;
+          let imgSize = file.size;
+          if (imgSize > maxSize) {
+            let radio = maxSize / imgSize;
+            new ImageCompressor(file, {
+              quality: radio,
+              convertSize: 1000000,
+              success(newFile) {
+                let formData = new FormData();
+                formData.append("file", newFile, Date.now() + ".png");
+                let config = {
+                  headers: { "Content-Type": "multipart/form-data" }
+                };
+                that.http.resource
+                  .uploadImg(formData, "post", config)
+                  .then(res => {
+                    let data = res.data.src[0];
+                    resolve({
+                      default: data
+                    });
+                  });
+              }
+            });
+            return;
+          }
+          uploadImgMethod(file);
+        });
+      }
+      abort() {
+        //
+      }
+    }
+    //初始化编辑器
+    InlineEditor.create(document.querySelector("#editor"), {
+      toolbar: ["imageUpload"]
+    })
+      .then(editor => {
+        window.editor = editor;
+        //监听事件
+        isIos() ||
+          editor.editing.view.document.on(
+            "change:isFocused",
+            (evt, name, value) => {
+              if (value) {
+                document.querySelector(".uploader").style.display = "none";
+                let next = document.querySelector(".next");
+                next.style.display = "none";
+                document.querySelector(".exit").style.display = "block";
+              } else {
+                let next = document.querySelector(".next");
+                next.style.display = "block";
+                document.querySelector(".exit").style.display = "none";
+                document.querySelector(".uploader").style.display = "block";
+              }
+            }
+          );
+        // 转化html
+        const viewFragment = editor.data.processor.toView(this.contentPlace);
+        const modelFragment = editor.data.toModel(viewFragment);
+        editor.model.insertContent(
+          modelFragment,
+          editor.model.document.selection
+        );
+        //初始化上传方法
+        editor.plugins.get("FileRepository").createUploadAdapter = loader => {
+          return new UploadAdapter(loader);
+        };
+      })
+      .catch(error => {});
   },
   methods: {
     onRead(file) {
@@ -73,18 +177,9 @@ export default {
       }
     },
     nextClick() {
-      // 获取标题和内容的dom节点
-      let containDom = this.$refs.createIntro;
-      //将文中所有的换行都删掉
-      let brs = containDom.querySelectorAll("br");
-      brs.forEach(item => {
-        item.parentElement.removeChild(item);
-      });
-
       //标题和内容
       let title = this.titlePlace;
-      let content = containDom.innerHTML;
-
+      let content = window.editor.getData();
       //TODO: 提示是否有更好的方法
       //判断是否可以跳转，单独提示
       if (!this.coverImg) {
@@ -159,6 +254,14 @@ export default {
 </script>
 
 <style scoped>
+#editor {
+  text-indent: 2em;
+  text-align: left;
+  height: 100%;
+}
+.exit {
+  display: none;
+}
 .create::before {
   content: "";
   display: table;

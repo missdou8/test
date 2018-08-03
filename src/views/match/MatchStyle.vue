@@ -228,14 +228,17 @@ export default {
       if (match.attendStyle.id < 0) {
         return this.$toast("请选择报名类型");
       }
+      if (!match.ifSave && !isEdit) {
+        return this.$toast("请添加奖品");
+      }
       if (!match.shareImg) {
         return this.$toast("请添加分享图片");
       }
       //如果没有奖品的话则传空对象
       let rankingSet = match.rankPrize;
-      if (!match.ifSave && !isEdit) {
-        rankingSet = {};
-      }
+      // if (!match.ifSave && !isEdit) {
+      //   rankingSet = {};
+      // }
       let params = {
         isAudit: type,
         title: detail.title,

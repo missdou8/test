@@ -131,10 +131,16 @@ export default {
 
 <style scoped>
 .share-img-content {
-  /* background-color: #000; */
-  /* padding: 0.3rem; */
-  margin-top: 18%;
-  /* display: inline-block; */
+  background-color: #fff;
+  border-radius: 0.08rem;
+  box-shadow: 0 0 25px #888888;
+  padding: 0.3rem;
+  margin: 0.64rem auto 0 auto;
+  width: 90%;
+}
+.share-img-content img {
+  width: 100%;
+  vertical-align: top;
 }
 #share-img {
   height: 100%;
@@ -152,21 +158,15 @@ export default {
   text-align: center;
   height: 100%;
 }
-.share-img img {
-  max-height: 50%;
-  max-width: 80%;
-  /* margin-bottom: 0.15rem;
-  margin-top: 18%; */
-}
 .qr-code {
   text-align: center;
   position: absolute;
-  bottom: 0.24rem;
+  bottom: 0.5rem;
 }
 .qr-code p {
-  color: #fff;
+  color: #000;
   font-size: 0.24rem;
-  margin-top: 0.1rem;
+  margin-top: 0.2rem;
   padding: 0 0.56rem;
   line-height: 1.2;
 }
@@ -174,10 +174,11 @@ export default {
   display: flex;
   justify-content: space-between;
   padding: 0rem 0.42rem;
+  margin-top: 0.12rem;
 }
 .share-btn button {
   color: #ffcc00;
-  font-size: 0.34rem;
+  font-size: 0.32rem;
 }
 </style>
 <style>

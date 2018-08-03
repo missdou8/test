@@ -23,6 +23,7 @@
 import InlineEditor from "@ckeditor/ckeditor5-build-inline";
 import ImageCompressor from "image-compressor.js";
 import axios from "axios";
+import { isIos } from "lputils";
 export default {
   data() {
     return {
@@ -62,7 +63,6 @@ export default {
               });
           };
           // 压缩图片
-
           let maxSize = 500 * 1024;
           let imgSize = file.size;
           if (imgSize > maxSize) {
@@ -88,47 +88,9 @@ export default {
             });
             return;
           }
-
-          // let maxSize = 1000 * 1024;
-          // let width = 800;
-          // if (file.size > maxSize) {
-          //   let reader = new FileReader();
-          //   reader.readAsDataURL(file);
-          //   reader.onprogress = function(e) {
-          //     reader.onload = function(e) {
-          //       let img = new Image();
-          //       img.src = e.target.result;
-          //       img.onload = () => {
-          //         let canvas = document.createElement("canvas");
-          //         let radio = img.height / img.width;
-          //         canvas.width = width;
-          //         canvas.height = width * radio;
-          //         let ctx = canvas.getContext("2d");
-          //         ctx.drawImage(img, 0, 0, width, width * radio);
-          //         canvas.toBlob(function(blob) {
-          //           let formData = new FormData();
-          //           formData.append("file", blob, Date.now() + ".png");
-          //           let config = {
-          //             headers: { "Content-Type": "multipart/form-data" }
-          //           };
-          //           that.http.resource
-          //             .uploadImg(formData, "post", config)
-          //             .then(res => {
-          //               let data = res.data.src[0];
-          //               resolve({
-          //                 default: data
-          //               });
-          //             });
-          //         });
-          //       };
-          //     };
-          //   };
-          // } else {
           uploadImgMethod(file);
-          // }
         });
       }
-
       abort() {
         //
       }
@@ -141,32 +103,23 @@ export default {
           window.editor = editor;
           const content = data;
           //监听事件
-          editor.editing.view.document.on(
-            "change:isFocused",
-            (evt, name, value) => {
-              if (value) {
-                document.querySelector(".uploader").style.display = "none";
-                let next = document.querySelector(".next");
-                next.style.display = "none";
-                document.querySelector(".exit").style.display = "block";
-                // document.querySelector("#create").style.paddingBottom =
-                //   "0.5rem";
-              } else {
-                let next = document.querySelector(".next");
-                next.style.display = "block";
-                document.querySelector(".exit").style.display = "none";
-                // next.addEventListener("click", this.nextClick);
-                // document.querySelector("#create").style.paddingBottom =
-                //   "1.5rem";
-                document.querySelector(".uploader").style.display = "block";
+          isIos() ||
+            editor.editing.view.document.on(
+              "change:isFocused",
+              (evt, name, value) => {
+                if (value) {
+                  document.querySelector(".uploader").style.display = "none";
+                  let next = document.querySelector(".next");
+                  next.style.display = "none";
+                  document.querySelector(".exit").style.display = "block";
+                } else {
+                  let next = document.querySelector(".next");
+                  next.style.display = "block";
+                  document.querySelector(".exit").style.display = "none";
+                  document.querySelector(".uploader").style.display = "block";
+                }
               }
-              // var target = document.querySelector("#editor");
-              // setTimeout(function() {
-              //   target.scrollIntoViewIfNeeded();
-              //   console.log("scrollIntoViewIfNeeded");
-              // }, 400);
-            }
-          );
+            );
           // 转化html
           const viewFragment = editor.data.processor.toView(content);
           const modelFragment = editor.data.toModel(viewFragment);
@@ -179,9 +132,7 @@ export default {
             return new UploadAdapter(loader);
           };
         })
-        .catch(error => {
-          console.error(error);
-        });
+        .catch(error => {});
     });
   },
   computed: {

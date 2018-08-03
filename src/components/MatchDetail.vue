@@ -163,7 +163,6 @@ export default {
     },
     backClick() {
       //当在浏览器中和客户端中都跳
-      console.log("点击跳回上一页");
     },
     backToTop() {
       this.$refs.detail_content.scrollTop = 0;

@@ -40,7 +40,6 @@ export default {
       });
       //解析定位结果
       function onComplete(data) {
-        console.log(data)
         //定位成功的时候关闭lading
         _this.$toast.clear();
         let resData = {

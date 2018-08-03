@@ -65,14 +65,11 @@ export default {
           message: "确定要注销么？"
         })
         .then(() => {
-          console.log("注销登录");
           _this.http.user.logout().then(res => {
             location.reload();
           });
         })
-        .catch(() => {
-          console.log("取消注销");
-        });
+        .catch(() => {});
     },
     //修改头像(图片剪切上传后获取url)
     getImgUrl(imgUrl) {
