@@ -135,11 +135,12 @@ export default {
   border-radius: 0.08rem;
   box-shadow: 0 0 25px #888888;
   padding: 0.3rem;
-  margin: 0.64rem auto 0 auto;
+  margin: 0.56rem auto 0 auto;
   width: 90%;
 }
 .share-img-content img {
-  width: 100%;
+  max-width: 100%;
+  max-height: 57vh;
   vertical-align: top;
 }
 #share-img {
