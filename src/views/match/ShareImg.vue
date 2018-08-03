@@ -3,7 +3,9 @@
     <van-uploader class="append_img" :after-read="append">
     </van-uploader>
     <div class="share-img">
-      <img :src="finalImg" alt="要分享的图片">
+      <div class="share-img-content">
+        <img :src="finalImg" alt="要分享的图片">
+      </div>
       <div class="share-btn" v-show="isEdit">
         <button @click="reChooseClick">重新选择</button>
         <button @click="sureClick">确定</button>
@@ -19,7 +21,7 @@
 <script>
 import AlloyCrop from "lp-alloycrop";
 import meQrcode from "../../components/meQrcode.vue";
-import qrlogo from "../../assets/logo.png"
+import qrlogo from "../../assets/logo.png";
 const html2canvas = require("html2canvas");
 export default {
   components: {
@@ -30,7 +32,7 @@ export default {
       finalImg: require("../../assets/logo.png"),
       link: this.config.downLoadURL,
       isEdit: true,
-      qrlogo:qrlogo,
+      qrlogo: qrlogo,
       qrSize: 115
     };
   },
@@ -128,6 +130,12 @@ export default {
 
 
 <style scoped>
+.share-img-content {
+  /* background-color: #000; */
+  /* padding: 0.3rem; */
+  margin-top: 18%;
+  /* display: inline-block; */
+}
 #share-img {
   height: 100%;
   background: url("../../assets/share_bg.png") center/100% 100% no-repeat;
@@ -147,8 +155,8 @@ export default {
 .share-img img {
   max-height: 50%;
   max-width: 80%;
-  margin-bottom: 0.15rem;
-  margin-top: 18%;
+  /* margin-bottom: 0.15rem;
+  margin-top: 18%; */
 }
 .qr-code {
   text-align: center;
