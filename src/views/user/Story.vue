@@ -63,7 +63,7 @@ export default {
           };
           // 压缩图片
 
-          let maxSize = 1000 * 1024;
+          let maxSize = 500 * 1024;
           let imgSize = file.size;
           if (imgSize > maxSize) {
             let radio = maxSize / imgSize;
