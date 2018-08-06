@@ -192,22 +192,23 @@ export default {
         window.editor = editor;
         //监听事件
 
-        editor.editing.view.document.on(
-          "change:isFocused",
-          (evt, name, value) => {
-            if (value) {
-              document.querySelector(".cover").style.display = "none";
-              let next = document.querySelector(".next");
-              next.style.display = "none";
-              document.querySelector(".exit").style.display = "block";
-            } else {
-              let next = document.querySelector(".next");
-              next.style.display = "block";
-              document.querySelector(".exit").style.display = "none";
-              document.querySelector(".cover").style.display = "block";
+        isIos() ||
+          editor.editing.view.document.on(
+            "change:isFocused",
+            (evt, name, value) => {
+              if (value) {
+                document.querySelector(".cover").style.display = "none";
+                let next = document.querySelector(".next");
+                next.style.display = "none";
+                document.querySelector(".exit").style.display = "block";
+              } else {
+                let next = document.querySelector(".next");
+                next.style.display = "block";
+                document.querySelector(".exit").style.display = "none";
+                document.querySelector(".cover").style.display = "block";
+              }
             }
-          }
-        );
+          );
         // 转化html
         const viewFragment = editor.data.processor.toView(this.content);
         const modelFragment = editor.data.toModel(viewFragment);
@@ -301,7 +302,10 @@ export default {
       if (!this.title) {
         return this.$toast("需要填写赛事名称");
       }
-      if (!content || content == "请添加图文介绍") {
+      if (
+        !window.editor.getData() ||
+        window.editor.getData() == "请添加图文介绍"
+      ) {
         return this.$toast("需要填写赛事详情");
       }
       //当保存的时候要将按钮删掉
