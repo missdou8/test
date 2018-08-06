@@ -9,23 +9,29 @@
       <span class="can-edit" ref="title" contenteditable="true">{{title}}</span>
       <button v-show="!isPublish" class="cover_edit" @click="shareImgClick">修改分享图>></button>
     </div>
-    <div contenteditable="true" class="content can-edit" v-html="content" @focus="contentFocus()" @blur="contentBlur()" ref="createIntro">
+    <div name="content" id="editor">
     </div>
     <van-uploader v-show="appendShow" class="append" :after-read="append">
       <img src="../../assets/add.png" alt="添加图片">
     </van-uploader>
-    <div class="btn" v-show="isPublish">
+    <div class="btn" :class="{next: isPublish}" v-show="isPublish">
       <button @click="next">下一步</button>
     </div>
-    <div class="footer" v-show="!isPublish">
+    <div class="footer" :class="{next: !isPublish}" v-show="!isPublish">
       <button @click="saveClick">保存</button>
       <button @click="checkClick">提交审核</button>
     </div>
+    <van-button class="exit footer">点击退出编辑</van-button>
+
   </div>
 </template>
 
 
 <script>
+import InlineEditor from "@ckeditor/ckeditor5-build-inline";
+import ImageCompressor from "image-compressor.js";
+import axios from "axios";
+import { isIos } from "lputils";
 import { mapState } from "vuex";
 export default {
   data() {
@@ -114,6 +120,115 @@ export default {
       editBtn.appendChild(deleteImg);
       item.appendChild(editBtn);
     });
+
+    let that = this;
+    class UploadAdapter {
+      constructor(loader) {
+        this.loader = loader;
+      }
+      upload() {
+        let file = this.loader.file;
+        return new Promise((resolve, reject) => {
+          let uploadImgMethod = f => {
+            const data = new FormData();
+            const config = {
+              headers: { "content-type": "multipart/form-data" }
+            };
+            data.append("file", f, f.name);
+            axios
+              .post(
+                "http://merchant.didabisai.com/api/resource/uploadImg",
+                data,
+                config
+              )
+              .then(response => {
+                resolve({
+                  default: response.data.data.src[0]
+                });
+              });
+          };
+          // 压缩图片
+          let maxSize = 500 * 1024;
+          let imgSize = file.size;
+          if (imgSize > maxSize) {
+            let radio = maxSize / imgSize;
+            new ImageCompressor(file, {
+              quality: radio,
+              convertSize: 1000000,
+              success(newFile) {
+                let formData = new FormData();
+                formData.append("file", newFile, Date.now() + ".png");
+                let config = {
+                  headers: { "Content-Type": "multipart/form-data" }
+                };
+                that.http.resource
+                  .uploadImg(formData, "post", config)
+                  .then(res => {
+                    let data = res.data.src[0];
+                    resolve({
+                      default: data
+                    });
+                  });
+              }
+            });
+            return;
+          }
+          uploadImgMethod(file);
+        });
+      }
+      abort() {
+        //
+      }
+    }
+    //初始化编辑器
+    InlineEditor.create(document.querySelector("#editor"), {
+      toolbar: ["imageUpload"],
+      removePlugins: ["imageCaption", "imageTextAlternative"],
+      image: {
+        toolbar: []
+      }
+    })
+      .then(editor => {
+        window.editor = editor;
+        //监听事件
+        isIos() ||
+          editor.editing.view.document.on(
+            "change:isFocused",
+            (evt, name, value) => {
+              if (value) {
+                document.querySelector(".uploader").style.display = "none";
+                let next = document.querySelector(".next");
+                next.style.display = "none";
+                document.querySelector(".exit").style.display = "block";
+              } else {
+                let next = document.querySelector(".next");
+                next.style.display = "block";
+                document.querySelector(".exit").style.display = "none";
+                document.querySelector(".uploader").style.display = "block";
+              }
+            }
+          );
+        // 转化html
+        const viewFragment = editor.data.processor.toView(this.content);
+        const modelFragment = editor.data.toModel(viewFragment);
+        editor.model.insertContent(
+          modelFragment,
+          editor.model.document.selection
+        );
+
+        editor.model.document.on("change:data", () => {
+          let target = document.querySelector("#editor");
+          if (target.lastElementChild.nodeName != "BR") {
+            target.appendChild(document.createElement("br"));
+          }
+        });
+
+        //初始化上传方法
+        editor.plugins.get("FileRepository").createUploadAdapter = loader => {
+          return new UploadAdapter(loader);
+        };
+      })
+      .catch(error => {});
   },
   methods: {
     shareImgClick() {
@@ -253,6 +368,14 @@ export default {
 </script>
 
 <style>
+#editor {
+  text-indent: 2em;
+  text-align: left;
+  height: 100%;
+}
+.exit {
+  display: none;
+}
 .content img {
   width: 100%;
 }

@@ -3,7 +3,8 @@
     <div class="header">
       <div class="header_lists">
         <a @click="serviceClick"></a>
-        <router-link to="/user/exchange/index">
+        <router-link class="unread" to="/user/exchange/index">
+          <span v-show="userInfo.unreadPrizesCount != 0 "></span>
         </router-link>
         <router-link class="message" to="/announce/index">
           <span v-show="userInfo.unreadMailCount != 0 "></span>
@@ -296,14 +297,16 @@ export default {
 .header_lists a:nth-child(1) {
   background-image: url("../../assets/header_kefu.png");
 }
-.header_lists a:nth-child(2) {
-  background-image: url("../../assets/header_gift.png");
-}
 .message {
   background-image: url("../../assets/header_message.png");
   position: relative;
 }
-.message span {
+.unread {
+  background-image: url("../../assets/header_gift.png");
+  position: relative;
+}
+.message span,
+.unread span {
   background-color: red;
   border-radius: 50%;
   color: #fff;

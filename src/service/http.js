@@ -77,7 +77,7 @@ let errorCatch = (code, msg) => {
       _this.$router.push("/login");
       break;
     case code:
-      _this.$toast(msg || "接口404");
+      _this.$toast(msg || "接口返回数据有误");
       break;
     default:
       _this.$toast("系统错误，请稍后重试");

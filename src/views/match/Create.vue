@@ -147,6 +147,14 @@ export default {
           modelFragment,
           editor.model.document.selection
         );
+
+        editor.model.document.on("change:data", () => {
+          let target = document.querySelector("#editor");
+          if (target.lastElementChild.nodeName != "BR") {
+            target.appendChild(document.createElement("br"));
+          }
+        });
+
         //初始化上传方法
         editor.plugins.get("FileRepository").createUploadAdapter = loader => {
           return new UploadAdapter(loader);

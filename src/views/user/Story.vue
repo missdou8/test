@@ -207,13 +207,6 @@ export default {
 };
 </script>
 
-<style>
-#editor figcaption {
-  display: none;
-}
-</style>
-
-
 <style scoped>
 .exit {
   display: none;
