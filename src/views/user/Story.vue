@@ -191,7 +191,6 @@ export default {
         input.click();
       });
       let br = document.createElement("br");
-
       //插入动作
       div.appendChild(img);
       div.appendChild(br);
