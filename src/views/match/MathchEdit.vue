@@ -250,7 +250,10 @@ export default {
       if (!this.title) {
         return this.$toast("需要填写赛事名称");
       }
-      if (!content || content == "请添加图文介绍") {
+      if (
+        !window.editor.getData() ||
+        window.editor.getData() == "请添加图文介绍"
+      ) {
         return this.$toast("需要填写赛事详情");
       }
       //当保存的时候要将按钮删掉

@@ -448,7 +448,7 @@ a {
 .detail_page {
   padding: 0.2rem;
 }
-.detail_page {
+.detail_page p {
   text-indent: 2em;
 }
 .address {
