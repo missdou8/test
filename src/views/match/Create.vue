@@ -16,7 +16,6 @@
       </div>
       <div name="content" id="editor">
       </div>
-      <!-- <div class="create_content_intro" contenteditable="true" @focus="contentFocus(contentPlace,$event)" @blur="contentBlur(contentPlace,$event)" ref="createIntro" v-html="contentPlace"></div> -->
     </div>
     <div v-show="appendShow" class="append" @click="appendImg">
       <img src="../../assets/add.png" alt="添加图片">
@@ -115,7 +114,11 @@ export default {
     }
     //初始化编辑器
     InlineEditor.create(document.querySelector("#editor"), {
-      toolbar: ["imageUpload"]
+      toolbar: ["imageUpload"],
+      removePlugins: ["imageCaption", "imageTextAlternative"],
+      image: {
+        toolbar: []
+      }
     })
       .then(editor => {
         window.editor = editor;
