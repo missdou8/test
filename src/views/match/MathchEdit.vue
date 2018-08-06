@@ -253,6 +253,9 @@ export default {
 </script>
 
 <style>
+.content img {
+  width: 100%;
+}
 .edit_cover {
   position: absolute;
   right: 0.2rem;

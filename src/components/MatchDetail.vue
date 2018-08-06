@@ -198,6 +198,13 @@ export default {
 };
 </script>
 
+<style>
+.detail_page img {
+  width: 100%;
+}
+</style>
+
+
 
 <style scoped>
 a {

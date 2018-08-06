@@ -179,7 +179,14 @@ export default {
       this.$store.commit("setShareImg", "");
       this.$store.commit("setShareCropImg", "");
       this.$store.commit("setSendStyle", -1);
-
+      //设置自提地址为店铺地址
+      this.$store.commit("setgainPrizeAddress", {
+        address: this.userInfo.address,
+        regionName: this.userInfo.regionName,
+        provinceId: this.userInfo.provinceId,
+        cityId: this.userInfo.cityId,
+        areaId: this.userInfo.areaId
+      });
       //判断是否有权限创建
       if (this.userInfo.certification != 1) {
         return this.$toast("请先实名认证");

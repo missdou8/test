@@ -54,6 +54,7 @@ export default {
     }
   },
   mounted() {
+    let that = this;
     class UploadAdapter {
       constructor(loader) {
         this.loader = loader;
@@ -69,7 +70,7 @@ export default {
             data.append("file", f, f.name);
             axios
               .post(
-                "https://merchant.didabisai.com/api/resource/uploadImg",
+                "http://merchant.didabisai.com/api/resource/uploadImg",
                 data,
                 config
               )

@@ -107,15 +107,9 @@ export default {
     if (!this.$store.state.match.attendPerson) {
       this.$toast("需要设置比赛规模后才可以设置奖品");
     }
-    // 检测自提地址是否存在，存在用自提地址，不存在用店铺地址
+    //自提地址
     let gainPrizeAddress = this.$store.state.match.gainPrizeAddress;
-    if (gainPrizeAddress) {
-      this.address = gainPrizeAddress.regionName + gainPrizeAddress.address;
-    } else {
-      this.address =
-        this.$store.state.user.userInfo.regionName +
-        this.$store.state.user.userInfo.address;
-    }
+    this.address = gainPrizeAddress.regionName + gainPrizeAddress.address;
     this.contact =
       this.$store.state.user.userInfo.name +
       " " +
