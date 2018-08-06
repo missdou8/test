@@ -446,8 +446,10 @@ a {
   margin-top: 0.2rem;
 }
 .detail_page {
-  text-indent: 2em;
   padding: 0.2rem;
+}
+.detail_page {
+  text-indent: 2em;
 }
 .address {
   background-color: #fff;
