@@ -241,9 +241,6 @@ export default {
       });
     },
     next() {
-      let containDom = this.$refs.createIntro;
-      let content = containDom.innerHTML;
-
       //TODO: 提示是否有更好的方法
       //判断是否可以跳转，单独提示
       if (!this.cover) {
@@ -261,7 +258,7 @@ export default {
         item.parentElement.removeChild(item);
       });
       this.detail.title = this.$refs.title.innerHTML;
-      this.detail.content = this.$refs.createIntro.innerHTML;
+      this.detail.content = window.editor.getData();
       this.$store.commit("setDetail", this.detail);
       this.$router.push("style");
     },
@@ -290,12 +287,12 @@ export default {
       range.insertNode(div);
     },
     saveClick() {
+      this.detail.title = this.$refs.title.innerHTML;
+      this.detail.content = window.editor.getData();
+      this.$store.commit("setDetail", this.detail);
       this.submit(0);
     },
     checkClick() {
-      let containDom = this.$refs.createIntro;
-      let content = containDom.innerHTML;
-
       //TODO: 提示是否有更好的方法
       //判断是否可以跳转，单独提示
       if (!this.cover) {
@@ -313,7 +310,7 @@ export default {
         item.parentElement.removeChild(item);
       });
       this.detail.title = this.$refs.title.innerHTML;
-      this.detail.content = this.$refs.createIntro.innerHTML;
+      this.detail.content = window.editor.getData();
       this.$store.commit("setDetail", this.detail);
       this.submit(1);
     },
