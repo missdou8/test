@@ -21,7 +21,7 @@
       <button @click="saveClick">保存</button>
       <button @click="checkClick">提交审核</button>
     </div>
-    <van-button class="exit footer">点击退出编辑</van-button>
+    <van-button class="exit">点击退出编辑</van-button>
 
   </div>
 </template>
@@ -191,23 +191,23 @@ export default {
       .then(editor => {
         window.editor = editor;
         //监听事件
-        isIos() ||
-          editor.editing.view.document.on(
-            "change:isFocused",
-            (evt, name, value) => {
-              if (value) {
-                document.querySelector(".uploader").style.display = "none";
-                let next = document.querySelector(".next");
-                next.style.display = "none";
-                document.querySelector(".exit").style.display = "block";
-              } else {
-                let next = document.querySelector(".next");
-                next.style.display = "block";
-                document.querySelector(".exit").style.display = "none";
-                document.querySelector(".uploader").style.display = "block";
-              }
+
+        editor.editing.view.document.on(
+          "change:isFocused",
+          (evt, name, value) => {
+            if (value) {
+              document.querySelector(".cover").style.display = "none";
+              let next = document.querySelector(".next");
+              next.style.display = "none";
+              document.querySelector(".exit").style.display = "block";
+            } else {
+              let next = document.querySelector(".next");
+              next.style.display = "block";
+              document.querySelector(".exit").style.display = "none";
+              document.querySelector(".cover").style.display = "block";
             }
-          );
+          }
+        );
         // 转化html
         const viewFragment = editor.data.processor.toView(this.content);
         const modelFragment = editor.data.toModel(viewFragment);
@@ -375,6 +375,12 @@ export default {
 }
 .exit {
   display: none;
+  position: absolute;
+  bottom: 0.3rem;
+  left: 50%;
+  width: 40%;
+  border: 0.02rem solid #ffd321;
+  transform: translate(-50%);
 }
 .content img {
   width: 100%;
