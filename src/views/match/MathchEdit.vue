@@ -137,7 +137,7 @@ export default {
             data.append("file", f, f.name);
             axios
               .post(
-                "http://merchant.didabisai.com/api/resource/uploadImg",
+                "https://merchant.didabisai.com/api/resource/uploadImg",
                 data,
                 config
               )
@@ -317,6 +317,7 @@ export default {
         item.parentElement.removeChild(item);
       });
       this.detail.title = this.$refs.title.innerHTML;
+      console.log(window.editor.getData());
       this.detail.content = window.editor.getData();
       this.$store.commit("setDetail", this.detail);
       this.submit(1);
