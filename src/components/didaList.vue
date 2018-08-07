@@ -21,7 +21,7 @@ export default {
       pagesize: 10,
       currentpage: 1, //当前页(默认从第一页开始)
       total: null, //总条数
-      noDataDesc:''
+      noDataDesc:'',
     };
   },
   /**
@@ -52,10 +52,11 @@ export default {
           this.total = data.total;
           //这里返回的是原数据列表
           this.list = this.list.concat(data[this.dataName || this.postUrl]);
-          setTimeout(() => {  //设置一个数据渲染缓冲
-            if (this.list.length == 0) this.noDataDesc = this.noDataText
-            else this.noDataDesc = ''
-          }, 500);
+          if (this.list.length == 0){
+            setTimeout(() => {  //设置一个数据渲染缓冲
+              this.noDataDesc = this.noDataText||''
+            }, 500);
+          }
           return data;
         });
     },
@@ -72,7 +73,7 @@ export default {
       this.list = [];
       this.currentpage = 1;
       //请求第一页数据
-      this.getData(1).then(() => {
+      this.getData().then(() => {
         if(this.list.length < this.pagesize){
           this.isLoading = false;
         }else{
