@@ -123,6 +123,23 @@ export default {
             modelFragment,
             editor.model.document.selection
           );
+          editor.model.document.on("change:data", () => {
+            let lastEle = document.querySelector("#editor").lastElementChild;
+            if (lastEle.innerHTML == "image widget") {
+              lastEle = lastEle.previousElementSibling;
+            }
+            if (
+              lastEle.innerHTML != '<br data-cke-filler="true">' &&
+              lastEle.innerHTML != "请添加图文介绍"
+            ) {
+              editor.model.change(writer => {
+                let root = editor.model.document.getRoot();
+                writer.insertElement("paragraph", root, "end", {
+                  class: "last"
+                });
+              });
+            }
+          });
           //初始化上传方法
           editor.plugins.get("FileRepository").createUploadAdapter = loader => {
             return new UploadAdapter(loader);

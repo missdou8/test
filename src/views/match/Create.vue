@@ -158,7 +158,6 @@ export default {
             lastEle.innerHTML != '<br data-cke-filler="true">' &&
             lastEle.innerHTML != "请添加图文介绍"
           ) {
-            console.log("年后");
             editor.model.change(writer => {
               let root = editor.model.document.getRoot();
               writer.insertElement("paragraph", root, "end", {
