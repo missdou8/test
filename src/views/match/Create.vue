@@ -70,7 +70,6 @@ export default {
             axios
               .post("/api/resource/uploadImg", data, config)
               .then(response => {
-                that.$toast("图片后输入文字需按回车键");
                 resolve({
                   default: response.data.data.src[0]
                 });
@@ -94,7 +93,6 @@ export default {
                   .uploadImg(formData, "post", config)
                   .then(res => {
                     let data = res.data.src[0];
-                    that.$toast("图片后输入文字需按回车键");
                     resolve({
                       default: data
                     });
@@ -112,32 +110,37 @@ export default {
     }
     //初始化编辑器
     InlineEditor.create(document.querySelector("#editor"), {
-      toolbar: ["imageUpload"],
-      removePlugins: ["imageCaption", "imageTextAlternative"],
-      image: {
-        toolbar: []
-      }
+      toolbar: ["imageUpload"]
     })
       .then(editor => {
         window.editor = editor;
         //监听事件
-        isIos() ||
-          editor.editing.view.document.on(
-            "change:isFocused",
-            (evt, name, value) => {
-              if (value) {
+        editor.editing.view.document.on(
+          "change:isFocused",
+          (evt, name, value) => {
+            if (value) {
+              if (window.editor.getData() === "<p>请添加图文介绍</p>") {
+                window.editor.setData("");
+              }
+              if (!isIos()) {
                 document.querySelector(".uploader").style.display = "none";
                 let next = document.querySelector(".next");
                 next.style.display = "none";
                 document.querySelector(".exit").style.display = "block";
-              } else {
+              }
+            } else {
+              if (window.editor.getData() === "<p>&nbsp;</p>") {
+                window.editor.setData("请添加图文介绍");
+              }
+              if (!isIos()) {
                 let next = document.querySelector(".next");
                 next.style.display = "block";
                 document.querySelector(".exit").style.display = "none";
                 document.querySelector(".uploader").style.display = "block";
               }
             }
-          );
+          }
+        );
         // 转化html
         const viewFragment = editor.data.processor.toView(this.contentPlace);
         const modelFragment = editor.data.toModel(viewFragment);
@@ -147,9 +150,21 @@ export default {
         );
 
         editor.model.document.on("change:data", () => {
-          let target = document.querySelector("#editor");
-          if (target.lastElementChild.nodeName != "BR") {
-            target.appendChild(document.createElement("br"));
+          let lastEle = document.querySelector("#editor").lastElementChild;
+          if (lastEle.innerHTML == "image widget") {
+            lastEle = lastEle.previousElementSibling;
+          }
+          if (
+            lastEle.innerHTML != '<br data-cke-filler="true">' &&
+            lastEle.innerHTML != "请添加图文介绍"
+          ) {
+            console.log("年后");
+            editor.model.change(writer => {
+              let root = editor.model.document.getRoot();
+              writer.insertElement("paragraph", root, "end", {
+                class: "last"
+              });
+            });
           }
         });
 
