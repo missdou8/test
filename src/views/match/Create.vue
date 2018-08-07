@@ -68,12 +68,9 @@ export default {
             };
             data.append("file", f, f.name);
             axios
-              .post(
-                "https://merchant.didabisai.com/api/resource/uploadImg",
-                data,
-                config
-              )
+              .post("/api/resource/uploadImg", data, config)
               .then(response => {
+                that.$toast("图片后输入文字需按回车键");
                 resolve({
                   default: response.data.data.src[0]
                 });
@@ -97,6 +94,7 @@ export default {
                   .uploadImg(formData, "post", config)
                   .then(res => {
                     let data = res.data.src[0];
+                    that.$toast("图片后输入文字需按回车键");
                     resolve({
                       default: data
                     });

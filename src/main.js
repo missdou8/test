@@ -128,13 +128,6 @@ Vue.prototype.convertBase64UrlToBlob = (base64, mimeType) => {
   return _blob;
 };
 
-// 引入音频文件
-import audio from "./assets/buttonclick.mp3";
-Vue.prototype.clickButton = () => {
-  let buttonAudio = document.getElementById("buttonAudio");
-  buttonAudio.setAttribute("src", audio);
-  buttonAudio.play();
-};
 export default new Vue({
   router,
   store,

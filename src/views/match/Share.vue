@@ -59,6 +59,7 @@ export default {
         let url = `https://merchant.didabisai.com/front/match/share?code=${code}&src=${encodeURIComponent(
           this.img
         )}&title=${encodeURIComponent(this.title)}`;
+        console.log(this.$store.state.user.userInfo.icon);
         let iconUrl = this.$store.state.user.userInfo.icon;
         wx.onMenuShareTimeline({
           title: title, // 分享标题
