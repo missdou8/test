@@ -51,11 +51,7 @@ export default {
             };
             data.append("file", f, f.name);
             axios
-              .post(
-                "https://merchant.didabisai.com/api/resource/uploadImg",
-                data,
-                config
-              )
+              .post("/api/resource/uploadImg", data, config)
               .then(response => {
                 resolve({
                   default: response.data.data.src[0]

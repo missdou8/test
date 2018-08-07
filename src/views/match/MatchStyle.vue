@@ -204,18 +204,9 @@ export default {
       this.submit(0);
     },
     checkClick() {
-      this.submit(1);
-    },
-    submit(type) {
-      let isEdit = this.$store.state.match.isEdit;
-      let action = "createMatch";
-      let match = this.$store.state.match;
-      let detail = match.detail;
-      let gameName = match.gameName;
       /**
        * 对数据进行判空
        */
-      //游戏名称
       if (!gameName.id) {
         return this.$toast("请选择游戏名称");
       }
@@ -234,6 +225,15 @@ export default {
       if (!match.shareImg) {
         return this.$toast("请添加分享图片");
       }
+      this.submit(1);
+    },
+    submit(type) {
+      let isEdit = this.$store.state.match.isEdit;
+      let action = "createMatch";
+      let match = this.$store.state.match;
+      let detail = match.detail;
+      let gameName = match.gameName;
+
       //如果没有奖品的话则传空对象
       let rankingSet = match.rankPrize;
       // if (!match.ifSave && !isEdit) {
