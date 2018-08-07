@@ -19,6 +19,7 @@
 import img from "../../assets/icon.png";
 import didaList from "../../components/didaList.vue";
 import { timestamp_switch_time } from "lputils";
+import { httpToHttps } from "../../../script/utils.js";
 export default {
   data() {
     return {
@@ -39,6 +40,7 @@ export default {
       if (this.watchersList.length > 0) {
         this.watchersList.forEach(w => {
           w.Time = timestamp_switch_time(w.time);
+          w.icon  = httpToHttps(w.icon)
         });
       }
     }

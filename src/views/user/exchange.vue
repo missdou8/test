@@ -42,6 +42,7 @@ import img from "../../assets/icon.png";
 import numberWordInput from "../../components/numberWordInput.vue";
 import didaList from "../../components/didaList.vue";
 import { timestamp_switch_time } from "lputils";
+import { httpToHttps } from "../../../script/utils.js";
 export default {
   data() {
     return {
@@ -68,6 +69,7 @@ export default {
       if (this.prizeList.length > 0) {
         this.prizeList.forEach(p => {
           p.time = timestamp_switch_time(p.prize.time);
+          p.icon  = httpToHttps(p.icon)
           if (p.prize.type == 0) {
             p.prizeType = "邮寄奖品";
             //根据状态改变按钮文案
