@@ -431,6 +431,7 @@ export default {
 .edit {
   display: flex;
   flex-direction: column;
+  padding-bottom: 1.5rem;
 }
 .cover {
   background-color: #fff;
