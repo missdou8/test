@@ -207,8 +207,8 @@ export default {
       /**
        * 对数据进行判空
        */
-      let gameName = match.gameName;
       let match = this.$store.state.match;
+      let gameName = match.gameName;
       if (!gameName.id) {
         return this.$toast("请选择游戏名称");
       }
