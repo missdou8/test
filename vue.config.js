@@ -6,7 +6,10 @@ module.exports = {
   productionSourceMap: false,
   lintOnSave: false,
   outputDir: "web/front",
-  baseUrl: "front",
+  baseUrl:
+  process.env.NODE_ENV === "production"
+    ? "https://cdn.didabisai.com/merchant/front/"
+    : "front",
   configureWebpack: (config) => {
     config.entry = ["babel-polyfill", "./src/main.js"]
   },
