@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { httpToHttps } from "../../../script/utils.js";
 export default {
   data() {
     return {
@@ -67,6 +68,9 @@ export default {
         .then(res => {
           let data = res.data;
           this.list = this.list.concat(data.winnerList);
+          this.list.forEach((l)=>{
+            l.icon  = httpToHttps(l.icon)
+          })
           return data;
         });
     }
