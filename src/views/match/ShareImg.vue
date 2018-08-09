@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      finalImg: require("../../assets/logo.png"),
+      finalImg: require("../../assets/share_crop_default.jpg"),
       link: this.config.downLoadURL,
       isEdit: true,
       qrlogo: qrlogo,
