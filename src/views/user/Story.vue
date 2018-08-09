@@ -224,11 +224,6 @@ export default {
 .exit {
   display: none;
 }
-#editor {
-  text-indent: 2em;
-  text-align: left;
-  height: 100%;
-}
 .editor_content {
   height: 100%;
 }

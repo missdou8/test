@@ -120,7 +120,7 @@ export default {
           (evt, name, value) => {
             if (value) {
               if (window.editor.getData() === "<p>请添加图文介绍</p>") {
-                window.editor.setData("");
+                window.editor.setData("n");
               }
               if (!isIos()) {
                 document.querySelector(".uploader").style.display = "none";
@@ -278,11 +278,6 @@ export default {
 </script>
 
 <style scoped>
-#editor {
-  text-indent: 2em;
-  text-align: left;
-  height: 100%;
-}
 .exit {
   display: none;
 }
@@ -325,18 +320,6 @@ export default {
 }
 .create_content input {
   background-color: transparent;
-}
-.create_content_intro {
-  flex-grow: 1;
-  flex-basis: 0;
-  text-indent: 2em;
-  user-select: initial;
-  margin-top: 0.2rem;
-  overflow: auto;
-}
-
-.create_content_intro:focus {
-  outline: none;
 }
 .append {
   color: red;
