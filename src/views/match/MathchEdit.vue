@@ -6,7 +6,7 @@
     </div>
     <div class="title">
       <span>标题</span>
-      <span class="can-edit" ref="title" contenteditable="true">{{title}}</span>
+      <span class="can-edit" ref="title" :contenteditable="isPublish">{{title}}</span>
       <button v-show="!isPublish" class="cover_edit" @click="shareImgClick">修改分享图>></button>
     </div>
     <div name="content" id="editor">

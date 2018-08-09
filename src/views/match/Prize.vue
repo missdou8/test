@@ -156,7 +156,7 @@ export default {
           for (let i = 0; i < -differ; i++) {
             this.rankPrize.push({
               rank: data.prizesList[i + state.length].rank.split(",").join("-"),
-              index: i + state.length
+              index: i + state.length + 1
             });
           }
         } else {
