@@ -20,7 +20,7 @@ export default {
     return {
       transitionName: "fade",
       title: "滴答比赛",
-      navShow: false
+      navShow: false,
     };
   },
   created() {
@@ -59,6 +59,11 @@ export default {
   // 基于路线变化的动态设置路由切换动画
   watch: {
     $route(to, from) {
+      if(to.path==='/login'&&from.path==='/match'){
+        this.$router.push({ path: "/match", replace: true });
+      }else if(to.path==='/user/index'&&from.path==='/login'){
+        this.$router.push({ path: "/login", replace: true });
+      }
       this.title = to.meta.title;
       const toDepth = to.path.split("/").length;
       const fromDepth = from.path.split("/").length;
