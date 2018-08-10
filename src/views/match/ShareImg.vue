@@ -145,7 +145,8 @@ export default {
 }
 #share-img {
   height: 100%;
-  background: url("../../assets/share_bg.png") center/100% 100% no-repeat;
+  background: url("https://merchant.didabisai.com/front/img/share_bg.a2ef2195.png")
+    center/100% 100% no-repeat;
   overflow: hidden;
   position: relative;
 }
