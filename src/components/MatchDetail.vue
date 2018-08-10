@@ -49,7 +49,7 @@
         </div>
         <ul class="prize_list">
           <li class="prize_list_item" v-for="item in prizeset">
-            <p>第{{item.rank}}名：{{item.name}}</p>
+            <p>第{{item.rank}}名：{{item.prizeCount}}{{item.unit}}{{item.name}}</p>
           </li>
         </ul>
         <div v-show="prizes.type == 1">

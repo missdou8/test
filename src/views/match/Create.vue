@@ -120,7 +120,7 @@ export default {
           (evt, name, value) => {
             if (value) {
               if (window.editor.getData() === "<p>请添加图文介绍</p>") {
-                window.editor.setData("n");
+                window.editor.setData("");
               }
               if (!isIos()) {
                 document.querySelector(".uploader").style.display = "none";
