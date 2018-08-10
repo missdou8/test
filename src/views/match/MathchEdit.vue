@@ -17,7 +17,7 @@
     <div class="btn" :class="{next: isPublish}" v-show="isPublish">
       <button @click="next">下一步</button>
     </div>
-    <div class="footer" :class="{next: !isPublish}" v-show="!isPublish">
+    <div class="btn footer" :class="{next: !isPublish}" v-show="!isPublish">
       <button @click="saveClick">保存</button>
       <button @click="checkClick">提交审核</button>
     </div>
@@ -431,7 +431,7 @@ export default {
 .edit {
   display: flex;
   flex-direction: column;
-  /* padding-bottom: 1.5rem; */
+  padding-bottom: 1.5rem;
 }
 .cover {
   background-color: #fff;
@@ -501,12 +501,6 @@ export default {
   top: 50%;
   right: 10%;
   transform: translateY(-50%);
-}
-.footer {
-  margin-top: 0.5rem;
-  padding: 0.2rem 0;
-  text-align: center;
-  width: 100%;
 }
 .footer button {
   font-size: 0.35rem;
