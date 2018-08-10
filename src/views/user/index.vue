@@ -66,6 +66,7 @@ export default {
         })
         .then(() => {
           _this.http.user.logout().then(res => {
+            this.$store.commit("setIsLogin", false);
             location.reload();
           });
         })
