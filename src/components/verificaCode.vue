@@ -25,7 +25,7 @@ export default {
    */
   props: ["codeType", "codeMobile", "codeTime"],
   mounted() {
-    this.time = this.codeTime||60;
+    this.time = this.codeTime || 60;
   },
   methods: {
     // 获取图片二维码接口
@@ -36,34 +36,42 @@ export default {
     //获取短信二维码
     sendClick() {
       let regMobile = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[45678]|19[89]|16[6])[0-9]{8}$/;
-      if (!regMobile.test(this.codeMobile)) return this.$toast("请检查手机号是否正确");
+      if (!regMobile.test(this.codeMobile))
+        return this.$toast("请检查手机号是否正确");
       this.http.verify
         .SMSCode({
           mobile: this.codeMobile,
           r: Math.random()
         })
         .then(res => {
-          this.finish();
-          this.$toast(res.msg)
+          this.finish(true);
+          this.$toast(res.msg);
         })
         .catch(() => {
           //接口错误的话(清除倒计时并重置时间)
-          this.time = this.codeTime||60;
-          clearInterval(Time);
+          this.finish(false);
         });
     },
     //定时器
-    finish() {
-      this.sendSuccess = true;
-      let Time = setInterval(() => {
-        if (this.time <= 1) {
-          clearInterval(Time);
-          this.sendSuccess = false;
-          this.time = this.codeTime||60;
-        } else {
-          this.time--;
-        }
-      }, 1000);
+    // type = true   //开启倒计时
+    // type = false  //关闭倒计时并初始化
+    finish(type) {
+      let Time;
+      let clearTime =()=>{
+        this.sendSuccess = false;
+        this.time = 0;
+        clearInterval(Time);
+      }
+      if(type){
+        this.time = this.codeTime || 60;
+        this.sendSuccess = true;
+        Time = setInterval(() => {
+          if (this.time <= 1)clearTime()
+          else this.time--;
+        }, 1000);
+      }else{ //初始化倒计时
+        clearTime()
+      } 
     }
   }
 };
@@ -75,16 +83,17 @@ export default {
   width: 100%;
   height: 100%;
 }
-#verificaCode button,#verificaCode img {
+#verificaCode button,
+#verificaCode img {
   position: absolute;
   width: 100%;
   top: 0;
   left: 0;
 }
-#verificaCode button{
+#verificaCode button {
   color: rgb(228, 186, 29);
 }
-#verificaCode button:disabled{
+#verificaCode button:disabled {
   opacity: 0.5;
 }
 </style>

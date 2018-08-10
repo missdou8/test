@@ -6,7 +6,7 @@
         <van-field v-model="phone" type="number" placeholder="请输入手机号"/>
         <van-field class="phonecode_box" type="number" center v-model="code" placeholder="请输入手机验证码">
           <van-button class="phonecode" slot="button" size="small" type="primary">
-            <verifica-code code-type="SMS" :code-mobile="phone"></verifica-code>
+            <verifica-code code-type="SMS" :code-mobile="phone" ref="verifica_phone_code"></verifica-code>
           </van-button>
         </van-field>
         <van-field v-model="password" type="password" placeholder="请设置您的登录密码"/>
@@ -69,7 +69,10 @@ export default {
             })
             .then(() => {
               this.$router.push({ path: "/login", replace: true });
-            });
+            })
+        }).catch(() => {
+          //初始化短信验证码倒计时
+          this.$refs.verifica_phone_code.finish(false);
         });
     }
   }
