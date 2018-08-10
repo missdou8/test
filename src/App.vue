@@ -28,16 +28,7 @@ export default {
     let isWe = isWeChat() || isQQ();
     this.navShow = !isWe;
     this.title = this.$route.meta.title;
-    let currentPath = this.$route.path;
-    if (
-      //设置不需要检测登录的页面
-      currentPath == "/registerTips" ||
-      currentPath == "/register" ||
-      currentPath == "/login" ||
-      currentPath == "/match/share"
-    ) {
-      return;
-    }
+    if(this.jubgeCurrentPath()) return ;
     //检测用户登录状态与用户权限
     let userInfo = localStorage.getItem("userInfo");
     this.http.user.checkLogin().then(result => {
@@ -52,6 +43,7 @@ export default {
       if (result.data.isLogin == 1) {
         return;
       } else {
+        this.$store.commit("setIsLogin", false);
         this.$router.push({ path: "/login", replace: true });
       }
     });
@@ -59,9 +51,10 @@ export default {
   // 基于路线变化的动态设置路由切换动画
   watch: {
     $route(to, from) {
-      if(to.path==='/login'&&from.path==='/match'){
+      //如果登录切是从match到login页的话直接到match
+      if(to.path==='/login'&&from.path==='/match'&&this.$store.state.user.isLogin){
         this.$router.push({ path: "/match", replace: true });
-      }else if(to.path==='/user/index'&&from.path==='/login'){
+      }else if(!this.$store.state.user.isLogin&&!this.jubgeCurrentPath()){
         this.$router.push({ path: "/login", replace: true });
       }
       this.title = to.meta.title;
@@ -72,6 +65,24 @@ export default {
           toDepth < fromDepth ? "slide-right" : "slide-left";
       } else {
         this.transitionName = "fade";
+      }
+    }
+  },
+  methods:{
+    jubgeCurrentPath(){
+      let currentPath = this.$route.path;
+      if (
+        //设置不需要检测登录的页面
+        currentPath == "/registerTips" ||
+        currentPath == "/register" ||
+        currentPath == "/login" ||
+        currentPath == "/match/share"||
+        currentPath == "/findPwd"||
+        currentPath == "/resetPwd"
+      ) {
+        return true;
+      }else{
+        return false;
       }
     }
   }

@@ -63,9 +63,10 @@ export default {
         .then(res => {
           //登录成功的时候直接跳转首页
           this.$router.push("match");
+          this.$store.commit("setIsLogin", true);
         })
         .catch(() => {
-          //重新获取二维码
+          //重新获取验证码
           this.$refs.verifica_code.getImgCode();
         });
     }
