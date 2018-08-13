@@ -41,7 +41,7 @@ export default {
        * 2. false: 跳到登录页
        */
       if (result.data.isLogin == 1) {
-        return;
+        this.$store.commit("setIsLogin", true);
       } else {
         this.$store.commit("setIsLogin", false);
         this.$router.push({ path: "/login", replace: true });
