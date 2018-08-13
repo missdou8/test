@@ -26,7 +26,7 @@
       <van-picker :columns="gameList" show-toolbar @confirm="gameConfirm" @cancel="gameShow = false" />
     </van-popup>
     <van-popup v-model="timeShow" position="bottom">
-      <van-datetime-picker title="选择时间（年月日时分）" v-model="currentDate" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="timeConfirm" @cancel="timeShow = false" />
+      <van-datetime-picker title="选择时间（年月日时分）" v-model="currentDate" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="timeConfirm" @cancel="timeShow = false" :formatter="formatter" />
     </van-popup>
     <div class="footer">
       <button @click="saveClick">保存</button>
