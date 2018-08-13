@@ -137,10 +137,11 @@ export default {
   padding: 0.3rem;
   margin: 0.56rem auto 0 auto;
   width: 90%;
+  height: 50%;
 }
 .share-img-content img {
   max-width: 100%;
-  max-height: 35vh;
+  max-height: 100%;
   vertical-align: top;
 }
 #share-img {
