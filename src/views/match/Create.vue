@@ -12,7 +12,7 @@
     <div class="create_content">
       <div class="title">
         <span class="title_name">标题</span>
-        <input type="text" placeholder="请添加比赛名称" v-model="titlePlace">
+        <input class="title_content" type="text" placeholder="请添加比赛名称" v-model="titlePlace">
       </div>
       <div name="content" id="editor">
       </div>
@@ -273,6 +273,10 @@ export default {
       let range = selection.getRangeAt(0);
       range.insertNode(div);
     }
+  },
+  beforeRouteLeave(to, from, next){
+    document.querySelector('.title_content').focus()
+    next()
   }
 };
 </script>
