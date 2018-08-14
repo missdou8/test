@@ -274,9 +274,9 @@ export default {
       range.insertNode(div);
     }
   },
-  beforeRouteLeave(to, from, next){
-    document.querySelector('.title_content').focus()
-    next()
+  beforeRouteLeave(to, from, next) {
+    document.querySelector(".title_content").focus();
+    next();
   }
 };
 </script>

@@ -15,12 +15,14 @@ export default {
     8: "报名中",
     9: "比赛中",
     10: "比赛结束"
-  },
+  }, //比赛的状态
   attendType: {
     0: "免费报名",
     1: "分享报名",
     2: "邀请赛"
-  },
-  defaultIcon: require("../assets/icon.png"),
-  downLoadURL: "https://www.didabisai.com/download.html"
+  }, //赛制中报名方式
+  defaultIcon: require("../assets/icon.png"), //默认头像
+  downLoadURL: "https://www.didabisai.com/download.html", //嘀嗒下载页
+  customerServiceUrl:
+    "https://www.sobot.com/chat/h5/index.html?sysNum=ded7079b7502494fad26fc73147a40ca&source=1&moduleType=2" //客服网页基本链接，后边接更多个性化参数
 };
