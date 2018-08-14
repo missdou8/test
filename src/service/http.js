@@ -8,13 +8,14 @@ import publicHttp from "./publicHttp.js";
 import prizes from "./prizes.js";
 import notice from "./notice.js";
 
-/**
- * 常量
- */
+//接口基础链接
 const hostname = "/api/";
 
 const reqAndUrl = Object.assign(match, user, publicHttp, prizes, notice);
 
+/**
+ * 获取数据类
+ */
 class ApiService {
   getSessionData(sessionItem) {
     let sessionValue = sessionStorage.getItem(sessionItem);

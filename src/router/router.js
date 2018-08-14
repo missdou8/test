@@ -11,7 +11,6 @@ import Announcement from "../views/announcement/Announcement.vue";
 import MailDetail from "../views/announcement/MailDetail.vue";
 import NoticeDetail from "../views/announcement/NoticeDetail.vue";
 
-
 Vue.use(VueRouter);
 
 let routes = [

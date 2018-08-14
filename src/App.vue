@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <audio src="" id="buttonAudio"></audio>
-    <NavGation v-show="navShow" :title="title"></NavGation>
+    <nav-gation v-show="navShow" :title="title"></nav-gation>
     <div style="height:100%" :class="{child: navShow}">
       <transition :name="transitionName">
         <router-view class="router"></router-view>
@@ -20,7 +20,7 @@ export default {
     return {
       transitionName: "fade",
       title: "滴答比赛",
-      navShow: false,
+      navShow: false
     };
   },
   created() {
@@ -28,7 +28,7 @@ export default {
     let isWe = isWeChat() || isQQ();
     this.navShow = !isWe;
     this.title = this.$route.meta.title;
-    if(this.jubgeCurrentPath()) return ;
+    if (this.jubgeCurrentPath()) return;
     //检测用户登录状态与用户权限
     let userInfo = localStorage.getItem("userInfo");
     this.http.user.checkLogin().then(result => {
@@ -52,9 +52,13 @@ export default {
   watch: {
     $route(to, from) {
       //如果登录切是从match到login页的话直接到match
-      if(to.path==='/login'&&from.path==='/match'&&this.$store.state.user.isLogin){
+      if (
+        to.path === "/login" &&
+        from.path === "/match" &&
+        this.$store.state.user.isLogin
+      ) {
         this.$router.push({ path: "/match", replace: true });
-      }else if(!this.$store.state.user.isLogin&&!this.jubgeCurrentPath()){
+      } else if (!this.$store.state.user.isLogin && !this.jubgeCurrentPath()) {
         this.$router.push({ path: "/login", replace: true });
       }
       this.title = to.meta.title;
@@ -68,20 +72,20 @@ export default {
       }
     }
   },
-  methods:{
-    jubgeCurrentPath(){
+  methods: {
+    jubgeCurrentPath() {
       let currentPath = this.$route.path;
       if (
         //设置不需要检测登录的页面
         currentPath == "/registerTips" ||
         currentPath == "/register" ||
         currentPath == "/login" ||
-        currentPath == "/match/share"||
-        currentPath == "/findPwd"||
+        currentPath == "/match/share" ||
+        currentPath == "/findPwd" ||
         currentPath == "/resetPwd"
       ) {
         return true;
-      }else{
+      } else {
         return false;
       }
     }
@@ -125,7 +129,8 @@ export default {
 .fade-leave-active {
   transition: opacity 0.5s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 </style>
