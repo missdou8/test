@@ -42,6 +42,8 @@ import { mapState } from "vuex";
 import RadioBtn from "../../components/RadioBtn.vue";
 import { timeFormate } from "lputils";
 import Prize from "../../views/match/Prize.vue";
+import ImageCompressor from "image-compressor.js";
+
 export default {
   components: {
     RadioBtn,
@@ -118,10 +120,28 @@ export default {
       }
     },
     append(file) {
-      console.log(file);
-      alert("执行到没有");
-      this.$store.commit("setShareImgFile", file);
-      this.$router.push("shareImg");
+      let that = this;
+      let maxSize = 500 * 1024;
+      let imgSize = file.size;
+      if (imgSize > maxSize) {
+        let radio = maxSize / imgSize;
+        new ImageCompressor(file.file, {
+          quality: radio,
+          convertSize: 1000000,
+          success(newFile) {
+            let a = new FileReader();
+            a.onload = function(e) {
+              let data = e.target.result;
+              that.$store.commit("setShareImgFile", data);
+              that.$router.push("shareImg");
+            };
+            a.readAsDataURL(newFile);
+          }
+        });
+      } else {
+        this.$store.commit("setShareImgFile", file.content);
+        this.$router.push("shareImg");
+      }
     },
     toShare() {
       if (this.$store.state.match.shareImg) {

@@ -442,6 +442,7 @@ export default {
 }
 .cover img {
   height: 100%;
+  max-width: 100%;
 }
 .cover_edit {
   background-color: rgba(0, 0, 0, 0.8);

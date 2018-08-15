@@ -50,12 +50,12 @@ export default {
   },
   methods: {
     append(file) {
-      this.crop(file);
+      this.crop(file.content);
     },
     crop(data) {
       let that = this;
       new AlloyCrop({
-        image_src: data.content,
+        image_src: data,
         width: 320,
         height: 300,
         output: 1,

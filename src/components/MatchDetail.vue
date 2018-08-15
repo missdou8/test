@@ -240,6 +240,7 @@ a {
 }
 .cover_img img {
   height: 100%;
+  max-height: 100%;
 }
 .like_info {
   background-color: #fafafa;
