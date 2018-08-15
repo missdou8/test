@@ -171,7 +171,7 @@ export default {
       //清空赛事信息
       this.$store.commit("setDetail", {});
       this.$store.commit("setGameName", { id: 0, name: "未选择" });
-      this.$store.commit("setTime", "");
+      this.$store.commit("setTime", 0);
       this.$store.commit("setAttendPerson", { id: 0, value: "未选择" });
       this.$store.commit("setAttendStyle", { id: 0, value: "未选择" });
       this.$store.commit("setIfSave", false);
