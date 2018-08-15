@@ -168,6 +168,12 @@ export default {
       input.click();
     },
     nextClick() {
+      if (!this.coverImg) {
+        return this.$toast("请上传封面图片");
+      }
+      if (window.editor.getData() == "<p>&nbsp;</p>") {
+        return this.$toast("请填写故事内容");
+      }
       this.http.user
         .setShopInfo({
           cover: this.coverImg,

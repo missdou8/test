@@ -118,6 +118,8 @@ export default {
       }
     },
     append(file) {
+      console.log(file);
+      alert("执行到没有");
       this.$store.commit("setShareImgFile", file);
       this.$router.push("shareImg");
     },
