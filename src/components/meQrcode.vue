@@ -88,6 +88,7 @@ export default {
             ctx.fillText(this.qrText, fleft, ftop);
           }
           canvas.style.display = "none";
+          qrcode_canvas.setAttribute("crossOrigin", "anonymous");
           qrcode_canvas.src = canvas.toDataURL();
           qrcode_canvas.style.display = "inline-block";
         }, 500);
