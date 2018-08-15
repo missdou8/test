@@ -22,7 +22,7 @@
     </div>
     <van-button @click="nextClick" class="next">下一步</van-button>
     <van-button class="exit next">点击退出编辑</van-button>
-    <van-uploader class="append_img" accept="image/*" :after-read="append">
+    <van-uploader class="append_img" accept="image/png, image/jpeg, image/gif, image/jpg" :after-read="append">
     </van-uploader>
   </div>
 </template>
