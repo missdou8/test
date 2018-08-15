@@ -16,7 +16,7 @@
     <van-cell-group>
       <van-row class="row">
         <van-col span="12">
-          <van-uploader class="uploader" accept="image/png, image/jpeg" :after-read="onFrontPic" :disabled="status==1||status==3">
+          <van-uploader class="uploader" :after-read="onFrontPic" :disabled="status==1||status==3">
             <h3>手持身份证正面照</h3>
             <div class="img_box" :class="{ 'img_box__err': status==2}">
               <img ref="frontPic" :src="imgBox.frontPic" alt="">

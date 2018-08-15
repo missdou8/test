@@ -12,7 +12,7 @@
     </div>
     <div name="content" id="editor">
     </div>
-    <van-uploader class="append_img" accept="image/png, image/jpeg" :after-read="append">
+    <van-uploader class="append_img" :after-read="append">
     </van-uploader>
     <van-button @click="nextClick" class="next">完成</van-button>
     <van-button class="exit next">点击退出编辑</van-button>

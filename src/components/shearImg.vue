@@ -1,6 +1,6 @@
 <template>
   <div id="shearImg">
-    <van-uploader class="uploader" accept="image/png, image/jpeg" :after-read="getImgUrl">
+    <van-uploader class="uploader" :after-read="getImgUrl">
       <img :src="imgSrc||defImg" alt="logo" srcset="">
     </van-uploader>
   </div>

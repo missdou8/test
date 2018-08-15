@@ -32,7 +32,7 @@
       <button @click="saveClick">保存</button>
       <button @click="checkClick">提交审核</button>
     </div>
-    <van-uploader class="append_img" accept="image/png,image/jpeg" :after-read="append">
+    <van-uploader class="append_img" :after-read="append">
     </van-uploader>
   </div>
 </template>

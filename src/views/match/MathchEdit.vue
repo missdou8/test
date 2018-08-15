@@ -2,7 +2,7 @@
   <div class="edit">
     <div class="cover">
       <img :src="cover" alt="封面">
-      <van-uploader class="cover_edit" accept="image/png, image/jpeg" :after-read="onRead">修改封面</van-uploader>
+      <van-uploader class="cover_edit" :after-read="onRead">修改封面</van-uploader>
     </div>
     <div class="title">
       <span>标题</span>
