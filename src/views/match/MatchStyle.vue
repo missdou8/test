@@ -122,7 +122,7 @@ export default {
     append(file) {
       let that = this;
       let maxSize = 500 * 1024;
-      let imgSize = file.size;
+      let imgSize = file.file.size;
       if (imgSize > maxSize) {
         let radio = maxSize / imgSize;
         new ImageCompressor(file.file, {
