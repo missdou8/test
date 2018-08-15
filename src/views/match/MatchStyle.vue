@@ -132,6 +132,7 @@ export default {
             let a = new FileReader();
             a.onload = function(e) {
               let data = e.target.result;
+              alert("压缩之后");
               that.$store.commit("setShareImgFile", data);
               that.$router.push("shareImg");
             };
