@@ -16,7 +16,7 @@
     <van-cell-group>
       <van-row class="row">
         <van-col span="12">
-          <van-uploader class="uploader" :after-read="onFrontPic" :disabled="status==1||status==3">
+          <van-uploader class="uploader" accept="image/png, image/jpeg" :after-read="onFrontPic" :disabled="status==1||status==3">
             <h3>手持身份证正面照</h3>
             <div class="img_box" :class="{ 'img_box__err': status==2}">
               <img ref="frontPic" :src="imgBox.frontPic" alt="">
@@ -67,8 +67,9 @@ export default {
     let IDcard = this.$store.state.user.IDcard;
     let frontPic = this.$store.state.user.frontPic;
     let backPic = this.$store.state.user.backPic;
-    if(name==''&&IDcard==''&&frontPic==''&&backPic=='') this.getCertification();
-    else{
+    if (name == "" && IDcard == "" && frontPic == "" && backPic == "")
+      this.getCertification();
+    else {
       this.name = name;
       this.IDcard = IDcard;
       this.imgBox.frontPic = frontPic;
@@ -77,10 +78,10 @@ export default {
     }
   },
   methods: {
-    nameInput(){
+    nameInput() {
       this.$store.commit("setName", this.name);
     },
-    IDcardInput(){
+    IDcardInput() {
       this.$store.commit("setIDcard", this.IDcard);
     },
     onFrontPic(file) {
@@ -106,7 +107,7 @@ export default {
         this.imgBox.backPic = res.data.backPic;
         if (res.data.status == 3) {
           this.btnTxt = "审核中...";
-        }else if(res.data.status == 2){
+        } else if (res.data.status == 2) {
           this.$store.commit("setName", res.data.realname);
           this.$store.commit("setIDcard", res.data.idCard);
           this.$store.commit("setFrontPic", res.data.frontPic);
@@ -130,7 +131,7 @@ export default {
           idCard: this.IDcard,
           realname: this.name
         })
-        .then(res => {          
+        .then(res => {
           this.$dialog
             .alert({
               title: "嘀嗒比赛",
@@ -138,16 +139,16 @@ export default {
             })
             .then(() => {
               //清空store
-              this.clearStore()
+              this.clearStore();
               this.$router.go(-1);
             });
         });
     },
-    clearStore(){
-      this.$store.commit("setName", '');
-      this.$store.commit("setIDcard", '');
-      this.$store.commit("setFrontPic", '');
-      this.$store.commit("setBackPic", '');
+    clearStore() {
+      this.$store.commit("setName", "");
+      this.$store.commit("setIDcard", "");
+      this.$store.commit("setFrontPic", "");
+      this.$store.commit("setBackPic", "");
     }
   }
 };

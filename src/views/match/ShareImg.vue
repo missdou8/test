@@ -1,6 +1,6 @@
 <template>
   <div id="share-img" ref="share">
-    <van-uploader class="append_img" :after-read="append">
+    <van-uploader class="append_img" accept="image/png, image/jpeg" :after-read="append">
     </van-uploader>
     <div class="share-img">
       <div class="share-img-content">

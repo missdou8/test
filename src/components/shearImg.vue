@@ -1,6 +1,6 @@
 <template>
   <div id="shearImg">
-    <van-uploader class="uploader" :after-read="getImgUrl">
+    <van-uploader class="uploader" accept="image/png, image/jpeg" :after-read="getImgUrl">
       <img :src="imgSrc||defImg" alt="logo" srcset="">
     </van-uploader>
   </div>
@@ -22,7 +22,7 @@ export default {
    */
   props: ["imgWidth", "imgHeight", "defImg"],
   methods: {
-    getImgUrl(file){
+    getImgUrl(file) {
       let that = this;
       let maxSize = 300 * 1024;
       let dataURI = file.content;
@@ -30,20 +30,20 @@ export default {
       //压缩图片处理
       if (imgSize > maxSize) {
         let radio = maxSize / imgSize;
-        new ImageCompressor(file.file,{
+        new ImageCompressor(file.file, {
           quality: radio,
           convertSize: 1000000,
           success(newFile) {
             //将压缩后的图像(一个Blob对象)。转化成bas64
             let file = new FileReader();
             file.readAsDataURL(newFile);
-            file.onload =  (e)=>  {
+            file.onload = e => {
               that.getAlloyCrop(e.target.result);
             };
           }
         });
-      }else{
-        this.getAlloyCrop(file.content)
+      } else {
+        this.getAlloyCrop(file.content);
       }
     },
     getAlloyCrop(file) {
@@ -74,8 +74,7 @@ export default {
             _this.$emit("getImgUrl", data);
           });
         },
-        cancel: function() {
-        }
+        cancel: function() {}
       });
     },
     /**

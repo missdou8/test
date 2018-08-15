@@ -2,7 +2,7 @@
   <div class="prize">
     <div class="top">
       <div class="add-content">
-        <van-uploader class="uploader" :after-read="onRead">
+        <van-uploader class="uploader" accept="image/png, image/jpeg" :after-read="onRead">
           <div class="addCover" v-show="prizeImageShow">
             <p class="add">
               <span class="add_img"></span>
