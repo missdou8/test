@@ -51,8 +51,8 @@ export default {
             let logoPosition = (this.qrSize - this.qrLogoSize) / 2; //logo相对于canvas居中定位
             let h = this.qrLogoSize + 8; //圆角高 10为基数(logo四周白色背景为10/2)
             let w = this.qrLogoSize + 8; //圆角宽
-            let x = logoPosition - 5;
-            let y = logoPosition - 5;
+            let x = logoPosition - 4;
+            let y = logoPosition - 4;
             let r = 5; //圆角半径
             ctx.moveTo(x + r, y);
             ctx.arcTo(x + w, y, x + w, y + h, r);
