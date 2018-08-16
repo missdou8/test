@@ -62,7 +62,7 @@ export default {
           });
           let title = `我在嘀嗒，邀您参加${that.title}比赛`;
           let url = `https://merchant.didabisai.com/front/match/share?code=${code}&src=${encodeURIComponent(
-            this.img
+            that.img
           )}&title=${encodeURIComponent(that.title)}&icon=${encodeURIComponent(
             userIcon
           )}`;
