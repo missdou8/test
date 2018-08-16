@@ -133,6 +133,7 @@ export default {
   },
   methods: {
     toShare() {
+      let icon = this.matchData.merchant.icon || this.config.defaultIcon;
       if (this.$store.state.match.tabActive == 0) {
         //解决微信bug
         return (location.href = `/front/match/share?code=${
@@ -141,7 +142,7 @@ export default {
           this.match.cover
         )}&title=${encodeURIComponent(
           this.match.title
-        )}&icon=${encodeURIComponent(this.matchData.merchant.icon)}`);
+        )}&icon=${encodeURIComponent(icon)}`);
       }
       this.$router.push({
         path: "/match/winner/list",

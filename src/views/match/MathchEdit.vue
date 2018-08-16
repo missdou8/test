@@ -108,7 +108,6 @@ export default {
             deleteImg.parentElement.parentElement.parentElement.removeChild(
               deleteImg.parentElement.parentElement
             );
-            // on confirm
           })
           .catch(() => {
             // on cancel
@@ -129,47 +128,25 @@ export default {
       upload() {
         let file = this.loader.file;
         return new Promise((resolve, reject) => {
-          let uploadImgMethod = f => {
-            const data = new FormData();
-            const config = {
-              headers: { "content-type": "multipart/form-data" }
-            };
-            data.append("file", f, f.name);
-            axios
-              .post("/api/resource/uploadImg", data, config)
-              .then(response => {
-                resolve({
-                  default: response.data.data.src[0]
-                });
-              });
-          };
           // 压缩图片
-          let maxSize = 500 * 1024;
-          let imgSize = file.size;
-          if (imgSize > maxSize) {
-            let radio = maxSize / imgSize;
-            new ImageCompressor(file, {
-              quality: radio,
-              convertSize: 1000000,
-              success(newFile) {
-                let formData = new FormData();
-                formData.append("file", newFile, Date.now() + ".png");
-                let config = {
-                  headers: { "Content-Type": "multipart/form-data" }
-                };
-                that.http.resource
-                  .uploadImg(formData, "post", config)
-                  .then(res => {
-                    let data = res.data.src[0];
-                    resolve({
-                      default: data
-                    });
+          new ImageCompressor(file, {
+            width: that.config.outputWidth,
+            success(newFile) {
+              let formData = new FormData();
+              formData.append("file", newFile, Date.now() + ".png");
+              let config = {
+                headers: { "Content-Type": "multipart/form-data" }
+              };
+              that.http.resource
+                .uploadImg(formData, "post", config)
+                .then(res => {
+                  let data = res.data.src[0];
+                  resolve({
+                    default: data
                   });
-              }
-            });
-            return;
-          }
-          uploadImgMethod(file);
+                });
+            }
+          });
         });
       }
       abort() {

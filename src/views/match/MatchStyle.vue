@@ -121,27 +121,18 @@ export default {
     },
     append(file) {
       let that = this;
-      let maxSize = 500 * 1024;
-      let imgSize = file.file.size;
-      if (imgSize > maxSize) {
-        let radio = maxSize / imgSize;
-        new ImageCompressor(file.file, {
-          quality: radio,
-          convertSize: 1000000,
-          success(newFile) {
-            let a = new FileReader();
-            a.onload = function(e) {
-              let data = e.target.result;
-              that.$store.commit("setShareImgFile", data);
-              that.$router.push("shareImg");
-            };
-            a.readAsDataURL(newFile);
-          }
-        });
-      } else {
-        this.$store.commit("setShareImgFile", file.content);
-        this.$router.push("shareImg");
-      }
+      new ImageCompressor(file.file, {
+        width: that.config.outputWidth,
+        success(newFile) {
+          let a = new FileReader();
+          a.onload = function(e) {
+            let data = e.target.result;
+            that.$store.commit("setShareImgFile", data);
+            that.$router.push("shareImg");
+          };
+          a.readAsDataURL(newFile);
+        }
+      });
     },
     toShare() {
       if (this.$store.state.match.shareImg) {

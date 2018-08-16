@@ -36,6 +36,7 @@ export default {
     meQrcode
   },
   created() {
+    let that = this;
     this.code = getUrlString("code");
     this.img = decodeURIComponent(getUrlString("src"));
     this.title = decodeURIComponent(getUrlString("title"));
@@ -55,24 +56,28 @@ export default {
           signature: data.signature, // 必填，签名
           jsApiList: ["onMenuShareTimeline", "onMenuShareAppMessage"] // 必填，需要使用的JS接口列表
         });
-        let title = `我在嘀嗒，邀您参加${this.title}比赛`;
-        let url = `https://merchant.didabisai.com/front/match/share?code=${code}&src=${encodeURIComponent(
-          this.img
-        )}&title=${encodeURIComponent(this.title)}&icon=${encodeURIComponent(
-          userIcon
-        )}`;
-        wx.onMenuShareTimeline({
-          title: title, // 分享标题
-          link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-          imgUrl: userIcon // 分享图标
-        });
-
-        wx.onMenuShareAppMessage({
-          title: title, // 分享标题
-          desc: `点击下载客户端，输入${code}邀请码免费报名比赛！`, // 分享描述
-          link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-          imgUrl: userIcon, // 分享图标
-          type: "link" // 分享类型,music、video或link，不填默认为link
+        wx.ready(function() {
+          wx.hideMenuItems({
+            menuList: ["menuItem:share:appMessage"]
+          });
+          let title = `我在嘀嗒，邀您参加${that.title}比赛`;
+          let url = `https://merchant.didabisai.com/front/match/share?code=${code}&src=${encodeURIComponent(
+            this.img
+          )}&title=${encodeURIComponent(that.title)}&icon=${encodeURIComponent(
+            userIcon
+          )}`;
+          wx.onMenuShareTimeline({
+            title: title, // 分享标题
+            link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: userIcon // 分享图标
+          });
+          wx.onMenuShareAppMessage({
+            title: title, // 分享标题
+            desc: `点击下载客户端，输入${code}邀请码免费报名比赛！`, // 分享描述
+            link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: userIcon, // 分享图标
+            type: "link" // 分享类型,music、video或link，不填默认为link
+          });
         });
       });
     this.code = String(this.code).split("");
