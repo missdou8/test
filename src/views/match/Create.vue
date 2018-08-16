@@ -165,23 +165,11 @@ export default {
       let input = document.querySelector(".van-uploader__input");
       input.click();
     },
-    contentFocus(content, evt) {
-      this.appendShow = true;
-      //如果存在默认文字，那么清空
-      if (evt.target.innerHTML == "请添加图文介绍") {
-        evt.target.innerHTML = "";
-      }
-    },
-    contentBlur(content, evt) {
-      this.appendShow = false;
-      if (evt.target.innerHTML == "") {
-        evt.target.innerHTML = "请添加图文介绍";
-      }
-    },
     nextClick() {
       //标题和内容
       let title = this.titlePlace;
       let content = window.editor.getData();
+      console.log(content);
       //TODO: 提示是否有更好的方法
       //判断是否可以跳转，单独提示
       if (!this.coverImg) {
@@ -190,7 +178,7 @@ export default {
       if (!title) {
         return this.$toast("需要填写赛事名称");
       }
-      if (!content || content == "请添加图文介绍") {
+      if (!content || content == "<p>请添加图文介绍</p>") {
         return this.$toast("需要填写赛事详情");
       }
       this.$store.commit("setDetail", {
