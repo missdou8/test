@@ -139,7 +139,9 @@ export default {
           this.match.signupCode
         }&src=${encodeURIComponent(
           this.match.cover
-        )}&title=${encodeURIComponent(this.match.title)}`);
+        )}&title=${encodeURIComponent(
+          this.match.title
+        )}&icon=${encodeURIComponent(this.matchData.merchant.icon)}`);
       }
       this.$router.push({
         path: "/match/winner/list",

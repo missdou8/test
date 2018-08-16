@@ -38,9 +38,9 @@ export default {
   created() {
     this.code = getUrlString("code");
     this.img = decodeURIComponent(getUrlString("src"));
-    console.log(this.img);
     this.title = decodeURIComponent(getUrlString("title"));
     let code = this.code;
+    let userIcon = decodeURIComponent(getUrlString("icon"));
     this.http.wechat
       .signPackage({
         url: location.href
@@ -59,19 +59,17 @@ export default {
         let url = `https://merchant.didabisai.com/front/match/share?code=${code}&src=${encodeURIComponent(
           this.img
         )}&title=${encodeURIComponent(this.title)}`;
-        console.log(this.$store.state.user.userInfo.icon);
-        let iconUrl = this.$store.state.user.userInfo.icon;
         wx.onMenuShareTimeline({
           title: title, // 分享标题
           link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-          imgUrl: iconUrl // 分享图标
+          imgUrl: userIcon // 分享图标
         });
 
         wx.onMenuShareAppMessage({
           title: title, // 分享标题
           desc: `点击下载客户端，输入${code}邀请码免费报名比赛！`, // 分享描述
           link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-          imgUrl: iconUrl, // 分享图标
+          imgUrl: userIcon, // 分享图标
           type: "link" // 分享类型,music、video或link，不填默认为link
         });
       });
