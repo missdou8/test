@@ -58,7 +58,9 @@ export default {
         let title = `我在嘀嗒，邀您参加${this.title}比赛`;
         let url = `https://merchant.didabisai.com/front/match/share?code=${code}&src=${encodeURIComponent(
           this.img
-        )}&title=${encodeURIComponent(this.title)}`;
+        )}&title=${encodeURIComponent(this.title)}&icon=${encodeURIComponent(
+          userIcon
+        )}`;
         wx.onMenuShareTimeline({
           title: title, // 分享标题
           link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
