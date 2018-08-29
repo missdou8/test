@@ -81,8 +81,8 @@ export default {
           coverImg: this.match.cover
         });
         this.$store.commit("setGameName", {
-          id: this.match.gameId,
-          name: this.match.gameName
+          id: this.match.gameId || 0,
+          name: this.match.gameName || "未选择"
         });
         let attendStyle = [
           {
@@ -106,8 +106,8 @@ export default {
         });
         this.$store.commit("setTime", this.match.beginTime);
         this.$store.commit("setAttendPerson", {
-          id: this.match.templateId,
-          value: this.match.templateTitle
+          id: this.match.templateId || 0,
+          value: this.match.templateTitle || "未选择"
         });
         this.$store.commit("setAttendStyle", att);
         this.$store.commit("setIfSave", true);
