@@ -13,7 +13,8 @@
     </div>
     <div class="qr-code">
       <me-qrcode class="qr_code" v-if="link" :qr-url='link' :qr-size='qrSize' :qr-logo-size="30" :qr-logo="qrlogo"></me-qrcode>
-      <p>嘀嗒比赛，专业的棋牌竞技比赛平台，主打闪电赛，赛程短，夺冠快，奖品丰厚，扫一扫，快速开赛！</p>
+      <p>嘀嗒比赛，专业的线上棋牌比赛服务提供商，支持多种棋牌游戏、多种赛制，大众好玩，奖品丰厚，扫一扫，快速开赛！
+      </p>
     </div>
   </div>
 </template>
