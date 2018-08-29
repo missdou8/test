@@ -171,7 +171,7 @@ export default {
   color: #000;
   font-size: 0.24rem;
   margin-top: 0.2rem;
-  padding: 0 0.56rem;
+  padding: 0 0.3rem;
   line-height: 1.2;
 }
 .share-btn {
