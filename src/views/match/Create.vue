@@ -342,5 +342,8 @@ export default {
   top: 1000px;
   opacity: 0;
 }
+.title_content {
+  width: 4.8rem;
+}
 </style>
 
