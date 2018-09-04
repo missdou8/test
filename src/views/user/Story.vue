@@ -87,11 +87,17 @@ export default {
               "change:isFocused",
               (evt, name, value) => {
                 if (value) {
+                  if (window.editor.getData() === "<p>请添加图文介绍</p>") {
+                    window.editor.setData("");
+                  }
                   document.querySelector(".uploader").style.display = "none";
                   let next = document.querySelector(".next");
                   next.style.display = "none";
                   document.querySelector(".exit").style.display = "block";
                 } else {
+                  if (window.editor.getData() === "<p>&nbsp;</p>") {
+                    window.editor.setData("请添加图文介绍");
+                  }
                   let next = document.querySelector(".next");
                   next.style.display = "block";
                   document.querySelector(".exit").style.display = "none";
