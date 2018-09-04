@@ -132,17 +132,17 @@ export default {
           if (lastEle.innerHTML == "image widget") {
             lastEle = lastEle.previousElementSibling;
           }
-          if (
-            lastEle.innerHTML != '<br data-cke-filler="true">' &&
-            lastEle.innerHTML != "请添加图文介绍"
-          ) {
-            editor.model.change(writer => {
-              let root = editor.model.document.getRoot();
-              writer.insertElement("paragraph", root, "end", {
-                class: "last"
-              });
-            });
-          }
+          // if (
+          //   lastEle.innerHTML != '<br data-cke-filler="true">' &&
+          //   lastEle.innerHTML != "请添加图文介绍"
+          // ) {
+          //   editor.model.change(writer => {
+          //     let root = editor.model.document.getRoot();
+          //     writer.insertElement("paragraph", root, "end", {
+          //       class: "last"
+          //     });
+          //   });
+          // }
         });
 
         //初始化上传方法

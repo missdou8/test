@@ -14,7 +14,7 @@
     </div>
     <van-uploader class="append_img" :after-read="append">
     </van-uploader>
-    <van-button @click="nextClick" class="next">完成</van-button>
+    <van-button @click="nextClick" class="next">提交审核</van-button>
     <van-button class="exit next">点击退出编辑</van-button>
   </div>
 </template>
@@ -31,7 +31,11 @@ export default {
       contentPlace: "请添加图文介绍",
       coverImg: "",
       uploadType: "append",
-      replaceDom: ""
+      replaceDom: "",
+      storyStatus: {
+        未提交审核或修改: "提交审核",
+        审核中: "审核中"
+      }
     };
   },
   mounted() {
