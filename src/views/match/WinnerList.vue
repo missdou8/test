@@ -1,7 +1,7 @@
 <template>
   <div id="win-list">
     <ul class="title">
-      <li>排名</li>
+      <li>名</li>
       <li>玩家</li>
       <li>奖品</li>
     </ul>
@@ -31,7 +31,7 @@ export default {
       loading: false,
       finished: false,
       refreshing: false,
-      pageSize: 10,
+      pageSize: 20,
       currentPage: 1,
       list: []
     };
@@ -68,9 +68,9 @@ export default {
         .then(res => {
           let data = res.data;
           this.list = this.list.concat(data.winnerList);
-          this.list.forEach((l)=>{
-            l.icon  = httpToHttps(l.icon)
-          })
+          this.list.forEach(l => {
+            l.icon = httpToHttps(l.icon);
+          });
           return data;
         });
     }
