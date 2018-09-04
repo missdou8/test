@@ -1,12 +1,12 @@
 <template>
   <div id="win-list">
     <ul class="title">
-      <li>名</li>
+      <li>排名</li>
       <li>玩家</li>
       <li>奖品</li>
     </ul>
     <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh">
-      <van-list v-model="loading" :finished="finished" @load="onLoad" :immediate-check="false" :offset="100">
+      <van-list v-model="loading" :finished="finished" @load="onLoad">
         <div>
           <div class="th" v-for="(item,index) in list" :key="index">
             <div>{{item.order}}</div>
@@ -31,7 +31,7 @@ export default {
       loading: false,
       finished: false,
       refreshing: false,
-      pageSize: 20,
+      pageSize: 10,
       currentPage: 1,
       list: []
     };
