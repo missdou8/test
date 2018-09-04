@@ -141,7 +141,7 @@ export default {
       return this.http.user.getShopInfo().then(res => {
         let data = res.data;
         this.coverImg = data.cover;
-        this.storyStatus = data.status;
+        this.storyStatus = data.status || 0;
         this.contentPlace = data.content || "请添加图文介绍";
         return this.contentPlace;
       });

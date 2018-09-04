@@ -37,16 +37,16 @@ export default {
     };
   },
   mounted() {
-    this.fetchList();
+    // this.fetchList();
   },
   methods: {
     onLoad() {
-      this.currentPage += 1;
       this.fetchList().then(data => {
         this.loading = false;
         if (data.total <= this.currentPage * this.pageSize) {
           this.finished = true;
         }
+        this.currentPage += 1;
       });
     },
     onRefresh() {
