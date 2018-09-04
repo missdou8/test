@@ -1,7 +1,6 @@
 <template>
   <div id="create">
-
-    <div class="uploader" @click="onRead">
+    <div class="uploader" @click="onRead" :class="{disabled: storyStatus==3}">
       <div class="addCover" v-show="addShow">
         <p class="add">
           <span class="add_img"></span>
@@ -10,11 +9,11 @@
       </div>
       <img class="cover-img" :src="coverImg" v-show="!addShow" alt="封面图片">
     </div>
-    <div name="content" id="editor">
+    <div name="content" id="editor" :class="{disabled: storyStatus==3}">
     </div>
     <van-uploader class="append_img" :after-read="append">
     </van-uploader>
-    <van-button @click="nextClick" class="next">提交审核</van-button>
+    <van-button @click="nextClick" class="next" :class="{disabled: storyStatus==3}">{{btnMsg[storyStatus]}}</van-button>
     <van-button class="exit next">点击退出编辑</van-button>
   </div>
 </template>
@@ -32,9 +31,12 @@ export default {
       coverImg: "",
       uploadType: "append",
       replaceDom: "",
-      storyStatus: {
-        未提交审核或修改: "提交审核",
-        审核中: "审核中"
+      storyStatus: 0,
+      btnMsg: {
+        0: "提交审核",
+        1: "提交审核",
+        2: "提交审核",
+        3: "审核中"
       }
     };
   },
@@ -139,6 +141,7 @@ export default {
       return this.http.user.getShopInfo().then(res => {
         let data = res.data;
         this.coverImg = data.cover;
+        this.storyStatus = data.status;
         this.contentPlace = data.content || "请添加图文介绍";
         return this.contentPlace;
       });
@@ -303,6 +306,9 @@ export default {
   top: 0px;
   opacity: 0;
   z-index: -1000;
+}
+.disabled {
+  pointer-events: none;
 }
 </style>
 
