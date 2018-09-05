@@ -9,7 +9,7 @@
       </div>
       <img class="cover-img" :src="coverImg" v-show="!addShow" alt="封面图片">
     </div>
-    <div name="content" id="editor" :class="{disabled: storyStatus==3}">
+    <div name="content" id="editor">
     </div>
     <van-uploader class="append_img" :after-read="append">
     </van-uploader>
@@ -80,6 +80,9 @@ export default {
       })
         .then(editor => {
           window.editor = editor;
+          if (this.storyStatus == 3) {
+            window.editor.isReadOnly = true;
+          }
           const content = data;
           //监听事件
           isIos() ||
