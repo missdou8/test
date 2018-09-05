@@ -36,9 +36,6 @@ export default {
       list: []
     };
   },
-  mounted() {
-    // this.fetchList();
-  },
   methods: {
     onLoad() {
       this.currentPage += 1;
@@ -52,7 +49,6 @@ export default {
     onRefresh() {
       this.list = [];
       this.currentPage = 1;
-      this.finished = true;
       this.fetchList().then(() => {
         this.finished = false;
         this.refreshing = false;
