@@ -85,29 +85,32 @@ export default {
           }
           const content = data;
           //监听事件
-          isIos() ||
-            editor.editing.view.document.on(
-              "change:isFocused",
-              (evt, name, value) => {
-                if (value) {
-                  if (window.editor.getData() === "<p>请添加图文介绍</p>") {
-                    window.editor.setData("");
-                  }
+          editor.editing.view.document.on(
+            "change:isFocused",
+            (evt, name, value) => {
+              if (value) {
+                if (window.editor.getData() === "<p>请添加图文介绍</p>") {
+                  window.editor.setData("");
+                }
+                if (!isIos()) {
                   document.querySelector(".uploader").style.display = "none";
                   let next = document.querySelector(".next");
                   next.style.display = "none";
                   document.querySelector(".exit").style.display = "block";
-                } else {
-                  if (window.editor.getData() === "<p>&nbsp;</p>") {
-                    window.editor.setData("请添加图文介绍");
-                  }
+                }
+              } else {
+                if (window.editor.getData() === "<p>&nbsp;</p>") {
+                  window.editor.setData("请添加图文介绍");
+                }
+                if (!isIos()) {
                   let next = document.querySelector(".next");
                   next.style.display = "block";
                   document.querySelector(".exit").style.display = "none";
                   document.querySelector(".uploader").style.display = "block";
                 }
               }
-            );
+            }
+          );
           // 转化html
           const viewFragment = editor.data.processor.toView(content);
           const modelFragment = editor.data.toModel(viewFragment);
