@@ -11,7 +11,7 @@
           <div class="th" v-for="(item,index) in list" :key="index">
             <div>{{item.order}}</div>
             <div>
-              <img :src="item.icon || config.defaultIcon" alt="用户头像"> {{item.nickname}}
+              <img :src="item.icon || config.defaultIcon" @error="setErrorImg" alt="用户头像"> {{item.nickname}}
             </div>
             <div>
               <p v-for="(prize,index) in item.prize" :key="index">{{prize.name}} {{prize.value}}</p>
@@ -37,6 +37,9 @@ export default {
     };
   },
   methods: {
+    setErrorImg(e) {
+      e.target.src = config.defaultIcon;
+    },
     onLoad() {
       this.currentPage += 1;
       this.fetchList().then(data => {

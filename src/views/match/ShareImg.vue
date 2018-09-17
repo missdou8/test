@@ -181,8 +181,9 @@ export default {
   margin-top: 0.12rem;
 }
 .share-btn button {
-  color: #ffcc00;
+  color: #000;
   font-size: 0.32rem;
+  -webkit-text-stroke: 0.5px #fff;
 }
 </style>
 <style>
