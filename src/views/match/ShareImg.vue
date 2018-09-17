@@ -184,7 +184,7 @@ export default {
   color: #000;
   font-size: 0.32rem;
   font-weight: bolder;
-  -webkit-text-stroke: 0.6px #fff;
+  -webkit-text-stroke: 0.5px #fff;
 }
 </style>
 <style>
