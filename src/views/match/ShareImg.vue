@@ -183,6 +183,7 @@ export default {
 .share-btn button {
   color: #000;
   font-size: 0.32rem;
+  font-weight: bold;
   -webkit-text-stroke: 0.5px #fff;
 }
 </style>
