@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     setErrorImg(e) {
-      e.target.src = config.defaultIcon;
+      e.target.src = this.config.defaultIcon;
     },
     onLoad() {
       this.currentPage += 1;
