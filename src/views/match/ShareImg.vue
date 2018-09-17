@@ -7,8 +7,8 @@
         <img :src="finalImg" alt="要分享的图片">
       </div>
       <div class="share-btn" v-show="isEdit">
-        <button @click="reChooseClick">重新选择</button>
-        <button @click="sureClick">确定</button>
+        <button @click="reChooseClick"></button>
+        <button @click="sureClick"></button>
       </div>
     </div>
     <div class="qr-code">
@@ -180,11 +180,18 @@ export default {
   padding: 0rem 0.42rem;
   margin-top: 0.12rem;
 }
-.share-btn button {
-  color: #000;
-  font-size: 0.32rem;
-  font-weight: bolder;
-  -webkit-text-stroke: 0.3px #fff;
+.share-btn button:first-child {
+  background: url("../../assets/rechoose.png") no-repeat;
+  background-size: contain;
+  width: 2rem;
+  height: 0.4rem;
+}
+.share-btn button:last-child {
+  background: url("../../assets/sure.png") no-repeat;
+  background-position: right center;
+  background-size: contain;
+  width: 2rem;
+  height: 0.4rem;
 }
 </style>
 <style>
