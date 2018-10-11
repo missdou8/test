@@ -45,10 +45,6 @@ export default {
   mounted() {
     //初始化编辑器
     let that = this;
-    let isReadOnly = false;
-    if (this.storyStatus == 3) {
-      isReadOnly = true;
-    }
     //编辑器配置
     var options = {
       debug: "info",
@@ -56,7 +52,7 @@ export default {
         toolbar: "#toolbar-container"
       },
       placeholder: "请填写图文信息",
-      readOnly: isReadOnly,
+      readOnly: false,
       theme: "snow"
     };
     //初始化编辑器
@@ -124,6 +120,11 @@ export default {
     //初始化内容
     this.fetchInfo().then(data => {
       window.editor.container.firstChild.innerHTML = data;
+      if (this.storyStatus == 3) {
+        document
+          .querySelector(".ql-editor")
+          .setAttribute("contenteditable", false);
+      }
     });
   },
   computed: {

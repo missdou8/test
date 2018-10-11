@@ -69,7 +69,9 @@ export default {
     //初始化编辑器
     let editor = new Quill(".editor", options);
     window.editor = editor;
-    editor.container.firstChild.innerHTML = this.contentPlace;
+    if (this.contentPlace) {
+      editor.container.firstChild.innerHTML = this.contentPlace;
+    }
     //对工具栏的处理
     let toolbar = document.querySelector("#toolbar-container");
     let editorDiv = document.querySelector(".editor");
