@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       titlePlace: this.$store.state.match.detail.title,
-      contentPlace: this.$store.state.match.detail.content || "请添加图文介绍",
+      contentPlace: this.$store.state.match.detail.content,
       coverImg: this.$store.state.match.detail.coverImg,
       appendShow: false,
       uploadType: "append", //分为append和upload
@@ -69,6 +69,7 @@ export default {
     //初始化编辑器
     let editor = new Quill(".editor", options);
     window.editor = editor;
+    editor.container.firstChild.innerHTML = this.contentPlace;
     //对工具栏的处理
     let toolbar = document.querySelector("#toolbar-container");
     let editorDiv = document.querySelector(".editor");

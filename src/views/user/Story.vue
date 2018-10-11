@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       titlePlace: "添加比赛名称",
-      contentPlace: "请添加图文介绍",
+      contentPlace: "",
       coverImg: "",
       uploadType: "append",
       replaceDom: "",
@@ -45,6 +45,10 @@ export default {
   mounted() {
     //初始化编辑器
     let that = this;
+    let isReadOnly = false;
+    if (this.storyStatus == 3) {
+      isReadOnly = true;
+    }
     //编辑器配置
     var options = {
       debug: "info",
@@ -52,7 +56,7 @@ export default {
         toolbar: "#toolbar-container"
       },
       placeholder: "请填写图文信息",
-      readOnly: false,
+      readOnly: isReadOnly,
       theme: "snow"
     };
     //初始化编辑器
@@ -133,7 +137,7 @@ export default {
         let data = res.data;
         this.coverImg = data.cover;
         this.storyStatus = data.status || 0;
-        this.contentPlace = data.content || "请添加图文介绍";
+        this.contentPlace = data.content;
         return this.contentPlace;
       });
     },
