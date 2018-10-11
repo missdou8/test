@@ -79,9 +79,21 @@ export default {
       if (range) {
         if (range.length == 0) {
           toolbar.style.display = "block";
+          if (!isIos()) {
+            document.querySelector(".uploader").style.display = "none";
+            let next = document.querySelector(".next");
+            next.style.display = "none";
+            document.querySelector(".exit").style.display = "block";
+          }
         }
       } else {
         toolbar.style.display = "none";
+        if (!isIos()) {
+          let next = document.querySelector(".next");
+          next.style.display = "block";
+          document.querySelector(".exit").style.display = "none";
+          document.querySelector(".uploader").style.display = "block";
+        }
       }
     });
     //处理图片
@@ -90,10 +102,7 @@ export default {
       if (fileInput == null) {
         fileInput = document.createElement("input");
         fileInput.setAttribute("type", "file");
-        fileInput.setAttribute(
-          "accept",
-          "*"
-        );
+        fileInput.setAttribute("accept", "*");
         fileInput.classList.add("ql-image");
         fileInput.addEventListener("change", function() {
           if (fileInput.files != null && fileInput.files[0] != null) {
