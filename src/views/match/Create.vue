@@ -92,7 +92,7 @@ export default {
         fileInput.setAttribute("type", "file");
         fileInput.setAttribute(
           "accept",
-          "image/png, image/jpeg, image/bmp, image/x-icon"
+          "*"
         );
         fileInput.classList.add("ql-image");
         fileInput.addEventListener("change", function() {
