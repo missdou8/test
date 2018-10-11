@@ -1,6 +1,6 @@
 <template>
   <div class="edit">
-    <div class="cover">
+    <div class="cover uploader">
       <img :src="cover" alt="封面">
       <van-uploader class="cover_edit" :after-read="onRead">修改封面</van-uploader>
     </div>
