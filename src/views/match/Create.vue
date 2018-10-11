@@ -317,11 +317,16 @@ export default {
 .title_content {
   width: 4.8rem;
 }
+#toolbar-container {
+  background-color: #fff;
+  border: none;
+}
 .editor {
   flex-basis: 0;
   flex-grow: 1;
   overflow: auto;
   font-size: 0.28rem;
+  background-color: #fff;
 }
 </style>
 

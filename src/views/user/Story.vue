@@ -74,7 +74,7 @@ export default {
       } else {
         toolbar.style.display = "none";
         if (!isIos()) {
-          document.querySelector(".uploader").style.display = "none";
+          document.querySelector(".uploader").style.display = "block";
         }
       }
     });
@@ -302,11 +302,16 @@ export default {
 .disabled {
   pointer-events: none;
 }
+#toolbar-container {
+  background-color: #fff;
+  border: none;
+}
 .editor {
   flex-basis: 0;
   flex-grow: 1;
   overflow: auto;
   font-size: 0.28rem;
+  background-color: #fff;
 }
 </style>
 
