@@ -23,7 +23,6 @@
       <img src="../../assets/add.png" alt="添加图片">
     </div>
     <van-button @click="nextClick" class="next">下一步</van-button>
-    <van-button class="exit next">点击退出编辑</van-button>
     <van-uploader class="append_img" :after-read="append">
     </van-uploader>
   </div>
@@ -81,17 +80,11 @@ export default {
           toolbar.style.display = "block";
           if (!isIos()) {
             document.querySelector(".uploader").style.display = "none";
-            let next = document.querySelector(".next");
-            next.style.display = "none";
-            document.querySelector(".exit").style.display = "block";
           }
         }
       } else {
         toolbar.style.display = "none";
         if (!isIos()) {
-          let next = document.querySelector(".next");
-          next.style.display = "block";
-          document.querySelector(".exit").style.display = "none";
           document.querySelector(".uploader").style.display = "block";
         }
       }

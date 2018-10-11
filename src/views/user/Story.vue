@@ -16,7 +16,6 @@
     <van-uploader class="append_img" :after-read="append">
     </van-uploader>
     <van-button @click="nextClick" class="next" :class="{disabled: storyStatus==3}">{{btnMsg[storyStatus]}}</van-button>
-    <van-button class="exit next">点击退出编辑</van-button>
   </div>
 </template>
 
@@ -68,9 +67,15 @@ export default {
       if (range) {
         if (range.length == 0) {
           toolbar.style.display = "block";
+          if (!isIos()) {
+            document.querySelector(".uploader").style.display = "none";
+          }
         }
       } else {
         toolbar.style.display = "none";
+        if (!isIos()) {
+          document.querySelector(".uploader").style.display = "none";
+        }
       }
     });
     //处理图片
