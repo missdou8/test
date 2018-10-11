@@ -9,8 +9,10 @@
       <span class="can-edit" ref="title" :contenteditable="isPublish">{{title}}</span>
       <button v-show="!isPublish" class="cover_edit" @click="shareImgClick">修改分享图>></button>
     </div>
-    <div name="content" id="editor">
+    <div id="toolbar-container">
+      <button class="ql-image" data-toggle="tooltip" data-placement="bottom" title="Add italic text <cmd+i>"></button>
     </div>
+    <div class="editor"></div>
     <van-uploader v-show="appendShow" class="append" :after-read="append">
       <img src="../../assets/add.png" alt="添加图片">
     </van-uploader>
@@ -28,7 +30,8 @@
 
 
 <script>
-import InlineEditor from "@ckeditor/ckeditor5-build-inline";
+import "../../../node_modules/quill/dist/quill.snow.css";
+import Quill from "quill";
 import ImageCompressor from "image-compressor.js";
 import axios from "axios";
 import { isIos } from "lputils";
@@ -120,100 +123,76 @@ export default {
       item.appendChild(editBtn);
     });
 
-    let that = this;
-    class UploadAdapter {
-      constructor(loader) {
-        this.loader = loader;
-      }
-      upload() {
-        let file = this.loader.file;
-        return new Promise((resolve, reject) => {
-          // 压缩图片
-          new ImageCompressor(file, {
-            width: that.config.outputWidth,
-            success(newFile) {
-              let formData = new FormData();
-              formData.append("file", newFile, Date.now() + ".png");
-              let config = {
-                headers: { "Content-Type": "multipart/form-data" }
-              };
-              that.http.resource
-                .uploadImg(formData, "post", config)
-                .then(res => {
-                  let data = res.data.src[0];
-                  resolve({
-                    default: data
-                  });
-                });
-            }
-          });
-        });
-      }
-      abort() {
-        //
-      }
-    }
     //初始化编辑器
-    InlineEditor.create(document.querySelector("#editor"), {
-      toolbar: ["imageUpload"],
-      removePlugins: ["imageCaption", "imageTextAlternative"],
-      image: {
-        toolbar: []
+    let that = this;
+    //编辑器配置
+    var options = {
+      debug: "info",
+      modules: {
+        toolbar: "#toolbar-container"
+      },
+      placeholder: "请填写图文信息",
+      readOnly: false,
+      theme: "snow"
+    };
+    //初始化编辑器
+    let editor = new Quill(".editor", options);
+    window.editor = editor;
+    editor.container.firstChild.innerHTML = this.content;
+
+    //对工具栏的处理
+    let toolbar = document.querySelector("#toolbar-container");
+    let editorDiv = document.querySelector(".editor");
+    toolbar.style.display = "none";
+    editorDiv.style.border = "0px solid #ccc";
+    editor.on("selection-change", function(range, oldRange, source) {
+      if (range) {
+        if (range.length == 0) {
+          toolbar.style.display = "block";
+        }
+      } else {
+        toolbar.style.display = "none";
       }
-    })
-      .then(editor => {
-        window.editor = editor;
-        //监听事件
-
-        isIos() ||
-          editor.editing.view.document.on(
-            "change:isFocused",
-            (evt, name, value) => {
-              if (value) {
-                document.querySelector(".cover").style.display = "none";
-                let next = document.querySelector(".next");
-                next.style.display = "none";
-                document.querySelector(".exit").style.display = "block";
-              } else {
-                let next = document.querySelector(".next");
-                next.style.display = "block";
-                document.querySelector(".exit").style.display = "none";
-                document.querySelector(".cover").style.display = "block";
-              }
-            }
-          );
-        // 转化html
-        const viewFragment = editor.data.processor.toView(this.content);
-        const modelFragment = editor.data.toModel(viewFragment);
-        editor.model.insertContent(
-          modelFragment,
-          editor.model.document.selection
+    });
+    //处理图片
+    editor.getModule("toolbar").addHandler("image", function() {
+      let fileInput = this.container.querySelector("input.ql-image[type=file]");
+      if (fileInput == null) {
+        fileInput = document.createElement("input");
+        fileInput.setAttribute("type", "file");
+        fileInput.setAttribute(
+          "accept",
+          "image/png, image/jpeg, image/bmp, image/x-icon"
         );
-
-        editor.model.document.on("change:data", () => {
-          let lastEle = document.querySelector("#editor").lastElementChild;
-          if (lastEle.innerHTML == "image widget") {
-            lastEle = lastEle.previousElementSibling;
-          }
-          if (
-            lastEle.innerHTML != '<br data-cke-filler="true">' &&
-            lastEle.innerHTML != "请添加图文介绍"
-          ) {
-            editor.model.change(writer => {
-              let root = editor.model.document.getRoot();
-              writer.insertElement("paragraph", root, "end", {
-                class: "last"
-              });
+        fileInput.classList.add("ql-image");
+        fileInput.addEventListener("change", function() {
+          if (fileInput.files != null && fileInput.files[0] != null) {
+            //压缩并上传图片
+            let file = fileInput.files[0];
+            new ImageCompressor(file, {
+              width: that.config.outputWidth,
+              success(newFile) {
+                let formData = new FormData();
+                formData.append("file", newFile, Date.now() + ".png");
+                let config = {
+                  headers: { "Content-Type": "multipart/form-data" }
+                };
+                that.http.resource
+                  .uploadImg(formData, "post", config)
+                  .then(res => {
+                    let imgSrc = res.data.src[0];
+                    var range = editor.getSelection(true);
+                    editor.insertEmbed(range.index, "image", imgSrc);
+                    editor.setSelection(range.index + 1);
+                  });
+              }
             });
           }
         });
-
-        //初始化上传方法
-        editor.plugins.get("FileRepository").createUploadAdapter = loader => {
-          return new UploadAdapter(loader);
-        };
-      })
-      .catch(error => {});
+        this.container.appendChild(fileInput);
+      }
+      fileInput.click();
+    });
   },
   methods: {
     shareImgClick() {
@@ -226,7 +205,7 @@ export default {
       });
     },
     next() {
-      //TODO: 提示是否有更好的方法
+      let content = window.editor.container.firstChild.innerHTML;
       //判断是否可以跳转，单独提示
       if (!this.cover) {
         return this.$toast("需要添加赛事封面");
@@ -234,10 +213,7 @@ export default {
       if (!this.title) {
         return this.$toast("需要填写赛事名称");
       }
-      if (
-        !window.editor.getData() ||
-        window.editor.getData() == "请添加图文介绍"
-      ) {
+      if (content == "<p><br></p>") {
         return this.$toast("需要填写赛事详情");
       }
       //当保存的时候要将按钮删掉
@@ -246,7 +222,7 @@ export default {
         item.parentElement.removeChild(item);
       });
       this.detail.title = this.$refs.title.innerHTML;
-      this.detail.content = window.editor.getData();
+      this.detail.content = content;
       this.$store.commit("setDetail", this.detail);
       this.$router.push("style");
     },
@@ -276,12 +252,12 @@ export default {
     },
     saveClick() {
       this.detail.title = this.$refs.title.innerHTML;
-      this.detail.content = window.editor.getData();
+      this.detail.content = window.editor.container.firstChild.innerHTML;
       this.$store.commit("setDetail", this.detail);
       this.submit(0);
     },
     checkClick() {
-      //TODO: 提示是否有更好的方法
+      let content = window.editor.container.firstChild.innerHTML;
       //判断是否可以跳转，单独提示
       if (!this.cover) {
         return this.$toast("需要添加赛事封面");
@@ -289,10 +265,7 @@ export default {
       if (!this.title) {
         return this.$toast("需要填写赛事名称");
       }
-      if (
-        !window.editor.getData() ||
-        window.editor.getData() == "请添加图文介绍"
-      ) {
+      if (content == "<p><br></p>") {
         return this.$toast("需要填写赛事详情");
       }
       //当保存的时候要将按钮删掉
@@ -301,8 +274,7 @@ export default {
         item.parentElement.removeChild(item);
       });
       this.detail.title = this.$refs.title.innerHTML;
-      console.log(window.editor.getData());
-      this.detail.content = window.editor.getData();
+      this.detail.content = content;
       this.$store.commit("setDetail", this.detail);
       this.submit(1);
     },
@@ -492,6 +464,12 @@ export default {
 .footer button:nth-child(2) {
   background-color: #000;
   color: #ffd321;
+}
+.editor {
+  flex-basis: 0;
+  flex-grow: 1;
+  overflow: auto;
+  font-size: 0.28rem;
 }
 </style>
 

@@ -9,8 +9,10 @@
       </div>
       <img class="cover-img" :src="coverImg" v-show="!addShow" alt="封面图片">
     </div>
-    <div name="content" id="editor">
+    <div id="toolbar-container">
+      <button class="ql-image" data-toggle="tooltip" data-placement="bottom" title="Add italic text <cmd+i>"></button>
     </div>
+    <div class="editor"></div>
     <van-uploader class="append_img" :after-read="append">
     </van-uploader>
     <van-button @click="nextClick" class="next" :class="{disabled: storyStatus==3}">{{btnMsg[storyStatus]}}</van-button>
@@ -19,7 +21,8 @@
 </template>
 
 <script>
-import InlineEditor from "@ckeditor/ckeditor5-build-inline";
+import "../../../node_modules/quill/dist/quill.snow.css";
+import Quill from "quill";
 import ImageCompressor from "image-compressor.js";
 import axios from "axios";
 import { isIos } from "lputils";
@@ -41,106 +44,77 @@ export default {
     };
   },
   mounted() {
+    //初始化编辑器
     let that = this;
-    class UploadAdapter {
-      constructor(loader) {
-        this.loader = loader;
+    //编辑器配置
+    var options = {
+      debug: "info",
+      modules: {
+        toolbar: "#toolbar-container"
+      },
+      placeholder: "请填写图文信息",
+      readOnly: false,
+      theme: "snow"
+    };
+    //初始化编辑器
+    let editor = new Quill(".editor", options);
+    window.editor = editor;
+    //对工具栏的处理
+    let toolbar = document.querySelector("#toolbar-container");
+    let editorDiv = document.querySelector(".editor");
+    toolbar.style.display = "none";
+    editorDiv.style.border = "0px solid #ccc";
+    editor.on("selection-change", function(range, oldRange, source) {
+      if (range) {
+        if (range.length == 0) {
+          toolbar.style.display = "block";
+        }
+      } else {
+        toolbar.style.display = "none";
       }
-      upload() {
-        let file = this.loader.file;
-        return new Promise((resolve, reject) => {
-          // 压缩图片
-          new ImageCompressor(file, {
-            width: that.config.outputWidth,
-            success(newFile) {
-              let formData = new FormData();
-              formData.append("file", newFile, Date.now() + ".png");
-              let config = {
-                headers: { "Content-Type": "multipart/form-data" }
-              };
-              that.http.resource
-                .uploadImg(formData, "post", config)
-                .then(res => {
-                  let data = res.data.src[0];
-                  resolve({
-                    default: data
+    });
+    //处理图片
+    editor.getModule("toolbar").addHandler("image", function() {
+      let fileInput = this.container.querySelector("input.ql-image[type=file]");
+      if (fileInput == null) {
+        fileInput = document.createElement("input");
+        fileInput.setAttribute("type", "file");
+        fileInput.setAttribute(
+          "accept",
+          "image/png, image/jpeg, image/bmp, image/x-icon"
+        );
+        fileInput.classList.add("ql-image");
+        fileInput.addEventListener("change", function() {
+          if (fileInput.files != null && fileInput.files[0] != null) {
+            //压缩并上传图片
+            let file = fileInput.files[0];
+            new ImageCompressor(file, {
+              width: that.config.outputWidth,
+              success(newFile) {
+                let formData = new FormData();
+                formData.append("file", newFile, Date.now() + ".png");
+                let config = {
+                  headers: { "Content-Type": "multipart/form-data" }
+                };
+                that.http.resource
+                  .uploadImg(formData, "post", config)
+                  .then(res => {
+                    let imgSrc = res.data.src[0];
+                    var range = editor.getSelection(true);
+                    editor.insertEmbed(range.index, "image", imgSrc);
+                    editor.setSelection(range.index + 1);
                   });
-                });
-            }
-          });
-        });
-      }
-      abort() {
-        //
-      }
-    }
-    this.fetchInfo().then(data => {
-      InlineEditor.create(document.querySelector("#editor"), {
-        toolbar: ["imageUpload"]
-      })
-        .then(editor => {
-          window.editor = editor;
-          if (this.storyStatus == 3) {
-            window.editor.isReadOnly = true;
-          }
-          const content = data;
-          //监听事件
-          editor.editing.view.document.on(
-            "change:isFocused",
-            (evt, name, value) => {
-              if (value) {
-                if (window.editor.getData() === "<p>请添加图文介绍</p>") {
-                  window.editor.setData("");
-                }
-                if (!isIos()) {
-                  document.querySelector(".uploader").style.display = "none";
-                  let next = document.querySelector(".next");
-                  next.style.display = "none";
-                  document.querySelector(".exit").style.display = "block";
-                }
-              } else {
-                if (window.editor.getData() === "<p>&nbsp;</p>") {
-                  window.editor.setData("请添加图文介绍");
-                }
-                if (!isIos()) {
-                  let next = document.querySelector(".next");
-                  next.style.display = "block";
-                  document.querySelector(".exit").style.display = "none";
-                  document.querySelector(".uploader").style.display = "block";
-                }
               }
-            }
-          );
-          // 转化html
-          const viewFragment = editor.data.processor.toView(content);
-          const modelFragment = editor.data.toModel(viewFragment);
-          editor.model.insertContent(
-            modelFragment,
-            editor.model.document.selection
-          );
-          editor.model.document.on("change:data", () => {
-            let lastEle = document.querySelector("#editor").lastElementChild;
-            if (lastEle.innerHTML == "image widget") {
-              lastEle = lastEle.previousElementSibling;
-            }
-            if (
-              lastEle.innerHTML != '<br data-cke-filler="true">' &&
-              lastEle.innerHTML != "请添加图文介绍"
-            ) {
-              editor.model.change(writer => {
-                let root = editor.model.document.getRoot();
-                writer.insertElement("paragraph", root, "end", {
-                  class: "last"
-                });
-              });
-            }
-          });
-          //初始化上传方法
-          editor.plugins.get("FileRepository").createUploadAdapter = loader => {
-            return new UploadAdapter(loader);
-          };
-        })
-        .catch(error => {});
+            });
+          }
+        });
+        this.container.appendChild(fileInput);
+      }
+      fileInput.click();
+    });
+    //初始化内容
+    this.fetchInfo().then(data => {
+      window.editor.container.firstChild.innerHTML = data;
     });
   },
   computed: {
@@ -164,16 +138,17 @@ export default {
       input.click();
     },
     nextClick() {
+      let content = window.editor.container.firstChild.innerHTML;
       if (!this.coverImg) {
         return this.$toast("请上传封面图片");
       }
-      if (window.editor.getData() == "<p>&nbsp;</p>") {
+      if (content == "<p><br></p>") {
         return this.$toast("请填写故事内容");
       }
       this.http.user
         .setShopInfo({
           cover: this.coverImg,
-          content: window.editor.getData()
+          content: content
         })
         .then(res => {
           this.$router.go(-1);
@@ -321,6 +296,12 @@ export default {
 }
 .disabled {
   pointer-events: none;
+}
+.editor {
+  flex-basis: 0;
+  flex-grow: 1;
+  overflow: auto;
+  font-size: 0.28rem;
 }
 </style>
 
