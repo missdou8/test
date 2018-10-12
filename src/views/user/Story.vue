@@ -84,10 +84,7 @@ export default {
       if (fileInput == null) {
         fileInput = document.createElement("input");
         fileInput.setAttribute("type", "file");
-        fileInput.setAttribute(
-          "accept",
-          "image/png, image/jpeg, image/bmp, image/x-icon"
-        );
+        fileInput.setAttribute("accept", "*");
         fileInput.classList.add("ql-image");
         fileInput.addEventListener("change", function() {
           if (fileInput.files != null && fileInput.files[0] != null) {
