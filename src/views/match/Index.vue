@@ -195,6 +195,9 @@ export default {
       if (this.userInfo.latitude == 0) {
         return this.$toast("需要进行店铺地址定位");
       }
+      if (this.userInfo.shopName == "") {
+        return this.$toast("请先设置店铺名称");
+      }
       this.$router.push("match/create");
     },
     fetchList() {
