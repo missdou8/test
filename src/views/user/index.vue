@@ -164,7 +164,22 @@ export default {
   align-self: baseline;
 }
 #userIndex .van-hairline--top-bottom::after {
-  left: 15px;
+  content: ' ';
+  position: absolute;
+  pointer-events: none;
+  box-sizing: border-box;
+  right: 0;
+  top: 100%;
+  bottom: 0;
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+  border-bottom: 1px solid #eee;
+  left: 0.3rem;
+  border-top: 0;
+  width: 6.6rem;
+}
+#userIndex .user_edit_box::after {
+  top: 95%;
 }
 </style>
 
