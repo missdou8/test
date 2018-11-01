@@ -301,9 +301,9 @@ export default {
 #editAutonym .input_box .van-cell {
   padding: 0.3rem;
 }
-#editAutonym .van-cell:not(:last-child)::after {
+/* #editAutonym .van-cell:not(:last-child)::after {
   height: 195%;
-}
+} */
 #editAutonym .uploader .van-uploader__input {
   z-index: 999;
 }
