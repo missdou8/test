@@ -132,7 +132,6 @@ export default {
         if (flag) {
           this.rankPrize = state;
         }
-
         this.rankList = data.prizesList.map((item, index) => {
           let rankItem = item.rank.split(",").join("-");
           if (!flag) {
@@ -146,7 +145,7 @@ export default {
             name: ""
           };
         });
-
+        let originLength = state.length;
         //如果在再办一场中修改了赛制人数，则奖品排名也需要进行相应的变化
         let differ = state.length - data.prizesList.length;
         if (state.length == 0) {
@@ -155,8 +154,8 @@ export default {
         if (differ < 0) {
           for (let i = 0; i < -differ; i++) {
             this.rankPrize.push({
-              rank: data.prizesList[i + state.length].rank.split(",").join("-"),
-              index: i + state.length + 1
+              rank: data.prizesList[i + originLength].rank.split(",").join("-"),
+              index: i + originLength + 1
             });
           }
         } else {
