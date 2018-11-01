@@ -19,7 +19,7 @@
             <input class="prize_prize" type="text" placeholder="点击输入奖品名称" v-model="rankPrize[index].name" @blur="prizeInput(index,'name',$event)">
             <input class="prize_prize" type="number" placeholder="数量" v-model="rankPrize[index].prizeCount" @blur="prizeInput(index,'prizeCount',$event)">
             <input class="prize_prize" type="text" placeholder="单位" v-model="rankPrize[index].unit" @blur="prizeInput(index,'unit',$event)">
-            <input class="prize_value" v-model="rankPrize[index].price" type="number" @blur="valueInput(index, $event)">
+            <input class="prize_value" v-model="rankPrize[index].price" type="number" placeholder="价值" @blur="valueInput(index, $event)">
             <span class="prize_tag">元</span>
           </div>
         </div>

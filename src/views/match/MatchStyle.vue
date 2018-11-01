@@ -222,6 +222,8 @@ export default {
        */
       let match = this.$store.state.match;
       let gameName = match.gameName;
+      let isEdit = this.$store.state.match.isEdit;
+
       if (!gameName.id) {
         return this.$toast("请选择游戏名称");
       }
@@ -251,9 +253,6 @@ export default {
 
       //如果没有奖品的话则传空对象
       let rankingSet = match.rankPrize;
-      // if (!match.ifSave && !isEdit) {
-      //   rankingSet = {};
-      // }
       let params = {
         isAudit: type,
         title: detail.title,
