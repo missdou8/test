@@ -12,7 +12,7 @@
     "babel-polyfill": "^6.26.0",
     "html2canvas": "^1.0.0-alpha.12",
     "image-compressor.js": "^1.1.4",
-    "lp-alloycrop": "^1.0.1",
+    "lp-alloycrop": "^1.1.0",
     "lpreset.css": "0.1.0",
     "lputils": "0.1.9",
     "postcss-preset-env": "^6.3.0",
