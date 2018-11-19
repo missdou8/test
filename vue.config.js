@@ -11,6 +11,6 @@ module.exports = {
     ? "https://cdn.didabisai.com/merchant/front/"
     : "front",
   configureWebpack: (config) => {
-    config.entry = ["babel-polyfill", "./src/main.js"]
+    config.entry = ["@babel/polyfill", "./src/main.js"]
   },
 };
