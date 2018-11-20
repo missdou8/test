@@ -15,7 +15,7 @@
 <script>
 import img from "../../assets/icon.png";
 import didaList from "../../components/didaList.vue";
-import { timestamp_switch_time } from "lputils";
+import { timeFormate } from "lputils";
 import { httpToHttps } from "../../../script/utils.js";
 export default {
   data() {
@@ -36,7 +36,7 @@ export default {
       this.applyList = data.list;
       if (this.applyList.length > 0) {
         this.applyList.forEach(p => {
-          p.Time = timestamp_switch_time(p.time);
+          p.Time = timeFormate(p.time*1000, 'YY/MM/DD HH:mm:ss');
           p.icon  = httpToHttps(p.icon)
         });
       }

@@ -47,7 +47,7 @@ export default {
     let that = this;
     //编辑器配置
     var options = {
-      debug: "info",
+      debug: false,
       modules: {
         toolbar: "#toolbar-container"
       },
@@ -212,7 +212,7 @@ export default {
   height: 100%;
 }
 #create::before {
-  content: "";
+  content: '';
   display: table;
 }
 #create {
@@ -289,7 +289,7 @@ export default {
   font-weight: bold;
 }
 .add_img {
-  background: url("../../assets/img_add.png") center/100% 100% no-repeat;
+  background: url('../../assets/img_add.png') center/100% 100% no-repeat;
   height: 0.39rem;
   width: 0.49rem;
   margin-right: 0.1rem;

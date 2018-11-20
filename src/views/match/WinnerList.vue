@@ -86,7 +86,14 @@ export default {
 }
 .title {
   display: flex;
-  justify-content: space-around;
+}
+.title li {
+  flex-basis: 0;
+  flex-grow: 1;
+  text-align: center;
+}
+.title li:nth-child(2) {
+  flex-grow: 2;
 }
 .match_list {
   flex-basis: 0;
@@ -107,6 +114,7 @@ export default {
   text-align: center;
 }
 .th > div:nth-child(2) {
+  flex-grow: 2;
   display: flex;
   align-items: center;
   justify-content: flex-start;

@@ -13,7 +13,7 @@
     "image-compressor.js": "^1.1.4",
     "lp-alloycrop": "^1.1.0",
     "lpreset.css": "0.1.0",
-    "lputils": "0.1.9",
+    "lputils": "0.2.5",
     "postcss-preset-env": "^6.3.0",
     "qrcode": "^1.2.2",
     "qs": "^6.5.2",

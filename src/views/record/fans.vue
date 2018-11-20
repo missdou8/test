@@ -1,6 +1,6 @@
 <template>
   <div id="fans">
-    <dida-list ref="dida_list" post-module="watchers" post-url="watchersList" @returnData="getWatchersList($event)">
+    <dida-list ref="dida_list" post-module="watchers" post-url="watchersList" @returnData="getWatchersList">
       <div class="title">
         <span>粉丝列表</span>
         <span>{{total}}人</span>
@@ -18,7 +18,7 @@
 <script>
 import img from "../../assets/icon.png";
 import didaList from "../../components/didaList.vue";
-import { timestamp_switch_time } from "lputils";
+import { timeFormate } from "lputils";
 import { httpToHttps } from "../../../script/utils.js";
 export default {
   data() {
@@ -39,7 +39,7 @@ export default {
       this.watchersList = data.list;
       if (this.watchersList.length > 0) {
         this.watchersList.forEach(w => {
-          w.Time = timestamp_switch_time(w.time);
+          w.Time = timeFormate(w.time*1000, 'YY/MM/DD HH:mm:ss');
           w.icon  = httpToHttps(w.icon)
         });
       }

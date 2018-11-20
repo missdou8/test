@@ -21,7 +21,7 @@
 
 <script>
 import didaList from "../../components/didaList";
-import { timestamp_switch_time, isWeChat, isQQ } from "lputils";
+import { timeFormate, isWeChat, isQQ } from "lputils";
 export default {
   data() {
     return {
@@ -43,8 +43,8 @@ export default {
       this.record = data.list;
       if (this.record.length > 0) {
         this.record.forEach(r => {
-          r.startTime = timestamp_switch_time(r.startTime);
-          r.endTime = timestamp_switch_time(r.endTime);
+          r.startTime = timeFormate(r.startTime*1000, 'YY/MM/DD HH:mm:ss');
+          r.endTime = timeFormate(r.endTime*1000, 'YY/MM/DD HH:mm:ss');
         });
         this.dataShow = true;
       }else{
@@ -109,7 +109,7 @@ export default {
   color: rgb(68, 187, 0);
 }
 .match_tible::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0.2rem;

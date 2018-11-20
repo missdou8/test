@@ -125,7 +125,7 @@ export default {
     let that = this;
     //编辑器配置
     var options = {
-      debug: "info",
+      debug: false,
       modules: {
         toolbar: "#toolbar-container"
       },
