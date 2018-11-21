@@ -153,7 +153,8 @@ export default {
       if (!title) {
         return this.$toast("需要填写赛事名称");
       }
-      if (!content || content == "<p>请添加图文介绍</p>") {
+      console.log(content)
+      if (!content || content == "<p><br></p>") {
         return this.$toast("需要填写赛事详情");
       }
       this.$store.commit("setDetail", {
@@ -227,7 +228,7 @@ export default {
   display: none;
 }
 .create::before {
-  content: "";
+  content: '';
   display: table;
 }
 .create {
@@ -291,7 +292,7 @@ export default {
   font-weight: bold;
 }
 .add_img {
-  background: url("../../assets/img_add.png") center/100% 100% no-repeat;
+  background: url('../../assets/img_add.png') center/100% 100% no-repeat;
   height: 0.39rem;
   width: 0.49rem;
   margin-right: 0.1rem;

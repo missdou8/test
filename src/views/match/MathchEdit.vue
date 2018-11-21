@@ -214,7 +214,7 @@ export default {
       if (!this.title) {
         return this.$toast("需要填写赛事名称");
       }
-      if (content == "<p><br></p>") {
+      if (!content || content == "<p><br></p>") {
         return this.$toast("需要填写赛事详情");
       }
       //当保存的时候要将按钮删掉
