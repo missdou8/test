@@ -183,7 +183,7 @@ export default {
       //判断是否每个奖品都填写了
       let canSave = false;
       this.rankPrize.forEach(item => {
-        if (!item.name || !item.price || !item.prizeCount || !item.unit) {
+        if (!item.name || !String(item.price) || !item.prizeCount || !item.unit) {
           canSave = true;
         }
       });
@@ -276,7 +276,7 @@ export default {
   font-weight: bold;
 }
 .add_img {
-  background: url("../../assets/img_add.png") center/100% 100% no-repeat;
+  background: url('../../assets/img_add.png') center/100% 100% no-repeat;
   height: 0.39rem;
   width: 0.49rem;
   margin-right: 0.1rem;
@@ -344,11 +344,11 @@ export default {
   margin-top: 0.2rem;
 }
 .rank::before {
-  content: "";
+  content: '';
   display: table;
 }
 .rank::after {
-  content: "";
+  content: '';
   display: table;
 }
 .rank > div {
