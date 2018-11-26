@@ -8,7 +8,7 @@
 
 <script>
 import AlloyCrop from "lp-alloycrop";
-import ImageCompressor from "image-compressor.js";
+import ImageCompressor from 'compressorjs';
 export default {
   data() {
     return {

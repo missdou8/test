@@ -22,7 +22,7 @@
 <script>
 import "../../../node_modules/quill/dist/quill.snow.css";
 import Quill from "quill";
-import ImageCompressor from "image-compressor.js";
+import ImageCompressor from 'compressorjs';
 import axios from "axios";
 import { isIos } from "lputils";
 export default {

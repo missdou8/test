@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "compressorjs": "^1.0.1",
     "html2canvas": "^1.0.0-alpha.12",
-    "image-compressor.js": "^1.1.4",
     "lp-alloycrop": "^1.1.0",
     "lpreset.css": "0.1.0",
     "lputils": "0.2.5",

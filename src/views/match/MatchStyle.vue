@@ -42,7 +42,7 @@ import { mapState } from "vuex";
 import RadioBtn from "../../components/RadioBtn.vue";
 import { timeFormate } from "lputils";
 import Prize from "../../views/match/Prize.vue";
-import ImageCompressor from "image-compressor.js";
+import ImageCompressor from 'compressorjs';
 
 export default {
   components: {

@@ -1,18 +1,18 @@
-import Vue from "vue";
-import router from "./router/router.js";
-import App from "./App.vue";
-import ApiService from "./service/http.js";
-import store from "./store/index.js";
-import ImageCompressor from "image-compressor.js";
+import Vue from 'vue'
+import router from './router/router.js'
+import App from './App.vue'
+import ApiService from './service/http.js'
+import store from './store/index.js'
+import ImageCompressor from 'compressorjs'
 
 // 导入公共CSS
-import "lpreset.css";
-import "./style/base.css";
+import 'lpreset.css'
+import './style/base.css'
 
 //导入配置
-import config from "./config/index.js";
+import config from './config/index.js'
 
-Vue.prototype.config = config;
+Vue.prototype.config = config
 
 // 引用组件
 import {
@@ -44,7 +44,7 @@ import {
   Picker,
   CollapseItem,
   NavBar
-} from "vant";
+} from 'vant'
 Vue.use(Tab)
   .use(Tabs)
   .use(Field)
@@ -72,52 +72,52 @@ Vue.use(Tab)
   .use(DatetimePicker)
   .use(CollapseItem)
   .use(PasswordInput)
-  .use(NavBar);
+  .use(NavBar)
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = false
 
 /**
  * 自定义全局方法
  */
-Vue.prototype.http = new ApiService();
+Vue.prototype.http = new ApiService()
 /**
  * 上传图片
  */
 let uploadImg = (data, name, callBack) => {
   let config = {
-    headers: { "Content-Type": "multipart/form-data" }
-  };
-  let formData = new FormData();
-  formData.append("file", data, name);
-  Vue.prototype.http.resource.uploadImg(formData, "post", config).then(res => {
-    let data = res.data;
-    callBack(data.src[0]);
-  });
-};
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }
+  let formData = new FormData()
+  formData.append('file', data, name)
+  Vue.prototype.http.resource.uploadImg(formData, 'post', config).then(res => {
+    let data = res.data
+    callBack(data.src[0])
+  })
+}
 
 Vue.prototype.upload = (file, callBack) => {
   //图片压缩
   new ImageCompressor(file.file, {
     width: config.outputWidth,
     success(newFile) {
-      uploadImg(newFile, newFile.name, callBack);
+      uploadImg(newFile, newFile.name, callBack)
     }
-  });
-};
+  })
+}
 
 Vue.prototype.convertBase64UrlToBlob = (base64, mimeType) => {
-  let bytes = window.atob(base64.split(",")[1]);
-  let ab = new ArrayBuffer(bytes.length);
-  let ia = new Uint8Array(ab);
+  let bytes = window.atob(base64.split(',')[1])
+  let ab = new ArrayBuffer(bytes.length)
+  let ia = new Uint8Array(ab)
   for (let i = 0; i < bytes.length; i++) {
-    ia[i] = bytes.charCodeAt(i);
+    ia[i] = bytes.charCodeAt(i)
   }
-  let _blob = new Blob([ab], { type: mimeType });
-  return _blob;
-};
+  let _blob = new Blob([ab], { type: mimeType })
+  return _blob
+}
 
 export default new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount("#app");
+}).$mount('#app')
