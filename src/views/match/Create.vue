@@ -153,7 +153,6 @@ export default {
       if (!title) {
         return this.$toast("需要填写赛事名称");
       }
-      console.log(content)
       if (!content || content == "<p><br></p>") {
         return this.$toast("需要填写赛事详情");
       }
