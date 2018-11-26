@@ -35,7 +35,7 @@ export default {
     },
     //获取短信二维码
     sendClick() {
-      let regMobile = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[45678]|19[89]|16[6])[0-9]{8}$/;
+      let regMobile = /^1\d{10}$/;
       if (!regMobile.test(this.codeMobile))
         return this.$toast("请检查手机号是否正确");
       this.http.verify
