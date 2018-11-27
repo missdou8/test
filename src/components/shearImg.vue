@@ -24,27 +24,21 @@ export default {
   methods: {
     getImgUrl(file) {
       let that = this;
-      let maxSize = 300 * 1024;
       let dataURI = file.content;
-      let imgSize = dataURI.length;
+      let iconWidth = 200;
       //压缩图片处理
-      if (imgSize > maxSize) {
-        let radio = maxSize / imgSize;
-        new ImageCompressor(file.file, {
-          quality: radio,
-          convertSize: 1000000,
-          success(newFile) {
-            //将压缩后的图像(一个Blob对象)。转化成bas64
-            let file = new FileReader();
-            file.readAsDataURL(newFile);
-            file.onload = e => {
-              that.getAlloyCrop(e.target.result);
-            };
-          }
-        });
-      } else {
-        this.getAlloyCrop(file.content);
-      }
+      new ImageCompressor(file.file, {
+        width: iconWidth,
+        quality: 1,
+        success(newFile) {
+          //将压缩后的图像(一个Blob对象)。转化成bas64
+          let file = new FileReader();
+          file.readAsDataURL(newFile);
+          file.onload = e => {
+            that.getAlloyCrop(e.target.result);
+          };
+        }
+      });
     },
     getAlloyCrop(file) {
       let _this = this;
