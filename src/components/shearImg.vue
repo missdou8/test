@@ -1,14 +1,14 @@
 <template>
   <div id="shearImg">
     <van-uploader class="uploader" :after-read="getImgUrl">
-      <img :src="imgSrc||defImg" alt="logo" srcset="">
+      <img :src="imgSrc||defImg" alt="logo" srcset>
     </van-uploader>
   </div>
 </template>
 
 <script>
 import AlloyCrop from "lp-alloycrop";
-import ImageCompressor from 'compressorjs';
+import ImageCompressor from "compressorjs";
 export default {
   data() {
     return {
