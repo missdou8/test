@@ -5,11 +5,18 @@
     </div>
     <p class="match_title">{{title}}</p>
     <p class="match_code">
-      <span v-for="item in code">{{item}}</span>
+      <span v-for="item in code" :key="`code${item}`">{{item}}</span>
     </p>
     <p class="match_code_desc">输入邀请码即可报名成功</p>
     <!-- 生成二维码 -->
-    <me-qrcode class="qr_code" v-if="link" :qr-url='link' :qr-size='300' :qr-logo-size="80" :qr-logo="qrlogo"></me-qrcode>
+    <me-qrcode
+      class="qr_code"
+      v-if="link"
+      :qr-url="link"
+      :qr-size="300"
+      :qr-logo-size="80"
+      :qr-logo="qrlogo"
+    ></me-qrcode>
     <p class="qr_code_desc">长按识别二维码下载客户端参加比赛</p>
   </div>
 </template>

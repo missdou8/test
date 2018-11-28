@@ -13,21 +13,43 @@
         </van-uploader>
       </div>
       <div class="rank">
-        <div class="prize_info" v-for="(item,index) in rankList">
+        <div class="prize_info" v-for="(item,index) in rankList" :key="`prize${index}`">
           <p class="prize_rank">第{{item.value}}名</p>
           <div class="prize_value_content">
-            <input class="prize_prize" type="text" placeholder="点击输入奖品名称" v-model="rankPrize[index].name" @blur="prizeInput(index,'name',$event)">
-            <input class="prize_prize" type="number" placeholder="数量" v-model="rankPrize[index].prizeCount" @blur="prizeInput(index,'prizeCount',$event)">
-            <input class="prize_prize" type="text" placeholder="单位" v-model="rankPrize[index].unit" @blur="prizeInput(index,'unit',$event)">
-            <input class="prize_value" v-model="rankPrize[index].price" type="number" placeholder="价值" @blur="valueInput(index, $event)">
+            <input
+              class="prize_prize"
+              type="text"
+              placeholder="点击输入奖品名称"
+              v-model="rankPrize[index].name"
+              @blur="prizeInput(index,'name',$event)"
+            >
+            <input
+              class="prize_prize"
+              type="number"
+              placeholder="数量"
+              v-model="rankPrize[index].prizeCount"
+              @blur="prizeInput(index,'prizeCount',$event)"
+            >
+            <input
+              class="prize_prize"
+              type="text"
+              placeholder="单位"
+              v-model="rankPrize[index].unit"
+              @blur="prizeInput(index,'unit',$event)"
+            >
+            <input
+              class="prize_value"
+              v-model="rankPrize[index].price"
+              type="number"
+              placeholder="价值"
+              @blur="valueInput(index, $event)"
+            >
             <span class="prize_tag">元</span>
           </div>
         </div>
       </div>
       <p class="total_value">
-        <span>
-          共计
-        </span>
+        <span>共计</span>
         <span>{{ totalPrize}}</span>元
       </p>
       <div class="send">
@@ -35,7 +57,14 @@
         <radio-btn class="send_type" :data="sendStyle" @select="typeSelect" :selected="sendType"></radio-btn>
         <div class="address" v-show="addressShow">
           <p class="address_title">请选择自提地址</p>
-          <van-cell class="address_info" :title="contact" :label="address" is-link center @click="toAddress"></van-cell>
+          <van-cell
+            class="address_info"
+            :title="contact"
+            :label="address"
+            is-link
+            center
+            @click="toAddress"
+          ></van-cell>
         </div>
       </div>
     </div>
@@ -183,7 +212,12 @@ export default {
       //判断是否每个奖品都填写了
       let canSave = false;
       this.rankPrize.forEach(item => {
-        if (!item.name || !String(item.price) || !item.prizeCount || !item.unit) {
+        if (
+          !item.name ||
+          !String(item.price) ||
+          !item.prizeCount ||
+          !item.unit
+        ) {
           canSave = true;
         }
       });
@@ -276,7 +310,7 @@ export default {
   font-weight: bold;
 }
 .add_img {
-  background: url('../../assets/img_add.png') center/100% 100% no-repeat;
+  background: url("../../assets/img_add.png") center/100% 100% no-repeat;
   height: 0.39rem;
   width: 0.49rem;
   margin-right: 0.1rem;
@@ -344,11 +378,11 @@ export default {
   margin-top: 0.2rem;
 }
 .rank::before {
-  content: '';
+  content: "";
   display: table;
 }
 .rank::after {
-  content: '';
+  content: "";
   display: table;
 }
 .rank > div {
