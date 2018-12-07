@@ -45,7 +45,6 @@ export default {
   mounted() {
     this.qrSize = document.body.offsetWidth * 0.3;
     let imgURL = this.$store.state.match.shareCropImg;
-    console.log(imgURL);
     if (imgURL) {
       imgURL = imgURL.replace("cdn", "merchant");
       return (this.finalImg = imgURL);
