@@ -1,109 +1,109 @@
-import Index from "../views/match/Index.vue";
-import Detail from "../views/match/Detail.vue";
-import Create from "../views/match/Create.vue";
-import MatchStyle from "../views/match/MatchStyle.vue";
-import MathchEdit from "../views/match/MathchEdit.vue";
-import Prize from "../views/match/Prize.vue";
-import PrizeAddress from "../views/match/PrizeAddress.vue";
-import Share from "../views/match/Share.vue";
-import ShareImg from "../views/match/ShareImg.vue";
-import WinnerList from "../views/match/WinnerList.vue";
-import WaitingCheck from "../views/match/WaitingCheck.vue";
-import GameRules from "../components/GameRules.vue";
-import MatchRecord from "../views/match/MatchRecord.vue";
+import Index from '../views/match/Index.vue'
+import Detail from '../views/match/Detail.vue'
+import Create from '../views/match/Create.vue'
+import MatchStyle from '../views/match/MatchStyle.vue'
+import MathchEdit from '../views/match/MathchEdit.vue'
+import Prize from '../views/match/Prize.vue'
+import PrizeAddress from '../views/match/PrizeAddress.vue'
+import Share from '../views/match/Share.vue'
+import ShareImg from '../views/match/ShareImg.vue'
+import WinnerList from '../views/match/WinnerList.vue'
+import WaitingCheck from '../views/match/WaitingCheck.vue'
+import GameRules from '../components/GameRules.vue'
+import MatchRecord from '../views/match/MatchRecord.vue'
 
 const MATCH_ROUTERS = [
   {
-    path: "/match",
+    path: '/match',
     component: Index,
     meta: {
-      title: "广告主"
+      title: '广告主'
     }
   },
   {
-    path: "/match/detail",
+    path: '/match/detail',
     component: Detail,
     meta: {
-      title: "比赛详情"
+      title: '比赛详情'
     }
   },
   {
-    path: "/match/create",
+    path: '/match/create',
     component: Create,
     meta: {
-      title: "创建比赛"
+      title: '创建比赛'
     }
   },
   {
-    path: "/match/style",
+    path: '/match/style',
     component: MatchStyle,
     meta: {
-      title: "赛制设置"
+      title: '赛制设置'
     }
   },
   {
-    path: "/match/edit",
+    path: '/match/edit',
     component: MathchEdit,
     meta: {
-      title: "修改比赛信息"
+      title: '修改比赛信息'
     }
   },
   {
-    path: "/match/style/prize",
+    path: '/match/style/prize',
     component: Prize,
     meta: {
-      title: "填写奖品信息"
+      title: '填写奖品信息'
     }
   },
   {
-    path: "/match/style/prize/address",
+    path: '/match/style/prize/address',
     component: PrizeAddress,
     meta: {
-      title: "自提地址"
+      title: '自提地址'
     }
   },
   {
-    path: "/match/share",
+    path: '/match/share',
     component: Share,
     meta: {
-      title: "分享邀请码"
+      title: '分享邀请码'
     }
   },
   {
-    path: "/match/shareImg",
+    path: '/match/shareImg',
     component: ShareImg,
     meta: {
-      title: "添加分享图片"
+      title: '添加分享图片'
     }
   },
   {
-    path: "/match/winner/list",
+    path: '/match/winner/list',
     component: WinnerList,
     meta: {
-      title: "获奖列表"
+      title: '获奖列表'
     }
   },
   {
-    path: "/match/waitingCheck",
+    path: '/match/waitingCheck',
     component: WaitingCheck,
     meta: {
-      title: "待审核"
+      title: '待审核'
     }
   },
   {
-    path: "/gameRule",
+    path: '/gameRule',
     meta: {
-      title: "游戏规则"
+      title: '游戏规则'
     },
     component: GameRules
   },
   {
-    path: "/match/detail/record",
+    path: '/match/detail/record',
     meta: {
-      title: "开赛记录"
+      title: '开赛记录'
     },
     component: MatchRecord
   }
-];
+]
 
-export default MATCH_ROUTERS;
+export default MATCH_ROUTERS

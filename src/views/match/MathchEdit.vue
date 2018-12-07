@@ -10,7 +10,12 @@
       <button v-show="!isPublish" class="cover_edit" @click="shareImgClick">修改分享图>></button>
     </div>
     <div id="toolbar-container">
-      <button class="ql-image" data-toggle="tooltip" data-placement="bottom" title="Add italic text <cmd+i>"></button>
+      <button
+        class="ql-image"
+        data-toggle="tooltip"
+        data-placement="bottom"
+        title="Add italic text <cmd+i>"
+      ></button>
     </div>
     <div class="editor"></div>
     <van-uploader v-show="appendShow" class="append" :after-read="append">
@@ -30,7 +35,6 @@
 <script>
 import "../../../node_modules/quill/dist/quill.snow.css";
 import Quill from "quill";
-import ImageCompressor from 'compressorjs';
 import axios from "axios";
 import { isIos } from "lputils";
 import { mapState } from "vuex";
@@ -170,23 +174,11 @@ export default {
           if (fileInput.files != null && fileInput.files[0] != null) {
             //压缩并上传图片
             let file = fileInput.files[0];
-            new ImageCompressor(file, {
-              width: that.config.outputWidth,
-              success(newFile) {
-                let formData = new FormData();
-                formData.append("file", newFile, Date.now() + ".png");
-                let config = {
-                  headers: { "Content-Type": "multipart/form-data" }
-                };
-                that.http.resource
-                  .uploadImg(formData, "post", config)
-                  .then(res => {
-                    let imgSrc = res.data.src[0];
-                    var range = editor.getSelection(true);
-                    editor.insertEmbed(range.index, "image", imgSrc);
-                    editor.setSelection(range.index + 1);
-                  });
-              }
+
+            that.compressAndUpload(file).then(imgSrc => {
+              var range = editor.getSelection(true);
+              editor.insertEmbed(range.index, "image", imgSrc);
+              editor.setSelection(range.index + 1);
             });
           }
         });
@@ -200,8 +192,8 @@ export default {
       this.$router.push("shareImg");
     },
     onRead(file) {
-      this.upload(file, src => {
-        this.detail.coverImg = src;
+      this.compressAndUpload(file.file).then(imgSrc => {
+        this.detail.coverImg = imgSrc;
         this.$store.commit("setDetail", this.detail);
       });
     },
@@ -243,8 +235,9 @@ export default {
       div.appendChild(img);
       img.style.width = "100%";
       img.style.display = "block";
-      this.upload(file, src => {
-        img.src = src;
+
+      this.compressAndUpload(file.file).then(imgSrc => {
+        img.src = imgSrc;
       });
       //获取光标位置
       let selection = window.getSelection();

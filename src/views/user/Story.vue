@@ -10,19 +10,26 @@
       <img class="cover-img" :src="coverImg" v-show="!addShow" alt="封面图片">
     </div>
     <div id="toolbar-container">
-      <button class="ql-image" data-toggle="tooltip" data-placement="bottom" title="Add italic text <cmd+i>"></button>
+      <button
+        class="ql-image"
+        data-toggle="tooltip"
+        data-placement="bottom"
+        title="Add italic text <cmd+i>"
+      ></button>
     </div>
     <div class="editor"></div>
-    <van-uploader class="append_img" :after-read="append">
-    </van-uploader>
-    <van-button @click="nextClick" class="next" :class="{disabled: storyStatus==3}">{{btnMsg[storyStatus]}}</van-button>
+    <van-uploader class="append_img" :after-read="append"></van-uploader>
+    <van-button
+      @click="nextClick"
+      class="next"
+      :class="{disabled: storyStatus==3}"
+    >{{btnMsg[storyStatus]}}</van-button>
   </div>
 </template>
 
 <script>
 import "../../../node_modules/quill/dist/quill.snow.css";
 import Quill from "quill";
-import ImageCompressor from 'compressorjs';
 import axios from "axios";
 import { isIos } from "lputils";
 export default {
@@ -90,23 +97,10 @@ export default {
           if (fileInput.files != null && fileInput.files[0] != null) {
             //压缩并上传图片
             let file = fileInput.files[0];
-            new ImageCompressor(file, {
-              width: that.config.outputWidth,
-              success(newFile) {
-                let formData = new FormData();
-                formData.append("file", newFile, Date.now() + ".png");
-                let config = {
-                  headers: { "Content-Type": "multipart/form-data" }
-                };
-                that.http.resource
-                  .uploadImg(formData, "post", config)
-                  .then(res => {
-                    let imgSrc = res.data.src[0];
-                    var range = editor.getSelection(true);
-                    editor.insertEmbed(range.index, "image", imgSrc);
-                    editor.setSelection(range.index + 1);
-                  });
-              }
+            that.compressAndUpload(file).then(imgSrc => {
+              var range = editor.getSelection(true);
+              editor.insertEmbed(range.index, "image", imgSrc);
+              editor.setSelection(range.index + 1);
             });
           }
         });
@@ -163,13 +157,13 @@ export default {
     },
     append(file) {
       if (this.uploadType == "replace") {
-        this.upload(file, src => {
+        this.compressAndUpload(file.file).then(src => {
           this.replaceDom.src = src;
         });
         return;
       }
       if (this.uploadType == "upload") {
-        this.upload(file, src => {
+        this.compressAndUpload(file.file).then(src => {
           this.coverImg = src;
         });
         return;
@@ -193,7 +187,7 @@ export default {
       div.appendChild(br);
       img.style.width = "100%";
       img.style.display = "block";
-      this.upload(file, src => {
+      this.compressAndUpload(file.file).then(src => {
         img.src = src;
       });
       let selection = window.getSelection();
@@ -212,7 +206,7 @@ export default {
   height: 100%;
 }
 #create::before {
-  content: '';
+  content: "";
   display: table;
 }
 #create {
@@ -289,7 +283,7 @@ export default {
   font-weight: bold;
 }
 .add_img {
-  background: url('../../assets/img_add.png') center/100% 100% no-repeat;
+  background: url("../../assets/img_add.png") center/100% 100% no-repeat;
   height: 0.39rem;
   width: 0.49rem;
   margin-right: 0.1rem;

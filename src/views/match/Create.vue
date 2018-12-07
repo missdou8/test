@@ -15,7 +15,12 @@
         <input class="title_content" type="text" placeholder="请添加比赛名称" v-model="titlePlace">
       </div>
       <div id="toolbar-container">
-        <button class="ql-image" data-toggle="tooltip" data-placement="bottom" title="Add italic text <cmd+i>"></button>
+        <button
+          class="ql-image"
+          data-toggle="tooltip"
+          data-placement="bottom"
+          title="Add italic text <cmd+i>"
+        ></button>
       </div>
       <div class="editor"></div>
     </div>
@@ -23,15 +28,13 @@
       <img src="../../assets/add.png" alt="添加图片">
     </div>
     <van-button @click="nextClick" class="next">下一步</van-button>
-    <van-uploader class="append_img" :after-read="append">
-    </van-uploader>
+    <van-uploader class="append_img" :after-read="append"></van-uploader>
   </div>
 </template>
 
 <script>
 import "../../../node_modules/quill/dist/quill.snow.css";
 import Quill from "quill";
-import ImageCompressor from 'compressorjs';
 import axios from "axios";
 import { isIos } from "lputils";
 export default {
@@ -104,23 +107,10 @@ export default {
           if (fileInput.files != null && fileInput.files[0] != null) {
             //压缩并上传图片
             let file = fileInput.files[0];
-            new ImageCompressor(file, {
-              width: that.config.outputWidth,
-              success(newFile) {
-                let formData = new FormData();
-                formData.append("file", newFile, Date.now() + ".png");
-                let config = {
-                  headers: { "Content-Type": "multipart/form-data" }
-                };
-                that.http.resource
-                  .uploadImg(formData, "post", config)
-                  .then(res => {
-                    let imgSrc = res.data.src[0];
-                    var range = editor.getSelection(true);
-                    editor.insertEmbed(range.index, "image", imgSrc);
-                    editor.setSelection(range.index + 1);
-                  });
-              }
+            that.compressAndUpload(file).then(imgSrc => {
+              var range = editor.getSelection(true);
+              editor.insertEmbed(range.index, "image", imgSrc);
+              editor.setSelection(range.index + 1);
             });
           }
         });
@@ -171,14 +161,14 @@ export default {
      */
     append(file) {
       if (this.uploadType == "replace") {
-        this.upload(file, src => {
-          this.replaceDom.src = src;
+        this.compressAndUpload(file.file).then(imgSrc => {
+          this.replaceDom.src = imgSrc;
         });
         return;
       }
       if (this.uploadType == "upload") {
-        this.upload(file, src => {
-          this.coverImg = src;
+        this.compressAndUpload(file.file).then(imgSrc => {
+          this.coverImg = imgSrc;
         });
         return;
       }
@@ -206,8 +196,9 @@ export default {
       div.appendChild(br);
       img.style.width = "100%";
       img.style.display = "block";
-      this.upload(file, src => {
-        img.src = src;
+
+      this.compressAndUpload(file.file).then(imgSrc => {
+        img.src = imgSrc;
       });
       //获取光标位置
       let selection = window.getSelection();
@@ -227,7 +218,7 @@ export default {
   display: none;
 }
 .create::before {
-  content: '';
+  content: "";
   display: table;
 }
 .create {
@@ -291,7 +282,7 @@ export default {
   font-weight: bold;
 }
 .add_img {
-  background: url('../../assets/img_add.png') center/100% 100% no-repeat;
+  background: url("../../assets/img_add.png") center/100% 100% no-repeat;
   height: 0.39rem;
   width: 0.49rem;
   margin-right: 0.1rem;

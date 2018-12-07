@@ -25,5 +25,6 @@ export default {
   downLoadURL: 'https://www.didabisai.com/download.html', //嘀嗒下载页
   customerServiceUrl:
     'https://www.sobot.com/chat/h5/index.html?sysNum=ded7079b7502494fad26fc73147a40ca&source=1&moduleType=2', //客服网页基本链接，后边接更多个性化参数
-  outputWidth: window.innerWidth || 500 //压缩图片输出的width
+  outputWidth: window.innerWidth * 2 || 500, //压缩图片输出的width
+  outputHeight: window.innerHeight * 2 || 700 //压缩图片输出的height
 }

@@ -1,7 +1,6 @@
 <template>
   <div id="share-img" ref="share">
-    <van-uploader class="append_img" :after-read="append">
-    </van-uploader>
+    <van-uploader class="append_img" :after-read="append"></van-uploader>
     <div class="share-img">
       <div class="share-img-content">
         <img :src="finalImg" alt="要分享的图片">
@@ -12,9 +11,15 @@
       </div>
     </div>
     <div class="qr-code">
-      <me-qrcode class="qr_code" v-if="link" :qr-url='link' :qr-size='qrSize' :qr-logo-size="30" :qr-logo="qrlogo"></me-qrcode>
-      <p>嘀嗒比赛，专业的线上棋牌比赛服务提供商，支持多种棋牌游戏、多种赛制，大众好玩，奖品丰厚，扫一扫，快速开赛！
-      </p>
+      <me-qrcode
+        class="qr_code"
+        v-if="link"
+        :qr-url="link"
+        :qr-size="qrSize"
+        :qr-logo-size="30"
+        :qr-logo="qrlogo"
+      ></me-qrcode>
+      <p>嘀嗒比赛，专业的线上棋牌比赛服务提供商，支持多种棋牌游戏、多种赛制，大众好玩，奖品丰厚，扫一扫，快速开赛！</p>
     </div>
   </div>
 </template>
@@ -40,6 +45,7 @@ export default {
   mounted() {
     this.qrSize = document.body.offsetWidth * 0.3;
     let imgURL = this.$store.state.match.shareCropImg;
+    console.log(imgURL);
     if (imgURL) {
       imgURL = imgURL.replace("cdn", "merchant");
       return (this.finalImg = imgURL);

@@ -1,8 +1,8 @@
 <template>
   <div id="style">
     <van-cell-group>
-      <van-cell title="请选择游戏名称" :value="selectGame.name" is-link @click="gameSelect" />
-      <van-cell title="请选择比赛时间" :value="selectTime" is-link @click="timeSelect" />
+      <van-cell title="请选择游戏名称" :value="selectGame.name" is-link @click="gameSelect"/>
+      <van-cell title="请选择比赛时间" :value="selectTime" is-link @click="timeSelect"/>
       <van-collapse v-model="activeNames" :accordion="true" @change="personShow">
         <van-collapse-item name="1">
           <div slot="title" class="personGame">
@@ -19,21 +19,34 @@
           <radio-btn :data="attendStyle" @select="attendStyleClick"></radio-btn>
         </van-collapse-item>
       </van-collapse>
-      <van-cell title="请填写奖品信息" :value="prizeMsg" is-link @click="toPrize" />
-      <van-cell title="添加分享图" :value="shareMsg" is-link @click="toShare" />
+      <van-cell title="请填写奖品信息" :value="prizeMsg" is-link @click="toPrize"/>
+      <van-cell title="添加分享图" :value="shareMsg" is-link @click="toShare"/>
     </van-cell-group>
     <van-popup v-model="gameShow" position="bottom">
-      <van-picker :columns="gameList" show-toolbar @confirm="gameConfirm" @cancel="gameShow = false" />
+      <van-picker
+        :columns="gameList"
+        show-toolbar
+        @confirm="gameConfirm"
+        @cancel="gameShow = false"
+      />
     </van-popup>
     <van-popup v-model="timeShow" position="bottom">
-      <van-datetime-picker title="选择时间（年月日时分）" v-model="currentDate" type="datetime" :min-date="minDate" :max-date="maxDate" @confirm="timeConfirm" @cancel="timeShow = false" :formatter="formatter" />
+      <van-datetime-picker
+        title="选择时间（年月日时分）"
+        v-model="currentDate"
+        type="datetime"
+        :min-date="minDate"
+        :max-date="maxDate"
+        @confirm="timeConfirm"
+        @cancel="timeShow = false"
+        :formatter="formatter"
+      />
     </van-popup>
     <div class="footer">
       <button @click="saveClick">保存</button>
       <button @click="checkClick">提交审核</button>
     </div>
-    <van-uploader class="append_img" :after-read="append">
-    </van-uploader>
+    <van-uploader class="append_img" :after-read="append"></van-uploader>
   </div>
 </template>
 
@@ -42,7 +55,6 @@ import { mapState } from "vuex";
 import RadioBtn from "../../components/RadioBtn.vue";
 import { timeFormate } from "lputils";
 import Prize from "../../views/match/Prize.vue";
-import ImageCompressor from 'compressorjs';
 
 export default {
   components: {
@@ -121,21 +133,20 @@ export default {
     },
     append(file) {
       let that = this;
-      new ImageCompressor(file.file, {
-        width: that.config.outputWidth,
-        success(newFile) {
-          let a = new FileReader();
-          a.onload = function(e) {
-            let data = e.target.result;
-            that.$store.commit("setShareImgFile", data);
-            that.$router.push("shareImg");
-          };
-          a.readAsDataURL(newFile);
-        }
-      });
+      (async function() {
+        let newFile = await that.compressImg(file.file);
+        that.$toast.clear();
+        let a = new FileReader();
+        a.onload = function(e) {
+          let data = e.target.result;
+          that.$store.commit("setShareImgFile", data);
+          that.$router.push("shareImg");
+        };
+        a.readAsDataURL(newFile);
+      })();
     },
     toShare() {
-      if (this.$store.state.match.shareImg) {
+      if (this.$store.state.match.shareImgFile) {
         return this.$router.push("shareImg");
       }
       let contain = document.querySelector("#style");

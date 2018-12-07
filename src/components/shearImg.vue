@@ -8,7 +8,6 @@
 
 <script>
 import AlloyCrop from "lp-alloycrop";
-import ImageCompressor from "compressorjs";
 export default {
   data() {
     return {
@@ -25,20 +24,17 @@ export default {
     getImgUrl(file) {
       let that = this;
       let dataURI = file.content;
-      let iconWidth = 200;
       //压缩图片处理
-      new ImageCompressor(file.file, {
-        width: iconWidth,
-        quality: 1,
-        success(newFile) {
-          //将压缩后的图像(一个Blob对象)。转化成bas64
-          let file = new FileReader();
-          file.readAsDataURL(newFile);
-          file.onload = e => {
-            that.getAlloyCrop(e.target.result);
-          };
-        }
-      });
+
+      (async function() {
+        let newFile = await that.compressImg(file.file);
+        that.$toast.clear();
+        let fileFinal = new FileReader();
+        fileFinal.readAsDataURL(newFile);
+        fileFinal.onload = e => {
+          that.getAlloyCrop(e.target.result);
+        };
+      })();
     },
     getAlloyCrop(file) {
       let _this = this;

@@ -2,15 +2,27 @@
   <div id="editAutonym">
     <div class="mask" :class="{ 'maskShow': !status==0||!status==1}"></div>
     <h3 class="dec dec_err" v-if="status==2">
-      <i></i>认证未通过请修改后重新提交</h3>
+      <i></i>认证未通过请修改后重新提交
+    </h3>
     <h3 class="dec dec_sucess" v-if="status==1">
-      <i></i>认证已通过</h3>
+      <i></i>认证已通过
+    </h3>
     <van-cell-group class="input_box">
-      <van-field v-model="name" placeholder="请输入您的真实姓名" @input="nameInput()" :disabled="status==1||status==3">
-        <img class="left_icon" slot="icon" src="../../../assets/shiming_icon01.png" alt="">
+      <van-field
+        v-model="name"
+        placeholder="请输入您的真实姓名"
+        @input="nameInput()"
+        :disabled="status==1||status==3"
+      >
+        <img class="left_icon" slot="icon" src="../../../assets/shiming_icon01.png" alt>
       </van-field>
-      <van-field v-model="IDcard" placeholder="请输入身份证号" @input="IDcardInput()" :disabled="status==1||status==3">
-        <img class="left_icon" slot="icon" src="../../../assets/shiming_icon02.png" alt="">
+      <van-field
+        v-model="IDcard"
+        placeholder="请输入身份证号"
+        @input="IDcardInput()"
+        :disabled="status==1||status==3"
+      >
+        <img class="left_icon" slot="icon" src="../../../assets/shiming_icon02.png" alt>
       </van-field>
     </van-cell-group>
     <van-cell-group>
@@ -19,7 +31,7 @@
           <van-uploader class="uploader" :after-read="onFrontPic" :disabled="status==1||status==3">
             <h3>手持身份证正面照</h3>
             <div class="img_box" :class="{ 'img_box__err': status==2}">
-              <img ref="frontPic" :src="imgBox.frontPic" alt="">
+              <img ref="frontPic" :src="imgBox.frontPic" alt>
             </div>
           </van-uploader>
         </van-col>
@@ -27,7 +39,7 @@
           <van-uploader class="uploader" :after-read="onBackPic" :disabled="status==1||status==3">
             <h3>手持身份证反面照</h3>
             <div class="img_box" :class="{ 'img_box__err': status==2}">
-              <img ref="backPic" :src="imgBox.backPic" alt="">
+              <img ref="backPic" :src="imgBox.backPic" alt>
             </div>
           </van-uploader>
         </van-col>
@@ -35,10 +47,16 @@
     </van-cell-group>
     <div class="autonym_bottom">
       <p class="autonym_dec">
-        <span>提交认证代表你已同意 </span>
+        <span>提交认证代表你已同意</span>
         <router-link to="/user/edit/autonym/tips">《实名认证协议》</router-link>
       </p>
-      <van-button v-if="!pass" :disabled="btnEnable||status==3" class="autonym_btn" size="large" @click="Autonym()">{{btnTxt}}</van-button>
+      <van-button
+        v-if="!pass"
+        :disabled="btnEnable||status==3"
+        class="autonym_btn"
+        size="large"
+        @click="Autonym()"
+      >{{btnTxt}}</van-button>
     </div>
   </div>
 </template>
@@ -85,14 +103,14 @@ export default {
       this.$store.commit("setIDcard", this.IDcard);
     },
     onFrontPic(file) {
-      this.upload(file, src => {
+      this.compressAndUpload(file.file).then(src => {
         this.imgBox["frontPic"] = src;
         this.$refs["frontPic"].src = src;
         this.$store.commit("setFrontPic", src);
       });
     },
     onBackPic(file) {
-      this.upload(file, src => {
+      this.compressAndUpload(file.file).then(src => {
         this.imgBox["backPic"] = src;
         this.$refs["backPic"].src = src;
         this.$store.commit("setBackPic", src);

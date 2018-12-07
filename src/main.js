@@ -80,30 +80,56 @@ Vue.config.productionTip = false
  * 自定义全局方法
  */
 Vue.prototype.http = new ApiService()
-/**
- * 上传图片
- */
-let uploadImg = (data, name, callBack) => {
-  let config = {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  }
-  let formData = new FormData()
-  formData.append('file', data, name)
-  Vue.prototype.http.resource.uploadImg(formData, 'post', config).then(res => {
-    let data = res.data
-    callBack(data.src[0])
+
+/**压缩并上传图片 */
+
+let compressImg = file => {
+  return new Promise((resolve, reject) => {
+    Vue.prototype.$toast.loading({
+      mask: true,
+      message: '压缩中...',
+      duration: 0
+    })
+    new ImageCompressor(file, {
+      maxWidth: config.outputWidth,
+      maxHeight: config.outputHeight,
+      success(newFile) {
+        resolve(newFile)
+      },
+      error(err) {
+        Vue.prototype.$toast.clear()
+        reject(err.message)
+      }
+    })
   })
 }
 
-Vue.prototype.upload = (file, callBack) => {
-  //图片压缩
-  new ImageCompressor(file.file, {
-    width: config.outputWidth,
-    success(newFile) {
-      uploadImg(newFile, newFile.name, callBack)
-    }
+Vue.prototype.compressImg = compressImg
+
+let uploadImage = file => {
+  return new Promise((resolve, reject) => {
+    let formData = new FormData()
+    formData.append('file', file, file.name)
+    Vue.prototype.http.resource
+      .uploadImg(formData, 'post', config)
+      .then(res => {
+        resolve(res.data)
+      })
   })
 }
+
+let compressAndUploadImage = async file => {
+  let data
+  try {
+    let newFile = await compressImg(file)
+    data = await uploadImage(newFile)
+  } catch (error) {
+    Vue.prototype.$toast(error)
+  }
+  return data.src[0]
+}
+
+Vue.prototype.compressAndUpload = compressAndUploadImage
 
 Vue.prototype.convertBase64UrlToBlob = (base64, mimeType) => {
   let bytes = window.atob(base64.split(',')[1])
