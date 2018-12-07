@@ -25,7 +25,7 @@ export default {
     getImgUrl(file) {
       let that = this;
       let dataURI = file.content;
-      let iconWidth = 200;
+      let iconWidth = 400;
       //压缩图片处理
       new ImageCompressor(file.file, {
         width: iconWidth,
