@@ -123,9 +123,9 @@ export default {
 #didaList .van-cell .van-cell__value {
   line-height: 0.8rem;
 }
-#didaList .van-cell:not(:last-child)::after {
+/* #didaList .van-cell:not(:last-child)::after {
   height: 198%;
-}
+} */
 #didaList .noDataText {
   font-size: 0.4rem;
   padding: 0.2rem;
