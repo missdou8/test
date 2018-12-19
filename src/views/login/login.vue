@@ -12,7 +12,7 @@
       </van-cell-group>
       <div class="btn_box">
         <p class="btn_box_dec">
-          <span>登录即视为你同意我们的</span> 
+          <span>登录即视为你同意我们的</span>
           <router-link to="/registerTips">《用户使用协议》</router-link>
         </p>
         <van-button class="btn" size="large" :disabled="btnEnable" @click="Login()">登录</van-button>

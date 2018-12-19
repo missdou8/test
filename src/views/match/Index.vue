@@ -18,7 +18,9 @@
           <p>
             <span :class="userInfo.certification == 1? 'authyes':'authno'"></span>
             <span class="user_id">
-              <i class="user_id_title">嘀嗒号：</i>{{userInfo.id}}</span>
+              <i class="user_id_title">嘀嗒号：</i>
+              {{userInfo.id}}
+            </span>
           </p>
         </div>
         <router-link to="user/story" class="my-story">我的故事>></router-link>
@@ -26,42 +28,26 @@
       <ul class="match_info">
         <li>
           <router-link to="#">
-            <span>
-              {{userInfo.visitCount}}
-            </span>
-            <span>
-              浏览
-            </span>
+            <span>{{userInfo.visitCount}}</span>
+            <span>浏览</span>
           </router-link>
         </li>
         <li>
           <router-link to="#">
-            <span>
-              {{userInfo.likeCount}}
-            </span>
-            <span>
-              赞
-            </span>
+            <span>{{userInfo.likeCount}}</span>
+            <span>赞</span>
           </router-link>
         </li>
         <li>
           <router-link to="#">
-            <span>
-              {{userInfo.matchCount}}
-            </span>
-            <span>
-              比赛
-            </span>
+            <span>{{userInfo.matchCount}}</span>
+            <span>比赛</span>
           </router-link>
         </li>
         <li>
           <router-link to="user/record/fans">
-            <span>
-              {{userInfo.watchersCount}}
-            </span>
-            <span>
-              粉丝
-            </span>
+            <span>{{userInfo.watchersCount}}</span>
+            <span>粉丝</span>
           </router-link>
         </li>
       </ul>
@@ -69,12 +55,26 @@
     <van-tabs v-model="active" class="match_main" :line-width="40">
       <van-tab v-for="(item, index) in tabs.length" :title="tabs[index]" :key="index">
         <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh">
-          <van-list v-model="loading" :finished="finished" @load="onLoad" :immediate-check="false" :offset="100">
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            @load="onLoad"
+            :immediate-check="false"
+            :offset="100"
+          >
             <div class="match_list_content">
-              <div class="match_list_item" v-for="item in list" :key="item.id" @click="toDetail(item.id)">
+              <div
+                class="match_list_item"
+                v-for="item in list"
+                :key="item.id"
+                @click="toDetail(item.id)"
+              >
                 <img :src="item.cover ||cover" alt="封面图片">
                 <div class="list_attri">
-                  <span v-show="matchType == 1" class="list_person-num">{{ item.signupCount | trimNum}}</span>
+                  <span
+                    v-show="matchType == 1"
+                    class="list_person-num"
+                  >{{ item.signupCount | trimNum}}</span>
                   <span class="list_pv">{{item.visitCount | trimNum}}</span>
                   <span class="list_like">{{item.likeCount | trimNum}}</span>
                 </div>
@@ -217,7 +217,9 @@ export default {
     serviceClick() {
       location.href = `${this.config.customerServiceUrl}&tel=${
         this.userInfo.mobile
-      }&partnerId=${this.userInfo.id}&uname=广告主后台_${this.userInfo.name}`;
+      }&partnerId=${this.userInfo.id}&uname=广告主后台_${
+        this.userInfo.name
+      }&groupid=a0855fa7e13e490ca78dfbef7efb7516 `;
     },
     progressTag(code) {
       if (code == 0 || code == 5) {
