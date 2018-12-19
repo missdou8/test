@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "compressorjs": "^1.0.2",
+    "compressorjs": "^1.0.3",
     "html2canvas": "^1.0.0-alpha.12",
     "lp-alloycrop": "^1.1.3",
     "lpreset.css": "0.1.0",
