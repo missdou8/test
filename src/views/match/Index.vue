@@ -219,7 +219,7 @@ export default {
         this.userInfo.mobile
       }&partnerId=${this.userInfo.id}&uname=广告主后台_${
         this.userInfo.name
-      }&groupid=a0855fa7e13e490ca78dfbef7efb7516 `;
+      }&groupId=a0855fa7e13e490ca78dfbef7efb7516`;
     },
     progressTag(code) {
       if (code == 0 || code == 5) {
