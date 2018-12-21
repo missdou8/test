@@ -1,10 +1,16 @@
 <template>
   <div id="exchangeIndex">
-    <dida-list ref="dida_list" post-module="prizes" post-url="prizeList" no-data-text="暂无兑奖信息" @returnData="getPrizeList">
+    <dida-list
+      ref="dida_list"
+      post-module="prizes"
+      post-url="prizeList"
+      no-data-text="暂无兑奖信息"
+      @returnData="getPrizeList"
+    >
       <van-panel class="panel" v-for="(prize,index) in prizeList" :key="index">
         <div class="panel_header" slot="header">
           <van-cell :value="prize.time">
-            <img slot="icon" :src="prize.icon||imageURL" alt="" srcset="">
+            <img slot="icon" :src="prize.icon||imageURL" alt srcset>
             <div class="panel_title" slot="title">
               <p>{{prize.nickname}}</p>
               <p>{{prize.match.name}}</p>
@@ -12,21 +18,37 @@
             </div>
           </van-cell>
         </div>
-        <van-card :title="prize.prize.name" :desc="prize.receivingDec" currency="" :price="prize.prizeType" :thumb="prize.prize.img" />
+        <van-card
+          :title="prize.prize.name"
+          :desc="prize.receivingDec"
+          currency
+          :price="prize.prizeType"
+          :thumb="prize.prize.img"
+        />
         <div class="footer" slot="footer">
-          <van-button v-if="prize.prize.type == 0" class="btn" :class="{'gobtn':prize.receiving.status==1,'sendbtn':prize.receiving.status==2||shipInfoArr.indexOf(prize.id)!=-1,'outbtn':prize.receiving.status==3}" size="small" @click="showAlert(prize.id)" :disabled="prize.receiving.status!=1||shipInfoArr.indexOf(prize.id)!=-1">
-            {{shipInfoArr.indexOf(prize.id)!=-1?'已发货':prize.btnText}}
-          </van-button>
-          <van-button v-else class="btn" size="small" @click="showPopup(prize.id)" :class="{'gobtn':prize.receiving.status==1,'outbtn':prize.receiving.status==3||pickUpPrizeArr.indexOf(prize.id)!=-1}" :disabled="prize.receiving.status!=1||pickUpPrizeArr.indexOf(prize.id)!=-1">
-            {{pickUpPrizeArr.indexOf(prize.id)!=-1?'已取出':prize.btnText}}
-          </van-button>
+          <van-button
+            v-if="prize.prize.type == 0"
+            class="btn"
+            :class="{'gobtn':prize.receiving.status==1,'sendbtn':prize.receiving.status==2||shipInfoArr.indexOf(prize.id)!=-1,'outbtn':prize.receiving.status==3}"
+            size="small"
+            @click="showAlert(prize.id)"
+            :disabled="prize.receiving.status!=1||shipInfoArr.indexOf(prize.id)!=-1"
+          >{{shipInfoArr.indexOf(prize.id)!=-1?'已发货':prize.btnText}}</van-button>
+          <van-button
+            v-else
+            class="btn"
+            size="small"
+            @click="showPopup(prize.id)"
+            :class="{'gobtn':prize.receiving.status==1,'outbtn':prize.receiving.status==3||pickUpPrizeArr.indexOf(prize.id)!=-1}"
+            :disabled="prize.receiving.status!=1||pickUpPrizeArr.indexOf(prize.id)!=-1"
+          >{{pickUpPrizeArr.indexOf(prize.id)!=-1?'已取出':prize.btnText}}</van-button>
         </div>
       </van-panel>
     </dida-list>
     <!-- 模态弹框 -->
-    <van-dialog title='嘀嗒比赛' v-model="showDialog" show-cancel-button :before-close="beforeClose">
-      <van-field v-model="express_name" label="快递公司" placeholder="请输入快递公司名称" />
-      <van-field v-model="express_number" label="快递单号" placeholder="请输入快递单号" />
+    <van-dialog title="嘀嗒比赛" v-model="showDialog" show-cancel-button :before-close="beforeClose">
+      <van-field v-model="express_name" label="快递公司" placeholder="请输入快递公司名称"/>
+      <van-field v-model="express_number" label="快递单号" placeholder="请输入快递单号"/>
     </van-dialog>
     <!-- 数字键盘 -->
     <number-word-input ref="number_word_input" @goodsIdAjax="goodsIdAjax($event)"></number-word-input>
@@ -64,8 +86,8 @@ export default {
       //数据处理(确保数据存在)
       if (this.prizeList.length > 0) {
         this.prizeList.forEach(p => {
-          p.time = timeFormate(p.prize.time*1000, 'YY/MM/DD HH:mm:ss');
-          p.icon  = httpToHttps(p.icon)
+          p.time = timeFormate(p.prize.time * 1000, "YY/MM/DD HH:mm:ss");
+          p.icon = httpToHttps(p.icon);
           if (p.prize.type == 0) {
             p.prizeType = "邮寄奖品";
             //根据状态改变按钮文案
@@ -77,9 +99,9 @@ export default {
             if (p.receiving.status == 1) p.btnText = "确认取出";
             else p.btnText = "已取出";
           }
-          p.receivingDec = `收货地址${p.receiving.address} ${
-            p.receiving.consignee
-          } ${p.receiving.mobile}`;
+          p.receivingDec = `收货地址：${p.receiving.region} ${
+            p.receiving.address
+          } ${p.receiving.consignee} ${p.receiving.mobile}`;
         });
       }
     },
