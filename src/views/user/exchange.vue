@@ -199,8 +199,11 @@ export default {
 </style>
 <style>
 #exchangeIndex .van-card__desc {
+  display: inline-block;
   overflow: inherit;
   white-space: inherit;
+  padding-bottom: 17px;
+  max-height: inherit;
 }
 #exchangeIndex .panel_header .van-cell {
   align-items: center;
@@ -244,7 +247,6 @@ export default {
 }
 #exchangeIndex .van-card {
   background: #fff;
-  padding: 0.12rem 0.15rem 0.12rem 1.8rem;
 }
 #exchangeIndex .van-card__thumb {
   width: 1.5rem;
@@ -264,6 +266,7 @@ export default {
 }
 #exchangeIndex .van-card__content {
   padding-top: 0.2rem;
+  height: auto;
 }
 #exchangeIndex .van-card__title {
   flex: 1;
