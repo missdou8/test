@@ -6,10 +6,10 @@ module.exports = {
   productionSourceMap: false,
   lintOnSave: false,
   outputDir: 'web/front',
-  baseUrl:
+  publicPath:
     process.env.NODE_ENV === 'production'
       ? 'https://cdn.didabisai.com/merchant/front/'
-      : 'front',
+      : 'front'
   // configureWebpack: config => {
   //   config.entry = './src/main.js'
   // }
