@@ -45,11 +45,12 @@ export default {
       return this.http[this.postModule]
         [this.postUrl](Object.assign({
           pagesize: this.pagesize,
-          currentpage: this.currentpage
+          currentpage: this.currentpage,
+          total:this.total
         },this.reqData))
         .then(res => {
           let data = res.data;
-          this.total = data.total;
+          if(this.currentpage == 1) this.total = data.total;
           //这里返回的是原数据列表
           this.list = this.list.concat(data[this.dataName || this.postUrl]);
           if (this.list.length == 0){
