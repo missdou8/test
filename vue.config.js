@@ -6,6 +6,7 @@ module.exports = {
   productionSourceMap: false,
   lintOnSave: false,
   outputDir: 'web/front',
+  transpileDependencies: ['lputils'],
   publicPath:
     process.env.NODE_ENV === 'production'
       ? 'https://cdn.didabisai.com/merchant/front/'
