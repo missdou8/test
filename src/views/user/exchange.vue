@@ -81,7 +81,6 @@ export default {
   methods: {
     //获取兑奖信息列表
     getPrizeList(data) {
-      this.total = data.total;
       this.prizeList = data.list;
       //数据处理(确保数据存在)
       if (this.prizeList.length > 0) {
