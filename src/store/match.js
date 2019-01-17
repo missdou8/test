@@ -1,73 +1,77 @@
 const match = {
   state: {
-    id: "",
+    id: '',
     time: 0,
-    attendPerson: { id: 0, value: "未选择" }, //参加比赛的人数
-    attendStyle: { id: -1, value: "未选择" }, //报名类型
+    attendPerson: { id: 0, value: '未选择' }, //参加比赛的人数
+    attendStyle: { id: -1, value: '未选择' }, //报名类型
+    rankPrizes: [],
     rankPrize: [],
-    sendStyle: "", //邮寄方式
+    sendStyle: '', //邮寄方式
     sendAddress: {},
-    gameName: { id: 0, name: "未选择" }, //游戏名字
+    gameName: { id: 0, name: '未选择' }, //游戏名字
     ifSave: false,
     detail: {}, //赛事信息：标题，封面和内容
-    gainPrizeAddress: "", //自提地址
-    prizeCover: "",
+    gainPrizeAddress: '', //自提地址
+    prizeCover: '',
     isEdit: false, //标记是否为编辑
     tabActive: 0,
-    shareImgFile: "",
-    shareImg: "",
-    shareCropImg: ""
+    shareImgFile: '',
+    shareImg: '',
+    shareCropImg: ''
   },
   mutations: {
     setId(state, id) {
-      state.id = id;
+      state.id = id
     },
     setAttendPerson(state, num) {
-      state.attendPerson = num;
+      state.attendPerson = num
     },
     setRankPrize(state, arr) {
-      state.rankPrize = arr;
+      state.rankPrize = arr
+    },
+    setRankPrizes(state, arr) {
+      state.rankPrizes = arr
     },
     setIfSave(state, bl) {
-      state.ifSave = bl;
+      state.ifSave = bl
     },
     setDetail(state, detail) {
-      state.detail = detail;
+      state.detail = detail
     },
     setgainPrizeAddress(state, gainPrizeAddress) {
-      state.gainPrizeAddress = gainPrizeAddress;
+      state.gainPrizeAddress = gainPrizeAddress
     },
     setGameName(state, gameName) {
-      state.gameName = gameName;
+      state.gameName = gameName
     },
     setTime(state, time) {
-      state.time = time;
+      state.time = time
     },
     setAttendStyle(state, style) {
-      state.attendStyle = style;
+      state.attendStyle = style
     },
     setPrizeCover(state, src) {
-      state.prizeCover = src;
+      state.prizeCover = src
     },
     setIsEdit(state, bl) {
-      state.isEdit = bl;
+      state.isEdit = bl
     },
     setSendStyle(state, type) {
-      state.sendStyle = type;
+      state.sendStyle = type
     },
     setTabActive(state, status) {
-      state.tabActive = status;
+      state.tabActive = status
     },
     setShareImgFile(state, file) {
-      state.shareImgFile = file;
+      state.shareImgFile = file
     },
     setShareImg(state, file) {
-      state.shareImg = file;
+      state.shareImg = file
     },
     setShareCropImg(state, file) {
-      state.shareCropImg = file;
+      state.shareCropImg = file
     }
   }
-};
+}
 
-export default match;
+export default match

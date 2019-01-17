@@ -1,5 +1,7 @@
 /* 定义了本项目中的常用CSS变量 */
 :root {
+  --bg-color: #f5f5f5;
+  --btn-bg-color: #ffd321;
   --btn-color: #108ee9;
   --word-color: #555;
   --word-gray-color: #8b8b8b;
@@ -19,7 +21,7 @@ html {
   font-size: 13.89vw;
 }
 body {
-  background-color: #f5f5f5;
+  background-color: var(--bg-color);
   color: var(--word-color);
   font-size: 0.28rem;
   line-height: 0.44rem;

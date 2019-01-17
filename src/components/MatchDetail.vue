@@ -8,7 +8,13 @@
     <div class="detail_content" ref="detail_content">
       <div id="detail" class="cover_img">
         <img :src="match.cover" alt="比赛封面">
-        <img v-show="isHistory" class="recreate" src="../assets/reCreate.png" alt="再办一场" @click="reCreate">
+        <img
+          v-show="isHistory"
+          class="recreate"
+          src="../assets/reCreate.png"
+          alt="再办一场"
+          @click="reCreate"
+        >
       </div>
       <div class="header">
         <h1 class="header_title">{{match.title}} {{match.id}}</h1>
@@ -17,7 +23,10 @@
           <span class="header_info_send">{{prizes.type == 0 ? '邮寄': '自取'}}</span>
           <span class="header_info_type">{{config.attendType[match.signupType]}}</span>
           <!-- 如果是SNG比赛或者是MTT比赛切是循环 -->
-          <span class="header_info_record" v-if="this.$store.state.match.tabActive == 1&&(match.type==3||(match.type==2&&match.isLoop==1))">
+          <span
+            class="header_info_record"
+            v-if="this.$store.state.match.tabActive == 1&&(match.type==3||(match.type==2&&match.isLoop==1))"
+          >
             <router-link class="rulr" :to="{ path: '/match/detail/record', query: { id: match.id}}"></router-link>
           </span>
         </p>
@@ -36,8 +45,7 @@
           <span class="game_tag"></span>
           <span>比赛详情</span>
         </p>
-        <div class="detail_page" v-html="match.content">
-        </div>
+        <div class="detail_page" v-html="match.content"></div>
       </div>
       <div id="prize" class="prize" v-show="prizeset.length > 0">
         <p class="prize_header">
@@ -48,7 +56,7 @@
           <img :src="prizes.img" alt="奖品">
         </div>
         <ul class="prize_list">
-          <li class="prize_list_item" v-for="item in prizeset">
+          <li class="prize_list_item" v-for="(item,index) in prizeset" :key="`${index}`">
             <p>第{{item.rank}}名：{{item.prizeCount}}{{item.unit}}{{item.name}}</p>
           </li>
         </ul>
@@ -65,7 +73,10 @@
           <img class="icon" :src="merchant.icon || icon" alt="头像">
           <span>{{merchant.watchersCount}}</span>
         </div>
-        <router-link class="like_info_item" :to="{path: '/user/record/like', query: {id:this.$store.state.match.id}}">
+        <router-link
+          class="like_info_item"
+          :to="{path: '/user/record/like', query: {id:this.$store.state.match.id}}"
+        >
           <img src="../assets/like.png" alt="点赞">
           <span>{{match.likeCount}}</span>
         </router-link>
@@ -74,13 +85,12 @@
           <span>{{match.shareCount}}</span>
         </div>
         <div v-if="top!=0" class="scroll_top" @click="backToTop">
-          <img src="" alt="">
+          <img src alt>
           <span></span>
         </div>
       </div>
     </div>
   </div>
-
 </template>
 
 <script>

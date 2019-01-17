@@ -11,7 +11,4 @@ module.exports = {
     process.env.NODE_ENV === 'production'
       ? 'https://cdn.didabisai.com/merchant/front/'
       : 'front'
-  // configureWebpack: config => {
-  //   config.entry = './src/main.js'
-  // }
 }

@@ -11,6 +11,9 @@ import WinnerList from '../views/match/WinnerList.vue'
 import WaitingCheck from '../views/match/WaitingCheck.vue'
 import GameRules from '../components/GameRules.vue'
 import MatchRecord from '../views/match/MatchRecord.vue'
+import PrizePreview from '../views/match/PrizePreview.vue'
+import PrizeSetting from '../views/match/PrizeSetting.vue'
+import NumberInput from '../views/match/NumberInput.vue'
 
 const MATCH_ROUTERS = [
   {
@@ -53,6 +56,27 @@ const MATCH_ROUTERS = [
     component: Prize,
     meta: {
       title: '填写奖品信息'
+    }
+  },
+  {
+    path: '/match/style/prizepreview',
+    component: PrizePreview,
+    meta: {
+      title: '填写奖品信息'
+    }
+  },
+  {
+    path: '/match/style/prizepreview/prizesetting',
+    component: PrizeSetting,
+    meta: {
+      title: '编辑比赛名次'
+    }
+  },
+  {
+    path: '/match/style/prizepreview/prizesetting/numberInput',
+    component: NumberInput,
+    meta: {
+      title: '选择奖品数量'
     }
   },
   {
