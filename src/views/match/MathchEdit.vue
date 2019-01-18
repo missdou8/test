@@ -35,8 +35,6 @@
 <script>
 import "../../../node_modules/quill/dist/quill.snow.css";
 import Quill from "quill";
-import axios from "axios";
-import { isIos } from "lputils";
 import { mapState } from "vuex";
 export default {
   data() {
@@ -69,6 +67,18 @@ export default {
     }
   },
   mounted() {
+    const winHeight = window.innerHeight; //获取当前页面高度
+    window.onresize = function() {
+      var thisHeight = window.innerHeight;
+      if (winHeight - thisHeight > 50) {
+        document.querySelector(".uploader").style.display = "none";
+        document.querySelector(".next").style.display = "none";
+      } else {
+        document.querySelector(".uploader").style.display = "block";
+        document.querySelector(".next").style.display = "block";
+      }
+    };
+
     let imgContentDoms = document.querySelectorAll(".img_content");
     let trueContent = [];
     imgContentDoms.forEach(item => {
@@ -151,15 +161,9 @@ export default {
       if (range) {
         if (range.length == 0) {
           toolbar.style.display = "block";
-          if (!isIos()) {
-            document.querySelector(".uploader").style.display = "none";
-          }
         }
       } else {
         toolbar.style.display = "none";
-        if (!isIos()) {
-          document.querySelector(".uploader").style.display = "block";
-        }
       }
     });
     //处理图片
@@ -374,7 +378,6 @@ export default {
 .edit {
   display: flex;
   flex-direction: column;
-  padding-bottom: 1.5rem;
 }
 .cover {
   background-color: #fff;
@@ -399,7 +402,7 @@ export default {
 }
 .title {
   background-color: #fff;
-  padding: 0.25rem 0.3rem;
+  padding: 0.2rem 0.3rem;
 }
 .title span:first-child {
   color: #000;
@@ -418,9 +421,7 @@ export default {
 .btn {
   background-color: #fff;
   padding: 0.2rem 0;
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  margin-top: 0.2rem;
   text-align: center;
   width: 100%;
 }

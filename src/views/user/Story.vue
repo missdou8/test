@@ -30,8 +30,6 @@
 <script>
 import "../../../node_modules/quill/dist/quill.snow.css";
 import Quill from "quill";
-import axios from "axios";
-import { isIos } from "lputils";
 export default {
   data() {
     return {
@@ -50,6 +48,17 @@ export default {
     };
   },
   mounted() {
+    const winHeight = window.innerHeight; //获取当前页面高度
+    window.onresize = function() {
+      var thisHeight = window.innerHeight;
+      if (winHeight - thisHeight > 50) {
+        document.querySelector(".uploader").style.display = "none";
+        document.querySelector(".next").style.display = "none";
+      } else {
+        document.querySelector(".uploader").style.display = "block";
+        document.querySelector(".next").style.display = "block";
+      }
+    };
     //初始化编辑器
     let that = this;
     //编辑器配置
@@ -74,15 +83,9 @@ export default {
       if (range) {
         if (range.length == 0) {
           toolbar.style.display = "block";
-          if (!isIos()) {
-            document.querySelector(".uploader").style.display = "none";
-          }
         }
       } else {
         toolbar.style.display = "none";
-        if (!isIos()) {
-          document.querySelector(".uploader").style.display = "block";
-        }
       }
     });
     //处理图片
@@ -214,7 +217,6 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 0.3rem;
-  padding-bottom: 1.5rem;
   text-align: center;
   overflow-y: auto;
 }
@@ -267,11 +269,7 @@ export default {
   background-color: #ffd321;
   font-size: 0.3rem;
   font-weight: bold;
-  position: fixed;
-  bottom: 0rem;
-  left: 50%;
   width: 100%;
-  transform: translate(-50%);
 }
 /* 图片添加按钮 */
 .add {

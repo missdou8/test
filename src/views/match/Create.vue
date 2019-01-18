@@ -35,8 +35,6 @@
 <script>
 import "../../../node_modules/quill/dist/quill.snow.css";
 import Quill from "quill";
-import axios from "axios";
-import { isIos } from "lputils";
 export default {
   data() {
     return {
@@ -63,11 +61,9 @@ export default {
     window.onresize = function() {
       var thisHeight = window.innerHeight;
       if (winHeight - thisHeight > 50) {
-        document.querySelector(".title").style.display = "none";
         document.querySelector(".uploader").style.display = "none";
         document.querySelector(".next").style.display = "none";
       } else {
-        document.querySelector(".title").style.display = "block";
         document.querySelector(".uploader").style.display = "block";
         document.querySelector(".next").style.display = "block";
       }
@@ -99,17 +95,9 @@ export default {
       if (range) {
         if (range.length == 0) {
           toolbar.style.display = "block";
-          // if (!isIos()) {
-          //   document.querySelector(".uploader").style.display = "none";
-          //   document.querySelector(".next").style.display = "none";
-          // }
         }
       } else {
         toolbar.style.display = "none";
-        // if (!isIos()) {
-        //   document.querySelector(".uploader").style.display = "block";
-        //   document.querySelector(".next").style.display = "block";
-        // }
       }
     });
     //处理图片
@@ -244,7 +232,6 @@ export default {
   flex-direction: column;
   overflow: hidden;
   padding: 0.3rem 0.3rem 0;
-  /* padding-bottom: 1.5rem; */
   position: relative;
   text-align: center;
 }
