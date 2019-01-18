@@ -3,129 +3,126 @@
 /* 背景 */
 
 #authority {
-    overflow: auto;
+  overflow: auto;
 }
 
 #authority .authority {
-    min-height: 100%;
-    text-align: center;
-    padding-top: 4rem;
-    background-image: url(../assets/zhuce_back.png);
-    background-color: rgb(23,22,22);
-    background-position: top;
-    background-repeat: no-repeat;
-    background-size:cover;
+  min-height: 100%;
+  text-align: center;
+  padding-top: 4rem;
+  background-image: url(../assets/zhuce_back.png);
+  background-color: rgb(23, 22, 22);
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 /* 表单样式 */
 
 #authority .van-field__button {
-    padding-left: 10px;
-    height: 44px;
+  padding-left: 10px;
+  height: 44px;
 }
 
 #authority .van-cell {
-    padding: 0.4rem 0.3rem 0.2rem 0.35rem;
-    color: #fff;
+  padding: 0.4rem 0.3rem 0.2rem 0.35rem;
+  color: #fff;
 }
 
 #authority .van-cell input {
-    color: #fff;
+  color: #fff;
 }
 
 #authority .van-cell-group,
 #authority .van-cell,
 #authority .van-cell input,
 #authority .van-cell button {
-    background-color: initial;
+  background-color: initial;
 }
 
 #authority .van-hairline--top-bottom::after {
-    content: ' ';
-    position: absolute;
-    pointer-events: none;
-    box-sizing: border-box;
-    right: 0;
-    top: 100%;
-    bottom: 0;
-    -webkit-transform: scaleY(.5);
-    transform: scaleY(.5);
-    border-bottom: 1px solid rgb(54, 44, 18);
-    left: 0.3rem;
-    border-top: 0;
-    width: 6.6rem;
+  content: ' ';
+  position: absolute;
+  pointer-events: none;
+  box-sizing: border-box;
+  right: 0;
+  top: 100%;
+  bottom: 0;
+  transform: scaleY(0.5);
+  border-bottom: 1px solid rgb(54, 44, 18);
+  left: 0.3rem;
+  border-top: 0;
+  width: 6.6rem;
 }
 
 #authority .van-cell:not(:last-child)::after {
-    border-color: rgb(54, 44, 18);
-    left: 0.3rem;
-    width: 6.6rem;
+  border-color: rgb(54, 44, 18);
+  left: 0.3rem;
+  width: 6.6rem;
 }
 
 #authority .van-field__button {
-    height: 0.95rem;
+  height: 0.95rem;
 }
 
 /* 图片二维码 */
 
 #authority .imgcode_box {
-    padding-top: 0;
-    padding-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 #authority .imgcode {
-    border: none;
-    padding: 0;
-    height: 0.95rem;
-    width: 2.2rem;
+  border: none;
+  padding: 0;
+  height: 0.95rem;
+  width: 2.2rem;
 }
 
 #authority .imgcode:active::before {
-    opacity: 0;
+  opacity: 0;
 }
-
-
 
 /* 短信二维码 */
 
 #authority .phonecode_box {
-    padding-top: 0;
-    padding-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 #authority .phonecode {
-    padding: 0;
-    height: 0.75rem;
-    line-height: .75rem;
-    margin-top: 0.18rem;
-    width: 2.2rem;
-    border-color: rgb(93, 79, 24);
-    color: rgb(228, 186, 29);
-    font-size: 0.26rem;
-    font-weight: 600;
+  padding: 0;
+  height: 0.75rem;
+  line-height: 0.75rem;
+  margin-top: 0.18rem;
+  width: 2.2rem;
+  border-color: rgb(93, 79, 24);
+  color: rgb(228, 186, 29);
+  font-size: 0.26rem;
+  font-weight: 600;
 }
 
 #authority .phonecode:active::before {
-    opacity: 0;
+  opacity: 0;
 }
 
 /* 底部长按钮 */
 
 #authority .btn_box {
-    position: relative;
-    overflow: hidden;
-    padding: 0.5rem 0.3rem 0.6rem 0.3rem;
+  position: relative;
+  overflow: hidden;
+  padding: 0.5rem 0.3rem 0.6rem 0.3rem;
 }
 
 #authority .btn {
-    background-color: rgb(252, 198, 0);
-    height: 0.9rem;
-    line-height: 0.9rem;
-    color: rgb(17, 17, 17);
-    border-width: 0;
-    font-weight: 600;
+  background-color: rgb(252, 198, 0);
+  height: 0.9rem;
+  line-height: 0.9rem;
+  color: rgb(17, 17, 17);
+  border-width: 0;
+  font-weight: 600;
 }
 
 #authority .btn.van-button--disabled {
-    opacity: 0.6;
+  opacity: 0.6;
 }
