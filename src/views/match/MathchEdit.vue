@@ -71,11 +71,9 @@ export default {
     window.onresize = function() {
       var thisHeight = window.innerHeight;
       if (winHeight - thisHeight > 50) {
-        document.querySelector(".title").style.display = "none";
         document.querySelector(".uploader").style.display = "none";
         document.querySelector(".next").style.display = "none";
       } else {
-        document.querySelector(".title").style.display = "block";
         document.querySelector(".uploader").style.display = "block";
         document.querySelector(".next").style.display = "block";
       }
@@ -404,7 +402,7 @@ export default {
 }
 .title {
   background-color: #fff;
-  padding: 0.25rem 0.3rem;
+  padding: 0.2rem 0.3rem;
 }
 .title span:first-child {
   color: #000;

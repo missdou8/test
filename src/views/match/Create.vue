@@ -61,11 +61,9 @@ export default {
     window.onresize = function() {
       var thisHeight = window.innerHeight;
       if (winHeight - thisHeight > 50) {
-        document.querySelector(".title").style.display = "none";
         document.querySelector(".uploader").style.display = "none";
         document.querySelector(".next").style.display = "none";
       } else {
-        document.querySelector(".title").style.display = "block";
         document.querySelector(".uploader").style.display = "block";
         document.querySelector(".next").style.display = "block";
       }
@@ -234,7 +232,6 @@ export default {
   flex-direction: column;
   overflow: hidden;
   padding: 0.3rem 0.3rem 0;
-  /* padding-bottom: 1.5rem; */
   position: relative;
   text-align: center;
 }
