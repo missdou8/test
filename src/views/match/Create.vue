@@ -35,8 +35,6 @@
 <script>
 import "../../../node_modules/quill/dist/quill.snow.css";
 import Quill from "quill";
-import axios from "axios";
-import { isIos } from "lputils";
 export default {
   data() {
     return {
@@ -99,17 +97,9 @@ export default {
       if (range) {
         if (range.length == 0) {
           toolbar.style.display = "block";
-          // if (!isIos()) {
-          //   document.querySelector(".uploader").style.display = "none";
-          //   document.querySelector(".next").style.display = "none";
-          // }
         }
       } else {
         toolbar.style.display = "none";
-        // if (!isIos()) {
-        //   document.querySelector(".uploader").style.display = "block";
-        //   document.querySelector(".next").style.display = "block";
-        // }
       }
     });
     //处理图片
