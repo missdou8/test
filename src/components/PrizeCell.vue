@@ -1,7 +1,7 @@
 <template>
   <div class="cell">
     <div class="cell_content_group">
-      <span class="cell_rank">第一名</span>
+      <span class="cell_rank">{{cellData.beginRank}}</span>
       <div class="cell_content">
         <img src="../assets/add.png" alt>
         <div class="content_detail">
@@ -20,6 +20,10 @@
 
 <script>
 export default {
+  props: ["cellData"],
+  mounted() {
+    console.log(this.cellData);
+  },
   methods: {
     toEdit() {
       this.$router.push("/match/style/prizepreview/prizesetting");

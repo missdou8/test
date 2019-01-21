@@ -4,7 +4,20 @@ const match = {
     time: 0,
     attendPerson: { id: 0, value: '未选择' }, //参加比赛的人数
     attendStyle: { id: -1, value: '未选择' }, //报名类型
-    rankPrizes: [],
+    rankPrizes: [
+      {
+        beginRank: 1,
+        endRank: 2,
+        ispartInPrize: 0,
+        prizes: [{ name: '奖品名称', price: 0, prizeCount: 0, icon: 'XX' }]
+      },
+      {
+        beginRank: 3,
+        endRank: 4,
+        ispartInPrize: 0,
+        prizes: [{ name: '奖品名称', price: 0, prizeCount: 0, icon: 'XX' }]
+      }
+    ],
     rankPrize: [],
     sendStyle: '', //邮寄方式
     sendAddress: {},

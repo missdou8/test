@@ -1,26 +1,25 @@
 <template>
   <div>
-    <prize-detail :data="prizeData"></prize-detail>
+    <prize-detail v-for="(item ,index) in rankPrizes" :key="`rank${index}`" :data="item"></prize-detail>
   </div>
 </template>
 
 <script>
 import PrizeDetail from "./components/PrizeDetail";
+import { mapState } from "vuex";
 export default {
   data() {
-    return {
-      prizeData: {
-        fromIndex: 10,
-        endIndex: 0,
-        prizeTitle: "",
-        imgSrc: "",
-        prizeNum: 0,
-        prizeValue: 0
-      }
-    };
+    return {};
   },
   components: {
     PrizeDetail
+  },
+  computed: {
+    ...mapState({
+      rankPrizes(state) {
+        return state.match.rankPrizes;
+      }
+    })
   }
 };
 </script>

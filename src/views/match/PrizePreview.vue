@@ -2,7 +2,7 @@
   <div>
     <div>
       <h1>名次奖</h1>
-      <prize-cell></prize-cell>
+      <prize-cell v-for="(item,index) in rankPrizes" :key="`rank${index}`" :cellData="item"></prize-cell>
     </div>
     <div>
       <h1>参与奖</h1>
@@ -59,6 +59,10 @@ export default {
     ...mapState({
       sendType(state) {
         return state.match.sendStyle;
+      },
+      rankPrizes(state) {
+        console.log(state.match.rankPrizes);
+        return state.match.rankPrizes;
       }
     })
   },
