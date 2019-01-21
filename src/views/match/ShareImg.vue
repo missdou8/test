@@ -49,8 +49,12 @@ export default {
       imgURL = imgURL.replace("cdn", "merchant");
       return (this.finalImg = imgURL);
     }
-    let file = this.$store.state.match.shareImgFile;
-    if (file) {
+    let file = this.$store.state.match.shareImg;
+    /**
+     * 如果有https的话则是老比赛，反之则是新比赛
+     * 新比赛需要弹出剪贴框
+     */
+    if (file.indexOf("https") < 0) {
       this.crop(file);
     }
   },

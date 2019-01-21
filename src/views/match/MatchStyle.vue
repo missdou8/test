@@ -139,14 +139,14 @@ export default {
         let a = new FileReader();
         a.onload = function(e) {
           let data = e.target.result;
-          that.$store.commit("setShareImgFile", data);
+          that.$store.commit("setShareImg", data);
           that.$router.push("shareImg");
         };
         a.readAsDataURL(newFile);
       })();
     },
     toShare() {
-      if (this.$store.state.match.shareImgFile) {
+      if (this.$store.state.match.shareImg) {
         return this.$router.push("shareImg");
       }
       let contain = document.querySelector("#style");

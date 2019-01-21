@@ -28,7 +28,6 @@ const match = {
     prizeCover: '',
     isEdit: false, //标记是否为编辑
     tabActive: 0,
-    shareImgFile: '',
     shareImg: '',
     shareCropImg: ''
   },
@@ -74,9 +73,6 @@ const match = {
     },
     setTabActive(state, status) {
       state.tabActive = status
-    },
-    setShareImgFile(state, file) {
-      state.shareImgFile = file
     },
     setShareImg(state, file) {
       state.shareImg = file
