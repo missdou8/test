@@ -176,7 +176,6 @@ export default {
       this.$store.commit("setAttendStyle", { id: 0, value: "未选择" });
       this.$store.commit("setIfSave", false);
       this.$store.commit("setPrizeCover", "");
-      this.$store.commit("setShareImgFile", "");
       this.$store.commit("setRankPrize", []);
       this.$store.commit("setShareImg", "");
       this.$store.commit("setShareCropImg", "");
