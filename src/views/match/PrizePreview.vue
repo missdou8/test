@@ -1,12 +1,22 @@
 <template>
-  <div>
+  <div class="prize_preview">
     <section>
       <h1>名次奖</h1>
-      <prize-cell v-for="(item,index) in rankPrizes" :key="`rank${index}`" :cellData="item"></prize-cell>
+      <prize-cell
+        class="cell"
+        v-for="(item,index) in rankPrizes"
+        :key="`rank${index}`"
+        :cellData="item"
+      ></prize-cell>
     </section>
     <section>
       <h1>参与奖</h1>
-      <prize-cell v-for="(item, index) in rankPrizes" :key="`rank${index}`" :cellData="item"></prize-cell>
+      <prize-cell
+        class="prize_cell"
+        v-for="(item, index) in rankPrizes"
+        :key="`rank${index}`"
+        :cellData="item"
+      ></prize-cell>
     </section>
     <section class="send">
       <h1 class="send_title">领奖方式</h1>
@@ -23,7 +33,9 @@
         ></van-cell>
       </div>
     </section>
-    <dida-button @click="saveClick">保存</dida-button>
+    <div class="btn_content">
+      <dida-button @click="saveClick">保存</dida-button>
+    </div>
   </div>
 </template>
 
@@ -84,13 +96,29 @@ export default {
       this.$router.push("prize/address");
     },
     saveClick() {
-      console.log("这里是保存哈哈哈");
+      // 判断有无奖品
+      if (this.rankPrizes[0].beginRank == 0) {
+        return this.$dialog
+          .confirm({
+            message: "您未添加奖品信息，无人获奖哦！",
+            confirmButtonText: "继续添加",
+            cancelButtonText: "本场比赛不发奖"
+          })
+          .then(() => {})
+          .catch(() => {
+            console.log("你好");
+          });
+      }
     }
   }
 };
 </script>
 
 <style scoped>
+.prize_preview {
+  display: flex;
+  flex-direction: column;
+}
 section {
   background-color: #fff;
   padding: 0.14rem;
@@ -105,7 +133,8 @@ section h1 {
   padding: 0.18rem 0;
 }
 .send_type {
-  text-align: left;
+  display: flex;
+  justify-content: space-around;
   padding: 0.3rem 0;
 }
 .send,
@@ -119,6 +148,13 @@ section h1 {
   display: flex;
   font-size: 0.2rem;
   justify-content: space-around;
+}
+.btn_content {
+  flex-grow: 1;
+  flex-basis: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
 

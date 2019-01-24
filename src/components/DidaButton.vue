@@ -19,6 +19,11 @@ export default {
 <style scoped>
 .btn {
   background-color: var(--btn-bg-color);
+  text-align: center;
+  width: 6.25rem;
+  height: 0.8rem;
+  font-size: var(--font-size-bigger);
+  color: #000;
 }
 </style>
 

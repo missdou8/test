@@ -1,3 +1,4 @@
+const defaultPrizeIcon = require('../assets/prize_default_icon.png')
 const match = {
   state: {
     id: '',
@@ -6,16 +7,12 @@ const match = {
     attendStyle: { id: -1, value: '未选择' }, //报名类型
     rankPrizes: [
       {
-        beginRank: 1,
-        endRank: 2,
+        beginRank: 0,
+        endRank: 0,
         ispartInPrize: 0,
-        prizes: [{ name: '奖品名称', price: 0, prizeCount: 0, icon: 'XX' }]
-      },
-      {
-        beginRank: 3,
-        endRank: 4,
-        ispartInPrize: 0,
-        prizes: [{ name: '奖品名称', price: 0, prizeCount: 0, icon: 'XX' }]
+        prizes: [
+          { name: '暂无奖品', price: 0, prizeCount: 0, icon: defaultPrizeIcon }
+        ]
       }
     ],
     rankPrize: [],

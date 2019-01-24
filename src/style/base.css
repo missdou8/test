@@ -6,6 +6,8 @@
   --word-color: #555;
   --word-gray-color: #8b8b8b;
   --word-warn-color: #cc422e;
+  /* 容器背景色 */
+  --content-gray: #fafafa;
   /* 边框 */
   --border-color: #d7d7d7;
   /* 字体大小与行高 */
