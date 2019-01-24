@@ -22,7 +22,7 @@ export default {
     2: '邀请赛'
   }, //赛制中报名方式
   defaultIcon: require('../assets/icon.png'), //默认头像
-  downLoadURL: 'https://www.lphb7.cn/download.html', //嘀嗒下载页
+  downLoadURL: 'https://www.dida666.cn/download.html', //嘀嗒下载页
   customerServiceUrl:
     'https://www.sobot.com/chat/h5/index.html?sysNum=ded7079b7502494fad26fc73147a40ca&source=1&moduleType=2', //客服网页基本链接，后边接更多个性化参数
   outputWidth: window.innerWidth * 2 || 800, //压缩图片输出的width
