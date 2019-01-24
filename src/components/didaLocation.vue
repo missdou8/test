@@ -11,10 +11,15 @@ export default {
   },
   created() {
     //提供一个缓冲定位时间
-    this.$toast.loading({ duration: 0, message: "定位中..." });
+    this.$toast.loading({
+      duration: 0,       // 持续展示 toast
+      forbidClick: true, // 禁用背景点击
+      message: "定位中..." 
+    });
     //直接调用定位
     setTimeout(() => {
       this.getLocation();
+      this.searchSiteSelection()
     }, 1000);
   },
   methods: {
@@ -115,8 +120,9 @@ export default {
                 tant.$emit("getResData", resData);
             });
             positionPicker.on('fail', function (positionResult) {
+                tant.$toast.clear();
                 // 海上或海外无法获得地址信息
-                alert('选址失败请稍后重试')
+                tant.$toast("选址失败请稍后重试");
             });
             positionPicker.start();
         });
@@ -127,8 +133,8 @@ export default {
 
 <style scoped>
   #GetLocation{
-    text-align: center;
     padding-top: 44px;
+    text-align: center;
     position: relative;
     overflow: hidden;
   }
@@ -155,5 +161,7 @@ export default {
 #GetLocation .amap-logo,#GetLocation .amap-copyright{
   display:none!important;
 }
-
+#GetLocation .dock-bottom{
+  text-align: left;
+}
 </style>
