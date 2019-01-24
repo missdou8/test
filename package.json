@@ -53,7 +53,7 @@
     "plugins": {
       "postcss-preset-env": {},
       "postcss-pxtorem": {
-        "rootValue": 50,
+        "rootValue": 51.84,
         "propList": [
           "*"
         ]

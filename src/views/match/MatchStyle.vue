@@ -163,7 +163,7 @@ export default {
       if (this.selectPerson.id === 0) {
         return this.$toast("请先选择人数");
       }
-      this.$router.push("style/prize");
+      this.$router.push("style/prizepreview");
     },
     personShow(activeNames) {
       if (activeNames == 1) {

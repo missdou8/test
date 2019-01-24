@@ -3,7 +3,9 @@
     <div class="cell_content_group">
       <span class="cell_rank">{{cellData.beginRank}}</span>
       <div class="cell_content">
-        <img src="../assets/add.png" alt>
+        <div class="content_img-container">
+          <img src="../assets/add.png" alt>
+        </div>
         <div class="content_detail">
           <p>这里是名字</p>
           <p>这里是数量</p>
@@ -21,9 +23,7 @@
 <script>
 export default {
   props: ["cellData"],
-  mounted() {
-    console.log(this.cellData);
-  },
+  mounted() {},
   methods: {
     toEdit() {
       this.$router.push("/match/style/prizepreview/prizesetting");
@@ -39,15 +39,21 @@ export default {
 }
 .cell_content_group {
   display: flex;
+  align-items: center;
 }
 .cell_rank {
-  width: 100px;
-  height: 100px;
-  line-height: 100px;
+  width: 1.35rem;
   text-align: center;
 }
 .cell_content {
   display: flex;
+}
+.content_img-container {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+.cell_content img {
+  width: 1.32rem;
 }
 .content_detail {
   display: flex;

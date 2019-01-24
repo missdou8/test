@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div>
+    <section>
       <h1>名次奖</h1>
       <prize-cell v-for="(item,index) in rankPrizes" :key="`rank${index}`" :cellData="item"></prize-cell>
-    </div>
-    <div>
+    </section>
+    <section>
       <h1>参与奖</h1>
-      <prize-cell></prize-cell>
-    </div>
-    <div class="send">
+      <prize-cell v-for="(item, index) in rankPrizes" :key="`rank${index}`" :cellData="item"></prize-cell>
+    </section>
+    <section class="send">
       <h1 class="send_title">领奖方式</h1>
       <radio-btn class="send_type" :data="sendStyle" @select="typeSelect" :selected="sendType"></radio-btn>
       <div class="address" v-show="addressShow">
@@ -22,7 +22,7 @@
           @click="toAddress"
         ></van-cell>
       </div>
-    </div>
+    </section>
     <dida-button @click="saveClick">保存</dida-button>
   </div>
 </template>
@@ -61,7 +61,6 @@ export default {
         return state.match.sendStyle;
       },
       rankPrizes(state) {
-        console.log(state.match.rankPrizes);
         return state.match.rankPrizes;
       }
     })
@@ -92,10 +91,15 @@ export default {
 </script>
 
 <style scoped>
-/* 领奖方式 */
-.send {
+section {
+  background-color: #fff;
+  padding: 0.14rem;
   margin-top: 0.2rem;
 }
+section h1 {
+  font-size: var(--font-size-bigger);
+}
+/* 领奖方式 */
 .send_title {
   font-size: 0.3rem;
   padding: 0.18rem 0;
