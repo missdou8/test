@@ -8,17 +8,18 @@ export default {
     };
   },
   created() {
-    let script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src =
-      "https://webapi.amap.com/maps?v=1.4.8&key=bbde580275aaedec9c75c661f4e5c35f&plugin=AMap.DistrictSearch"; // 高德地图
-    document.body.appendChild(script);
+    //提供一个缓冲定位时间
+    this.$toast.loading({ duration: 0, message: "定位中..." });
+    setTimeout(() => {
+      this.onLocation();
+    }, 1000);
   },
   methods: {
     onLocation() {
       let _this = this;
       /***************************************
         由于Chrome、IOS10等已不再支持非安全域的浏览器定位请求，为保证定位成功率和精度，请尽快升级您的站点到HTTPS。
+
         ***************************************/
       let map, geolocation;
       //加载地图，调用浏览器定位服务
@@ -80,4 +81,6 @@ export default {
 };
 </script>
 
-
+<style lang="">
+  
+</style>

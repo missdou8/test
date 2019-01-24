@@ -1,9 +1,10 @@
 <template>
   <div id="editAddress">
+    <dida-location ref="location" @getResData='getResData($event)' @getLngAndlat="getLngAndlat($event)"></dida-location>
     <van-cell-group>
-      <van-cell class="btn_box">
+      <!-- <van-cell class="btn_box">
         <van-button class="location_btn" size="small" @click="onLocation()"></van-button>
-      </van-cell>
+      </van-cell> -->
       <van-cell class="showAlert" title="所在地区" :value="areaMsg" is-link @click="showPopup()" />
       <van-field v-model="address" label="联系地址" type="textarea" placeholder="请输入详细地址，如街道、小区、楼栋号、单元室等" rows="3" autosize/>
     </van-cell-group>
@@ -11,7 +12,6 @@
       <van-area ref="van_area" :area-list="areaList" @confirm="onConfirm" @cancel="onCancel()" :value="areaId" />
     </van-popup>
     <dida-btn :btn-enable="btnEnable" @submetData="setUserShop()"></dida-btn>
-    <dida-location ref="location" @getResData='getResData($event)' @getLngAndlat="getLngAndlat($event)"></dida-location>
   </div>
 </template>
 <script>
@@ -79,13 +79,13 @@ export default {
       this.longitude = resData.longitude;
       this.latitude = resData.latitude;
     },
-    onLocation() {
-      this.$toast.loading({ duration: 0, message: "定位中..." });
-      //提供一个缓冲定位时间
-      setTimeout(() => {
-        this.$refs.location.onLocation();
-      }, 500);
-    },
+    // onLocation() {
+    //   this.$toast.loading({ duration: 0, message: "定位中..." });
+    //   //提供一个缓冲定位时间
+    //   setTimeout(() => {
+    //     this.$refs.location.onLocation();
+    //   }, 500);
+    // },
     getResData(resData) {
       this.address = resData.detailAddress;
       this.areaId = resData.detailAreaCode;
