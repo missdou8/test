@@ -1,6 +1,6 @@
 <template>
   <div>
-    <prize-detail v-for="(item ,index) in rankPrizes" :key="`rank${index}`" :data="item"></prize-detail>
+    <prize-detail :data="prizeData" :currentIndex="currentPrizeNum"></prize-detail>
   </div>
 </template>
 
@@ -9,17 +9,17 @@ import PrizeDetail from "./components/PrizeDetail";
 import { mapState } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      currentPrizeNum: 0,
+      prizeData: {}
+    };
   },
   components: {
     PrizeDetail
   },
-  computed: {
-    ...mapState({
-      rankPrizes(state) {
-        return state.match.rankPrizes;
-      }
-    })
+  mounted() {
+    console.log(this.$route.query.prizeData);
+    this.prizeData = this.$route.query.prizeData;
   }
 };
 </script>

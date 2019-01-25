@@ -1,14 +1,18 @@
 <template>
   <div class="detail">
-    <div class="prize detail_cell">
-      <span class="detail_title">名次</span>
-      <p>
-        第
-        <span>{{data.fromIndex}}</span>名——第
-        <button @click="numInput(data.fromIndex)">{{data.endIndex ||'点击选择'}}</button>
-        名
-      </p>
-      <input type="checkbox">多人获得
+    <div class="prize_rank detail_cell">
+      <div class="rank">
+        <span class="detail_title">名次</span>
+        <p>
+          第
+          <span>{{fromIndex}}</span>名——第
+          <button @click="numInput(data.fromIndex)">{{data.endIndex ||'点击选择'}}</button>
+          名
+        </p>
+      </div>
+      <div class="rank_multiple">
+        <input type="checkbox">多人获得
+      </div>
     </div>
     <div class="detail_cell">
       <span class="detail_title">名称</span>
@@ -33,9 +37,21 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      fromIndex: 0,
+      data: {}
+    };
   },
-  props: ["data"],
+  props: ["currentIndex"],
+  mounted() {
+    /**
+     * 判断是添加还是编辑
+     * 没有奖品就填写
+     */
+    if (this.data.beginRank == 0) {
+      this.fromIndex = this.currentIndex;
+    }
+  },
   methods: {
     numInput(fromIndex) {
       this.$router.push({
@@ -54,14 +70,34 @@ export default {
 .detail_cell {
   background-color: #fff;
   display: flex;
-  padding: 6px 0;
+  padding: 0.25rem 0 0.25rem 0.25rem;
+  position: relative;
+}
+.detail_cell::after {
+  content: "";
+  background-color: var(--border-color);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 0.01rem;
+  width: 97%;
 }
 .detail_cell:first-child {
-  margin-bottom: 10px;
+  margin-bottom: 0.15rem;
 }
 .detail_title {
-  font-size: 20px;
-  padding: 0 6px;
+  font-size: var(--font-size-bigger);
+  padding: 0 0.1rem;
+}
+.prize_rank {
+  flex-direction: column;
+}
+.rank {
+  display: flex;
+}
+.rank_multiple {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
 

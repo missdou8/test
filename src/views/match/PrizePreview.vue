@@ -7,6 +7,7 @@
         v-for="(item,index) in rankPrizes"
         :key="`rank${index}`"
         :cellData="item"
+        @toEdit="toEdit(item)"
       ></prize-cell>
     </section>
     <section>
@@ -95,6 +96,14 @@ export default {
     toAddress() {
       this.$router.push("prize/address");
     },
+    toEdit(data) {
+      this.$router.push({
+        path: "/match/style/prizepreview/prizesetting",
+        query: {
+          prizeData: data
+        }
+      });
+    },
     saveClick() {
       // 判断有无奖品
       if (this.rankPrizes[0].beginRank == 0) {
@@ -106,7 +115,8 @@ export default {
           })
           .then(() => {})
           .catch(() => {
-            console.log("你好");
+            this.$store.commit("setRankPrizes", []);
+            this.$router.go(-1);
           });
       }
     }

@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     toEdit() {
-      this.$router.push("/match/style/prizepreview/prizesetting");
+      this.$emit("toEdit");
     }
   }
 };
