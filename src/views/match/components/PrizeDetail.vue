@@ -5,7 +5,7 @@
         <span class="detail_title">名次</span>
         <p>
           第
-          <span>{{fromIndex}}</span>名——第
+          <span class="detail_rank">{{fromIndex}}</span>名——第
           <button @click="numInput(data.fromIndex)">{{data.endIndex ||'点击选择'}}</button>
           名
         </p>
@@ -70,7 +70,7 @@ export default {
 .detail_cell {
   background-color: #fff;
   display: flex;
-  padding: 0.25rem 0 0.25rem 0.25rem;
+  padding: 0.25rem 0;
   position: relative;
 }
 .detail_cell::after {
@@ -79,7 +79,7 @@ export default {
   position: absolute;
   bottom: 0;
   right: 0;
-  height: 0.01rem;
+  height: 0.012rem;
   width: 97%;
 }
 .detail_cell:first-child {
@@ -87,7 +87,7 @@ export default {
 }
 .detail_title {
   font-size: var(--font-size-bigger);
-  padding: 0 0.1rem;
+  padding: 0 0.4rem;
 }
 .prize_rank {
   flex-direction: column;
@@ -98,6 +98,11 @@ export default {
 .rank_multiple {
   display: flex;
   justify-content: flex-end;
+}
+.detail_rank {
+  display: inline-block;
+  width: 0.5rem;
+  text-align: center;
 }
 </style>
 
