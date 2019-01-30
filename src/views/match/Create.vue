@@ -210,10 +210,6 @@ export default {
       let range = selection.getRangeAt(0);
       range.insertNode(div);
     }
-  },
-  beforeRouteLeave(to, from, next) {
-    document.querySelector(".title_content").focus();
-    next();
   }
 };
 </script>
