@@ -3,15 +3,18 @@
     <div class="prize_rank detail_cell">
       <div class="rank">
         <span class="detail_title">名次</span>
-        <p>
+        <div class="detail_rank">
           第
-          <span class="detail_rank">{{fromIndex}}</span>名——第
-          <button @click="numInput(data.fromIndex)">{{data.endIndex ||'点击选择'}}</button>
-          名
-        </p>
+          <span class="rank_from">{{fromIndex}}</span>名 —
+          <div :class="{canMutilple: mutipleChoose}">
+            第
+            <button @click="numInput(data.fromIndex)">{{data.endIndex ||'点击选择'}}</button>
+            名
+          </div>
+        </div>
       </div>
       <div class="rank_multiple">
-        <input type="checkbox">多人获得
+        <input type="checkbox" @change="mutipleClick">多人获得
       </div>
     </div>
     <div class="detail_cell">
@@ -39,7 +42,8 @@ export default {
   data() {
     return {
       fromIndex: 0,
-      data: {}
+      data: {},
+      mutipleChoose: true
     };
   },
   props: ["currentIndex"],
@@ -60,6 +64,10 @@ export default {
           fromIndex: fromIndex
         }
       });
+    },
+    mutipleClick(event, value) {
+      let dom = event.target;
+      this.mutipleChoose = !dom.checked;
     }
   }
 };
@@ -98,11 +106,19 @@ export default {
 .rank_multiple {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 }
 .detail_rank {
+  display: flex;
+}
+.rank_from {
   display: inline-block;
   width: 0.5rem;
   text-align: center;
+}
+.canMutilple {
+  pointer-events: none;
+  color: var(--word-gray-color);
 }
 </style>
 
