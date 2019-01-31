@@ -218,7 +218,7 @@ export default {
       btns.forEach(item => {
         item.parentElement.removeChild(item);
       });
-      this.detail.title = this.$refs.title.innerHTML;
+      this.detail.title = this.$refs.title.innerText;
       this.detail.content = content;
       this.$store.commit("setDetail", this.detail);
       this.$router.push("style");
