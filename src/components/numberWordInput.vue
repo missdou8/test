@@ -1,12 +1,12 @@
 <template>
-    <div id="numberWordInput">
-        <van-popup class="popup" v-model="show_popup" position="bottom" :overlay="false">
-            <ul class="key_input border_top border_left">
-                <li v-for="i in 6" :key="i" class="border_right border_bottom">{{value.split("")[i-1]}}</li>
-            </ul>
-            <van-number-keyboard :show="true" extra-key="取消" @input="onInput" @delete="onDelete"/>
-        </van-popup>
-    </div>
+  <div id="numberWordInput">
+    <van-popup class="popup" v-model="show_popup" position="bottom" :overlay="false">
+      <ul class="key_input border_top border_left">
+        <li v-for="i in 6" :key="i" class="border_right border_bottom">{{value.split("")[i-1]}}</li>
+      </ul>
+      <van-number-keyboard :show="true" extra-key="取消" @input="onInput" @delete="onDelete"/>
+    </van-popup>
+  </div>
 </template>
 <script>
 export default {

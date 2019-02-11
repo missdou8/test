@@ -5,10 +5,10 @@
         <span class="detail_title">名次</span>
         <div class="detail_rank">
           第
-          <span class="rank_from">{{fromIndex}}</span>名 —
+          <span class="rank_from">{{rankData.beginRank}}</span>名 —
           <div :class="{canMutilple: mutipleChoose}">
             第
-            <button @click="numInput(data.fromIndex)">{{data.endIndex ||'点击选择'}}</button>
+            <button @click="numInput(rankData.beginRank)">{{rankData.endRank ||'点击选择'}}</button>
             名
           </div>
         </div>
@@ -17,22 +17,24 @@
         <input type="checkbox" @change="mutipleClick">多人获得
       </div>
     </div>
-    <div class="detail_cell">
-      <span class="detail_title">名称</span>
-      <input type="text" placeholder="请输入不超过15个字符" :value="data.prizeTitle">
-    </div>
-    <div class="detail_cell">
-      <span class="detail_title">图片</span>
-      <input type="text" placeholder="请点击添加图片" :value="data.imgSrc">
-    </div>
-    <div class="detail_cell">
-      <span class="detail_title">数量</span>
-      <span v-if="data.prizeNum">{{data.prizeNum}}</span>
-      <button v-else>点击选择</button>
-    </div>
-    <div class="detail_cell">
-      <span class="detail_title">单价</span>
-      <input type="text" placeholder="请输入阿拉伯数字，可带有小数点">元
+    <div class="mutiple_prize" v-for="(prize,index) in rankData.prizes" :key="`prize${index}`">
+      <div class="detail_cell">
+        <span class="detail_title">名称</span>
+        <input type="text" placeholder="请输入不超过15个字符" :value="prize.name">
+      </div>
+      <div class="detail_cell">
+        <span class="detail_title">图片</span>
+        <input type="text" placeholder="请点击添加图片" :value="prize.icon">
+      </div>
+      <div class="detail_cell">
+        <span class="detail_title">数量</span>
+        <span v-if="prize.prizeCount">{{prize.prizeCount}}</span>
+        <button v-else>点击选择</button>
+      </div>
+      <div class="detail_cell">
+        <span class="detail_title">单价</span>
+        <input type="text" placeholder="请输入阿拉伯数字，可带有小数点">元
+      </div>
     </div>
   </div>
 </template>
@@ -42,20 +44,20 @@ export default {
   data() {
     return {
       fromIndex: 0,
-      data: {},
       mutipleChoose: true
     };
   },
-  props: ["currentIndex"],
-  mounted() {
+  props: ["rankData"],
+  watch: {
     /**
-     * 判断是添加还是编辑
-     * 没有奖品就填写
+     * 当数据变化时初始化本组件数据
      */
-    if (this.data.beginRank == 0) {
-      this.fromIndex = this.currentIndex;
+    rankData(val) {
+      console.log("你好");
+      console.log(val);
     }
   },
+  mounted() {},
   methods: {
     numInput(fromIndex) {
       this.$router.push({

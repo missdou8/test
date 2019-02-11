@@ -1,6 +1,6 @@
 <template>
   <div>
-    <prize-detail :data="prizeData" :currentIndex="currentPrizeNum"></prize-detail>
+    <prize-detail :rankData="prizeData"></prize-detail>
   </div>
 </template>
 
@@ -10,7 +10,6 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      currentPrizeNum: 0,
       prizeData: {}
     };
   },
@@ -18,8 +17,13 @@ export default {
     PrizeDetail
   },
   mounted() {
-    console.log(this.$route.query.prizeData);
+    /**
+     * 初始化本名词数据
+     */
+    let data = this.$route.query
+    console.log(this.$route.query)
     this.prizeData = this.$route.query.prizeData;
+    console.log(this.prizeData);
   }
 };
 </script>

@@ -100,7 +100,7 @@ export default {
       this.$router.push({
         path: "/match/style/prizepreview/prizesetting",
         query: {
-          prizeData: data
+          prizeData: JSON.stringify(data)
         }
       });
     },

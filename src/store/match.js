@@ -7,8 +7,8 @@ const match = {
     attendStyle: { id: -1, value: '未选择' }, //报名类型
     rankPrizes: [
       {
-        beginRank: 0,
-        endRank: 0,
+        beginRank: 1,
+        endRank: 1,
         ispartInPrize: 0,
         prizes: [
           { name: '暂无奖品', price: 0, prizeCount: 0, icon: defaultPrizeIcon }
