@@ -8,7 +8,9 @@
           <span class="rank_from">{{rankData.beginRank}}</span>名 —
           <div :class="{canMutilple: mutipleChoose}">
             第
-            <button @click="numInput(rankData.beginRank)">{{rankData.endRank ||'点击选择'}}</button>
+            <button
+              @click="numInput(rankData.beginRank)"
+            >{{rankData.endRank != rankData.beginRank ||'点击选择'}}</button>
             名
           </div>
         </div>
