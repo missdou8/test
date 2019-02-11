@@ -20,10 +20,8 @@ export default {
     /**
      * 初始化本名词数据
      */
-    let data = this.$route.query
-    console.log(this.$route.query)
-    this.prizeData = this.$route.query.prizeData;
-    console.log(this.prizeData);
+    let data = JSON.parse(this.$route.query.prizeData);
+    this.prizeData = data;
   }
 };
 </script>
