@@ -17,11 +17,15 @@
         >
       </div>
       <div class="header">
-        <h1 class="header_title">{{match.title}} {{match.id}}</h1>
-        <p class="header_info">
+        <div class="header_title">
+          <span>{{match.title}}</span>
           <span class="header_info_time" v-show="!isHistory">{{countDown}}</span>
-          <span class="header_info_send">{{prizes.type == 0 ? '邮寄': '自取'}}</span>
+        </div>
+        <p class="header_info">
           <span class="header_info_type">{{config.attendType[match.signupType]}}</span>
+          <span class="header_info_send">{{prizes.type == 0 ? '邮寄': '自取'}}</span>
+          <span class="header_info_game" @click="toRule">{{match.gameName}}</span>
+          <span class="header_info_id">{{match.id}}</span>
           <!-- 如果是SNG比赛或者是MTT比赛切是循环 -->
           <span
             class="header_info_record"
@@ -32,34 +36,31 @@
         </p>
         <button v-show="editShow" class="edit-btn" @click="toEdit">我要修改>></button>
       </div>
-      <div class="game">
-        <p class="game_info">
-          <span class="game_tag"></span>
-          <span>玩法：</span>
-          <span class="game_name">{{match.gameName}}</span>
-        </p>
-        <span class="game_rule" @click="toRule">规则</span>
-      </div>
-      <div class="detail">
-        <p class="prize_header">
-          <span class="game_tag"></span>
-          <span>比赛详情</span>
-        </p>
-        <div class="detail_page" v-html="match.content"></div>
-      </div>
-      <div id="prize" class="prize" v-show="prizeset.length > 0">
-        <p class="prize_header">
-          <span class="game_tag"></span>
+      <div id="prize" class="prize" v-show="rankPrizes.length > 0">
+        <p class="prize_section">
+          <img src="../assets/header_info_line.png" alt="线">
           <span>比赛奖品</span>
+          <img class="last" src="../assets/header_info_line.png" alt="线">
         </p>
-        <div class="prize_img">
-          <img :src="prizes.img" alt="奖品">
+        <div>
+          <p class="prize_header">
+            <span class="game_tag"></span>
+            <span>名次奖品</span>
+          </p>
+          <prize-cell
+            class="cell"
+            v-for="(item,index) in rankPrizes"
+            :key="`rank${index}`"
+            :cellData="item"
+            :edit="false"
+          ></prize-cell>
         </div>
-        <ul class="prize_list">
-          <li class="prize_list_item" v-for="(item,index) in prizeset" :key="`${index}`">
-            <p>第{{item.rank}}名：{{item.prizeCount}}{{item.unit}}{{item.name}}</p>
-          </li>
-        </ul>
+        <div>
+          <p class="prize_header">
+            <span class="game_tag"></span>
+            <span>参与奖</span>
+          </p>
+        </div>
         <div v-show="prizes.type == 1">
           <p class="prize_header">
             <span class="game_tag"></span>
@@ -67,6 +68,14 @@
           </p>
           <p class="address">{{prizes.regionName}} {{prizes.address}}</p>
         </div>
+      </div>
+      <div class="detail">
+        <p class="prize_section">
+          <img src="../assets/header_info_line.png" alt="线">
+          <span>比赛详情</span>
+          <img class="last" src="../assets/header_info_line.png" alt="线">
+        </p>
+        <div class="detail_page" v-html="match.content"></div>
       </div>
       <div class="like_info">
         <div class="like_info_item" @click="toFans">
@@ -95,6 +104,7 @@
 
 <script>
 import { secondsToTime } from "lputils";
+import PrizeCell from "./PrizeCell";
 import icon from "../assets/icon.png";
 export default {
   props: ["type", "data"],
@@ -103,7 +113,7 @@ export default {
       current: true,
       match: {},
       prizes: {},
-      prizeset: {},
+      rankPrizes: {},
       merchant: {},
       top: 0,
       editShow: false,
@@ -111,6 +121,9 @@ export default {
       timer: "",
       icon: icon
     };
+  },
+  components: {
+    PrizeCell
   },
   computed: {
     countDown(value) {
@@ -132,7 +145,7 @@ export default {
         this.time -= 1;
       }, 1000);
       this.prizes = this.data.prizes;
-      this.prizeset = this.prizes.rankingSet;
+      this.rankPrizes = this.prizes.rankingSet;
       this.merchant = this.data.merchant;
       //判断是否显示可以修改的按钮
       let matchStatus = this.match.status;
@@ -198,7 +211,7 @@ export default {
     },
     toRule() {
       this.$router.push({
-        path: "/gameRule",
+        path: "/detail/gameRule",
         query: {
           id: this.match.gameId
         }
@@ -213,8 +226,6 @@ export default {
   width: 100%;
 }
 </style>
-
-
 
 <style scoped>
 a {
@@ -235,7 +246,7 @@ a {
 }
 .cover_img {
   background-color: #fff;
-  height: 3.21rem;
+  height: 3.4rem;
   padding: 0.35rem 0;
   margin-bottom: 0.01rem;
   text-align: center;
@@ -326,34 +337,61 @@ a {
   position: relative;
 }
 .header_title {
-  font-size: 0.3rem;
+  display: flex;
+  justify-content: space-between;
+}
+.header_title span:first-child {
+  font-size: var(--font-size-bigger);
   font-weight: bold;
 }
 .header_info {
   position: relative;
+  margin-top: -0.1rem;
 }
 .header_info span {
   border-radius: 0.05rem;
 }
 .header_info_time {
-  background: url("../assets/light.png") 0.05rem center/.2rem 0.24rem no-repeat;
+  background: url("../assets/light.png") 0.05rem center/.16rem 0.24rem no-repeat;
+  background-color: #000;
+  color: #ffd321;
+}
+.header_info_time,
+.header_info_send,
+.header_info_type {
+  font-size: 0.23rem;
+  height: 0.32rem;
+  line-height: 0.32rem;
 }
 .header_info_time,
 .header_info_send {
-  background-color: #000;
-  color: #ffd321;
-  margin-right: 0.2rem;
-  padding: 0 0.1rem 0 0.3rem;
+  border-radius: 0.05rem;
+  padding: 0 0.1rem 0 0.26rem;
 }
 .header_info_send {
+  background-color: #5be28e;
+  color: #000;
   padding-left: 0.1rem;
+}
+.header_info_id {
+  float: right;
+  font-size: 0.24rem;
+}
+.header_info .header_info_game {
+  border: 1px solid #0091f8;
+  border-radius: 0.2rem;
+  color: #0091f8;
+  font-size: 0.24rem;
+  padding: 0rem 0.2rem;
+  margin-left: 0.2rem;
 }
 .header_info_type {
   color: #fff;
-  padding: 0 0.1rem 0 0.5rem;
-  background: url("../assets/attent_type.png") 0.05rem center/.3rem 0.3rem
+  padding: 0 0.1rem 0 0.38rem;
+  background: url("../assets/attent_type.png") 0.05rem center/.23rem 0.23rem
     no-repeat;
   background-color: #c64432;
+  margin: 0 0.2rem 0 0.05rem;
 }
 .header_info_record {
   position: absolute;
@@ -379,67 +417,25 @@ a {
   right: 0;
   top: 0.2rem;
 }
-/* 游戏规则 */
-.game {
-  background-color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-style: 0.28rem;
-  margin-top: 0.2rem;
-  padding: 0.3rem 0.2rem;
-}
-.game_info span {
-  margin-right: 0.1rem;
-}
 .game_tag {
-  background-color: #fbe500;
-  display: inline-block;
+  background-color: #fbd400;
+  border-radius: 0.1rem;
   height: 0.31rem;
   width: 0.15rem;
-  vertical-align: text-bottom;
 }
-.game_name {
-  color: #000;
-  font-size: 0.3rem;
-  font-weight: bold;
-}
-.game_rule {
-  background: url("../assets/arrow_right.png") right center/ 0.3rem 0.3rem
-    no-repeat;
-  color: green;
-  font-size: 0.3rem;
-  padding-right: 0.4rem;
+.prize {
+  margin-top: 0.2rem;
 }
 .prize_header {
   background-color: #fff;
+  color: #a7a7a7;
   display: flex;
   align-items: center;
-  font-style: 0.28rem;
-  margin-top: 0.2rem;
   padding: 0.3rem 0.2rem;
 }
 .prize_header span {
   font-size: 0.3rem;
-  font-weight: bold;
   margin-right: 0.1rem;
-}
-.prize_img,
-.prize_list {
-  background-color: #fff;
-}
-.prize_list {
-  margin-top: 0.02rem;
-  padding: 0 0.2rem;
-}
-.prize_list_item p {
-  padding: 0.2rem 0;
-}
-.prize_img {
-  text-align: center;
-}
-.prize_img img {
-  height: 2.65rem;
 }
 
 .scroll_top {
@@ -465,5 +461,36 @@ a {
 .address {
   background-color: #fff;
   text-indent: 2em;
+}
+.prize_section {
+  background-color: #fffbeb;
+  color: #f6c668;
+  font-size: 0.3rem;
+  text-align: center;
+  height: 0.6rem;
+  line-height: 0.6rem;
+}
+.prize_section img {
+  width: 0.62rem;
+}
+.prize_section .last {
+  transform: scaleX(-1);
+}
+.prize_section span {
+  vertical-align: sub;
+  margin: 0 0.38rem;
+}
+.cell {
+  background-color: #fff;
+  padding: 0.1rem 0.36rem;
+  position: relative;
+}
+.cell::after {
+  content: "";
+  position: absolute;
+  bottom: -0.01rem;
+  height: 0.02rem;
+  width: 80%;
+  background-color: #d9d9d9;
 }
 </style>

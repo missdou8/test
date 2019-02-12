@@ -111,8 +111,6 @@ export default {
         });
         this.$store.commit("setAttendStyle", att);
         this.$store.commit("setIfSave", true);
-        this.$store.commit("setShareCropImg", this.match.shareCropImg);
-        this.$store.commit("setShareImg", this.match.sharePic);
         this.$store.commit("setPrizeCover", this.matchData.prizes.img);
         this.$store.commit("setRankPrize", this.matchData.prizes.rankingSet);
         this.$store.commit("setSendStyle", this.matchData.prizes.type);

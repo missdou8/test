@@ -1,37 +1,44 @@
 <template>
   <div class="cell">
     <div class="cell_content_group">
-      <span class="cell_rank">{{cellData.beginRank}}</span>
+      <span
+        class="cell_rank"
+      >第{{cellData.beginRank}}{{cellData.beginRank != cellData.endRank ? `-${cellData.endRank}`: ''}}名</span>
       <div class="cell_content">
         <div class="content_detail">
           <div class="detail_cell" v-for="(item, index) in cellData.prizes" :key="`prize${index}`">
             <div class="content_img-container">
-              <img src="../assets/add.png" alt>
+              <img :src="item.icon || defaultPrizeIcon" alt>
             </div>
             <div class="cell_desc">
-              <p>{{item.name}}</p>
-              <p class="detail_num">{{item.prizeCount}}</p>
+              <p>{{item.name || '暂无奖品'}}</p>
+              <p class="detail_num">{{item.prizeCount || 0}}</p>
+              <p class="cell_sum">
+                <span :class="{show: !cellData.ispartInPrize}">有参与奖</span>
+                <span>共{{total}}元</span>
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <button class="cell_edit" @click="toEdit"></button>
-    <p class="cell_sum">
-      <span :class="{show: !cellData.ispartInPrize}">有参与奖</span>
-      <span>共{{total}}元</span>
-    </p>
+    <button class="cell_edit" @click="toEdit" v-if="edit"></button>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["cellData"],
+  data() {
+    return {
+      defaultPrizeIcon: require("../assets/prize_default_icon.png")
+    };
+  },
+  props: ["cellData", "edit"],
   mounted() {},
   computed: {
     total() {
       return this.cellData.prizes.reduce((prev, cur) => {
-        return prev + cur.price;
+        return prev + Number(cur.price);
       }, 0);
     }
   },
@@ -59,12 +66,15 @@ export default {
 }
 .cell_content {
   display: flex;
+  flex-grow: 1;
 }
 .content_img-container {
   padding: 0.1rem;
   height: 1.35rem;
+  line-height: 1.35rem;
   width: 1.35rem;
   margin-right: 0.2rem;
+  position: relative;
 }
 .cell_content img {
   max-height: 100%;
@@ -73,10 +83,12 @@ export default {
 .content_detail {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 .detail_cell {
   display: flex;
   align-items: center;
+  flex-grow: 1;
 }
 .detail_cell p {
   margin-bottom: 0.1rem;
@@ -85,15 +97,15 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: baseline;
+  flex-grow: 1;
 }
 .detail_num {
   color: #c64432;
   font-size: var(--font-size-smaller);
 }
 .cell_sum {
-  padding-left: 2.9rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .cell_edit {
   background: url("../assets/prize_edit_icon.png") no-repeat;

@@ -176,9 +176,22 @@ export default {
       this.$store.commit("setAttendStyle", { id: 0, value: "未选择" });
       this.$store.commit("setIfSave", false);
       this.$store.commit("setPrizeCover", "");
-      this.$store.commit("setRankPrize", []);
-      this.$store.commit("setShareImg", "");
-      this.$store.commit("setShareCropImg", "");
+      //初始化默认数据
+      this.$store.commit("setRankPrizes", [
+        {
+          beginRank: 1,
+          endRank: 1,
+          ispartInPrize: 0,
+          prizes: [
+            {
+              name: null,
+              price: null,
+              prizeCount: null,
+              icon: null
+            }
+          ]
+        }
+      ]);
       this.$store.commit("setSendStyle", -1);
       //设置自提地址为店铺地址
       this.$store.commit("setgainPrizeAddress", {

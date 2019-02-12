@@ -6,7 +6,6 @@ import MathchEdit from '../views/match/MathchEdit.vue'
 import Prize from '../views/match/Prize.vue'
 import PrizeAddress from '../views/match/PrizeAddress.vue'
 import Share from '../views/match/Share.vue'
-import ShareImg from '../views/match/ShareImg.vue'
 import WinnerList from '../views/match/WinnerList.vue'
 import WaitingCheck from '../views/match/WaitingCheck.vue'
 import GameRules from '../components/GameRules.vue'
@@ -94,13 +93,6 @@ const MATCH_ROUTERS = [
     }
   },
   {
-    path: '/match/shareImg',
-    component: ShareImg,
-    meta: {
-      title: '添加分享图片'
-    }
-  },
-  {
     path: '/match/winner/list',
     component: WinnerList,
     meta: {
@@ -115,7 +107,7 @@ const MATCH_ROUTERS = [
     }
   },
   {
-    path: '/gameRule',
+    path: '/detail/gameRule',
     meta: {
       title: '游戏规则'
     },

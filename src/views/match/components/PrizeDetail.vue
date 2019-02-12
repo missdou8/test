@@ -9,33 +9,60 @@
           <div :class="{canMutilple: mutipleChoose}">
             第
             <button
-              @click="numInput(rankData.beginRank)"
-            >{{rankData.endRank != rankData.beginRank ||'点击选择'}}</button>
+              @click="numInput('endRank',rankData.beginRank)"
+            >{{rankData.endRank != rankData.beginRank ? rankData.endRank :'点击选择'}}</button>
             名
           </div>
         </div>
       </div>
       <div class="rank_multiple">
-        <input type="checkbox" @change="mutipleClick">多人获得
+        <input
+          type="checkbox"
+          @change="mutipleClick"
+          :checked="rankData.endRank != rankData.beginRank"
+        >多人获得
       </div>
     </div>
     <div class="mutiple_prize" v-for="(prize,index) in rankData.prizes" :key="`prize${index}`">
       <div class="detail_cell">
         <span class="detail_title">名称</span>
-        <input type="text" placeholder="请输入不超过15个字符" :value="prize.name">
+        <input type="text" placeholder="请输入不超过15个字符" v-model="prize.name">
       </div>
       <div class="detail_cell">
         <span class="detail_title">图片</span>
-        <input type="text" placeholder="请点击添加图片" :value="prize.icon">
+        <img
+          class="detail_icon"
+          v-show="prize.icon"
+          :src="prize.icon"
+          alt="奖品图片"
+          @click="changeImg(index)"
+        >
+        <label class="detail_img_content" ref="detailImgContent" v-show="!prize.icon">
+          <span>点击添加图片</span>
+          <input
+            class="detail_img"
+            type="file"
+            placeholder="请点击添加图片"
+            @change="addImg($event,index)"
+          >
+        </label>
       </div>
       <div class="detail_cell">
         <span class="detail_title">数量</span>
-        <span v-if="prize.prizeCount">{{prize.prizeCount}}</span>
-        <button v-else>点击选择</button>
+        <span v-if="prize.prizeCount" @click="numInput('count',1, index)">{{prize.prizeCount}}</span>
+        <button v-else @click="numInput('count',1, index)">点击选择</button>
       </div>
       <div class="detail_cell">
         <span class="detail_title">单价</span>
-        <input type="text" placeholder="请输入阿拉伯数字，可带有小数点">元
+        <input
+          type="number"
+          class="detail_price"
+          placeholder="请输入阿拉伯数字，可带有小数点"
+          v-model="prize.price"
+        >元
+      </div>
+      <div class="detail_delete" v-if="deleteShow">
+        <img src="../../../assets/rank_prize_delete.png" alt="按钮" @click="deleteClick(index)">
       </div>
     </div>
   </div>
@@ -50,28 +77,75 @@ export default {
     };
   },
   props: ["rankData"],
-  watch: {
-    /**
-     * 当数据变化时初始化本组件数据
-     */
-    rankData(val) {
-      console.log("你好");
-      console.log(val);
+  computed: {
+    deleteShow() {
+      return this.rankData.prizes.length > 1;
     }
   },
-  mounted() {},
+  watch: {
+    rankData() {
+      if (this.rankData.endRank == this.rankData.beginRank) {
+        this.mutipleChoose = true;
+      } else {
+        this.mutipleChoose = false;
+      }
+    }
+  },
   methods: {
-    numInput(fromIndex) {
+    numInput(type, fromIndex, index) {
       this.$router.push({
         path: "/match/style/prizepreview/prizesetting/numberInput",
         query: {
-          fromIndex: fromIndex
+          fromIndex: fromIndex,
+          type: type,
+          index: index
         }
       });
     },
     mutipleClick(event, value) {
       let dom = event.target;
       this.mutipleChoose = !dom.checked;
+    },
+    addImg(event, index) {
+      /**
+       * 获取出当前的图片数据，然后修改数据
+       */
+      let dom = event.target;
+      let file = dom.files[0];
+      this.compressAndUpload(file).then(imgSrc => {
+        let data = this.rankData;
+        data.prizes[index].icon = imgSrc;
+        this.rankData = data;
+      });
+    },
+    changeImg(index) {
+      this.$refs.detailImgContent[index].click();
+    },
+    deleteClick(index) {
+      /**
+       * 判断本条目是否有数据
+       */
+      let data = this.rankData.prizes[index];
+      let flag = false;
+      for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+          const element = data[key];
+          if (!element && element !== 0) {
+            flag = true;
+          }
+        }
+      }
+      if (flag) {
+        this.$dialog
+          .confirm({
+            message: "您确定删除这一项奖品配置吗？",
+            confirmButtonText: "我确定",
+            cancelButtonText: "继续编辑"
+          })
+          .then(() => {
+            this.rankData.prizes.splice(index, 1);
+          });
+      }
     }
   }
 };
@@ -94,9 +168,7 @@ export default {
   height: 0.012rem;
   width: 97%;
 }
-.detail_cell:first-child {
-  margin-bottom: 0.15rem;
-}
+
 .detail_title {
   font-size: var(--font-size-bigger);
   padding: 0 0.4rem;
@@ -111,6 +183,7 @@ export default {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  padding-right: 0.15rem;
 }
 .detail_rank {
   display: flex;
@@ -123,6 +196,38 @@ export default {
 .canMutilple {
   pointer-events: none;
   color: var(--word-gray-color);
+}
+.detail_img_content {
+  display: flex;
+  width: 5rem;
+}
+.detail_img_content span,
+.detail_img {
+  flex-basis: 0;
+  flex-grow: 1;
+}
+.detail_img {
+  opacity: 0;
+  width: 1rem;
+}
+.detail_price {
+  width: 5rem;
+}
+.detail_icon {
+  height: 0.42rem;
+}
+.mutiple_prize {
+  margin-top: 0.16rem;
+}
+.detail_delete {
+  background-color: #fff;
+  padding: 0.2rem 0;
+  text-align: right;
+}
+.detail_delete img {
+  margin-right: 0.2rem;
+  width: 0.35rem;
+  vertical-align: top;
 }
 </style>
 

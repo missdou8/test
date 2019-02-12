@@ -7,8 +7,12 @@
         v-for="(item,index) in rankPrizes"
         :key="`rank${index}`"
         :cellData="item"
-        @toEdit="toEdit(item)"
+        @toEdit="toEdit(index)"
+        :edit="true"
       ></prize-cell>
+      <div class="more_add" v-if="showAdd">
+        <p class="add_detail" @click="addMore">继续添加名次奖</p>
+      </div>
     </section>
     <section>
       <h1>参与奖</h1>
@@ -17,9 +21,10 @@
         v-for="(item, index) in rankPrizes"
         :key="`rank${index}`"
         :cellData="item"
+        :edit="true"
       ></prize-cell>
     </section>
-    <section class="send">
+    <section class="send" :class="{cannot: !rankPrizes[0].prizes[0].name}">
       <h1 class="send_title">领奖方式</h1>
       <radio-btn class="send_type" :data="sendStyle" @select="typeSelect" :selected="sendType"></radio-btn>
       <div class="address" v-show="addressShow">
@@ -53,7 +58,6 @@ export default {
   },
   data() {
     return {
-      addressShow: false, //地址是否显示
       sendStyle: [
         {
           id: 0,
@@ -74,11 +78,55 @@ export default {
         return state.match.sendStyle;
       },
       rankPrizes(state) {
-        return state.match.rankPrizes;
+        if (!state.match.totalPrizes) {
+          this.$store.commit(
+            "setTotalPrizes",
+            JSON.parse(JSON.stringify(state.match.rankPrizes))
+          );
+        }
+        return state.match.totalPrizes;
+      },
+      addressShow(state) {
+        if (state.match.sendStyle == 1) {
+          return true;
+        }
+        return false;
       }
-    })
+    }),
+    showAdd() {
+      return this.rankPrizes[0].prizes[0].name;
+    }
+  },
+  created() {
+    //自提地址
+    let gainPrizeAddress = this.$store.state.match.gainPrizeAddress;
+    this.address = gainPrizeAddress.regionName + gainPrizeAddress.address;
+    this.contact =
+      this.$store.state.user.userInfo.name +
+      " " +
+      this.$store.state.user.userInfo.mobile;
   },
   methods: {
+    addMore() {
+      /**
+       * 取出当前的最后一名
+       */
+      let currentIndex =
+        this.rankPrizes[this.rankPrizes.length - 1].endRank + 1;
+      this.rankPrizes.push({
+        beginRank: currentIndex,
+        endRank: currentIndex,
+        ispartInPrize: 0,
+        prizes: [
+          {
+            name: null,
+            price: null,
+            prizeCount: null,
+            icon: null
+          }
+        ]
+      });
+    },
     typeSelect(data) {
       this.$store.commit("setSendStyle", data.id);
       //如果没有选择自提地址并且自提地址为空，那么地址为商家地址
@@ -97,16 +145,18 @@ export default {
       this.$router.push("prize/address");
     },
     toEdit(data) {
+      //首先清空编辑的数据
+      this.$store.commit("setCurrentRankData", null);
       this.$router.push({
         path: "/match/style/prizepreview/prizesetting",
         query: {
-          prizeData: JSON.stringify(data)
+          index: data
         }
       });
     },
     saveClick() {
       // 判断有无奖品
-      if (this.rankPrizes[0].beginRank == 0) {
+      if (!this.rankPrizes[0].prizes[0].name) {
         return this.$dialog
           .confirm({
             message: "您未添加奖品信息，无人获奖哦！",
@@ -115,9 +165,27 @@ export default {
           })
           .then(() => {})
           .catch(() => {
-            this.$store.commit("setRankPrizes", []);
+            this.$store.commit("setRankPrizes", [
+              {
+                beginRank: 1,
+                endRank: 1,
+                ispartInPrize: 0,
+                prizes: [
+                  {
+                    name: null,
+                    price: null,
+                    prizeCount: null,
+                    icon: null
+                  }
+                ]
+              }
+            ]);
             this.$router.go(-1);
           });
+      } else {
+        //替换本页原始数据，返回上一页
+        this.$store.commit("setRankPrizes", this.rankPrizes);
+        this.$router.go(-1);
       }
     }
   }
@@ -165,6 +233,25 @@ section h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.cannot {
+  pointer-events: none;
+}
+.more_add {
+  background-color: #f9f9f9;
+  border: 1px dotted #d8d8d8;
+  display: flex;
+  justify-content: center;
+  padding: 0.2rem 0.23rem;
+  margin: 0.21rem 0 0;
+}
+.add_detail {
+  background: url("../../assets/prize_add_more.png") no-repeat;
+  color: #135ada;
+  font-size: 0.28rem;
+  background-size: 0.32rem 0.32rem;
+  background-position: left center;
+  padding-left: 0.4rem;
 }
 </style>
 

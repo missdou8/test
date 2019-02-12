@@ -1,4 +1,3 @@
-const defaultPrizeIcon = require('../assets/prize_default_icon.png')
 const match = {
   state: {
     id: '',
@@ -10,11 +9,12 @@ const match = {
         beginRank: 1,
         endRank: 1,
         ispartInPrize: 0,
-        prizes: [
-          { name: '暂无奖品', price: 0, prizeCount: 0, icon: defaultPrizeIcon }
-        ]
+        prizes: [{ name: null, price: null, prizeCount: null, icon: null }]
       }
     ],
+    partSet: [[{ name: null, price: null, prizeCount: null, icon: null }]],
+    currentRankData: null,
+    totalPrizes: null,
     rankPrize: [],
     sendStyle: '', //邮寄方式
     sendAddress: {},
@@ -24,9 +24,7 @@ const match = {
     gainPrizeAddress: '', //自提地址
     prizeCover: '',
     isEdit: false, //标记是否为编辑
-    tabActive: 0,
-    shareImg: '',
-    shareCropImg: ''
+    tabActive: 0
   },
   mutations: {
     setId(state, id) {
@@ -40,6 +38,12 @@ const match = {
     },
     setRankPrizes(state, arr) {
       state.rankPrizes = arr
+    },
+    setCurrentRankData(state, obj) {
+      state.currentRankData = obj
+    },
+    setTotalPrizes(state, arr) {
+      state.totalPrizes = arr
     },
     setIfSave(state, bl) {
       state.ifSave = bl
@@ -71,11 +75,8 @@ const match = {
     setTabActive(state, status) {
       state.tabActive = status
     },
-    setShareImg(state, file) {
-      state.shareImg = file
-    },
-    setShareCropImg(state, file) {
-      state.shareCropImg = file
+    setPartSet(state, arr) {
+      state.partSet = arr
     }
   }
 }

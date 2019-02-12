@@ -2,7 +2,7 @@
   <div>
     <button
       class="btn"
-      :class="{active: index== select, default: index!==select}"
+      :class="{active: index === select, default: index!==select}"
       v-for="(item,index) in data"
       :key="`radio${index}`"
       :id="item.id"

@@ -56,7 +56,8 @@ import {
   DatetimePicker,
   Picker,
   CollapseItem,
-  NavBar
+  NavBar,
+  Switch
 } from 'vant'
 Vue.use(Tab)
   .use(Tabs)
@@ -86,6 +87,7 @@ Vue.use(Tab)
   .use(CollapseItem)
   .use(PasswordInput)
   .use(NavBar)
+  .use(Switch)
 
 Vue.config.productionTip = false
 

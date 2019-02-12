@@ -12,15 +12,23 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   data() {
     return {
       fromIndex: 1
     };
   },
+  computed: {
+    ...mapState({
+      currentData(state) {
+        return state.match.currentRankData;
+      }
+    })
+  },
   mounted() {
     this.fromIndex = this.$route.query.fromIndex;
-    console.log(this.$route.query.fromIndex);
   },
   methods: {
     select(item) {
@@ -28,6 +36,15 @@ export default {
         return;
       }
       //修改奖品数据
+      let type = this.$route.query.type;
+      let index = this.$route.query.index;
+      let data = this.currentData;
+      if (type === "count") {
+        data.prizes[index].prizeCount = item;
+      } else {
+        data.endRank = item;
+      }
+      this.$store.commit("setCurrentRankData", data);
       this.$router.go(-1);
     }
   }
