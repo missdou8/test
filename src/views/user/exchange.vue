@@ -1,5 +1,6 @@
 <template>
   <div id="exchangeIndex">
+    <button class="scanQR" @click="scanQR">扫一扫</button>
     <dida-list
       ref="dida_list"
       post-module="prizes"
@@ -79,6 +80,35 @@ export default {
     didaList
   },
   methods: {
+    scanQR(){
+      console.log(location.href)
+      this.http.wechat.signPackage({url: location.href}).then(res => {
+        let data = res.data;
+        wx.config({
+          debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          appId: data.appId, // 必填，公众号的唯一标识
+          timestamp: data.timestamp, // 必填，生成签名的时间戳
+          nonceStr: data.nonceStr, // 必填，生成签名的随机串
+          signature: data.signature, // 必填，签名
+          jsApiList: ["scanQRCode"] // 必填，需要使用的JS接口列表
+        });
+        wx.ready(function(){
+          // 调用微信扫一扫接口
+          wx.scanQRCode({
+            needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+            scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+            success: function (res) {
+              let result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+              // 可以跳转页面
+              alert('二维码信息是'+result)
+            }
+          });
+        });
+        wx.error(function(res){
+          console.log(res)
+        });
+      });
+    },
     //获取兑奖信息列表
     getPrizeList(data) {
       this.prizeList = data.list;

@@ -1,17 +1,14 @@
 <template>
   <div id="editAddress">
+    <dida-location class="location_box" ref="location" @getResData='getResData($event)' @getLngAndlat="getLngAndlat($event)"></dida-location>
     <van-cell-group>
-      <van-cell class="btn_box">
-        <van-button class="location_btn" size="small" @click="onLocation()"></van-button>
-      </van-cell>
       <van-cell class="showAlert" title="所在地区" :value="areaMsg" is-link @click="showPopup()" />
-      <van-field v-model="address" label="联系地址" type="textarea" placeholder="请输入详细地址，如街道、小区、楼栋号、单元室等" rows="3" autosize/>
+      <van-field v-model="address" label="具体地址" type="textarea" placeholder="请输入详细地址，如街道、小区、楼栋号、单元室等" rows="4" autosize/>
     </van-cell-group>
     <van-popup v-model="show" position="bottom" :lazy-render="false">
       <van-area ref="van_area" :area-list="areaList" @confirm="onConfirm" @cancel="onCancel()" :value="areaId" />
     </van-popup>
-    <dida-btn :btn-enable="btnEnable" @submetData="setUserShop()"></dida-btn>
-    <dida-location ref="location" @getResData='getResData($event)' @getLngAndlat="getLngAndlat($event)"></dida-location>
+    <dida-btn class='editAddressBtn' :btn-enable="btnEnable" @submetData="setUserShop()"></dida-btn>
   </div>
 </template>
 <script>
@@ -50,7 +47,7 @@ export default {
     if (this.areaId == "") this.areaMsg = "请选择 请选择 请选择";
     else {
       let _value = this.$refs.van_area.getValues();
-      this.onConfirm(_value, true);
+      this.onConfirm(_value, false);
     }
   },
   components: {
@@ -61,7 +58,7 @@ export default {
     showPopup() {
       this.show = true;
     },
-    //type:true //说明不是手动选择地区执行获取地区定位操作
+    //type:false //说明不是手动选择地区执行获取地区定位操作
     onConfirm(value, type) {
       this.areaMsg = "";
       this.areaVal = value;
@@ -70,21 +67,14 @@ export default {
       });
       this.onCancel();
       //如果自选地址的话可以重新获取一下定位信息
-      if (!type) this.$refs.location.setLngAndlat(this.areaVal[2].code);
+      if (type) this.$refs.location.setLngAndlat(this.areaVal[2].code);
     },
     onCancel() {
       this.show = false;
     },
     getLngAndlat(resData) {
-      this.longitude = resData.longitude;
-      this.latitude = resData.latitude;
-    },
-    onLocation() {
-      this.$toast.loading({ duration: 0, message: "定位中..." });
-      //提供一个缓冲定位时间
-      setTimeout(() => {
-        this.$refs.location.onLocation();
-      }, 500);
+      this.longitude = resData[0];
+      this.latitude = resData[1];
     },
     getResData(resData) {
       this.address = resData.detailAddress;
@@ -96,7 +86,7 @@ export default {
         if (this.areaId == "") this.areaMsg = "请选择 请选择 请选择";
         else {
           let _value = this.$refs.van_area.getValues();
-          this.onConfirm(_value, true);
+          this.onConfirm(_value, false);
         }
       }, 100);
     },
@@ -145,8 +135,24 @@ export default {
   bottom: 0;
   right: 15px;
 }
+.location_box{
+  width: 100%;
+  height: 5.4rem;
+}
+.editAddressBtn{
+  width: 90%;
+  margin:.4rem auto;
+  border-radius: 3px;
+  background-color: #fcc600;
+}
 </style>
 <style>
+#editAddress .van-cell-group{
+  background-color: inherit;
+}
+#editAddress .van-cell{
+  margin-bottom: .2rem;
+}
 #editAddress .btn_box .van-cell__value {
   height: 0.6rem;
   overflow: hidden;
@@ -157,6 +163,11 @@ export default {
 }
 #editAddress .van-cell__title {
   color: rgb(164, 164, 164);
+}
+#editAddress .editAddressBtn .reg_btn{
+  color: #000;
+  text-align: center;
+  font-size: .3rem;
 }
 </style>
 
