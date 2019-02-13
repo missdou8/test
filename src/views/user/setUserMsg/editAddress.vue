@@ -3,12 +3,12 @@
     <dida-location class="location_box" ref="location" @getResData='getResData($event)' @getLngAndlat="getLngAndlat($event)"></dida-location>
     <van-cell-group>
       <van-cell class="showAlert" title="所在地区" :value="areaMsg" is-link @click="showPopup()" />
-      <van-field v-model="address" label="联系地址" type="textarea" placeholder="请输入详细地址，如街道、小区、楼栋号、单元室等" rows="3" autosize/>
+      <van-field v-model="address" label="具体地址" type="textarea" placeholder="请输入详细地址，如街道、小区、楼栋号、单元室等" rows="4" autosize/>
     </van-cell-group>
     <van-popup v-model="show" position="bottom" :lazy-render="false">
       <van-area ref="van_area" :area-list="areaList" @confirm="onConfirm" @cancel="onCancel()" :value="areaId" />
     </van-popup>
-    <dida-btn :btn-enable="btnEnable" @submetData="setUserShop()"></dida-btn>
+    <dida-btn class='editAddressBtn' :btn-enable="btnEnable" @submetData="setUserShop()"></dida-btn>
   </div>
 </template>
 <script>
@@ -137,10 +137,22 @@ export default {
 }
 .location_box{
   width: 100%;
-  height: 6.6rem;
+  height: 5.4rem;
+}
+.editAddressBtn{
+  width: 90%;
+  margin:.4rem auto;
+  border-radius: 3px;
+  background-color: #fcc600;
 }
 </style>
 <style>
+#editAddress .van-cell-group{
+  background-color: inherit;
+}
+#editAddress .van-cell{
+  margin-bottom: .2rem;
+}
 #editAddress .btn_box .van-cell__value {
   height: 0.6rem;
   overflow: hidden;
@@ -151,6 +163,11 @@ export default {
 }
 #editAddress .van-cell__title {
   color: rgb(164, 164, 164);
+}
+#editAddress .editAddressBtn .reg_btn{
+  color: #000;
+  text-align: center;
+  font-size: .3rem;
 }
 </style>
 

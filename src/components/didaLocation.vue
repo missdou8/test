@@ -1,6 +1,8 @@
 <template>
   <div id="GetLocation">
-    <input id="pickerInput" placeholder= "输入关键字选取地点"/>
+    <div class="input_box">
+      <input id="pickerInput" placeholder= "输入关键字选取地点"/>
+    </div>
     <div id="container"></div>
   </div>
 </template>
@@ -138,17 +140,19 @@ export default {
     position: relative;
     overflow: hidden;
   }
-  #pickerInput{
+  #GetLocation .input_box{
     position: absolute;
     top: 0;
     width: 100%;
-    padding: 0 .2rem;
+    padding: .1rem .3rem;
+  }
+  #pickerInput{
+    width: 100%;
     border: none;
     outline: none;
-    line-height: 44px;
-    background-color: rgba(0,0,0,.3);
-    transform: translate(-50%,0);
-    color: #fff;
+    line-height: .6rem;
+    border-radius: .6rem;
+    text-align: center;
   }
   #container{
     width: 100%;
@@ -163,5 +167,11 @@ export default {
 }
 #GetLocation .dock-bottom{
   text-align: left;
+}
+#GetLocation .amap-ui-poi-picker-sugg-container{
+  height: 4.6rem;
+  width: 100%!important;
+  left: 0!important;
+  top: .8rem!important;
 }
 </style>
