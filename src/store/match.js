@@ -12,9 +12,11 @@ const match = {
         prizes: [{ name: null, price: null, prizeCount: null, icon: null }]
       }
     ],
-    partSet: [[{ name: null, price: null, prizeCount: null, icon: null }]],
+    partSet: [{ name: null, price: null, prizeCount: null, icon: null }],
     currentRankData: null,
+    attendCurrentRankData: null,
     totalPrizes: null,
+    attendTotalPrizes: null,
     rankPrize: [],
     sendStyle: '', //邮寄方式
     sendAddress: {},
@@ -42,8 +44,14 @@ const match = {
     setCurrentRankData(state, obj) {
       state.currentRankData = obj
     },
+    setAttendCurrentRankData(state, obj) {
+      state.attendCurrentRankData = obj
+    },
     setTotalPrizes(state, arr) {
       state.totalPrizes = arr
+    },
+    setAttendTotalPrizes(state, arr) {
+      state.attendTotalPrizes = arr
     },
     setIfSave(state, bl) {
       state.ifSave = bl

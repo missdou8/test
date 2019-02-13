@@ -15,14 +15,18 @@
       </div>
     </section>
     <section>
-      <h1>参与奖</h1>
-      <prize-cell
+      <div class="attend_prize">
+        <span>参与奖</span>
+        <button class="cell_edit" @click="toEdit"></button>
+      </div>
+      <attend-cell
         class="prize_cell"
-        v-for="(item, index) in rankPrizes"
+        v-for="(item, index) in attendPrizes"
         :key="`rank${index}`"
         :cellData="item"
-        :edit="true"
-      ></prize-cell>
+        @toEdit="toAttendEdit(index)"
+      ></attend-cell>
+      <p class="attend_total">共{{attendTotal}}元</p>
     </section>
     <section class="send" :class="{cannot: !rankPrizes[0].prizes[0].name}">
       <h1 class="send_title">领奖方式</h1>
@@ -47,6 +51,7 @@
 
 <script>
 import PrizeCell from "../../components/PrizeCell";
+import AttendCell from "./components/AttendCell";
 import RadioBtn from "../../components/RadioBtn.vue";
 import DidaButton from "../../components/DidaButton";
 import { mapState } from "vuex";
@@ -54,7 +59,8 @@ export default {
   components: {
     PrizeCell,
     RadioBtn,
-    DidaButton
+    DidaButton,
+    AttendCell
   },
   data() {
     return {
@@ -86,11 +92,27 @@ export default {
         }
         return state.match.totalPrizes;
       },
+      attendPrizes(state) {
+        if (!state.match.attendTotalPrizes) {
+          this.$store.commit(
+            "setAttendTotalPrizes",
+            JSON.parse(JSON.stringify(state.match.partSet))
+          );
+        }
+        console.log(state.match.attendTotalPrizes);
+        return state.match.attendTotalPrizes;
+      },
       addressShow(state) {
         if (state.match.sendStyle == 1) {
           return true;
         }
         return false;
+      },
+      attendTotal(state) {
+        let data = state.match.attendTotalPrizes;
+        return data.reduce((prev, cur) => {
+          return prev + Number(cur.price);
+        }, 0);
       }
     }),
     showAdd() {
@@ -152,6 +174,13 @@ export default {
         query: {
           index: data
         }
+      });
+    },
+    toAttendEdit(data) {
+      //首先清空编辑的数据
+      this.$store.commit("setAttendCurrentRankData", null);
+      this.$router.push({
+        path: "/match/style/prizepreview/attendsetting"
       });
     },
     saveClick() {
@@ -252,6 +281,22 @@ section h1 {
   background-size: 0.32rem 0.32rem;
   background-position: left center;
   padding-left: 0.4rem;
+}
+.attend_prize {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cell_edit {
+  background: url("../../assets/prize_edit_icon.png") no-repeat;
+  background-size: cover;
+  height: 0.3rem;
+  width: 0.3rem;
+  margin-right: 0.36rem;
+}
+.attend_total {
+  text-align: right;
+  padding-right: 0.56rem;
 }
 </style>
 

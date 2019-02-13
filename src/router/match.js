@@ -12,7 +12,9 @@ import GameRules from '../components/GameRules.vue'
 import MatchRecord from '../views/match/MatchRecord.vue'
 import PrizePreview from '../views/match/PrizePreview.vue'
 import PrizeSetting from '../views/match/PrizeSetting.vue'
+import AttendSetting from '../views/match/AttendSetting.vue'
 import NumberInput from '../views/match/NumberInput.vue'
+import AttendNumberInput from '../views/match/AttendNumberInput.vue'
 
 const MATCH_ROUTERS = [
   {
@@ -72,8 +74,22 @@ const MATCH_ROUTERS = [
     }
   },
   {
+    path: '/match/style/prizepreview/attendsetting',
+    component: AttendSetting,
+    meta: {
+      title: '编辑比赛名次'
+    }
+  },
+  {
     path: '/match/style/prizepreview/prizesetting/numberInput',
     component: NumberInput,
+    meta: {
+      title: '选择奖品数量'
+    }
+  },
+  {
+    path: '/match/style/prizepreview/prizesetting/attendNumberInput',
+    component: AttendNumberInput,
     meta: {
       title: '选择奖品数量'
     }
