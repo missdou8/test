@@ -6,21 +6,26 @@
       >第{{cellData.beginRank}}{{cellData.beginRank != cellData.endRank ? `-${cellData.endRank}`: ''}}名</span>
       <div class="cell_content">
         <div class="content_detail">
-          <div class="detail_cell" v-for="(item, index) in cellData.prizes" :key="`prize${index}`">
+          <div class="detail_cell" v-for="(item, index) in truePrizes" :key="`prize${index}`">
             <div class="content_img-container">
-              <img :src="item.icon || defaultPrizeIcon" alt>
+              <img class="cell_content_icon" :src="item.icon || defaultPrizeIcon" alt>
             </div>
             <div class="cell_desc">
               <p>{{item.name || '暂无奖品'}}</p>
               <p class="detail_num">{{item.prizeCount || 0}}</p>
-              <p class="cell_sum">
-                <span :class="{show: !cellData.ispartInPrize}">有参与奖</span>
-                <span>共{{total}}元</span>
-              </p>
             </div>
+          </div>
+          <div class="pull_down" v-if="showMore">
+            <img src="../assets/pull_down_img.png" @click="showMoreClick">
           </div>
         </div>
       </div>
+    </div>
+    <div>
+      <p class="cell_sum">
+        <span :class="{show: !cellData.ispartInPrize}">有参与奖</span>
+        <span>共{{total}}元</span>
+      </p>
     </div>
     <button class="cell_edit" @click="toEdit" v-if="edit"></button>
   </div>
@@ -30,21 +35,35 @@
 export default {
   data() {
     return {
-      defaultPrizeIcon: require("../assets/prize_default_icon.png")
+      defaultPrizeIcon: require("../assets/prize_default_icon.png"),
+      truePrizes: [this.cellData.prizes[0]],
+      showMore: false
     };
   },
   props: ["cellData", "edit"],
-  mounted() {},
+  mounted() {
+    if (this.cellData.prizes.length > 1 ? true : false) {
+      this.showMore = true;
+    }
+    if (this.edit == true) {
+      this.showMore = false;
+      this.truePrizes = this.cellData.prizes;
+    }
+  },
   computed: {
     total() {
       return this.cellData.prizes.reduce((prev, cur) => {
-        return prev + Number(cur.price);
+        return prev + Number(cur.price) * Number(cur.prizeCount);
       }, 0);
     }
   },
   methods: {
     toEdit() {
       this.$emit("toEdit");
+    },
+    showMoreClick() {
+      this.truePrizes = this.cellData.prizes;
+      this.showMore = false;
     }
   }
 };
@@ -76,9 +95,10 @@ export default {
   margin-right: 0.2rem;
   position: relative;
 }
-.cell_content img {
-  max-height: 100%;
-  max-width: 100%;
+.cell_content_icon {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 .content_detail {
   display: flex;
@@ -105,7 +125,9 @@ export default {
 }
 .cell_sum {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding-left: 3rem;
+  padding-right: 0.2rem;
 }
 .cell_edit {
   background: url("../assets/prize_edit_icon.png") no-repeat;
@@ -118,6 +140,12 @@ export default {
 }
 .show {
   opacity: 0;
+}
+.pull_down img {
+  height: 0.4rem;
+  transform: rotate(90deg);
+  margin-left: 2rem;
+  margin-top: 0.1rem;
 }
 </style>
 

@@ -55,11 +55,17 @@
             :edit="false"
           ></prize-cell>
         </div>
-        <div>
+        <div v-show="attendPrizes.length">
           <p class="prize_header">
             <span class="game_tag"></span>
             <span>参与奖</span>
           </p>
+          <attend-cell
+            class="attend_cell"
+            v-for="(item,index) in attendPrizes"
+            :key="`attend${index}`"
+            :cellData="item"
+          ></attend-cell>
         </div>
         <div v-show="prizes.type == 1">
           <p class="prize_header">
@@ -105,6 +111,7 @@
 <script>
 import { secondsToTime } from "lputils";
 import PrizeCell from "./PrizeCell";
+import AttendCell from "../views/match/components/AttendCell";
 import icon from "../assets/icon.png";
 export default {
   props: ["type", "data"],
@@ -114,6 +121,7 @@ export default {
       match: {},
       prizes: {},
       rankPrizes: {},
+      attendPrizes: {},
       merchant: {},
       top: 0,
       editShow: false,
@@ -123,7 +131,8 @@ export default {
     };
   },
   components: {
-    PrizeCell
+    PrizeCell,
+    AttendCell
   },
   computed: {
     countDown(value) {
@@ -146,6 +155,7 @@ export default {
       }, 1000);
       this.prizes = this.data.prizes;
       this.rankPrizes = this.prizes.rankingSet;
+      this.attendPrizes = this.prizes.partSet;
       this.merchant = this.data.merchant;
       //判断是否显示可以修改的按钮
       let matchStatus = this.match.status;
@@ -414,8 +424,8 @@ a {
   line-height: 1.3;
   padding-left: 0.2rem;
   position: absolute;
-  right: 0;
-  top: 0.2rem;
+  right: 2rem;
+  top: 0.1rem;
 }
 .game_tag {
   background-color: #fbd400;
@@ -492,5 +502,8 @@ a {
   height: 0.02rem;
   width: 80%;
   background-color: #d9d9d9;
+}
+.attend_cell {
+  padding-left: 1.72rem;
 }
 </style>

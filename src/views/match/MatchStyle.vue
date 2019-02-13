@@ -155,6 +155,7 @@ export default {
         return this.$toast("请先选择人数");
       }
       this.$store.commit("setTotalPrizes", null);
+      this.$store.commit("setAttendTotalPrizes", null);
       this.$router.push("style/prizepreview");
     },
     personShow(activeNames) {
@@ -253,6 +254,10 @@ export default {
       if (!match.rankPrizes[0].prizes[0].name) {
         rankingSet = [];
       }
+      let partSet = match.partSet;
+      if (!match.partSet[0].name) {
+        partSet = [];
+      }
       let params = {
         isAudit: type,
         title: detail.title,
@@ -269,7 +274,12 @@ export default {
         provinceId: match.gainPrizeAddress.provinceId,
         cityId: match.gainPrizeAddress.cityId,
         areaId: match.gainPrizeAddress.areaId,
-        rankingSet: rankingSet
+        latitude: match.gainPrizeAddress.latitude,
+        longitude: match.gainPrizeAddress.longitude,
+        contact: match.gainPrizeAddress.contact,
+        mobile: match.gainPrizeAddress.mobile,
+        rankingSet: rankingSet,
+        partSet: partSet
       };
       if (isEdit) {
         action = "editMatch";

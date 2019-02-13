@@ -53,6 +53,8 @@ export default {
     } else {
       this.prizeData = this.currentData;
     }
+    //初始化是否参与奖
+    this.checked = this.prizeData.ispartInPrize == 0 ? false : true;
   },
   methods: {
     deleteClick() {

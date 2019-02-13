@@ -192,6 +192,9 @@ export default {
           ]
         }
       ]);
+      this.$store.commit("setPartSet", [
+        { name: null, price: null, prizeCount: null, icon: null }
+      ]);
       this.$store.commit("setSendStyle", -1);
       //设置自提地址为店铺地址
       this.$store.commit("setgainPrizeAddress", {

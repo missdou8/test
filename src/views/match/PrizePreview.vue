@@ -4,6 +4,7 @@
       <h1>名次奖</h1>
       <prize-cell
         class="cell"
+        :class="{error: errorArr.includes(index)}"
         v-for="(item,index) in rankPrizes"
         :key="`rank${index}`"
         :cellData="item"
@@ -17,14 +18,13 @@
     <section>
       <div class="attend_prize">
         <span>参与奖</span>
-        <button class="cell_edit" @click="toEdit"></button>
+        <button class="cell_edit" @click="toAttendEdit"></button>
       </div>
       <attend-cell
         class="prize_cell"
         v-for="(item, index) in attendPrizes"
         :key="`rank${index}`"
         :cellData="item"
-        @toEdit="toAttendEdit(index)"
       ></attend-cell>
       <p class="attend_total">共{{attendTotal}}元</p>
     </section>
@@ -43,9 +43,7 @@
         ></van-cell>
       </div>
     </section>
-    <div class="btn_content">
-      <dida-button @click="saveClick">保存</dida-button>
-    </div>
+    <dida-button class="btn_content" @click="saveClick">保存</dida-button>
   </div>
 </template>
 
@@ -99,7 +97,6 @@ export default {
             JSON.parse(JSON.stringify(state.match.partSet))
           );
         }
-        console.log(state.match.attendTotalPrizes);
         return state.match.attendTotalPrizes;
       },
       addressShow(state) {
@@ -117,25 +114,62 @@ export default {
     }),
     showAdd() {
       return this.rankPrizes[0].prizes[0].name;
+    },
+    errorArr() {
+      /**
+       * 每次都要检查当前奖品的排序是否正确
+       */
+      let errorArr = [];
+      for (let index = 0; index < this.rankPrizes.length; index++) {
+        const rankPrize = this.rankPrizes[index];
+        if (index === 0) {
+          continue;
+        } else {
+          if (rankPrize.beginRank != this.rankPrizes[index - 1].endRank + 1) {
+            errorArr.push(index);
+          }
+        }
+      }
+      return errorArr;
     }
   },
   created() {
     //自提地址
     let gainPrizeAddress = this.$store.state.match.gainPrizeAddress;
     this.address = gainPrizeAddress.regionName + gainPrizeAddress.address;
+    if (gainPrizeAddress.contact) {
+      return (this.contact =
+        gainPrizeAddress.contact + " " + gainPrizeAddress.mobile);
+    }
     this.contact =
       this.$store.state.user.userInfo.name +
       " " +
       this.$store.state.user.userInfo.mobile;
   },
+  mounted() {},
   methods: {
     addMore() {
       /**
-       * 取出当前的最后一名
+       * 添加新的空奖品
+       * 先要检查当前名次是否正确，如果存在空缺，那么添加的时候首先补全空缺
+       * 当前名次正确，取最后一名
        */
       let currentIndex =
         this.rankPrizes[this.rankPrizes.length - 1].endRank + 1;
-      this.rankPrizes.push({
+      let lastIndex = this.rankPrizes.length;
+      for (let index = 0; index < this.rankPrizes.length; index++) {
+        const rankPrize = this.rankPrizes[index];
+        if (index === 0) {
+          continue;
+        } else {
+          if (rankPrize.beginRank != this.rankPrizes[index - 1].endRank + 1) {
+            currentIndex = this.rankPrizes[index - 1].endRank + 1;
+            lastIndex = index;
+          }
+        }
+      }
+
+      this.rankPrizes.splice(lastIndex, 0, {
         beginRank: currentIndex,
         endRank: currentIndex,
         ispartInPrize: 0,
@@ -148,6 +182,7 @@ export default {
           }
         ]
       });
+      console.log(this.rankPrizes);
     },
     typeSelect(data) {
       this.$store.commit("setSendStyle", data.id);
@@ -166,13 +201,23 @@ export default {
     toAddress() {
       this.$router.push("prize/address");
     },
-    toEdit(data) {
+    toEdit(index) {
+      /**
+       * 在编辑之前对名次信息进行矫正
+       */
+      let correctIndex = index;
+      let correctData = JSON.parse(JSON.stringify(this.rankPrizes));
       //首先清空编辑的数据
       this.$store.commit("setCurrentRankData", null);
+      if (this.errorArr.includes(index)) {
+        correctData[index].beginRank = correctData[index].endRank =
+          correctData[index - 1].endRank + 1;
+        this.$store.commit("setCurrentRankData", correctData[index]);
+      }
       this.$router.push({
         path: "/match/style/prizepreview/prizesetting",
         query: {
-          index: data
+          index: correctIndex
         }
       });
     },
@@ -184,8 +229,20 @@ export default {
       });
     },
     saveClick() {
-      // 判断有无奖品
-      if (!this.rankPrizes[0].prizes[0].name) {
+      /**
+       * 判断有无奖品
+       * 如果有参与奖，那么参与奖需要设置
+       */
+      let attendFlag = false;
+      for (const rankPrize of this.rankPrizes) {
+        if (rankPrize.ispartInPrize) {
+          this.attendFlag = true;
+        }
+      }
+      if (this.attendFlag && !this.attendPrizes[0].name) {
+        return this.$toast("参与奖没有填写 ");
+      }
+      if (!this.rankPrizes[this.rankPrizes.length - 1].prizes[0].name) {
         return this.$dialog
           .confirm({
             message: "您未添加奖品信息，无人获奖哦！",
@@ -214,6 +271,7 @@ export default {
       } else {
         //替换本页原始数据，返回上一页
         this.$store.commit("setRankPrizes", this.rankPrizes);
+        this.$store.commit("setPartSet", this.attendPrizes);
         this.$router.go(-1);
       }
     }
@@ -225,6 +283,8 @@ export default {
 .prize_preview {
   display: flex;
   flex-direction: column;
+  overflow: auto;
+  height: 100%;
 }
 section {
   background-color: #fff;
@@ -257,11 +317,7 @@ section h1 {
   justify-content: space-around;
 }
 .btn_content {
-  flex-grow: 1;
-  flex-basis: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0.3rem auto;
 }
 .cannot {
   pointer-events: none;
@@ -297,6 +353,19 @@ section h1 {
 .attend_total {
   text-align: right;
   padding-right: 0.56rem;
+}
+.error {
+  background-color: #fff5f5;
+  border-left: 1px solid #ff8787;
+  padding-bottom: 0;
+}
+.error::after {
+  background-color: #fffbeb;
+  content: "该条名次信息有误，请重新编辑";
+  display: block;
+  padding-left: 0.2rem;
+  height: 0.6rem;
+  line-height: 0.6rem;
 }
 </style>
 

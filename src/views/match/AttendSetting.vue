@@ -46,7 +46,6 @@ export default {
     } else {
       this.prizeData = this.currentData;
     }
-    console.log(this.prizeData);
   },
   methods: {
     deleteClick() {
