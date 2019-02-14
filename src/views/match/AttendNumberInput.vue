@@ -1,13 +1,10 @@
 <template>
   <div id="number">
-    <span
-      v-for="(item,index) in 10000"
-      :key="`${index}`"
-      :class="{
-      disable: item<= fromIndex
-    }"
-      @click="select(item)"
-    >{{item}}</span>
+    <div v-for="(item,index) in 10000" :key="`${index}`" @click="select(item)">
+      <span :class="{
+      show_select: index == selected
+    }">{{item}}</span>
+    </div>
   </div>
 </template>
 
@@ -17,7 +14,8 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      fromIndex: 1
+      fromIndex: 1,
+      selected: -1
     };
   },
   computed: {
@@ -32,9 +30,7 @@ export default {
   },
   methods: {
     select(item) {
-      if (item <= this.fromIndex) {
-        return;
-      }
+      this.selected = item - 1;
       //修改奖品数据
       let type = this.$route.query.type;
       let index = this.$route.query.index;
@@ -45,7 +41,9 @@ export default {
         data.endRank = item;
       }
       this.$store.commit("setAttendCurrentRankData", data);
-      this.$router.go(-1);
+      setTimeout(() => {
+        this.$router.go(-1);
+      }, 300);
     }
   }
 };
@@ -57,17 +55,29 @@ export default {
   background-color: #fff;
   display: flex;
   flex-wrap: wrap;
+  font-weight: bold;
+  font-size: 0.24rem;
   height: 100%;
   overflow: auto;
+  color: #000;
 }
-span {
-  height: 42px;
-  line-height: 42px;
+#number div {
+  height: 0.88rem;
+  line-height: 0.88rem;
   width: 16.6%;
   text-align: center;
 }
-.disable {
-  color: var(--word-gray-color);
+#number span {
+  display: inline-block;
+  text-align: center;
+  width: 0.42rem;
+  height: 0.42rem;
+  line-height: 0.42rem;
+}
+.show_select {
+  background-color: red;
+  border-radius: 50%;
+  color: #fff;
 }
 </style>
 

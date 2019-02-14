@@ -193,7 +193,8 @@ export default {
           this.personList = data.playerCountList.map(item => {
             return {
               id: item.templateId,
-              value: item.title
+              value: item.title,
+              minPlayer: item.minPlayer
             };
           });
         });

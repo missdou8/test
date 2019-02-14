@@ -94,7 +94,8 @@ export default {
   methods: {
     numInput(type, fromIndex, index) {
       this.$router.push({
-        path: "/match/style/prizepreview/prizesetting/numberInput",
+        path: `/match/style/prizepreview/prizesetting/numberInput#${fromIndex -
+          8}`,
         query: {
           fromIndex: fromIndex,
           type: type,

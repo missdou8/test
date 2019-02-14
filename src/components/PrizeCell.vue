@@ -57,7 +57,6 @@ export default {
       this.showMore = true;
     }
     if (this.edit == true) {
-      console.log("这里执行了么");
       this.truePrizes = this.cellData.prizes;
     }
   },
