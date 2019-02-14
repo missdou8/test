@@ -168,7 +168,6 @@ export default {
           }
         }
       }
-
       this.rankPrizes.splice(lastIndex, 0, {
         beginRank: currentIndex,
         endRank: currentIndex,
@@ -182,7 +181,6 @@ export default {
           }
         ]
       });
-      console.log(this.rankPrizes);
     },
     typeSelect(data) {
       this.$store.commit("setSendStyle", data.id);
@@ -232,17 +230,27 @@ export default {
       /**
        * 判断有无奖品
        * 如果有参与奖，那么参与奖需要设置
+       * 判断是否所有奖品填写完整
        */
       let attendFlag = false;
+      let fullFilled = false;
       for (const rankPrize of this.rankPrizes) {
         if (rankPrize.ispartInPrize) {
           this.attendFlag = true;
         }
+        rankPrize.prizes.forEach(item => {
+          if (!item.name) {
+            fullFilled = true;
+          }
+        });
+      }
+      if (fullFilled) {
+        return this.$toast("您尚有奖品未填写");
       }
       if (this.attendFlag && !this.attendPrizes[0].name) {
         return this.$toast("参与奖没有填写 ");
       }
-      if (!this.rankPrizes[this.rankPrizes.length - 1].prizes[0].name) {
+      if (!this.rankPrizes[0].prizes[0].name) {
         return this.$dialog
           .confirm({
             message: "您未添加奖品信息，无人获奖哦！",

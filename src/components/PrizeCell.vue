@@ -41,13 +41,15 @@ export default {
     };
   },
   props: ["cellData", "edit"],
-  mounted() {
-    if (this.cellData.prizes.length > 1 ? true : false) {
-      this.showMore = true;
-    }
-    if (this.edit == true) {
-      this.showMore = false;
-      this.truePrizes = this.cellData.prizes;
+  watch: {
+    cellData() {
+      if (this.cellData.prizes.length > 1 ? true : false) {
+        this.showMore = true;
+      }
+      if (this.edit == true) {
+        this.showMore = false;
+        this.truePrizes = this.cellData.prizes;
+      }
     }
   },
   computed: {
