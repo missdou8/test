@@ -8,7 +8,9 @@ import editPlane from "../views/user/setUserMsg/editPlane.vue";
 import editPhone from "../views/user/setUserMsg/editPhone.vue";
 import editAddress from "../views/user/setUserMsg/editAddress.vue";
 import editPwd from "../views/user/setUserMsg/editPwd.vue";
-import exchangeIndex from "../views/user/exchange.vue";
+import exchangeIndex from "../views/user/exchange/index.vue";
+import exchangeInputCode from "../views/user/exchange/inputCode.vue";
+import exchangePrizeMsg from "../views/user/exchange/prizeMsg.vue";
 import Story from "../views/user/Story.vue";
 
 const USER_ROUTERS = [
@@ -91,11 +93,27 @@ const USER_ROUTERS = [
     }
   },
   {
-    path: "/user/exchange/index",
+    path: "/user/exchange",
     name: "exchangeIndex",
     component: exchangeIndex,
     meta: {
       title: "兑奖信息"
+    }
+  },
+  {
+    path: "/user/exchange/inputCode",
+    name: "exchangeInputCode",
+    component: exchangeInputCode,
+    meta: {
+      title: "输入兑奖码"
+    }
+  },
+  {
+    path: "/user/exchange/prizeMsg",
+    name: "exchangePrizeMsg",
+    component: exchangePrizeMsg,
+    meta: {
+      title: "奖品信息"
     }
   },
   {

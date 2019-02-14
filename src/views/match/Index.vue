@@ -3,7 +3,7 @@
     <div class="header">
       <div class="header_lists">
         <a @click="serviceClick"></a>
-        <router-link class="unread" to="/user/exchange/index">
+        <router-link class="unread" to="/user/exchange">
           <span v-show="userInfo.unreadPrizesCount != 0 "></span>
         </router-link>
         <router-link class="message" to="/announce/index">

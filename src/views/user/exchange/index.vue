@@ -1,6 +1,14 @@
 <template>
   <div id="exchangeIndex">
-    <button class="scanQR" @click="scanQR">扫一扫</button>
+    <div class="scan_box">
+      <!-- <button class="scanQR" @click="scanQR">
+        <img src="../../../assets/sousuo_icon_sao.png" alt="">
+        扫一扫
+      </button> -->
+      <qr-code-scanner @getCode='getCode($event)'/>
+      <router-link class="link" to="/user/exchange/inputCode">输入兑奖码</router-link>
+    </div>
+    <div class="exchangeList">
     <dida-list
       ref="dida_list"
       post-module="prizes"
@@ -14,8 +22,8 @@
             <img slot="icon" :src="prize.icon||imageURL" alt srcset>
             <div class="panel_title" slot="title">
               <p>{{prize.nickname}}</p>
-              <p>{{prize.match.name}}</p>
-              <p>第{{prize.match.ranking}}名</p>
+              <p>{{prize.match.name}}第{{prize.match.ranking}}名</p>
+              <!-- <p>第{{prize.match.ranking}}名</p> -->
             </div>
           </van-cell>
         </div>
@@ -24,7 +32,7 @@
           :desc="prize.receivingDec"
           currency
           :price="prize.prizeType"
-          :thumb="prize.prize.img"
+          :thumb="prize.prize.img||goodsImgURL"
         />
         <div class="footer" slot="footer">
           <van-button
@@ -46,6 +54,7 @@
         </div>
       </van-panel>
     </dida-list>
+    </div>
     <!-- 模态弹框 -->
     <van-dialog title="嘀嗒比赛" v-model="showDialog" show-cancel-button :before-close="beforeClose">
       <van-field v-model="express_name" label="快递公司" placeholder="请输入快递公司名称"/>
@@ -57,16 +66,19 @@
 </template>
 
 <script>
-import img from "../../assets/icon.png";
-import numberWordInput from "../../components/numberWordInput.vue";
-import didaList from "../../components/didaList.vue";
+import img from "../../../assets/icon.png";
+import goodsImg from "../../../assets/bianji_morentu.png"
+import numberWordInput from "../../../components/numberWordInput.vue";
+import didaList from "../../../components/didaList.vue";
+import qrCodeScanner from "../../../components/qr-code-scanner/index";
 import { timeFormate } from "lputils";
-import { httpToHttps } from "../../../script/utils.js";
+import { httpToHttps } from "../../../../script/utils.js";
 export default {
   data() {
     return {
       prizeList: [], //兑奖信息列表
       imageURL: img,
+      goodsImgURL:goodsImg,
       showDialog: false,
       express_name: "",
       express_number: "",
@@ -77,36 +89,22 @@ export default {
   },
   components: {
     numberWordInput,
-    didaList
+    didaList,
+    qrCodeScanner
   },
   methods: {
-    scanQR(){
-      console.log(location.href)
-      this.http.wechat.signPackage({url: location.href}).then(res => {
-        let data = res.data;
-        wx.config({
-          debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-          appId: data.appId, // 必填，公众号的唯一标识
-          timestamp: data.timestamp, // 必填，生成签名的时间戳
-          nonceStr: data.nonceStr, // 必填，生成签名的随机串
-          signature: data.signature, // 必填，签名
-          jsApiList: ["scanQRCode"] // 必填，需要使用的JS接口列表
-        });
-        wx.ready(function(){
-          // 调用微信扫一扫接口
-          wx.scanQRCode({
-            needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-            scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
-            success: function (res) {
-              let result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-              // 可以跳转页面
-              alert('二维码信息是'+result)
-            }
-          });
-        });
-        wx.error(function(res){
-          console.log(res)
-        });
+    getCode(codeNum){
+      console.log(codeNum)
+      //在请求前清除一下数据
+      this.$store.commit("setprizeDetail", {});
+      //发送ajax请求成功的话跳转页面
+      this.http.prizes.prizeDetail({
+        code: codeNum
+      }).then(res => {
+        //获取奖品信息，如果有的话跳转页面
+        //数据量比较大需要使用vux存储
+        this.$store.commit("setprizeDetail", res.data);
+        this.$router.push("/user/exchange/prizeMsg");
       });
     },
     //获取兑奖信息列表
@@ -195,6 +193,22 @@ export default {
 #exchangeIndex {
   height: 100%;
   position: initial;
+  overflow: hidden;
+  display: flex;
+  flex-direction:column;
+}
+.scan_box{
+  padding: .35rem .3rem;
+}
+.scan_box .link{
+  float: right;
+  font-size: .25rem;
+  margin-top: .1rem;
+  color: rgb(145,145,145);
+}
+.exchangeList{
+  flex: 1;
+  overflow: auto;
 }
 .panel {
   margin-top: 0.2rem;
