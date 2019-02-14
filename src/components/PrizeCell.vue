@@ -52,6 +52,15 @@ export default {
       }
     }
   },
+  mounted() {
+    if (!this.edit && this.cellData.prizes.length > 1) {
+      this.showMore = true;
+    }
+    if (this.edit == true) {
+      console.log("这里执行了么");
+      this.truePrizes = this.cellData.prizes;
+    }
+  },
   computed: {
     total() {
       return this.cellData.prizes.reduce((prev, cur) => {

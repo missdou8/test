@@ -14,7 +14,7 @@
       <div class="header_icon">
         <img :src=" userInfo.icon || icon" alt="头像">
         <div class="user_info">
-          <span class="user_title">{{userInfo.name || 广告主名称}}</span>
+          <span class="user_title">{{userInfo.name || '广告主名称'}}</span>
           <p>
             <span :class="userInfo.certification == 1? 'authyes':'authno'"></span>
             <span class="user_id">

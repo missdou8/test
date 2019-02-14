@@ -117,7 +117,7 @@ export default {
     addMore() {
       //将本名词的奖品添加一组空数据
       this.prizeData.prizes.push({
-        name: "暂无奖品",
+        name: null,
         price: 0,
         prizeCount: 0,
         icon: ""
