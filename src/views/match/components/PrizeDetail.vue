@@ -102,6 +102,9 @@ export default {
           index: index
         }
       });
+      if (type == "count") {
+        this.$route.meta.title = "请选择数量";
+      }
     },
     mutipleClick(event, value) {
       let dom = event.target;

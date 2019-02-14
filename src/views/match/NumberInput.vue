@@ -1,12 +1,18 @@
 <template>
   <div id="number">
-    <div :id="index" v-for="(item,index) in 10000" :key="`${index}`" @click="select(item)">
+    <div
+      :class="{ min_player: attendPerson-1 == index &&type!='count'}"
+      :id="index"
+      v-for="(item,index) in 10000"
+      :key="`${index}`"
+      @click="select(item)"
+      value="开赛人数"
+    >
       <p
-        value="开赛人数"
         :class="{
       disable: item<= fromIndex && type!='count',
       show_select: index == selected,
-      min_player: attendPerson-1 == index
+     
     }"
       >{{item}}</p>
     </div>
@@ -27,7 +33,6 @@ export default {
   computed: {
     ...mapState({
       currentData(state) {
-        console.log("年后");
         return state.match.currentRankData;
       },
       attendPerson(state) {
@@ -82,7 +87,7 @@ export default {
   width: 16.6%;
   text-align: center;
 }
-#number span {
+#number p {
   display: inline-block;
   text-align: center;
   width: 0.42rem;
@@ -100,6 +105,7 @@ export default {
 .min_player {
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding-bottom: 0.1rem;
   color: #d83c3c;
 }
@@ -108,6 +114,7 @@ export default {
   font-size: 0.18rem;
   line-height: 0.27rem;
   color: #d83c3c;
+  width: 1rem;
 }
 </style>
 
