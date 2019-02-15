@@ -280,8 +280,11 @@ export default {
             this.$router.go(-1);
           });
       } else {
+        if (this.addressShow == -1) {
+          return this.$toast("请选择获奖方式");
+        }
         //替换本页原始数据，返回上一页
-        this.$store.commit("setSendStyle", data.id);
+        this.$store.commit("setSendStyle", this.addressShow);
         this.$store.commit("setRankPrizes", this.rankPrizes);
         this.$store.commit("setPartSet", this.attendPrizes);
         this.$router.go(-1);

@@ -16,7 +16,7 @@
           <i>{{attendMsg}}</i>
         </a>
       </p>
-      <button v-show="footerShow" class="share-btn" @click="toShare">{{bottomMsg}}>></button>
+      <button v-show="footerShow" class="share-btn" @click="toShare">{{bottomMsg}}></button>
     </div>
   </div>
 </template>
@@ -173,15 +173,18 @@ a {
   background: url("../../assets/footer_time.png") 0.17rem center/ 0.25rem
     0.25rem no-repeat;
   border-right: 0.01rem solid #f5f5f5;
-  padding: 0 0.2rem 0 0.5rem;
+  padding: 0 0.18rem 0 0.46rem;
 }
 .footer_num {
   display: flex;
 }
+.footer_num a:first-child {
+  margin-right: -0.1rem;
+}
 .footer_num a {
   display: flex;
   flex-direction: column;
-  margin-left: 0.2rem;
+  margin-left: 0.16rem;
   text-align: center;
 }
 .footer_num a i {
@@ -193,10 +196,10 @@ a {
 }
 .share-btn {
   background: url("../../assets/footer_right.png") center/ 100% 100% no-repeat;
-  font-size: 0.28rem;
+  font-size: 0.26rem;
   font-weight: bold;
   height: 0.88rem;
-  width: 2.13rem;
+  width: 2rem;
   padding-right: 0.05rem;
   position: absolute;
   right: 0;
