@@ -31,7 +31,7 @@
     <section class="send" :class="{cannot: !rankPrizes[0].prizes[0].name}">
       <h1 class="send_title">领奖方式</h1>
       <radio-btn class="send_type" :data="sendStyle" @select="typeSelect" :selected="sendType"></radio-btn>
-      <div class="address" v-show="addressShow">
+      <div class="address" v-show="addressShow > 0">
         <p class="address_title">请选择自提地址</p>
         <van-cell
           class="address_info"
@@ -70,10 +70,15 @@ export default {
         {
           id: 1,
           value: "客户自取"
+        },
+        {
+          id: 3,
+          value: "到店使用"
         }
       ],
       address: "",
-      contact: ""
+      contact: "",
+      addressShow: 0
     };
   },
   computed: {
@@ -98,12 +103,6 @@ export default {
           );
         }
         return state.match.attendTotalPrizes;
-      },
-      addressShow(state) {
-        if (state.match.sendStyle == 1) {
-          return true;
-        }
-        return false;
       },
       attendTotal(state) {
         let data = state.match.attendTotalPrizes;
@@ -146,7 +145,9 @@ export default {
       " " +
       this.$store.state.user.userInfo.mobile;
   },
-  mounted() {},
+  mounted() {
+    this.addressShow = this.$store.state.match.sendStyle;
+  },
   methods: {
     addMore() {
       /**
@@ -183,7 +184,7 @@ export default {
       });
     },
     typeSelect(data) {
-      this.$store.commit("setSendStyle", data.id);
+      this.addressShow = data.id;
       //如果没有选择自提地址并且自提地址为空，那么地址为商家地址
       if (data.id == 1 && this.$store.state.match.gainPrizeAddress) {
         let userInfo = this.$store.state.user.userInfo;
@@ -240,8 +241,8 @@ export default {
         if (rankPrize.ispartInPrize) {
           this.attendFlag = true;
         }
-        rankPrize.prizes.forEach(item => {
-          if (!item.name) {
+        rankPrize.prizes.forEach((item, index) => {
+          if (!item.name && index != 0) {
             fullFilled = true;
           }
         });
@@ -280,6 +281,7 @@ export default {
           });
       } else {
         //替换本页原始数据，返回上一页
+        this.$store.commit("setSendStyle", data.id);
         this.$store.commit("setRankPrizes", this.rankPrizes);
         this.$store.commit("setPartSet", this.attendPrizes);
         this.$router.go(-1);
