@@ -70,7 +70,7 @@ import img from "../../../assets/icon.png";
 import goodsImg from "../../../assets/bianji_morentu.png"
 import numberWordInput from "../../../components/numberWordInput.vue";
 import didaList from "../../../components/didaList.vue";
-import qrCodeScanner from "../../../components/qr-code-scanner/index";
+import qrCodeScanner from "../../../components/qrCodeScanner";
 import { timeFormate } from "lputils";
 import { httpToHttps } from "../../../../script/utils.js";
 export default {
@@ -94,7 +94,6 @@ export default {
   },
   methods: {
     getCode(codeNum){
-      console.log(codeNum)
       //在请求前清除一下数据
       this.$store.commit("setprizeDetail", {});
       //发送ajax请求成功的话跳转页面
@@ -105,6 +104,16 @@ export default {
         //数据量比较大需要使用vux存储
         this.$store.commit("setprizeDetail", res.data);
         this.$router.push("/user/exchange/prizeMsg");
+      }).catch((err)=>{
+        //兑奖码不存在的时候提示用户
+        this.$dialog.confirm({
+          message: err.msg+'请退出后重新扫描，或者前往输入兑奖码'
+        }).then(() => {
+          // 跳转搜索页
+          this.$router.push("/user/exchange/inputCode");
+        }).catch(() => {
+          // on cancel
+        });
       });
     },
     //获取兑奖信息列表

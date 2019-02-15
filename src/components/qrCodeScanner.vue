@@ -2,15 +2,14 @@
 <template>
   <div id="qrCodeScanner">
     <button class="scanQR" @click="scanQR">
-      <img src="../../assets/sousuo_icon_sao.png" alt="">
+      <img src="../assets/sousuo_icon_sao.png" alt="">
       扫一扫
     </button>
     <div ref="app__layout" class="app__layout">
       <van-nav-bar class="cancel_nav" title="二维码扫描" left-arrow @click-left="cancel" right-text="相册" @click-right="inputImg"/>
       <main class="app__layout-content">
-        <video autoplay></video>
         <!-- capture表示，可以捕获到系统默认的设备，比如：camera--照相机；camcorder--摄像机；microphone--录音。 -->
-        <input id="camera" type="file" capture="camera">
+        <qrcode-capture id="camera" @decode="onDecode" />
         <img ref="frame" id="frame" src="">
       </main>
     </div>
@@ -21,42 +20,30 @@
     </div>
   </div>
 </template>
-
 <script>
-import QRReader from './js/qrscan.js';
 import { isWeChat} from "lputils";
-import { clearTimeout } from 'timers';
+import { clearTimeout, setInterval, setTimeout } from 'timers';
+// 二维码扫描组件
+import {QrcodeCapture} from 'vue-qrcode-reader'
 export default {
   data() {
-    return {};
+    return {
+      result:''
+    };
   },
-  created(){
-    window.iOS = ['iPad', 'iPhone', 'iPod'].indexOf(navigator.platform) >= 0;
-    window.isMediaStreamAPISupported = navigator && navigator.mediaDevices && 'enumerateDevices' in navigator.mediaDevices;
-    window.noCameraPermission = false;
-  },
-  mounted(){
-    QRReader.init(); //To initialize QR Scanner
-  },
+  created(){},
+  mounted(){},
   props: [],
+  components:{
+    QrcodeCapture
+  },
   methods: {
+    onDecode (result) {
+      this.result = result;
+    },
     scanQR(){
-      if(isWeChat()){
-        this.getWeixinScanner()
-      }else{
-        this.getHtmlScanner()
-      }
-      //设置一个失败时间，超过30秒后提示识别失败用户输入兑奖码
-      this.Failure = setTimeout(()=>{
-        this.$dialog.confirm({
-          message: '二维码识别失败，请退出后重新扫描，或者前往输入兑奖码'
-        }).then(() => {
-          // 跳转搜索页
-          this.$router.push("/user/exchange/inputCode");
-        }).catch(() => {
-          // on cancel
-        });
-      },10000)
+      if(isWeChat())this.getWeixinScanner()
+      else this.getHtmlScanner()
     },
     getWeixinScanner(){ //微信扫码
       this.http.wechat.signPackage({url: location.href}).then(res => {
@@ -83,15 +70,33 @@ export default {
           });
         });
         wx.error(function(res){
-          alert(res)
+            this.$dialog.confirm({
+              message: res+'，请退出后重新扫描，或者前往输入兑奖码'
+            }).then(() => {
+              // 跳转搜索页
+              this.$router.push("/user/exchange/inputCode");
+            }).catch(() => {
+              // on cancel
+            });
         });
       });
     },
     //html5扫一扫
     getHtmlScanner(){
-      this.$refs.app__layout.style.display = 'block'
-      if(window.isMediaStreamAPISupported){
-        this.scan();
+      this.$refs.app__layout.style.display = 'block';
+      if (window.isMediaStreamAPISupported && !window.noCameraPermission) {
+        this.$refs.custom_scanner.style.display = 'block';
+        //当使用相机扫描的时候1s去检测一次
+        this.Time1 = setInterval(()=>{
+          //判断是不是空不为空的话返回信息并清除定时器
+          if(this.result!=''){
+            //将扫描得到的内容抛出
+            this.$emit("getCode", this.result);
+            window.clearInterval(this.Time1)
+          }
+        },1000)
+      }else{
+        this.inputImg()
       }
     },
     inputImg(){
@@ -100,32 +105,20 @@ export default {
       document.querySelector('#camera').click();
       //On camera change
       camera.addEventListener('change', event => {
-        if (event.target && event.target.files.length > 0) {
-          frame.className = 'app__overlay'; //显示图片
-          frame.src = URL.createObjectURL(event.target.files[0]);
-          if (!window.noCameraPermission) this.$refs.custom_scanner.style.display = 'block';
-          this.scan(true);
-        }
+        frame.className = 'app__overlay'; //显示图片
+        frame.src = URL.createObjectURL(event.target.files[0]);
+        this.$refs.custom_scanner.style.display = 'block';
+        // 延迟一秒后输出解析数据
+        this.Time2 = setTimeout(()=>{
+          //将扫描得到的内容抛出
+          this.$emit("getCode", this.result);
+          window.clearTimeout(this.Time2)
+        },1000)
       });
-    },
-    scan(forSelectedPhotos = false) {
-      // 如果有摄像头扫码就显示扫码动画
-      if (window.isMediaStreamAPISupported && !window.noCameraPermission || forSelectedPhotos) {
-        this.$refs.custom_scanner.style.display = 'block';
-      }else{
-        this.inputImg()
-      }
-      // 没有的话直接调用解码
-      QRReader.scan(result => {
-        //返回二维码信息
-        this.$emit("getCode", result);
-        this.$refs.custom_scanner.style.display = 'block';
-      }, forSelectedPhotos);
     },
     cancel(){
       this.$refs.app__layout.style.display = 'none';
       this.$refs.custom_scanner.style.display = 'none';
-      window.clearTimeout(this.Failure)
     }
   }
 };
