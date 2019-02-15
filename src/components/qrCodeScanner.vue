@@ -8,8 +8,10 @@
     <div ref="app__layout" class="app__layout">
       <van-nav-bar class="cancel_nav" title="二维码扫描" left-arrow @click-left="cancel" right-text="相册" @click-right="inputImg"/>
       <main class="app__layout-content">
-        <!-- capture表示，可以捕获到系统默认的设备，比如：camera--照相机；camcorder--摄像机；microphone--录音。 -->
-        <qrcode-capture id="camera" @decode="onDecode" />
+        <!-- 移动设备扫码 -->
+        <qrcode-stream v-if="mobile" @decode="onDecode" @init="onInit" />
+        <!-- 桌面设备扫码 -->
+        <qrcode-capture v-else id="camera" @decode="onDecode" />
         <img ref="frame" id="frame" src="">
       </main>
     </div>
@@ -21,25 +23,48 @@
   </div>
 </template>
 <script>
-import { isWeChat} from "lputils";
+import { isWeChat,isAndroid,isIos} from "lputils";
 import { clearTimeout, setInterval, setTimeout } from 'timers';
 // 二维码扫描组件
-import {QrcodeCapture} from 'vue-qrcode-reader'
+import {QrcodeCapture, QrcodeStream} from 'vue-qrcode-reader'
 export default {
   data() {
     return {
-      result:''
+      result:'',
+      error:'', //扫码错误
+      mobile:false, //判断是否为移动端
     };
   },
   created(){},
   mounted(){},
   props: [],
   components:{
+    QrcodeStream,
     QrcodeCapture
   },
   methods: {
     onDecode (result) {
-      this.result = result;
+      this.result = result
+    },
+    async onInit (promise) {
+      try {
+        await promise
+      } catch (error) {
+        if (error.name === 'NotAllowedError') {
+          this.error = "ERROR: you need to grant camera access permisson"
+        } else if (error.name === 'NotFoundError') {
+          this.error = "ERROR: no camera on this device"
+        } else if (error.name === 'NotSupportedError') {
+          this.error = "ERROR: secure context required (HTTPS, localhost)"
+        } else if (error.name === 'NotReadableError') {
+          this.error = "ERROR: is the camera already in use?"
+        } else if (error.name === 'OverconstrainedError') {
+          this.error = "ERROR: installed cameras are not suitable"
+        } else if (error.name === 'StreamApiNotSupportedError') {
+          this.error = "ERROR: Stream API is not supported in this browser"
+        }
+        this.$toast(this.error);
+      }
     },
     scanQR(){
       if(isWeChat())this.getWeixinScanner()
@@ -60,7 +85,7 @@ export default {
         wx.ready(function(){
           // 调用微信扫一扫接口
           wx.scanQRCode({
-            needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+            needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
             scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
             success: function (res) {
               let result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
@@ -83,21 +108,29 @@ export default {
     },
     //html5扫一扫
     getHtmlScanner(){
+      this.mobile = true;
       this.$refs.app__layout.style.display = 'block';
-      if (window.isMediaStreamAPISupported && !window.noCameraPermission) {
-        this.$refs.custom_scanner.style.display = 'block';
-        //当使用相机扫描的时候1s去检测一次
-        this.Time1 = setInterval(()=>{
-          //判断是不是空不为空的话返回信息并清除定时器
-          if(this.result!=''){
-            //将扫描得到的内容抛出
-            this.$emit("getCode", this.result);
-            window.clearInterval(this.Time1)
-          }
-        },1000)
-      }else{
-        this.inputImg()
-      }
+      this.$refs.custom_scanner.style.display = 'block';
+      setTimeout(()=>{
+        if (this.error!='') {
+          this.mobile = false;
+          setTimeout(()=>{
+            this.inputImg()
+          },1000)
+        }else{
+          this.mobile = true;
+          this.$refs.custom_scanner.style.display = 'block';
+          //当使用相机扫描的时候1s去检测一次
+          this.Time1 = setInterval(()=>{
+            //判断是不是空不为空的话返回信息并清除定时器
+            if(this.result!=''){
+              //将扫描得到的内容抛出
+              this.$emit("getCode", this.result);
+              window.clearInterval(this.Time1)
+            }
+          },1000)
+        }
+      },1000)
     },
     inputImg(){
       let frame = document.querySelector('#frame');
