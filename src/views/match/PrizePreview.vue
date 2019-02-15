@@ -70,11 +70,11 @@ export default {
         {
           id: 1,
           value: "客户自取"
-        },
-        {
-          id: 3,
-          value: "到店使用"
         }
+        // {
+        //   id: 3,
+        //   value: "到店使用"
+        // }
       ],
       address: "",
       contact: "",
