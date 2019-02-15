@@ -2,14 +2,26 @@
   <div class="main">
     <div class="header">
       <div class="header_lists">
-        <a @click="serviceClick"></a>
-        <router-link class="unread" to="/user/exchange/index">
-          <span v-show="userInfo.unreadPrizesCount != 0 "></span>
-        </router-link>
-        <router-link class="message" to="/announce/index">
-          <span v-show="userInfo.unreadMailCount != 0 "></span>
-        </router-link>
-        <router-link to="/user/index"></router-link>
+        <div>
+          <a class="service" @click="serviceClick"></a>
+          <span>客服</span>
+        </div>
+        <div>
+          <router-link class="unread" to="/user/exchange/index">
+            <span v-show="userInfo.unreadPrizesCount != 0 "></span>
+          </router-link>
+          <span>兑奖</span>
+        </div>
+        <div>
+          <router-link class="message" to="/announce/index">
+            <span v-show="userInfo.unreadMailCount != 0 "></span>
+          </router-link>
+          <span>公告</span>
+        </div>
+        <div>
+          <router-link class="setting" to="/user/index"></router-link>
+          <span>设置</span>
+        </div>
       </div>
       <div class="header_icon">
         <img :src=" userInfo.icon || icon" alt="头像">
@@ -305,10 +317,26 @@ export default {
   line-height: 0;
   padding: 0.1rem 0 0 0;
   text-align: right;
+  display: flex;
+  justify-content: flex-end;
 }
 
-.header_lists a:nth-child(1) {
+.header_lists > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header_lists span {
+  font-size: 0.2rem;
+  margin-top: 0.1rem;
+}
+
+.header_lists .service {
   background-image: url("../../assets/header_kefu.png");
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .message {
   background-image: url("../../assets/header_message.png");
@@ -332,7 +360,7 @@ export default {
   right: -0.05rem;
   text-align: center;
 }
-.header_lists a:nth-child(4) {
+.header_lists .setting {
   background-image: url("../../assets/header_setting.png");
 }
 .header_lists a {
