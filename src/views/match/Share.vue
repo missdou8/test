@@ -5,7 +5,7 @@
     </div>
     <p class="match_title">{{title}}</p>
     <p class="match_code">
-      <span v-for="item in code" :key="`code${item}`">{{item}}</span>
+      <span v-for="(item,index) in code" :key="`code${index}`">{{item}}</span>
     </p>
     <p class="match_code_desc">输入邀请码即可报名成功</p>
     <!-- 生成二维码 -->

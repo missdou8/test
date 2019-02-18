@@ -4,6 +4,7 @@ import App from './App.vue'
 import ApiService from './service/http.js'
 import store from './store/index.js'
 import ImageCompressor from 'compressorjs'
+import { isIos, isWeChat } from 'lputils'
 
 // 导入公共CSS
 import 'lpreset.css'
@@ -13,6 +14,18 @@ import './style/base.css'
 import config from './config/index.js'
 
 Vue.prototype.config = config
+
+if (isIos() && isWeChat()) {
+  window.addEventListener('focusout', function() {
+    //软键盘收起的事件处理
+    setTimeout(() => {
+      window.scrollTo(
+        0,
+        document.documentElement.scrollTop || document.body.scrollTop
+      )
+    })
+  })
+}
 
 // 引用组件
 import {
@@ -43,7 +56,8 @@ import {
   DatetimePicker,
   Picker,
   CollapseItem,
-  NavBar
+  NavBar,
+  Switch
 } from 'vant'
 Vue.use(Tab)
   .use(Tabs)
@@ -73,6 +87,7 @@ Vue.use(Tab)
   .use(CollapseItem)
   .use(PasswordInput)
   .use(NavBar)
+  .use(Switch)
 
 Vue.config.productionTip = false
 

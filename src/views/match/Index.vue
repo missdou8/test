@@ -2,19 +2,31 @@
   <div class="main">
     <div class="header">
       <div class="header_lists">
-        <a @click="serviceClick"></a>
-        <router-link class="unread" to="/user/exchange">
-          <span v-show="userInfo.unreadPrizesCount != 0 "></span>
-        </router-link>
-        <router-link class="message" to="/announce/index">
-          <span v-show="userInfo.unreadMailCount != 0 "></span>
-        </router-link>
-        <router-link to="/user/index"></router-link>
+        <div>
+          <a class="service" @click="serviceClick"></a>
+          <span>客服</span>
+        </div>
+        <div>
+          <router-link class="unread" to="/user/exchange/index">
+            <span v-show="userInfo.unreadPrizesCount != 0 "></span>
+          </router-link>
+          <span>兑奖</span>
+        </div>
+        <div>
+          <router-link class="message" to="/announce/index">
+            <span v-show="userInfo.unreadMailCount != 0 "></span>
+          </router-link>
+          <span>公告</span>
+        </div>
+        <div>
+          <router-link class="setting" to="/user/index"></router-link>
+          <span>设置</span>
+        </div>
       </div>
       <div class="header_icon">
         <img :src=" userInfo.icon || icon" alt="头像">
         <div class="user_info">
-          <span class="user_title">{{userInfo.name || 广告主名称}}</span>
+          <span class="user_title">{{userInfo.name || '广告主名称'}}</span>
           <p>
             <span :class="userInfo.certification == 1? 'authyes':'authno'"></span>
             <span class="user_id">
@@ -176,18 +188,26 @@ export default {
       this.$store.commit("setAttendStyle", { id: 0, value: "未选择" });
       this.$store.commit("setIfSave", false);
       this.$store.commit("setPrizeCover", "");
-      this.$store.commit("setRankPrize", []);
-      this.$store.commit("setShareImg", "");
-      this.$store.commit("setShareCropImg", "");
+      //初始化默认数据
+      this.$store.commit("setRankPrizes", [
+        {
+          beginRank: 1,
+          endRank: 1,
+          ispartInPrize: 0,
+          prizes: [
+            {
+              name: null,
+              price: null,
+              prizeCount: null,
+              icon: null
+            }
+          ]
+        }
+      ]);
+      this.$store.commit("setPartSet", [
+        { name: null, price: null, prizeCount: null, icon: null }
+      ]);
       this.$store.commit("setSendStyle", -1);
-      //设置自提地址为店铺地址
-      this.$store.commit("setgainPrizeAddress", {
-        address: this.userInfo.address,
-        regionName: this.userInfo.regionName,
-        provinceId: this.userInfo.provinceId,
-        cityId: this.userInfo.cityId,
-        areaId: this.userInfo.areaId
-      });
       //判断是否有权限创建
       if (this.userInfo.certification != 1) {
         return this.$toast("请先实名认证");
@@ -297,10 +317,26 @@ export default {
   line-height: 0;
   padding: 0.1rem 0 0 0;
   text-align: right;
+  display: flex;
+  justify-content: flex-end;
 }
 
-.header_lists a:nth-child(1) {
+.header_lists > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header_lists span {
+  font-size: 0.2rem;
+  margin-top: 0.1rem;
+}
+
+.header_lists .service {
   background-image: url("../../assets/header_kefu.png");
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .message {
   background-image: url("../../assets/header_message.png");
@@ -324,7 +360,7 @@ export default {
   right: -0.05rem;
   text-align: center;
 }
-.header_lists a:nth-child(4) {
+.header_lists .setting {
   background-image: url("../../assets/header_setting.png");
 }
 .header_lists a {

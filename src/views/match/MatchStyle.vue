@@ -20,7 +20,6 @@
         </van-collapse-item>
       </van-collapse>
       <van-cell title="请填写奖品信息" :value="prizeMsg" is-link @click="toPrize"/>
-      <van-cell title="添加分享图" :value="shareMsg" is-link @click="toShare"/>
     </van-cell-group>
     <van-popup v-model="gameShow" position="bottom">
       <van-picker
@@ -107,7 +106,7 @@ export default {
         return state.match.attendStyle;
       },
       prizeMsg(state) {
-        return state.match.ifSave ? "已选择" : "未选择";
+        return state.match.rankPrizes[0].prizes[0].name ? "已选择" : "未填写";
       },
       shareMsg(state) {
         return state.match.shareImg ? "已选择" : "未选择";
@@ -145,14 +144,6 @@ export default {
         a.readAsDataURL(newFile);
       })();
     },
-    toShare() {
-      if (this.$store.state.match.shareImg) {
-        return this.$router.push("shareImg");
-      }
-      let contain = document.querySelector("#style");
-      let input = contain.querySelector(".van-uploader__input");
-      input.click();
-    },
     gameSelect() {
       this.gameShow = true;
     },
@@ -163,7 +154,9 @@ export default {
       if (this.selectPerson.id === 0) {
         return this.$toast("请先选择人数");
       }
-      this.$router.push("style/prize");
+      this.$store.commit("setTotalPrizes", null);
+      this.$store.commit("setAttendTotalPrizes", null);
+      this.$router.push("style/prizepreview");
     },
     personShow(activeNames) {
       if (activeNames == 1) {
@@ -200,7 +193,8 @@ export default {
           this.personList = data.playerCountList.map(item => {
             return {
               id: item.templateId,
-              value: item.title
+              value: item.title,
+              minPlayer: item.minPlayer
             };
           });
         });
@@ -247,12 +241,6 @@ export default {
       if (match.attendStyle.id < 0) {
         return this.$toast("请选择报名类型");
       }
-      if (!match.ifSave && !isEdit) {
-        return this.$toast("请添加奖品");
-      }
-      if (!match.shareImg) {
-        return this.$toast("请添加分享图片");
-      }
       this.submit(1);
     },
     submit(type) {
@@ -262,8 +250,15 @@ export default {
       let detail = match.detail;
       let gameName = match.gameName;
 
-      //如果没有奖品的话则传空对象
-      let rankingSet = match.rankPrize;
+      //如果没有奖品的话则传空数组
+      let rankingSet = match.rankPrizes;
+      if (!match.rankPrizes[0].prizes[0].name) {
+        rankingSet = [];
+      }
+      let partSet = match.partSet;
+      if (!match.partSet[0].name) {
+        partSet = [];
+      }
       let params = {
         isAudit: type,
         title: detail.title,
@@ -280,9 +275,12 @@ export default {
         provinceId: match.gainPrizeAddress.provinceId,
         cityId: match.gainPrizeAddress.cityId,
         areaId: match.gainPrizeAddress.areaId,
+        latitude: match.gainPrizeAddress.latitude,
+        longitude: match.gainPrizeAddress.longitude,
+        contact: match.gainPrizeAddress.contact,
+        mobile: match.gainPrizeAddress.mobile,
         rankingSet: rankingSet,
-        sharePic: match.shareImg,
-        shareCropImg: match.shareCropImg
+        partSet: partSet
       };
       if (isEdit) {
         action = "editMatch";

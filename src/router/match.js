@@ -6,11 +6,15 @@ import MathchEdit from '../views/match/MathchEdit.vue'
 import Prize from '../views/match/Prize.vue'
 import PrizeAddress from '../views/match/PrizeAddress.vue'
 import Share from '../views/match/Share.vue'
-import ShareImg from '../views/match/ShareImg.vue'
 import WinnerList from '../views/match/WinnerList.vue'
 import WaitingCheck from '../views/match/WaitingCheck.vue'
 import GameRules from '../components/GameRules.vue'
 import MatchRecord from '../views/match/MatchRecord.vue'
+import PrizePreview from '../views/match/PrizePreview.vue'
+import PrizeSetting from '../views/match/PrizeSetting.vue'
+import AttendSetting from '../views/match/AttendSetting.vue'
+import NumberInput from '../views/match/NumberInput.vue'
+import AttendNumberInput from '../views/match/AttendNumberInput.vue'
 
 const MATCH_ROUTERS = [
   {
@@ -56,6 +60,41 @@ const MATCH_ROUTERS = [
     }
   },
   {
+    path: '/match/style/prizepreview',
+    component: PrizePreview,
+    meta: {
+      title: '填写奖品信息'
+    }
+  },
+  {
+    path: '/match/style/prizepreview/prizesetting',
+    component: PrizeSetting,
+    meta: {
+      title: '编辑比赛名次'
+    }
+  },
+  {
+    path: '/match/style/prizepreview/attendsetting',
+    component: AttendSetting,
+    meta: {
+      title: '编辑比赛名次'
+    }
+  },
+  {
+    path: '/match/style/prizepreview/prizesetting/numberInput',
+    component: NumberInput,
+    meta: {
+      title: '选择奖品数量'
+    }
+  },
+  {
+    path: '/match/style/prizepreview/prizesetting/attendNumberInput',
+    component: AttendNumberInput,
+    meta: {
+      title: '选择奖品数量'
+    }
+  },
+  {
     path: '/match/style/prize/address',
     component: PrizeAddress,
     meta: {
@@ -67,13 +106,6 @@ const MATCH_ROUTERS = [
     component: Share,
     meta: {
       title: '分享邀请码'
-    }
-  },
-  {
-    path: '/match/shareImg',
-    component: ShareImg,
-    meta: {
-      title: '添加分享图片'
     }
   },
   {
@@ -91,7 +123,7 @@ const MATCH_ROUTERS = [
     }
   },
   {
-    path: '/gameRule',
+    path: '/detail/gameRule',
     meta: {
       title: '游戏规则'
     },

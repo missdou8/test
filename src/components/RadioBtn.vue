@@ -1,6 +1,13 @@
 <template>
   <div>
-    <button class="btn" :class="{active: index== select, default: index!==select}" v-for="(item,index) in data" :id="item.id" @click="radioClick(item, index)">{{item.value}}</button>
+    <button
+      class="btn"
+      :class="{active: index === select, default: index!==select}"
+      v-for="(item,index) in data"
+      :key="`radio${index}`"
+      :id="item.id"
+      @click="radioClick(item, index)"
+    >{{item.value}}</button>
   </div>
 </template>
 
