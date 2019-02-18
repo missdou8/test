@@ -46,13 +46,17 @@ export default {
       }
     })
   },
-  mounted() {
+  created() {
     this.fromIndex = this.$route.query.fromIndex;
+    this.numTotal = (Math.ceil(this.fromIndex / 101) + 1) * 101;
+  },
+  mounted() {
     this.type = this.$route.query.type;
     location.href = `#${this.fromIndex - 8}`;
   },
   methods: {
     onLoad() {
+      console.log("你好");
       this.loading = false;
       if (this.numTotal >= 9900) {
         return (this.finished = true);

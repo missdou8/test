@@ -60,9 +60,10 @@ export default {
   },
   computed: {
     total() {
-      return this.cellData.prizes.reduce((prev, cur) => {
+      let single = this.cellData.prizes.reduce((prev, cur) => {
         return prev + Number(cur.price) * Number(cur.prizeCount);
       }, 0);
+      return single * (this.cellData.endRank - this.cellData.beginRank + 1);
     },
     rank() {
       if (
