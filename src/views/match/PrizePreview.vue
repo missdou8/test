@@ -204,7 +204,10 @@ export default {
       }
     },
     toAddress() {
-      this.$router.push("prize/address");
+      this.$router.push({
+        path: "prize/address",
+        query: { type: this.addressShow }
+      });
     },
     toEdit(index) {
       /**

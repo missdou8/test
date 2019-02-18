@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { getUrlString } from "lputils";
 import cityCode from "../../service/cityCode.js";
 import didaLocation from "../../components/didaLocation.vue";
 export default {
@@ -92,7 +93,7 @@ export default {
       if (!this.mobile || !/^1[34578]\d{9}$/.test(this.mobile)) {
         return this.$toast("请输入正确的手机号");
       }
-      this.$store.commit("setSendStyle", 1);
+      this.$store.commit("setSendStyle", Number(getUrlString("type")));
       this.$store.commit("setgainPrizeAddress", {
         address: this.subAddress,
         regionName: this.address,
