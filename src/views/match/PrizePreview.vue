@@ -241,16 +241,17 @@ export default {
        */
       let attendFlag = false;
       let fullFilled = false;
-      for (const rankPrize of this.rankPrizes) {
+
+      this.rankPrizes.forEach((rankPrize, index) => {
         if (rankPrize.ispartInPrize) {
           this.attendFlag = true;
         }
-        rankPrize.prizes.forEach((item, index) => {
+        rankPrize.prizes.forEach(item => {
           if (!item.name && index != 0) {
             fullFilled = true;
           }
         });
-      }
+      });
       if (fullFilled) {
         return this.$toast("您尚有奖品未填写");
       }

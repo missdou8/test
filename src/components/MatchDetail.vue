@@ -356,7 +356,6 @@ a {
 }
 .header_info {
   position: relative;
-  margin-top: -0.1rem;
 }
 .header_info span {
   border-radius: 0.05rem;
