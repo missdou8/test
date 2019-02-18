@@ -9,9 +9,9 @@
       <van-nav-bar class="cancel_nav" title="二维码扫描" left-arrow @click-left="cancel" right-text="相册" @click-right="inputImg"/>
       <main class="app__layout-content">
         <!-- 移动设备扫码 -->
-        <qrcode-stream v-if="mobile" @decode="onDecode" @init="onInit" />
+        <qrcode-stream v-if="mobile" @decode="onDecode1" @init="onInit" />
         <!-- 桌面设备扫码 -->
-        <qrcode-capture v-else id="camera" @decode="onDecode" />
+        <qrcode-capture ref="camera" id="camera" @decode="onDecode2" />
         <img ref="frame" id="frame" src="">
       </main>
     </div>
@@ -43,7 +43,10 @@ export default {
     QrcodeCapture
   },
   methods: {
-    onDecode (result) {
+    onDecode1 (result) {
+      this.result = result
+    },
+    onDecode2(result){
       this.result = result
     },
     async onInit (promise) {
@@ -63,10 +66,11 @@ export default {
         } else if (error.name === 'StreamApiNotSupportedError') {
           this.error = "ERROR: Stream API is not supported in this browser"
         }
-        this.$toast(this.error);
+        this.$toast(this.error+' , 请点击相册选择图片进行扫描！');
       }
     },
     scanQR(){
+      this.result = '';
       if(isWeChat())this.getWeixinScanner()
       else this.getHtmlScanner()
     },
@@ -110,36 +114,32 @@ export default {
     getHtmlScanner(){
       this.mobile = true;
       this.$refs.app__layout.style.display = 'block';
-      this.$refs.custom_scanner.style.display = 'block';
-      setTimeout(()=>{
-        if (this.error!='') {
-          this.mobile = false;
-          setTimeout(()=>{
-            this.inputImg()
-          },1000)
-        }else{
-          this.mobile = true;
-          this.$refs.custom_scanner.style.display = 'block';
-          //当使用相机扫描的时候1s去检测一次
-          this.Time1 = setInterval(()=>{
-            //判断是不是空不为空的话返回信息并清除定时器
-            if(this.result!=''){
-              //将扫描得到的内容抛出
-              this.$emit("getCode", this.result);
-              window.clearInterval(this.Time1)
-            }
-          },1000)
+      //如果没有错误的时候显示扫描动画(需要有一个缓冲时间)
+      this.Time3 = setTimeout(()=>{
+        if (this.error == '') this.$refs.custom_scanner.style.display = 'block';
+        //清除定时器
+        window.clearTimeout(this.Time3)
+      },200)
+      //当使用相机扫描的时候1s去检测一次
+      this.Time1 = setInterval(()=>{
+        //判断是不是空不为空的话返回信息并清除定时器
+        if(this.result!=''){
+          //将扫描得到的内容抛出
+          this.$emit("getCode", this.result);
+          window.clearInterval(this.Time1)
         }
       },1000)
     },
     inputImg(){
       let frame = document.querySelector('#frame');
+      let camera = document.querySelector('#camera')
+      camera.removeAttribute('capture');  //禁止直接吊起摄像头
       this.$refs.custom_scanner.style.display = 'none';
-      document.querySelector('#camera').click();
+      camera.click();
       //On camera change
       camera.addEventListener('change', event => {
-        frame.className = 'app__overlay'; //显示图片
-        frame.src = URL.createObjectURL(event.target.files[0]);
+        this.$refs.frame.className = 'app__overlay'; //显示图片
+        this.$refs.frame.src = URL.createObjectURL(event.target.files[0]);
         this.$refs.custom_scanner.style.display = 'block';
         // 延迟一秒后输出解析数据
         this.Time2 = setTimeout(()=>{
