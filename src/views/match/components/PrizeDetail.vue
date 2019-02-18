@@ -134,7 +134,7 @@ export default {
       for (const key in data) {
         if (data.hasOwnProperty(key)) {
           const element = data[key];
-          if (!element && element !== 0) {
+          if (element) {
             flag = true;
           }
         }
@@ -149,6 +149,8 @@ export default {
           .then(() => {
             this.rankData.prizes.splice(index, 1);
           });
+      } else {
+        this.rankData.prizes.splice(index, 1);
       }
     }
   }

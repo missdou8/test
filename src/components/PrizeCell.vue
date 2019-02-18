@@ -1,9 +1,7 @@
 <template>
   <div class="cell">
     <div class="cell_content_group">
-      <span
-        class="cell_rank"
-      >第{{cellData.beginRank}}{{cellData.beginRank != cellData.endRank ? `-${cellData.endRank}`: ''}}名</span>
+      <span class="cell_rank">{{rank}}</span>
       <div class="cell_content">
         <div class="content_detail">
           <div class="detail_cell" v-for="(item, index) in truePrizes" :key="`prize${index}`">
@@ -65,6 +63,20 @@ export default {
       return this.cellData.prizes.reduce((prev, cur) => {
         return prev + Number(cur.price) * Number(cur.prizeCount);
       }, 0);
+    },
+    rank() {
+      if (
+        (this.cellData.beginRank == this.cellData.endRank) == 1 &&
+        !this.cellData.prizes[0].name
+      ) {
+        return "名次无";
+      } else {
+        return `第${this.cellData.beginRank}${
+          this.cellData.beginRank != this.cellData.endRank
+            ? -this.cellData.endRank
+            : ""
+        }名`;
+      }
     }
   },
   methods: {
