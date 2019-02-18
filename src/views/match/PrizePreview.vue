@@ -106,9 +106,13 @@ export default {
       },
       attendTotal(state) {
         let data = state.match.attendTotalPrizes;
-        return data.reduce((prev, cur) => {
-          return prev + Number(cur.price);
-        }, 0);
+        if (data[0].price) {
+          return data.reduce((prev, cur) => {
+            return prev + Number(cur.price) * Number(cur.prizeCount);
+          }, 0);
+        } else {
+          return 0;
+        }
       }
     }),
     showAdd() {
