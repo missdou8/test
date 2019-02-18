@@ -1,10 +1,17 @@
 <template>
   <div id="number">
-    <div v-for="(item,index) in 10000" :key="`${index}`" @click="select(item)">
-      <span :class="{
+    <van-list class="list" v-model="loading" :finished="finished" finished-text @load="onLoad">
+      <div
+        class="list_item"
+        v-for="(item,index) in numTotal"
+        :key="`${index}`"
+        @click="select(item)"
+      >
+        <span :class="{
       show_select: index == selected
     }">{{item}}</span>
-    </div>
+      </div>
+    </van-list>
   </div>
 </template>
 
@@ -15,7 +22,10 @@ export default {
   data() {
     return {
       fromIndex: 1,
-      selected: -1
+      selected: -1,
+      loading: false,
+      finished: false,
+      numTotal: 0
     };
   },
   computed: {
@@ -29,6 +39,13 @@ export default {
     this.fromIndex = this.$route.query.fromIndex;
   },
   methods: {
+    onLoad() {
+      this.loading = false;
+      if (this.numTotal >= 9900) {
+        return (this.finished = true);
+      }
+      this.numTotal += 101;
+    },
     select(item) {
       this.selected = item - 1;
       //修改奖品数据
@@ -61,7 +78,7 @@ export default {
   overflow: auto;
   color: #000;
 }
-#number div {
+#number .list_item {
   height: 0.88rem;
   line-height: 0.88rem;
   width: 16.6%;
@@ -78,6 +95,11 @@ export default {
   background-color: red;
   border-radius: 50%;
   color: #fff;
+}
+.list {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>
 

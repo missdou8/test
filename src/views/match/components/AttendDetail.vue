@@ -1,7 +1,7 @@
 <template>
   <div class="detail">
     <div class="mutiple_prize" v-for="(prize,index) in rankData" :key="`prize${index}`">
-      <div class="detail_cell">
+      <div class="detail_cell cell_name">
         <span class="detail_title">名称</span>
         <input type="text" placeholder="请输入不超过15个字符" v-model="prize.name">
       </div>
@@ -176,6 +176,9 @@ export default {
   margin-right: 0.2rem;
   width: 0.35rem;
   vertical-align: top;
+}
+.cell_name input {
+  flex-grow: 1;
 }
 </style>
 
