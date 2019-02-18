@@ -26,7 +26,11 @@
       </div>
       <div class="detail_cell">
         <span class="detail_title">数量</span>
-        <span v-if="prize.prizeCount" @click="numInput('count',1, index)">{{prize.prizeCount}}</span>
+        <span
+          class="detail_count_num"
+          v-if="prize.prizeCount"
+          @click="numInput('count',1, index)"
+        >{{prize.prizeCount}}</span>
         <button v-else @click="numInput('count',1, index)">点击选择</button>
       </div>
       <div class="detail_cell">
@@ -177,7 +181,8 @@ export default {
   width: 0.35rem;
   vertical-align: top;
 }
-.cell_name input {
+.cell_name input,
+.detail_count_num {
   flex-grow: 1;
 }
 </style>
