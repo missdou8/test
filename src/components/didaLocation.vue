@@ -11,6 +11,11 @@ export default {
   data() {
     return {};
   },
+  /**
+   * longitude 经度
+   * latitude  维度
+   */
+  props: ["longitude", "latitude"],
   created() {
     //提供一个缓冲定位时间
     this.$toast.loading({
@@ -20,7 +25,13 @@ export default {
     });
     //直接调用定位
     setTimeout(() => {
-      this.getLocation();
+      //如果有经纬度则按照经纬度定位，如果没有则当前定位
+      if(this.longitude&&this.latitude){
+        this.dragSiteSelection(15,[this.longitude,this.latitude])
+      }else{
+        this.getLocation()
+      }
+      //开启搜索定位
       this.searchSiteSelection()
     }, 1000);
   },
@@ -95,7 +106,7 @@ export default {
             });
         });
     },
-    //拖拽位置选择
+    //拖拽位置选择(可以根据经纬度来显示初始化位置)
     dragSiteSelection(zoom, center){
         let tant = this
         AMapUI.loadUI(['misc/PositionPicker'], function (PositionPicker) {
