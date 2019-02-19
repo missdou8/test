@@ -100,7 +100,7 @@ export default {
         });
         wx.error((res)=>{
             this.$dialog.confirm({
-              message: res+'，请退出后重新扫描，或者前往输入兑奖码'
+              message: JSON.stringify(res)+'，请退出后重新扫描，或者前往输入兑奖码'
             }).then(() => {
               // 跳转搜索页
               this.$router.push("/user/exchange/inputCode");
