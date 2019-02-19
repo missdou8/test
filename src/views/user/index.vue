@@ -20,7 +20,16 @@
         <van-cell class="gray" title="实名认证" :value="autonymText+',认证信息仅自己可见'" is-link to="/user/edit/autonym"></van-cell>
         <van-cell title="店铺座机" :value="userinfo.telephone" is-link :to="{ path: '/user/edit/plane', query: { telephone: userinfo.telephone }}"></van-cell>
         <van-cell title="手机号码" :value="userinfo.mobile" is-link :to="{ path: '/user/edit/phone', query: { mobile: userinfo.mobile}}"></van-cell>
-        <van-cell class="address" title="店铺地址" :value="userinfo.address" is-link :to="{ path: '/user/edit/address', query: { address: userinfo.address,areaId:userinfo.areaId,regionName:userinfo.regionName}}"></van-cell>
+        <van-cell class="address" title="店铺地址" :value="userinfo.address" is-link 
+        :to="{ path: '/user/edit/address', 
+        query: {
+           address: userinfo.address,
+           areaId:userinfo.areaId,
+           regionName:userinfo.regionName,
+           longitude:userinfo.longitude,
+           latitude:userinfo.latitude
+           }
+        }"></van-cell>
       </van-cell-group>
       <van-cell-group class="user_footer">
         <van-cell title="修改密码" is-link to="/user/edit/Pwd"></van-cell>
