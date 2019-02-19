@@ -131,12 +131,12 @@ export default {
         } else {
           this.$store.commit("setRankPrizes", this.matchData.prizes.rankingSet);
         }
-        if (!this.matchData.prizes.parSet) {
+        if (this.matchData.prizes.partSet.length == 0) {
           this.$store.commit("setPartSet", [
             { name: null, price: null, prizeCount: null, icon: null }
           ]);
         } else {
-          this.$store.commit("setPartSet", this.matchData.prizes.parSet);
+          this.$store.commit("setPartSet", this.matchData.prizes.partSet);
         }
         this.$store.commit("setSendStyle", this.matchData.prizes.type);
         let userInfo = this.matchData.prizes;

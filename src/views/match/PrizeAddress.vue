@@ -174,6 +174,6 @@ export default {
   height: 5.4rem;
 }
 .address_cell {
-  margin-top: 0.2rem;
+  margin-top: 0.18rem;
 }
 </style>
