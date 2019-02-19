@@ -28,6 +28,7 @@
 <script>
 import goodsImg from "../../../assets/bianji_morentu.png"
 import { setTimeout } from 'timers';
+import { timeFormate } from "lputils";
 export default {
   data() {
     return {
@@ -39,7 +40,8 @@ export default {
             match_ranking:'比赛名次',
             prize_type:'获取方式',
             merchantName:'商家名称',
-            prize_pickupCode:'兑  奖 码 '
+            prize_pickupCode:'兑  奖 码 ',
+            exchangeTime:'兑奖时间'
         },
         status:1,  //取货状态   1未取货 3取货
     };
@@ -60,6 +62,7 @@ export default {
     this.prizeDetail.prize_pickupCode = Detail.prize.pickupCode||''
     // 根据领取情况来显示领取标记
     this.status = Detail.prize.status
+    this.prizeDetail.exchangeTime = timeFormate(Detail.prize.time * 1000, "YY/MM/DD HH:mm:ss");
   },
   methods: {
       submit(){
