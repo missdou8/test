@@ -179,7 +179,7 @@ export default {
   transform: scaleY(0.5);
   transform-origin: 0 0;
   height: 1px;
-  width: 90%;
+  width: 96%;
   z-index: 1;
 }
 
@@ -228,6 +228,9 @@ export default {
 .detail_img {
   flex-basis: 0;
   flex-grow: 1;
+}
+.detail_img_content span {
+  padding-left: 0.5rem;
 }
 .detail_img {
   opacity: 0;
