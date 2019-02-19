@@ -240,6 +240,9 @@ export default {
       });
     },
     saveClick() {
+      if (this.errorArr.length > 0) {
+        return this.$toast("奖品名次存在错误");
+      }
       /**
        * 判断有无奖品
        * 如果有参与奖，那么参与奖需要设置
