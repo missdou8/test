@@ -131,9 +131,10 @@ export default {
   background-color: var(--border-color);
   position: absolute;
   bottom: 0;
-  right: 0;
-  height: 0.012rem;
-  width: 97%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 1px;
+  width: 90%;
 }
 
 .detail_title {

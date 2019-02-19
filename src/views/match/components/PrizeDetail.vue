@@ -1,14 +1,15 @@
 <template>
   <div class="detail">
-    <div class="prize_rank detail_cell">
+    <div class="prize_rank">
       <div class="rank">
         <span class="detail_title">名次</span>
         <div class="detail_rank">
           第
-          <span class="rank_from">{{rankData.beginRank}}</span>名 —
+          <span class="rank_from">{{rankData.beginRank}}</span>名&emsp;— &emsp;
           <div :class="{canMutilple: mutipleChoose}">
             第
             <button
+              :class="{btn: rankData.endRank == rankData.beginRank}"
               @click="numInput('endRank',rankData.beginRank)"
             >{{rankData.endRank != rankData.beginRank ? rankData.endRank :'点击选择'}}</button>
             名
@@ -174,35 +175,45 @@ export default {
   background-color: var(--border-color);
   position: absolute;
   bottom: 0.01rem;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  height: 0.012rem;
+  right: 0;
+  transform: scaleY(0.5);
+  transform-origin: 0 0;
+  height: 1px;
   width: 90%;
   z-index: 1;
 }
 
 .detail_title {
+  color: #000;
   font-size: var(--font-size-bigger);
-  padding: 0 0.4rem;
+  padding: 0 0.36rem 0 0.28rem;
 }
 .prize_rank {
+  background-color: #fff;
   flex-direction: column;
+  padding-top: 0.2rem;
 }
 .rank {
   display: flex;
 }
 .rank_multiple {
+  font-size: 0.32rem;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-right: 0.15rem;
+  padding: 0.2rem 0.16rem 0.06rem;
+}
+.rank_multiple input {
+  width: 0.38rem;
+  height: 0.38rem;
 }
 .detail_rank {
   display: flex;
+  font-size: 0.3rem;
 }
 .rank_from {
   display: inline-block;
-  width: 0.5rem;
+  width: 0.76rem;
   text-align: center;
 }
 .canMutilple {
@@ -244,6 +255,12 @@ export default {
 .cell_name input,
 .detail_count_num {
   flex-grow: 1;
+}
+.btn {
+  border: 1px solid #ccc;
+  padding: 0 0.42rem;
+  font-size: 0.27rem;
+  margin: 0 0.2rem;
 }
 </style>
 

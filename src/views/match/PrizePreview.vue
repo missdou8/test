@@ -1,7 +1,7 @@
 <template>
   <div class="prize_preview">
     <section>
-      <h1>名次奖</h1>
+      <h1 class="preview_title">名次奖</h1>
       <prize-cell
         class="cell"
         :class="{error: errorArr.includes(index)}"
@@ -17,7 +17,7 @@
     </section>
     <section>
       <div class="attend_prize">
-        <span>参与奖</span>
+        <span class="preview_title">参与奖</span>
         <button class="cell_edit" @click="toAttendEdit"></button>
       </div>
       <attend-cell
@@ -29,8 +29,14 @@
       <p class="attend_total">共{{attendTotal}}元</p>
     </section>
     <section class="send" :class="{cannot: !rankPrizes[0].prizes[0].name}">
-      <h1 class="send_title">领奖方式</h1>
-      <radio-btn class="send_type" :data="sendStyle" @select="typeSelect" :selected="sendType"></radio-btn>
+      <h1 class="preview_title">领奖方式</h1>
+      <radio-btn
+        class="send_type"
+        :class="{send_type_no: !rankPrizes[0].prizes[0].name}"
+        :data="sendStyle"
+        @select="typeSelect"
+        :selected="sendType"
+      ></radio-btn>
       <div class="address" v-show="addressShow > 0">
         <p class="address_title">请选择自提地址</p>
         <van-cell
@@ -317,21 +323,20 @@ export default {
 }
 section {
   background-color: #fff;
-  padding: 0.14rem;
+  padding: 0.14rem 0.17rem;
   margin-top: 0.2rem;
 }
 section h1 {
   font-size: var(--font-size-bigger);
 }
-/* 领奖方式 */
-.send_title {
-  font-size: 0.3rem;
-  padding: 0.18rem 0;
-}
 .send_type {
   display: flex;
   justify-content: space-around;
   padding: 0.3rem 0;
+}
+.send_type_no {
+  background-color: #f9f9f9;
+  border: 1px dashed #d8d8d8;
 }
 .send,
 .address {
@@ -381,7 +386,7 @@ section h1 {
 }
 .attend_total {
   text-align: right;
-  padding-right: 0.56rem;
+  padding-right: 0.18rem;
 }
 .error {
   background-color: #fff5f5;
@@ -395,6 +400,11 @@ section h1 {
   padding-left: 0.2rem;
   height: 0.6rem;
   line-height: 0.6rem;
+}
+.preview_title {
+  color: 111;
+  font-size: 0.32rem;
+  margin-bottom: 0.1rem;
 }
 </style>
 
