@@ -128,7 +128,10 @@ export default {
         if (index === 0) {
           continue;
         } else {
-          if (rankPrize.beginRank != this.rankPrizes[index - 1].endRank + 1) {
+          if (
+            rankPrize.beginRank !=
+            Number(this.rankPrizes[index - 1].endRank) + 1
+          ) {
             errorArr.push(index);
           }
         }

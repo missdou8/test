@@ -112,7 +112,7 @@ export default {
         this.$store.commit("setAttendStyle", att);
         this.$store.commit("setIfSave", true);
         this.$store.commit("setPrizeCover", this.matchData.prizes.img);
-        this.$store.commit("setRankPrize", this.matchData.prizes.rankingSet);
+        this.$store.commit("setRankPrizes", this.matchData.prizes.rankingSet);
         this.$store.commit("setSendStyle", this.matchData.prizes.type);
         let userInfo = this.matchData.prizes;
         this.$store.commit("setgainPrizeAddress", {

@@ -3,7 +3,6 @@ import Detail from '../views/match/Detail.vue'
 import Create from '../views/match/Create.vue'
 import MatchStyle from '../views/match/MatchStyle.vue'
 import MathchEdit from '../views/match/MathchEdit.vue'
-import Prize from '../views/match/Prize.vue'
 import PrizeAddress from '../views/match/PrizeAddress.vue'
 import Share from '../views/match/Share.vue'
 import WinnerList from '../views/match/WinnerList.vue'
@@ -50,13 +49,6 @@ const MATCH_ROUTERS = [
     component: MathchEdit,
     meta: {
       title: '修改比赛信息'
-    }
-  },
-  {
-    path: '/match/style/prize',
-    component: Prize,
-    meta: {
-      title: '填写奖品信息'
     }
   },
   {

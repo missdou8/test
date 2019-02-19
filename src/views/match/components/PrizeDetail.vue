@@ -26,7 +26,7 @@
     <div class="mutiple_prize" v-for="(prize,index) in rankData.prizes" :key="`prize${index}`">
       <div class="detail_cell cell_name">
         <span class="detail_title">名称</span>
-        <input type="text" placeholder="请输入不超过15个字符" v-model="prize.name">
+        <input type="text" placeholder="请输入不超过15个字符" v-model="prize.name" maxlength="15">
       </div>
       <div class="detail_cell">
         <span class="detail_title">图片</span>
@@ -173,10 +173,12 @@ export default {
   content: "";
   background-color: var(--border-color);
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 0.01rem;
+  left: 50%;
+  transform: translate(-50%, -50%);
   height: 0.012rem;
-  width: 97%;
+  width: 90%;
+  z-index: 1;
 }
 
 .detail_title {
