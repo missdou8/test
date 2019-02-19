@@ -5,9 +5,9 @@
       <p class="add_detail" @click="addMore">继续添加奖品</p>
     </div>
     <div class="attend_prize">
-      <span>参与奖</span>
+      <span class="detail_title">参与奖</span>
       <span>除以上奖品外，同时获得参与奖</span>
-      <van-switch v-model="checked" active-color="#0daf52"/>
+      <van-switch class="prize_switch" v-model="checked" active-color="#0daf52"/>
     </div>
     <div class="setting_button">
       <button class="btn_delete" @click="deleteClick">删除</button>
@@ -143,17 +143,18 @@ export default {
 .add_detail {
   background: url("../../assets/prize_add_more.png") no-repeat;
   color: #135ada;
-  font-size: 0.28rem;
+  font-size: 0.32rem;
   background-size: 0.32rem 0.32rem;
   background-position: left center;
   padding-left: 0.4rem;
 }
 .attend_prize {
+  font-size: 0.32rem;
   background-color: #fff;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 0.25rem;
+  padding: 0.25rem 0;
 }
 .attend_prize span:first-child {
   font-size: var(--font-size-bigger);
@@ -180,6 +181,15 @@ export default {
 }
 .btn_save {
   border: 1px solid #ffd321;
+}
+.detail_title {
+  color: #000;
+  font-size: var(--font-size-bigger);
+  padding: 0 0.28rem 0 0.28rem;
+}
+.prize_switch {
+  width: 1rem;
+  height: 0.55rem;
 }
 </style>
 

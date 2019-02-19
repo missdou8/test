@@ -166,9 +166,13 @@ export default {
 <style scoped>
 .detail_cell {
   background-color: #fff;
+  color: #b8b8b8;
   display: flex;
   padding: 0.25rem 0;
   position: relative;
+}
+.detail_cell input::placeholder {
+  color: #b8b8b8;
 }
 .detail_cell::after {
   content: "";
@@ -230,6 +234,9 @@ export default {
   flex-grow: 1;
 }
 .detail_img_content span {
+  background: url("../../../assets/add_prize_img.png") no-repeat;
+  background-size: 0.44rem 0.38rem;
+  background-position: 1px 1px;
   padding-left: 0.5rem;
 }
 .detail_img {
