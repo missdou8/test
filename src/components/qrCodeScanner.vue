@@ -98,7 +98,7 @@ export default {
             }
           });
         });
-        wx.error(function(res){
+        wx.error((res)=>{
             this.$dialog.confirm({
               message: res+'，请退出后重新扫描，或者前往输入兑奖码'
             }).then(() => {
