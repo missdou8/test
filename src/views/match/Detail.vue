@@ -112,7 +112,32 @@ export default {
         this.$store.commit("setAttendStyle", att);
         this.$store.commit("setIfSave", true);
         this.$store.commit("setPrizeCover", this.matchData.prizes.img);
-        this.$store.commit("setRankPrizes", this.matchData.prizes.rankingSet);
+        if (this.matchData.prizes.rankingSet.length == 0) {
+          this.$store.commit("setRankPrizes", [
+            {
+              beginRank: 1,
+              endRank: 1,
+              ispartInPrize: 0,
+              prizes: [
+                {
+                  name: null,
+                  price: null,
+                  prizeCount: null,
+                  icon: null
+                }
+              ]
+            }
+          ]);
+        } else {
+          this.$store.commit("setRankPrizes", this.matchData.prizes.rankingSet);
+        }
+        if (!this.matchData.prizes.parSet) {
+          this.$store.commit("setPartSet", [
+            { name: null, price: null, prizeCount: null, icon: null }
+          ]);
+        } else {
+          this.$store.commit("setPartSet", this.matchData.prizes.parSet);
+        }
         this.$store.commit("setSendStyle", this.matchData.prizes.type);
         let userInfo = this.matchData.prizes;
         this.$store.commit("setgainPrizeAddress", {
