@@ -15,7 +15,7 @@
         <img ref="frame" id="frame" src="">
       </main>
     </div>
-    <div class="app__overlay">
+    <div ref="app__overlay" class="app__overlay">
       <div class="app__overlay-frame"></div>
       <div ref="custom_scanner" class="custom-scanner"></div>
       <div class="app__help-text"></div>
@@ -114,6 +114,7 @@ export default {
     getHtmlScanner(){
       this.mobile = true;
       this.$refs.app__layout.style.display = 'block';
+      this.$refs.app__overlay.style.display = 'block';
       //如果没有错误的时候显示扫描动画(需要有一个缓冲时间)
       this.Time3 = setTimeout(()=>{
         if (this.error == '') this.$refs.custom_scanner.style.display = 'block';
@@ -151,6 +152,7 @@ export default {
     },
     cancel(){
       this.$refs.app__layout.style.display = 'none';
+      this.$refs.app__overlay.style.display = 'none';
       this.$refs.custom_scanner.style.display = 'none';
     }
   }
@@ -231,9 +233,12 @@ video {
   height: 320px;
   margin: auto;
   z-index: 2000;
+  display: none;
 }
 
-
+img.app__overlay{
+  display: block;
+}
 .app__help-text{
   color: #fff;
   position: absolute;

@@ -3,6 +3,8 @@
     <dida-location
       class="location_box"
       ref="location"
+      :longitude="longitude"
+      :latitude="latitude"
       @getResData="getResData($event)"
       @getLngAndlat="getLngAndlat($event)"
     ></dida-location>
@@ -44,7 +46,8 @@ export default {
       show: false,
       areaList: {},
       longitude: null, //经度
-      latitude: null //维度
+      latitude: null, //维度
+      locationArr:[],//定位数组
     };
   },
   computed: {
@@ -60,13 +63,13 @@ export default {
     this.address = this.$route.query.address;
     this.areaId = this.$route.query.areaId;
     this.areaMsg = this.$route.query.regionName;
+    this.longitude = this.$route.query.longitude;
+    this.latitude  = this.$route.query.latitude;
   },
   mounted() {
-    console.log(this.areaId)
     if (this.areaId == "") this.areaMsg = "请选择 请选择 请选择";
     else {
       let _value = this.$refs.van_area.getValues();
-      console.log(_value);
       this.onConfirm(_value, false);
     }
   },

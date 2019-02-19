@@ -111,8 +111,9 @@ export default {
 }
 .img_box img{
     width: 90%;
-    min-width: 1rem;
+    height: 90%;
     max-width: 1.3rem;
+    max-height: 1.3rem;
 }
 .prize_hd p{
     font-size: .3rem;
