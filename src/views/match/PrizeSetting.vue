@@ -44,10 +44,10 @@ export default {
      * 通过index从本地缓存中初始化数据
      * 初始化一个当前的数据用来修改和设置
      */
-    let data = JSON.parse(
-      JSON.stringify(this.rankPrizes[this.$route.query.index])
-    );
     if (!this.currentData) {
+      let data = JSON.parse(
+        JSON.stringify(this.rankPrizes[this.$route.query.index])
+      );
       this.prizeData = data;
       this.$store.commit("setCurrentRankData", data);
     } else {
@@ -110,7 +110,12 @@ export default {
         }
       }
       //保存的是所有的奖品信息
-      this.rankPrizes[this.$route.query.index] = this.prizeData;
+      if (this.$route.query.isAdd != "add") {
+        this.rankPrizes[this.$route.query.index] = this.prizeData;
+      } else {
+        this.rankPrizes.splice(this.$route.query.index, 0, this.prizeData);
+      }
+
       this.$store.commit("setTotalPrizes", this.rankPrizes);
       this.$router.go(-1);
     },

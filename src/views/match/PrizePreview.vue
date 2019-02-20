@@ -191,7 +191,9 @@ export default {
           }
         }
       }
-      this.rankPrizes.splice(lastIndex, 0, {
+      // let tempData = JSON.parse(JSON.stringify(this.rankPrizes));
+      // tempData.splice(lastIndex, 0, );
+      this.$store.commit("setCurrentRankData", {
         beginRank: currentIndex,
         endRank: currentIndex,
         ispartInPrize: 0,
@@ -203,6 +205,13 @@ export default {
             icon: null
           }
         ]
+      });
+      this.$router.push({
+        path: "/match/style/prizepreview/prizesetting",
+        query: {
+          index: lastIndex,
+          isAdd: "add"
+        }
       });
     },
     typeSelect(data) {
