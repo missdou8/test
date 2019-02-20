@@ -55,7 +55,7 @@
             :edit="false"
           ></prize-cell>
         </div>
-        <div v-show="attendPrizes.length">
+        <div class="attend_prize" v-show="attendPrizes.length">
           <p class="prize_header">
             <span class="game_tag"></span>
             <span>参与奖</span>
@@ -445,6 +445,7 @@ a {
 }
 .prize {
   margin-top: 0.2rem;
+  background-color: #fff;
 }
 .prize_header {
   background-color: #fff;
@@ -502,10 +503,11 @@ a {
 }
 .cell {
   background-color: #fff;
-  padding: 0.1rem 0.36rem;
+  margin: 0.1rem 0.36rem;
   position: relative;
+  border: 1px solid #d8d8d8;
 }
-.cell::after {
+/* .cell::after {
   content: "";
   position: absolute;
   bottom: 0;
@@ -514,7 +516,7 @@ a {
   background-color: #d9d9d9;
   transform-origin: 0 0;
   transform: scaleY(0.5);
-}
+} */
 .attend_cell {
   padding-left: 1.72rem;
 }
@@ -547,5 +549,8 @@ a {
   color: #249cf4;
   padding-left: 0.5rem;
   margin-left: 0.3rem;
+}
+.attend_prize {
+  padding-bottom: 0.1rem;
 }
 </style>

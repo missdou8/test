@@ -287,7 +287,7 @@ export default {
       //   return this.$toast("参与奖没有填写 ");
       // }
       if (!this.rankPrizes[0].prizes[0].name) {
-        return this.$dialog
+        return this.$dialog1
           .confirm({
             message: "您未添加奖品信息，无人获奖哦！",
             confirmButtonText: "继续添加",

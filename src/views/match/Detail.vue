@@ -145,7 +145,9 @@ export default {
           regionName: userInfo.regionName,
           provinceId: userInfo.provinceId,
           cityId: userInfo.cityId,
-          areaId: userInfo.areaId
+          areaId: userInfo.areaId,
+          latitude: userInfo.latitude,
+          longitude: userInfo.longitude
         });
       });
   },

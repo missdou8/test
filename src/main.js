@@ -12,6 +12,9 @@ import './style/base.css'
 
 //导入配置
 import config from './config/index.js'
+import Dialog2 from './components/confirm/vipPop'
+
+Vue.use(Dialog2)
 
 Vue.prototype.config = config
 
