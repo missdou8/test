@@ -18,6 +18,7 @@
                         }"
                     >{{prizeDetail[key]}}</span>
                     </li>
+                    <li v-if='status==3'>兑奖时间 : <span>{{exchangeTime}}</span></li>
                 </ul>
                 <van-button v-if='status!=3' class='btn' size="large" @click="submit()">确认取货</van-button>
             </div>
@@ -40,9 +41,9 @@ export default {
             match_ranking:'比赛名次',
             prize_type:'获取方式',
             merchantName:'商家名称',
-            prize_pickupCode:'兑  奖 码 ',
-            exchangeTime:'兑奖时间'
+            prize_pickupCode:'兑  奖 码 '
         },
+        exchangeTime:'',   //默认为0
         status:1,  //取货状态   1未取货 3取货
     };
   },
@@ -61,8 +62,8 @@ export default {
     this.prizeDetail.merchantName     = Detail.merchantName||''
     this.prizeDetail.prize_pickupCode = Detail.prize.pickupCode||''
     // 根据领取情况来显示领取标记
-    this.status = Detail.prize.status
-    this.prizeDetail.exchangeTime = timeFormate(Detail.prize.time * 1000, "YY/MM/DD HH:mm:ss");
+    this.status = Detail.prize.status; //是否领过奖品
+    this.exchangeTime = Detail.exchangeTime;
   },
   methods: {
       submit(){
@@ -77,9 +78,11 @@ export default {
             //更新状态
             setTimeout(()=>{
                 this.status = 3;
+                this.exchangeTime = timeFormate(res.data.time * 1000, "YY/MM/DD HH:mm:ss");
                 //更新本地存储状态，防止刷新页面数据还原
                 let Detail = this.$store.state.prizes.prizeDetail
                 Detail.prize.status = 3;
+                Detail.exchangeTime = this.exchangeTime;
                 this.$store.commit("setprizeDetail", Detail);
             },2000)
         });
