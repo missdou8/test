@@ -5,9 +5,9 @@
         <img :src="cellData.icon || defaultPrizeIcon" alt>
       </div>
       <div class="cell_desc">
-        <p>{{cellData.name || '暂无奖品'}}</p>
+        <p>{{cellData.name || '奖品名称无'}}</p>
         <p class="detail_num">
-          <span>{{cellData.prizeCount || 0}}</span>
+          <span>{{cellData.prizeCount || '数量无'}}</span>
         </p>
       </div>
     </div>

@@ -75,7 +75,8 @@
           <div class="address">
             <p class="address_type">{{sendType[prizes.type]}}</p>
             <p class="address_detail">{{prizes.regionName}} {{prizes.address}}</p>
-            {{prizes.contact || '默认名称'}} {{prizes.mobile || 15388888888}}
+            {{prizes.contact || '默认名称'}}
+            <span class="match_mobile">{{prizes.mobile}}</span>
           </div>
         </div>
       </div>
@@ -539,5 +540,12 @@ a {
 }
 .address_detail {
   padding-top: 0.1rem;
+}
+.match_mobile {
+  background: url("../assets/address_phone.png") no-repeat;
+  background-size: 0.4rem 0.4rem;
+  color: #249cf4;
+  padding-left: 0.5rem;
+  margin-left: 0.3rem;
 }
 </style>

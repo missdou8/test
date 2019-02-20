@@ -10,8 +10,8 @@
               <img class="cell_content_icon" :src="item.icon || defaultPrizeIcon" alt>
             </div>
             <div class="cell_desc">
-              <p>{{item.name || '暂无奖品'}}</p>
-              <p class="detail_num">{{item.prizeCount || 0}}</p>
+              <p>{{item.name || '奖品名称无'}}</p>
+              <p class="detail_num">{{item.prizeCount || '数量无'}}</p>
             </div>
           </div>
           <div class="pull_down" v-if="showMore">
