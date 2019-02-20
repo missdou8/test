@@ -5,7 +5,7 @@
                 <div class="img_box">
                     <img :src="prizeDetail.prize_img" alt="">
                 </div>
-                <p>{{prizeDetail.prize_name}} <span>x</span> {{prizeDetail.prize_num}}</p>
+                <div><p class="goods_name">{{prizeDetail.prize_name}}</p> <span>x</span> {{prizeDetail.prize_num}}</div>
             </div>
             <div class="prize_bd">
                 <img class="sign" v-if="status==3" src="../../../assets/wode_ylq.png" alt="">
@@ -63,7 +63,8 @@ export default {
     this.prizeDetail.prize_pickupCode = Detail.prize.pickupCode||''
     // 根据领取情况来显示领取标记
     this.status = Detail.prize.status; //是否领过奖品
-    this.exchangeTime = Detail.exchangeTime;
+    if(Detail.exchangeTime) this.exchangeTime = Detail.exchangeTime
+    else this.exchangeTime = timeFormate(Detail.prize.time * 1000, "YY/MM/DD HH:mm:ss");
   },
   methods: {
       submit(){
@@ -121,11 +122,11 @@ export default {
     max-width: 1.3rem;
     max-height: 1.3rem;
 }
-.prize_hd p{
+.prize_hd div{
     font-size: .3rem;
     color: #000;
 }
-.prize_hd p span{
+.prize_hd div span{
     margin:0 .1rem;
 }
 .prize_bd {
@@ -167,5 +168,13 @@ export default {
     height: 1.6rem;
     right: .4rem;
     top: -1.2rem;
+}
+.goods_name{
+    max-width: 100px;
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    vertical-align: bottom;
 }
 </style>
