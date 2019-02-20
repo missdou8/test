@@ -43,14 +43,16 @@
             @click="showAlert(prize.id)"
             :disabled="prize.receiving.status!=1||shipInfoArr.indexOf(prize.id)!=-1"
           >{{shipInfoArr.indexOf(prize.id)!=-1?'已发货':prize.btnText}}</van-button>
-          <van-button
+          <!-- 自提奖品只显示结果 -->
+          <van-button v-if='prize.receiving.status==3&&prize.prize.type != 0' class="btn outbtn" size="small">已取出</van-button>
+          <!-- <van-button
             v-else
             class="btn"
             size="small"
             @click="showPopup(prize.id)"
             :class="{'gobtn':prize.receiving.status==1,'outbtn':prize.receiving.status==3||pickUpPrizeArr.indexOf(prize.id)!=-1}"
             :disabled="prize.receiving.status!=1||pickUpPrizeArr.indexOf(prize.id)!=-1"
-          >{{pickUpPrizeArr.indexOf(prize.id)!=-1?'已取出':prize.btnText}}</van-button>
+          >{{pickUpPrizeArr.indexOf(prize.id)!=-1?'已取出':prize.btnText}}</van-button> -->
         </div>
       </van-panel>
     </dida-list>
