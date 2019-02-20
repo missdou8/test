@@ -161,9 +161,8 @@ export default {
     width: 100%;
     border: none;
     outline: none;
-    line-height: .6rem;
     border-radius: .6rem;
-    text-align: center;
+    padding: .1rem .4rem;
   }
   #container{
     width: 100%;
