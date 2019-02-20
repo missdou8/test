@@ -116,18 +116,20 @@ export default {
       this.$refs.app__layout.style.display = 'block';
       this.$refs.app__overlay.style.display = 'block';
       //如果没有错误的时候显示扫描动画(需要有一个缓冲时间)
-      this.Time3 = setTimeout(()=>{
+      window.Time3 = setTimeout(()=>{
         if (this.error == '') this.$refs.custom_scanner.style.display = 'block';
         //清除定时器
-        window.clearTimeout(this.Time3)
+        clearTimeout(window.Time3)
       },200)
       //当使用相机扫描的时候1s去检测一次
-      this.Time1 = setInterval(()=>{
+      window.Time1 = window.setInterval(()=>{
         //判断是不是空不为空的话返回信息并清除定时器
         if(this.result!=''){
           //将扫描得到的内容抛出
           this.$emit("getCode", this.result);
-          window.clearInterval(this.Time1)
+          this.mobile = false;
+          clearInterval(window.Time1)
+          this.cancel();
         }
       },1000)
     },
@@ -143,10 +145,10 @@ export default {
         this.$refs.frame.src = URL.createObjectURL(event.target.files[0]);
         this.$refs.custom_scanner.style.display = 'block';
         // 延迟一秒后输出解析数据
-        this.Time2 = setTimeout(()=>{
+        window.Time2 = setTimeout(()=>{
           //将扫描得到的内容抛出
           this.$emit("getCode", this.result);
-          window.clearTimeout(this.Time2)
+          clearTimeout(window.Time2)
         },1000)
       });
     },
