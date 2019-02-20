@@ -7,9 +7,9 @@
           <span>客服</span>
         </div>
         <div>
-          <router-link class="unread" to="/user/exchange">
+          <a class="unread" href="/front/user/exchange">
             <span v-show="userInfo.unreadPrizesCount != 0 "></span>
-          </router-link>
+          </a>
           <span>兑奖</span>
         </div>
         <div>
