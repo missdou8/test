@@ -3,7 +3,6 @@ import Detail from '../views/match/Detail.vue'
 import Create from '../views/match/Create.vue'
 import MatchStyle from '../views/match/MatchStyle.vue'
 import MathchEdit from '../views/match/MathchEdit.vue'
-import Prize from '../views/match/Prize.vue'
 import PrizeAddress from '../views/match/PrizeAddress.vue'
 import Share from '../views/match/Share.vue'
 import WinnerList from '../views/match/WinnerList.vue'
@@ -53,13 +52,6 @@ const MATCH_ROUTERS = [
     }
   },
   {
-    path: '/match/style/prize',
-    component: Prize,
-    meta: {
-      title: '填写奖品信息'
-    }
-  },
-  {
     path: '/match/style/prizepreview',
     component: PrizePreview,
     meta: {
@@ -77,7 +69,7 @@ const MATCH_ROUTERS = [
     path: '/match/style/prizepreview/attendsetting',
     component: AttendSetting,
     meta: {
-      title: '编辑比赛名次'
+      title: '编辑参与奖'
     }
   },
   {

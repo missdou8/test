@@ -1,5 +1,5 @@
 <template>
-  <div class="cell">
+  <div class="cell" :class="{cell_no: !cellData.name}">
     <div class="detail_cell">
       <div class="content_img-container">
         <img :src="cellData.icon || defaultPrizeIcon" alt>
@@ -28,7 +28,7 @@ export default {
 
 <style scoped>
 .cell {
-  padding-top: 0.24rem;
+  padding: 0.12rem;
   position: relative;
 }
 .content_img-container {
@@ -64,6 +64,10 @@ export default {
   font-size: var(--font-size-smaller);
   display: flex;
   justify-content: space-between;
+}
+.cell_no {
+  background-color: #f9f9f9;
+  border: 1px dashed #d8d8d8;
 }
 </style>
 

@@ -53,12 +53,10 @@
 import { mapState } from "vuex";
 import RadioBtn from "../../components/RadioBtn.vue";
 import { timeFormate } from "lputils";
-import Prize from "../../views/match/Prize.vue";
 
 export default {
   components: {
-    RadioBtn,
-    Prize
+    RadioBtn
   },
   data() {
     return {

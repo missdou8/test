@@ -17,7 +17,6 @@ const match = {
     attendCurrentRankData: null,
     totalPrizes: null,
     attendTotalPrizes: null,
-    rankPrize: [],
     sendStyle: '', //邮寄方式
     sendAddress: {},
     gameName: { id: 0, name: '未选择' }, //游戏名字
@@ -34,9 +33,6 @@ const match = {
     },
     setAttendPerson(state, num) {
       state.attendPerson = num
-    },
-    setRankPrize(state, arr) {
-      state.rankPrize = arr
     },
     setRankPrizes(state, arr) {
       state.rankPrizes = arr

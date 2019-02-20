@@ -1,7 +1,7 @@
 <template>
   <div id="GetLocation">
     <div class="input_box">
-      <input id="pickerInput" placeholder= "输入关键字选取地点"/>
+      <input id="pickerInput" placeholder="输入关键字选取地点">
     </div>
     <div id="container"></div>
   </div>
@@ -19,20 +19,20 @@ export default {
   created() {
     //提供一个缓冲定位时间
     this.$toast.loading({
-      duration: 0,       // 持续展示 toast
+      duration: 0, // 持续展示 toast
       forbidClick: true, // 禁用背景点击
-      message: "定位中..." 
+      message: "定位中..."
     });
     //直接调用定位
     setTimeout(() => {
       //如果有经纬度则按照经纬度定位，如果没有则当前定位
-      if(this.longitude&&this.latitude){
-        this.dragSiteSelection(15,[this.longitude,this.latitude])
-      }else{
-        this.getLocation()
+      if (this.longitude && this.latitude) {
+        this.dragSiteSelection(15, [this.longitude, this.latitude]);
+      } else {
+        this.getLocation();
       }
       //开启搜索定位
-      this.searchSiteSelection()
+      this.searchSiteSelection();
     }, 1000);
   },
   methods: {
@@ -63,8 +63,10 @@ export default {
       //解析定位结果
       function onComplete(data) {
         // 获取经纬度来在地图上显示位置
-        _this.dragSiteSelection(15, [data.position.getLng(),data.position.getLat()])
-
+        _this.dragSiteSelection(15, [
+          data.position.getLng(),
+          data.position.getLat()
+        ]);
       }
       //解析定位错误信息
       function onError(data) {
@@ -72,73 +74,75 @@ export default {
         _this.$toast("定位失败请输入详细地址搜索定位");
       }
     },
-    setLngAndlat(city){
+    setLngAndlat(city) {
       let _this = this;
       let map = new AMap.Map("container", {
-          resizeEnable: true
+        resizeEnable: true
       });
-      let placeSearch = new AMap.DistrictSearch();  //构造地点查询类
+      let placeSearch = new AMap.DistrictSearch(); //构造地点查询类
       //详情查询
       placeSearch.search(city, function(status, result) {
-        if (status === 'complete' && result.info === 'OK') {
-            let data = [
-              result.districtList[0].center.lng, //经度
-              result.districtList[0].center.lat  //维度
-            ]
-            _this.dragSiteSelection(15, data)
-            _this.$emit("getLngAndlat", data);
-          }
+        if (status === "complete" && result.info === "OK") {
+          let data = [
+            result.districtList[0].center.lng, //经度
+            result.districtList[0].center.lat //维度
+          ];
+          _this.dragSiteSelection(15, data);
+          _this.$emit("getLngAndlat", data);
+        }
       });
     },
     //通过搜索来获取定位信息
-    searchSiteSelection(){
-        let that = this
-        AMapUI.loadUI(['misc/PoiPicker'], function (PoiPicker) {
-            let poiPicker = new PoiPicker({
-                input: 'pickerInput'
-            });
-            //初始化poiPicker    
-            window.poiPicker = poiPicker;
-            //选取了某个POI
-            poiPicker.on('poiPicked', function (poiResult) {
-                let poi = poiResult.item.location.toString().split(",");
-                that.dragSiteSelection(15, poi)
-            });
+    searchSiteSelection() {
+      let that = this;
+      AMapUI.loadUI(["misc/PoiPicker"], function(PoiPicker) {
+        let poiPicker = new PoiPicker({
+          input: "pickerInput"
         });
+        //初始化poiPicker
+        window.poiPicker = poiPicker;
+        //选取了某个POI
+        poiPicker.on("poiPicked", function(poiResult) {
+          let poi = poiResult.item.location.toString().split(",");
+          that.dragSiteSelection(15, poi);
+        });
+      });
     },
     //拖拽位置选择(可以根据经纬度来显示初始化位置)
-    dragSiteSelection(zoom, center){
-        let tant = this
-        AMapUI.loadUI(['misc/PositionPicker'], function (PositionPicker) {
-            let map = new AMap.Map('container', {
-                zoom: zoom,
-                resizeEnable: true,
-                center: center
-            })
-            let positionPicker = new PositionPicker({
-                mode: 'dragMap',//设定为拖拽地图模式，可选'dragMap[拖拽地图]'、'dragMarker[拖拽点]'，默认为'dragMap'
-                map: map,
-            });
-            positionPicker.on('success', function (positionResult) {
-                //定位成功的时候关闭lading
-                tant.$toast.clear();
-                let resData = {
-                    longitude: positionResult.position.lng,   // 经度
-                    latitude: positionResult.position.lat,   // 维度
-                    detailAddress: positionResult.address||"请输入详细地址",    // 详细地址
-                }
-                if(positionResult.regeocode.addressComponent.adcode) resData.detailAreaCode = positionResult.regeocode.addressComponent.adcode
-                else resData.detailAreaCode = "";
-                //抛出一个方法用来进行数据操作
-                tant.$emit("getResData", resData);
-            });
-            positionPicker.on('fail', function (positionResult) {
-                tant.$toast.clear();
-                // 海上或海外无法获得地址信息
-                tant.$toast("选址失败请稍后重试");
-            });
-            positionPicker.start();
+    dragSiteSelection(zoom, center) {
+      let tant = this;
+      AMapUI.loadUI(["misc/PositionPicker"], function(PositionPicker) {
+        let map = new AMap.Map("container", {
+          zoom: zoom,
+          resizeEnable: true,
+          center: center
         });
+        let positionPicker = new PositionPicker({
+          mode: "dragMap", //设定为拖拽地图模式，可选'dragMap[拖拽地图]'、'dragMarker[拖拽点]'，默认为'dragMap'
+          map: map
+        });
+        positionPicker.on("success", function(positionResult) {
+          //定位成功的时候关闭lading
+          tant.$toast.clear();
+          let resData = {
+            longitude: positionResult.position.lng, // 经度
+            latitude: positionResult.position.lat, // 维度
+            detailAddress: positionResult.address || "请输入详细地址" // 详细地址
+          };
+          if (positionResult.regeocode.addressComponent.adcode)
+            resData.detailAreaCode =
+              positionResult.regeocode.addressComponent.adcode;
+          else resData.detailAreaCode = "";
+          //抛出一个方法用来进行数据操作
+          tant.$emit("getResData", resData);
+        });
+        positionPicker.on("fail", function(positionResult) {
+          tant.$toast.clear();
+          // 海上或海外无法获得地址信息
+          tant.$toast("选址失败请稍后重试");
+        });
+        positionPicker.start();
+      });
     }
   }
 };
@@ -171,17 +175,17 @@ export default {
 </style>
 
 <style>
-
-#GetLocation .amap-logo,#GetLocation .amap-copyright{
-  display:none!important;
+#GetLocation .amap-logo,
+#GetLocation .amap-copyright {
+  display: none !important;
 }
-#GetLocation .dock-bottom{
+#GetLocation .dock-bottom {
   text-align: left;
 }
-#GetLocation .amap-ui-poi-picker-sugg-container{
+#GetLocation .amap-ui-poi-picker-sugg-container {
   height: 4.6rem;
-  width: 100%!important;
-  left: 0!important;
-  top: .8rem!important;
+  width: 100% !important;
+  left: 0 !important;
+  top: 0.8rem !important;
 }
 </style>

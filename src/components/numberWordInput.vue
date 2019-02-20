@@ -78,9 +78,7 @@ export default {
   height: 1px;
   border-top: 1px solid #e5e5e5;
   color: #e5e5e5;
-  -webkit-transform-origin: 0 0;
   transform-origin: 0 0;
-  -webkit-transform: scaleY(0.5);
   transform: scaleY(0.5);
 }
 

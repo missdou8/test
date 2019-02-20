@@ -1,9 +1,8 @@
 <template>
-  <div class="cell">
+  <div class="cell" :class="{cell_no: !truePrizes[0].name,
+  cell_yes: truePrizes[0].name && edit}">
     <div class="cell_content_group">
-      <span
-        class="cell_rank"
-      >第{{cellData.beginRank}}{{cellData.beginRank != cellData.endRank ? `-${cellData.endRank}`: ''}}名</span>
+      <span class="cell_rank">{{rank}}</span>
       <div class="cell_content">
         <div class="content_detail">
           <div class="detail_cell" v-for="(item, index) in truePrizes" :key="`prize${index}`">
@@ -62,9 +61,24 @@ export default {
   },
   computed: {
     total() {
-      return this.cellData.prizes.reduce((prev, cur) => {
+      let single = this.cellData.prizes.reduce((prev, cur) => {
         return prev + Number(cur.price) * Number(cur.prizeCount);
       }, 0);
+      return single * (this.cellData.endRank - this.cellData.beginRank + 1);
+    },
+    rank() {
+      if (
+        (this.cellData.beginRank == this.cellData.endRank) == 1 &&
+        !this.cellData.prizes[0].name
+      ) {
+        return "名次无";
+      } else {
+        return `第${this.cellData.beginRank}${
+          this.cellData.beginRank != this.cellData.endRank
+            ? -this.cellData.endRank
+            : ""
+        }名`;
+      }
     }
   },
   methods: {
@@ -84,6 +98,13 @@ export default {
 .cell {
   padding: 0.24rem 0;
   position: relative;
+}
+.cell_no {
+  background-color: #f9f9f9;
+  border: 1px dashed #d8d8d8;
+}
+.cell_yes {
+  border: 1px solid #d8d8d8;
 }
 .cell_content_group {
   display: flex;

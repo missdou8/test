@@ -1,21 +1,24 @@
 <template>
   <div id="number">
-    <div
-      :class="{ min_player: attendPerson-1 == index &&type!='count'}"
-      :id="index"
-      v-for="(item,index) in 10000"
-      :key="`${index}`"
-      @click="select(item)"
-      value="开赛人数"
-    >
-      <p
-        :class="{
+    <van-list class="list" v-model="loading" :finished="finished" finished-text @load="onLoad">
+      <div
+        class="list_item"
+        :class="{ min_player: attendPerson-1 == index &&type!='count'}"
+        :id="index"
+        v-for="(item,index) in numTotal"
+        :key="`${index}`"
+        @click="select(item)"
+        value="开赛人数"
+      >
+        <p
+          :class="{
       disable: item<= fromIndex && type!='count',
       show_select: index == selected,
      
     }"
-      >{{item}}</p>
-    </div>
+        >{{item}}</p>
+      </div>
+    </van-list>
   </div>
 </template>
 
@@ -27,7 +30,10 @@ export default {
     return {
       fromIndex: 1,
       selected: -1,
-      type: ""
+      type: "",
+      loading: false,
+      finished: false,
+      numTotal: 0
     };
   },
   computed: {
@@ -40,12 +46,23 @@ export default {
       }
     })
   },
-  mounted() {
+  created() {
     this.fromIndex = this.$route.query.fromIndex;
+    this.numTotal = (Math.ceil(this.fromIndex / 101) + 1) * 101;
+  },
+  mounted() {
     this.type = this.$route.query.type;
     location.href = `#${this.fromIndex - 8}`;
   },
   methods: {
+    onLoad() {
+      console.log("你好");
+      this.loading = false;
+      if (this.numTotal >= 9900) {
+        return (this.finished = true);
+      }
+      this.numTotal += 101;
+    },
     select(item) {
       if (item <= this.fromIndex && this.type != "count") {
         return;
@@ -80,7 +97,7 @@ export default {
   overflow: auto;
   color: #000;
 }
-#number div {
+#number .list_item {
   margin: 0.2rem 0;
   height: 0.42rem;
   line-height: 0.42rem;
@@ -115,6 +132,11 @@ export default {
   line-height: 0.27rem;
   color: #d83c3c;
   width: 1rem;
+}
+.list {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>
 

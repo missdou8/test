@@ -1,7 +1,7 @@
 <template>
   <div class="prize_preview">
     <section>
-      <h1>名次奖</h1>
+      <h1 class="preview_title">名次奖</h1>
       <prize-cell
         class="cell"
         :class="{error: errorArr.includes(index)}"
@@ -17,7 +17,7 @@
     </section>
     <section>
       <div class="attend_prize">
-        <span>参与奖</span>
+        <span class="preview_title">参与奖</span>
         <button class="cell_edit" @click="toAttendEdit"></button>
       </div>
       <attend-cell
@@ -29,8 +29,14 @@
       <p class="attend_total">共{{attendTotal}}元</p>
     </section>
     <section class="send" :class="{cannot: !rankPrizes[0].prizes[0].name}">
-      <h1 class="send_title">领奖方式</h1>
-      <radio-btn class="send_type" :data="sendStyle" @select="typeSelect" :selected="sendType"></radio-btn>
+      <h1 class="preview_title">领奖方式</h1>
+      <radio-btn
+        class="send_type"
+        :class="{send_type_no: !rankPrizes[0].prizes[0].name}"
+        :data="sendStyle"
+        @select="typeSelect"
+        :selected="sendType"
+      ></radio-btn>
       <div class="address" v-show="addressShow > 0">
         <p class="address_title">请选择自提地址</p>
         <van-cell
@@ -128,7 +134,10 @@ export default {
         if (index === 0) {
           continue;
         } else {
-          if (rankPrize.beginRank != this.rankPrizes[index - 1].endRank + 1) {
+          if (
+            rankPrize.beginRank !=
+            Number(this.rankPrizes[index - 1].endRank) + 1
+          ) {
             errorArr.push(index);
           }
         }
@@ -142,12 +151,12 @@ export default {
     this.address = gainPrizeAddress.regionName + gainPrizeAddress.address;
     if (gainPrizeAddress.contact) {
       return (this.contact =
-        gainPrizeAddress.contact + " " + gainPrizeAddress.mobile);
+        gainPrizeAddress.contact + " " + String(gainPrizeAddress.mobile));
     }
     this.contact =
       this.$store.state.user.userInfo.name +
       " " +
-      this.$store.state.user.userInfo.mobile;
+      String(this.$store.state.user.userInfo.mobile);
   },
   mounted() {
     this.addressShow = this.$store.state.match.sendStyle;
@@ -160,15 +169,22 @@ export default {
        * 当前名次正确，取最后一名
        */
       let currentIndex =
-        this.rankPrizes[this.rankPrizes.length - 1].endRank + 1;
+        Number(this.rankPrizes[this.rankPrizes.length - 1].endRank) + 1;
       let lastIndex = this.rankPrizes.length;
       for (let index = 0; index < this.rankPrizes.length; index++) {
         const rankPrize = this.rankPrizes[index];
         if (index === 0) {
-          continue;
+          if (rankPrize.beginRank > 1) {
+            currentIndex = 1;
+            lastIndex = 0;
+            break;
+          }
         } else {
-          if (rankPrize.beginRank != this.rankPrizes[index - 1].endRank + 1) {
-            currentIndex = this.rankPrizes[index - 1].endRank + 1;
+          if (
+            rankPrize.beginRank !=
+            Number(this.rankPrizes[index - 1].endRank) + 1
+          ) {
+            currentIndex = Number(this.rankPrizes[index - 1].endRank) + 1;
             lastIndex = index;
           }
         }
@@ -204,7 +220,10 @@ export default {
       }
     },
     toAddress() {
-      this.$router.push("prize/address");
+      this.$router.push({
+        path: "prize/address",
+        query: { type: this.addressShow }
+      });
     },
     toEdit(index) {
       /**
@@ -234,6 +253,9 @@ export default {
       });
     },
     saveClick() {
+      if (this.errorArr.length > 0) {
+        return this.$toast("奖品名次存在错误");
+      }
       /**
        * 判断有无奖品
        * 如果有参与奖，那么参与奖需要设置
@@ -241,16 +263,21 @@ export default {
        */
       let attendFlag = false;
       let fullFilled = false;
-      for (const rankPrize of this.rankPrizes) {
+
+      if (this.rankPrizes.length > 1 && !this.rankPrizes[0].prizes[0].name) {
+        fullFilled = true;
+      }
+
+      this.rankPrizes.forEach((rankPrize, index) => {
         if (rankPrize.ispartInPrize) {
           this.attendFlag = true;
         }
-        rankPrize.prizes.forEach((item, index) => {
+        rankPrize.prizes.forEach(item => {
           if (!item.name && index != 0) {
             fullFilled = true;
           }
         });
-      }
+      });
       if (fullFilled) {
         return this.$toast("您尚有奖品未填写");
       }
@@ -299,6 +326,9 @@ export default {
 </script>
 
 <style scoped>
+.cell {
+  margin-top: 0.15rem;
+}
 .prize_preview {
   display: flex;
   flex-direction: column;
@@ -307,21 +337,20 @@ export default {
 }
 section {
   background-color: #fff;
-  padding: 0.14rem;
+  padding: 0.14rem 0.17rem;
   margin-top: 0.2rem;
 }
 section h1 {
   font-size: var(--font-size-bigger);
 }
-/* 领奖方式 */
-.send_title {
-  font-size: 0.3rem;
-  padding: 0.18rem 0;
-}
 .send_type {
   display: flex;
   justify-content: space-around;
   padding: 0.3rem 0;
+}
+.send_type_no {
+  background-color: #f9f9f9;
+  border: 1px dashed #d8d8d8;
 }
 .send,
 .address {
@@ -371,7 +400,7 @@ section h1 {
 }
 .attend_total {
   text-align: right;
-  padding-right: 0.56rem;
+  padding-right: 0.18rem;
 }
 .error {
   background-color: #fff5f5;
@@ -380,11 +409,17 @@ section h1 {
 }
 .error::after {
   background-color: #fffbeb;
+  color: #ff0000;
   content: "该条名次信息有误，请重新编辑";
   display: block;
   padding-left: 0.2rem;
   height: 0.6rem;
   line-height: 0.6rem;
+}
+.preview_title {
+  color: 111;
+  font-size: 0.32rem;
+  margin-bottom: 0.1rem;
 }
 </style>
 

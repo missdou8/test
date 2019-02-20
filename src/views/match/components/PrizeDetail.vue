@@ -1,14 +1,15 @@
 <template>
   <div class="detail">
-    <div class="prize_rank detail_cell">
+    <div class="prize_rank">
       <div class="rank">
         <span class="detail_title">名次</span>
         <div class="detail_rank">
           第
-          <span class="rank_from">{{rankData.beginRank}}</span>名 —
+          <span class="rank_from">{{rankData.beginRank}}</span>名&emsp;— &emsp;
           <div :class="{canMutilple: mutipleChoose}">
             第
             <button
+              :class="{btn: rankData.endRank == rankData.beginRank}"
               @click="numInput('endRank',rankData.beginRank)"
             >{{rankData.endRank != rankData.beginRank ? rankData.endRank :'点击选择'}}</button>
             名
@@ -16,17 +17,13 @@
         </div>
       </div>
       <div class="rank_multiple">
-        <input
-          type="checkbox"
-          @change="mutipleClick"
-          :checked="rankData.endRank != rankData.beginRank"
-        >多人获得
+        <van-checkbox v-model="checked" checked-color="#07c160">多人选择</van-checkbox>
       </div>
     </div>
     <div class="mutiple_prize" v-for="(prize,index) in rankData.prizes" :key="`prize${index}`">
-      <div class="detail_cell">
+      <div class="detail_cell cell_name">
         <span class="detail_title">名称</span>
-        <input type="text" placeholder="请输入不超过15个字符" v-model="prize.name">
+        <input type="text" placeholder="请输入不超过15个字符" v-model="prize.name" maxlength="15">
       </div>
       <div class="detail_cell">
         <span class="detail_title">图片</span>
@@ -49,8 +46,12 @@
       </div>
       <div class="detail_cell">
         <span class="detail_title">数量</span>
-        <span v-if="prize.prizeCount" @click="numInput('count',1, index)">{{prize.prizeCount}}</span>
-        <button v-else @click="numInput('count',1, index)">点击选择</button>
+        <span
+          class="detail_count_num"
+          v-if="prize.prizeCount"
+          @click="numInput('count',1, index)"
+        >{{prize.prizeCount}}</span>
+        <button class="choose_btn" v-else @click="numInput('count',1, index)">点击选择</button>
       </div>
       <div class="detail_cell">
         <span class="detail_title">单价</span>
@@ -73,22 +74,32 @@ export default {
   data() {
     return {
       fromIndex: 0,
-      mutipleChoose: true
+      checked: false
     };
   },
   props: ["rankData"],
   computed: {
     deleteShow() {
       return this.rankData.prizes.length > 1;
+    },
+    mutipleChoose() {
+      return !this.checked;
     }
   },
   watch: {
     rankData() {
       if (this.rankData.endRank == this.rankData.beginRank) {
-        this.mutipleChoose = true;
+        this.checked = false;
       } else {
-        this.mutipleChoose = false;
+        this.checked = true;
       }
+    }
+  },
+  mounted() {
+    if (this.rankData.endRank == this.rankData.beginRank) {
+      this.checked = false;
+    } else {
+      this.checked = true;
     }
   },
   methods: {
@@ -106,21 +117,18 @@ export default {
         this.$route.meta.title = "请选择数量";
       }
     },
-    mutipleClick(event, value) {
-      let dom = event.target;
-      this.mutipleChoose = !dom.checked;
-    },
     addImg(event, index) {
       /**
        * 获取出当前的图片数据，然后修改数据
        */
       let dom = event.target;
       let file = dom.files[0];
-      this.compressAndUpload(file).then(imgSrc => {
-        let data = this.rankData;
-        data.prizes[index].icon = imgSrc;
-        this.rankData = data;
-      });
+      file &&
+        this.compressAndUpload(file).then(imgSrc => {
+          let data = this.rankData;
+          data.prizes[index].icon = imgSrc;
+          this.rankData = data;
+        });
     },
     changeImg(index) {
       this.$refs.detailImgContent[index].click();
@@ -134,7 +142,7 @@ export default {
       for (const key in data) {
         if (data.hasOwnProperty(key)) {
           const element = data[key];
-          if (!element && element !== 0) {
+          if (element) {
             flag = true;
           }
         }
@@ -149,6 +157,8 @@ export default {
           .then(() => {
             this.rankData.prizes.splice(index, 1);
           });
+      } else {
+        this.rankData.prizes.splice(index, 1);
       }
     }
   }
@@ -162,39 +172,52 @@ export default {
   display: flex;
   padding: 0.25rem 0;
   position: relative;
+  align-items: center;
 }
 .detail_cell::after {
   content: "";
   background-color: var(--border-color);
   position: absolute;
-  bottom: 0;
+  bottom: 0.01rem;
   right: 0;
-  height: 0.012rem;
-  width: 97%;
+  transform: scaleY(0.5);
+  transform-origin: 0 0;
+  height: 1px;
+  width: 96%;
+  z-index: 1;
 }
 
 .detail_title {
+  color: #000;
   font-size: var(--font-size-bigger);
-  padding: 0 0.4rem;
+  padding: 0 0.36rem 0 0.28rem;
 }
 .prize_rank {
+  background-color: #fff;
   flex-direction: column;
+  padding-top: 0.2rem;
 }
 .rank {
   display: flex;
 }
 .rank_multiple {
+  font-size: 0.32rem;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-right: 0.15rem;
+  padding: 0.2rem 0.16rem 0.06rem;
+}
+.rank_multiple input {
+  width: 0.38rem;
+  height: 0.38rem;
 }
 .detail_rank {
   display: flex;
+  font-size: 0.3rem;
 }
 .rank_from {
   display: inline-block;
-  width: 0.5rem;
+  width: 0.76rem;
   text-align: center;
 }
 .canMutilple {
@@ -210,6 +233,12 @@ export default {
   flex-basis: 0;
   flex-grow: 1;
 }
+.detail_img_content span {
+  background: url("../../../assets/add_prize_img.png") no-repeat;
+  background-size: 0.44rem 0.38rem;
+  background-position: 1px 1px;
+  padding-left: 0.5rem;
+}
 .detail_img {
   opacity: 0;
   width: 1rem;
@@ -218,7 +247,9 @@ export default {
   width: 5rem;
 }
 .detail_icon {
-  height: 0.42rem;
+  height: 1.38rem;
+  width: 1.38rem;
+  object-fit: contain;
 }
 .mutiple_prize {
   margin-top: 0.16rem;
@@ -232,6 +263,20 @@ export default {
   margin-right: 0.2rem;
   width: 0.35rem;
   vertical-align: top;
+}
+.cell_name input,
+.detail_count_num {
+  flex-grow: 1;
+}
+.btn {
+  border: 1px solid #ccc;
+  padding: 0 0.42rem;
+  font-size: 0.27rem;
+  margin: 0 0.2rem;
+}
+.choose_btn {
+  background-color: #fafafa;
+  padding: 0.02rem 2rem;
 }
 </style>
 

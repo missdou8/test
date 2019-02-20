@@ -23,7 +23,7 @@
         </div>
         <p class="header_info">
           <span class="header_info_type">{{config.attendType[match.signupType]}}</span>
-          <span class="header_info_send">{{prizes.type == 0 ? '邮寄': '自取'}}</span>
+          <span class="header_info_send">{{sendType[prizes.type]}}</span>
           <span class="header_info_game" @click="toRule">{{match.gameName}}</span>
           <span class="header_info_id">{{match.id}}</span>
           <!-- 如果是SNG比赛或者是MTT比赛切是循环 -->
@@ -68,11 +68,15 @@
           ></attend-cell>
         </div>
         <div v-show="prizes.type == 1">
-          <p class="prize_header">
+          <p class="prize_header prize_fetch">
             <span class="game_tag"></span>
-            <span>自提地址</span>
+            <span>领奖方式</span>
           </p>
-          <p class="address">{{prizes.regionName}} {{prizes.address}}</p>
+          <div class="address">
+            <p class="address_type">{{sendType[prizes.type]}}</p>
+            <p class="address_detail">{{prizes.regionName}} {{prizes.address}}</p>
+            {{prizes.contact || '默认名称'}} {{prizes.mobile || 15388888888}}
+          </div>
         </div>
       </div>
       <div class="detail">
@@ -127,7 +131,13 @@ export default {
       editShow: false,
       time: 0,
       timer: "",
-      icon: icon
+      icon: icon,
+      sendType: {
+        0: "邮寄",
+        1: "自取",
+        2: "",
+        3: "到店使用"
+      }
     };
   },
   components: {
@@ -356,7 +366,6 @@ a {
 }
 .header_info {
   position: relative;
-  margin-top: -0.1rem;
 }
 .header_info span {
   border-radius: 0.05rem;
@@ -470,7 +479,7 @@ a {
 }
 .address {
   background-color: #fff;
-  text-indent: 2em;
+  padding: 0 0.45rem;
 }
 .prize_section {
   background-color: #fffbeb;
@@ -498,12 +507,37 @@ a {
 .cell::after {
   content: "";
   position: absolute;
-  bottom: -0.01rem;
-  height: 0.02rem;
-  width: 80%;
+  bottom: 0;
+  height: 1px;
+  width: 90%;
   background-color: #d9d9d9;
+  transform-origin: 0 0;
+  transform: scaleY(0.5);
 }
 .attend_cell {
   padding-left: 1.72rem;
+}
+.prize_fetch {
+  position: relative;
+}
+.prize_fetch::after {
+  content: "";
+  background-color: var(--border-color);
+  position: absolute;
+  bottom: 0.15rem;
+  right: 0.2rem;
+  transform: scaleY(0.5);
+  transform-origin: 0 0;
+  height: 1px;
+  width: 92%;
+  z-index: 1;
+}
+.address_type {
+  color: #000;
+  font-size: 0.32rem;
+  padding-top: 0.1rem;
+}
+.address_detail {
+  padding-top: 0.1rem;
 }
 </style>

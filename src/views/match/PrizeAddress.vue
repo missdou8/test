@@ -5,6 +5,8 @@
       ref="location"
       @getResData="getResData($event)"
       @getLngAndlat="getLngAndlat($event)"
+      :longitude="longitude"
+      :latitude="latitude"
     ></dida-location>
     <van-cell-group class="address">
       <van-cell title="所在地区" :value="address" is-link @click="select"/>
@@ -33,6 +35,7 @@
 </template>
 
 <script>
+import { getUrlString } from "lputils";
 import cityCode from "../../service/cityCode.js";
 import didaLocation from "../../components/didaLocation.vue";
 export default {
@@ -92,6 +95,7 @@ export default {
       if (!this.mobile || !/^1[34578]\d{9}$/.test(this.mobile)) {
         return this.$toast("请输入正确的手机号");
       }
+      this.$store.commit("setSendStyle", Number(getUrlString("type")));
       this.$store.commit("setgainPrizeAddress", {
         address: this.subAddress,
         regionName: this.address,
@@ -120,6 +124,8 @@ export default {
       this.subAddress = gainPrizeAddress.address;
       this.contact = gainPrizeAddress.contact;
       this.mobile = gainPrizeAddress.mobile;
+      this.longitude = gainPrizeAddress.longitude;
+      this.latitude = gainPrizeAddress.latitude;
       this.$nextTick(() => {
         let _value = this.$refs.van_area.getValues();
         this.onConfirm(_value, true);
@@ -172,6 +178,6 @@ export default {
   height: 5.4rem;
 }
 .address_cell {
-  margin-top: 0.2rem;
+  margin-top: 0.18rem;
 }
 </style>
