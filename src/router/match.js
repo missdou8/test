@@ -69,7 +69,7 @@ const MATCH_ROUTERS = [
     path: '/match/style/prizepreview/attendsetting',
     component: AttendSetting,
     meta: {
-      title: '编辑比赛名次'
+      title: '编辑参与奖'
     }
   },
   {
