@@ -151,12 +151,12 @@ export default {
     this.address = gainPrizeAddress.regionName + gainPrizeAddress.address;
     if (gainPrizeAddress.contact) {
       return (this.contact =
-        gainPrizeAddress.contact + " " + gainPrizeAddress.mobile);
+        gainPrizeAddress.contact + " " + String(gainPrizeAddress.mobile));
     }
     this.contact =
       this.$store.state.user.userInfo.name +
       " " +
-      this.$store.state.user.userInfo.mobile;
+      String(this.$store.state.user.userInfo.mobile);
   },
   mounted() {
     this.addressShow = this.$store.state.match.sendStyle;

@@ -126,7 +126,6 @@ export default {
       this.mobile = gainPrizeAddress.mobile;
       this.longitude = gainPrizeAddress.longitude;
       this.latitude = gainPrizeAddress.latitude;
-      console.log(this.longitude);
       this.$nextTick(() => {
         let _value = this.$refs.van_area.getValues();
         this.onConfirm(_value, true);
