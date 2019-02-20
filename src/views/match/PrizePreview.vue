@@ -315,6 +315,9 @@ export default {
 </script>
 
 <style scoped>
+.cell {
+  margin-top: 0.15rem;
+}
 .prize_preview {
   display: flex;
   flex-direction: column;
@@ -395,6 +398,7 @@ section h1 {
 }
 .error::after {
   background-color: #fffbeb;
+  color: #ff0000;
   content: "该条名次信息有误，请重新编辑";
   display: block;
   padding-left: 0.2rem;

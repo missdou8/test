@@ -497,10 +497,12 @@ a {
 .cell::after {
   content: "";
   position: absolute;
-  bottom: -0.01rem;
-  height: 0.02rem;
-  width: 80%;
+  bottom: 0;
+  height: 1px;
+  width: 90%;
   background-color: #d9d9d9;
+  transform-origin: 0 0;
+  transform: scaleY(0.5);
 }
 .attend_cell {
   padding-left: 1.72rem;

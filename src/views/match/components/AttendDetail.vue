@@ -31,7 +31,7 @@
           v-if="prize.prizeCount"
           @click="numInput('count',1, index)"
         >{{prize.prizeCount}}</span>
-        <button v-else @click="numInput('count',1, index)">点击选择</button>
+        <button class="choose_btn" v-else @click="numInput('count',1, index)">点击选择</button>
       </div>
       <div class="detail_cell">
         <span class="detail_title">单价</span>
@@ -79,11 +79,12 @@ export default {
        */
       let dom = event.target;
       let file = dom.files[0];
-      this.compressAndUpload(file).then(imgSrc => {
-        let data = this.rankData;
-        data[index].icon = imgSrc;
-        this.rankData = data;
-      });
+      file &&
+        this.compressAndUpload(file).then(imgSrc => {
+          let data = this.rankData;
+          data[index].icon = imgSrc;
+          this.rankData = data;
+        });
     },
     changeImg(index) {
       this.$refs.detailImgContent[index].click();
@@ -125,6 +126,7 @@ export default {
   display: flex;
   padding: 0.25rem 0;
   position: relative;
+  align-items: center;
 }
 .detail_cell::after {
   content: "";
@@ -159,6 +161,12 @@ export default {
   flex-basis: 0;
   flex-grow: 1;
 }
+.detail_img_content span {
+  background: url("../../../assets/add_prize_img.png") no-repeat;
+  background-size: 0.44rem 0.38rem;
+  background-position: 1px 1px;
+  padding-left: 0.5rem;
+}
 .detail_img {
   opacity: 0;
   width: 1rem;
@@ -167,7 +175,9 @@ export default {
   width: 5rem;
 }
 .detail_icon {
-  height: 0.42rem;
+  height: 1.4rem;
+  width: 1.4rem;
+  object-fit: contain;
 }
 .mutiple_prize {
   margin-top: 0.16rem;
@@ -185,6 +195,10 @@ export default {
 .cell_name input,
 .detail_count_num {
   flex-grow: 1;
+}
+.choose_btn {
+  background-color: #fafafa;
+  padding: 0.02rem 2rem;
 }
 </style>
 

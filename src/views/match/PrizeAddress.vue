@@ -5,6 +5,8 @@
       ref="location"
       @getResData="getResData($event)"
       @getLngAndlat="getLngAndlat($event)"
+      longitude="longitude"
+      latitude="latitude"
     ></dida-location>
     <van-cell-group class="address">
       <van-cell title="所在地区" :value="address" is-link @click="select"/>
@@ -122,6 +124,8 @@ export default {
       this.subAddress = gainPrizeAddress.address;
       this.contact = gainPrizeAddress.contact;
       this.mobile = gainPrizeAddress.mobile;
+      this.longitude = gainPrizeAddress.longitude;
+      this.latitude = gainPrizeAddress.latitude;
       this.$nextTick(() => {
         let _value = this.$refs.van_area.getValues();
         this.onConfirm(_value, true);

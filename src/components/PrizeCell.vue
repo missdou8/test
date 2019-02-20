@@ -1,5 +1,6 @@
 <template>
-  <div class="cell" :class="{cell_no: !truePrizes[0].name}">
+  <div class="cell" :class="{cell_no: !truePrizes[0].name,
+  cell_yes: truePrizes[0].name && edit}">
     <div class="cell_content_group">
       <span class="cell_rank">{{rank}}</span>
       <div class="cell_content">
@@ -101,6 +102,9 @@ export default {
 .cell_no {
   background-color: #f9f9f9;
   border: 1px dashed #d8d8d8;
+}
+.cell_yes {
+  border: 1px solid #d8d8d8;
 }
 .cell_content_group {
   display: flex;

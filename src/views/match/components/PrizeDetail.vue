@@ -17,11 +17,7 @@
         </div>
       </div>
       <div class="rank_multiple">
-        <input
-          type="checkbox"
-          @change="mutipleClick"
-          :checked="rankData.endRank != rankData.beginRank"
-        >多人获得
+        <van-checkbox v-model="checked" checked-color="#07c160">多人选择</van-checkbox>
       </div>
     </div>
     <div class="mutiple_prize" v-for="(prize,index) in rankData.prizes" :key="`prize${index}`">
@@ -55,7 +51,7 @@
           v-if="prize.prizeCount"
           @click="numInput('count',1, index)"
         >{{prize.prizeCount}}</span>
-        <button v-else @click="numInput('count',1, index)">点击选择</button>
+        <button class="choose_btn" v-else @click="numInput('count',1, index)">点击选择</button>
       </div>
       <div class="detail_cell">
         <span class="detail_title">单价</span>
@@ -78,22 +74,32 @@ export default {
   data() {
     return {
       fromIndex: 0,
-      mutipleChoose: true
+      checked: false
     };
   },
   props: ["rankData"],
   computed: {
     deleteShow() {
       return this.rankData.prizes.length > 1;
+    },
+    mutipleChoose() {
+      return !this.checked;
     }
   },
   watch: {
     rankData() {
       if (this.rankData.endRank == this.rankData.beginRank) {
-        this.mutipleChoose = true;
+        this.checked = false;
       } else {
-        this.mutipleChoose = false;
+        this.checked = true;
       }
+    }
+  },
+  mounted() {
+    if (this.rankData.endRank == this.rankData.beginRank) {
+      this.checked = false;
+    } else {
+      this.checked = true;
     }
   },
   methods: {
@@ -111,21 +117,18 @@ export default {
         this.$route.meta.title = "请选择数量";
       }
     },
-    mutipleClick(event, value) {
-      let dom = event.target;
-      this.mutipleChoose = !dom.checked;
-    },
     addImg(event, index) {
       /**
        * 获取出当前的图片数据，然后修改数据
        */
       let dom = event.target;
       let file = dom.files[0];
-      this.compressAndUpload(file).then(imgSrc => {
-        let data = this.rankData;
-        data.prizes[index].icon = imgSrc;
-        this.rankData = data;
-      });
+      file &&
+        this.compressAndUpload(file).then(imgSrc => {
+          let data = this.rankData;
+          data.prizes[index].icon = imgSrc;
+          this.rankData = data;
+        });
     },
     changeImg(index) {
       this.$refs.detailImgContent[index].click();
@@ -166,13 +169,10 @@ export default {
 <style scoped>
 .detail_cell {
   background-color: #fff;
-  color: #b8b8b8;
   display: flex;
   padding: 0.25rem 0;
   position: relative;
-}
-.detail_cell input::placeholder {
-  color: #b8b8b8;
+  align-items: center;
 }
 .detail_cell::after {
   content: "";
@@ -247,7 +247,9 @@ export default {
   width: 5rem;
 }
 .detail_icon {
-  height: 0.42rem;
+  height: 1.38rem;
+  width: 1.38rem;
+  object-fit: contain;
 }
 .mutiple_prize {
   margin-top: 0.16rem;
@@ -271,6 +273,10 @@ export default {
   padding: 0 0.42rem;
   font-size: 0.27rem;
   margin: 0 0.2rem;
+}
+.choose_btn {
+  background-color: #fafafa;
+  padding: 0.02rem 2rem;
 }
 </style>
 
