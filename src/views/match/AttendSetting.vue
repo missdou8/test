@@ -51,29 +51,19 @@ export default {
     deleteClick() {
       this.$dialog
         .confirm({
-          message: "您确定删除该名次的所有奖品配置么？",
+          message: "您确定删除所有奖品配置么？",
           confirmButtonText: "我确定",
           cancelButtonText: "继续编辑"
         })
         .then(() => {
-          if (this.rankPrizes.length === 1) {
-          }
-          this.rankPrizes.splice(this.$route.query.index, 1);
-          if (this.rankPrizes.length === 0) {
-            this.rankPrizes[0] = {
-              beginRank: 1,
-              endRank: 1,
-              ispartInPrize: 0,
-              prizes: [
-                {
-                  name: null,
-                  price: null,
-                  prizeCount: null,
-                  icon: null
-                }
-              ]
-            };
-          }
+          this.$store.commit("setAttendCurrentRankData", [
+            {
+              name: null,
+              price: null,
+              prizeCount: null,
+              icon: null
+            }
+          ]);
           this.$router.go(-1);
         })
         .catch(() => {});

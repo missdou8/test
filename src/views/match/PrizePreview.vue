@@ -169,15 +169,22 @@ export default {
        * 当前名次正确，取最后一名
        */
       let currentIndex =
-        this.rankPrizes[this.rankPrizes.length - 1].endRank + 1;
+        Number(this.rankPrizes[this.rankPrizes.length - 1].endRank) + 1;
       let lastIndex = this.rankPrizes.length;
       for (let index = 0; index < this.rankPrizes.length; index++) {
         const rankPrize = this.rankPrizes[index];
         if (index === 0) {
-          continue;
+          if (rankPrize.beginRank > 1) {
+            currentIndex = 1;
+            lastIndex = 0;
+            break;
+          }
         } else {
-          if (rankPrize.beginRank != this.rankPrizes[index - 1].endRank + 1) {
-            currentIndex = this.rankPrizes[index - 1].endRank + 1;
+          if (
+            rankPrize.beginRank !=
+            Number(this.rankPrizes[index - 1].endRank) + 1
+          ) {
+            currentIndex = Number(this.rankPrizes[index - 1].endRank) + 1;
             lastIndex = index;
           }
         }
@@ -256,6 +263,10 @@ export default {
        */
       let attendFlag = false;
       let fullFilled = false;
+
+      if (this.rankPrizes.length > 1 && !this.rankPrizes[0].prizes[0].name) {
+        fullFilled = true;
+      }
 
       this.rankPrizes.forEach((rankPrize, index) => {
         if (rankPrize.ispartInPrize) {
