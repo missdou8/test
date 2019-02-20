@@ -149,30 +149,29 @@ export default {
 </script>
 
 <style scoped>
-#GetLocation {
-  padding-top: 44px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-#GetLocation .input_box {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  padding: 0.1rem 0.3rem;
-}
-#pickerInput {
-  width: 100%;
-  border: none;
-  outline: none;
-  line-height: 0.6rem;
-  border-radius: 0.6rem;
-  text-align: center;
-}
-#container {
-  width: 100%;
-  height: 100%;
-}
+  #GetLocation{
+    padding-top: 44px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #GetLocation .input_box{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: .1rem .3rem;
+  }
+  #pickerInput{
+    width: 100%;
+    border: none;
+    outline: none;
+    border-radius: .6rem;
+    padding: .1rem .4rem;
+  }
+  #container{
+    width: 100%;
+    height: 100%;
+  }
 </style>
 
 <style>
