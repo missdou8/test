@@ -56,7 +56,7 @@ export default {
           cancelButtonText: "继续编辑"
         })
         .then(() => {
-          this.$store.commit("setAttendCurrentRankData", [
+          this.$store.commit("setAttendTotalPrizes", [
             {
               name: null,
               price: null,

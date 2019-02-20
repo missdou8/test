@@ -98,7 +98,8 @@ export default {
       for (const key in data) {
         if (data.hasOwnProperty(key)) {
           const element = data[key];
-          if (!element && element !== 0) {
+          console.log(element);
+          if (element) {
             flag = true;
           }
         }
