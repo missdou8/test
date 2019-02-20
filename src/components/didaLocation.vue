@@ -35,6 +35,15 @@ export default {
       this.searchSiteSelection();
     }, 1000);
   },
+  watch:{
+    longitude(){
+       if (this.longitude && this.latitude) {
+        this.dragSiteSelection(15, [this.longitude, this.latitude]);
+      } else {
+        this.getLocation();
+      }
+    }
+  },
   methods: {
     getLocation() {
       let _this = this;
