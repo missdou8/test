@@ -7,7 +7,7 @@
       <div class="cell_desc">
         <p>{{cellData.name || '奖品名称无'}}</p>
         <p class="detail_num">
-          <span>{{cellData.prizeCount || '数量无'}}</span>
+          <span>{{ cellData.prizeCount ?`x${cellData.prizeCount}` : '数量无'}}</span>
         </p>
       </div>
     </div>
@@ -65,9 +65,9 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-.cell_no {
-  background-color: #f9f9f9;
-  border: 1px dashed #d8d8d8;
+
+.cell_no .detail_num {
+  color: #999;
 }
 </style>
 

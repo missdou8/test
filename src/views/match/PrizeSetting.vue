@@ -154,7 +154,7 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 0.25rem 0;
+  padding: 0.25rem 0.25rem 0.25rem 0;
 }
 .attend_prize span:first-child {
   font-size: var(--font-size-bigger);

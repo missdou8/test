@@ -76,7 +76,7 @@ const MATCH_ROUTERS = [
     path: '/match/style/prizepreview/prizesetting/numberInput',
     component: NumberInput,
     meta: {
-      title: '选择奖品数量'
+      title: '选择名次范围'
     }
   },
   {

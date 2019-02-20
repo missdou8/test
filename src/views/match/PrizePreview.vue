@@ -18,15 +18,17 @@
     <section>
       <div class="attend_prize">
         <span class="preview_title">参与奖</span>
-        <button class="cell_edit" @click="toAttendEdit"></button>
       </div>
-      <attend-cell
-        class="prize_cell"
-        v-for="(item, index) in attendPrizes"
-        :key="`rank${index}`"
-        :cellData="item"
-      ></attend-cell>
-      <p class="attend_total">共{{attendTotal}}元</p>
+      <div :class="{ attend_cell: !attendPrizes[0].name, attend_cell_yes: attendPrizes[0].name}">
+        <button class="cell_edit" @click="toAttendEdit"></button>
+        <attend-cell
+          class="prize_cell"
+          v-for="(item, index) in attendPrizes"
+          :key="`rank${index}`"
+          :cellData="item"
+        ></attend-cell>
+        <p class="attend_total">{{attendTotal ? `共${attendTotal}元`: '价格无'}}</p>
+      </div>
     </section>
     <section class="send" :class="{cannot: !rankPrizes[0].prizes[0].name}">
       <h1 class="preview_title">领奖方式</h1>
@@ -281,9 +283,9 @@ export default {
       if (fullFilled) {
         return this.$toast("您尚有奖品未填写");
       }
-      if (this.attendFlag && !this.attendPrizes[0].name) {
-        return this.$toast("参与奖没有填写 ");
-      }
+      // if (this.attendFlag && !this.attendPrizes[0].name) {
+      //   return this.$toast("参与奖没有填写 ");
+      // }
       if (!this.rankPrizes[0].prizes[0].name) {
         return this.$dialog
           .confirm({
@@ -397,9 +399,14 @@ section h1 {
   height: 0.3rem;
   width: 0.3rem;
   margin-right: 0.36rem;
+  position: absolute;
+  right: 0;
+  top: 0.5rem;
+  z-index: 1;
 }
 .attend_total {
   text-align: right;
+  padding-bottom: 0.24rem;
   padding-right: 0.18rem;
 }
 .error {
@@ -420,6 +427,21 @@ section h1 {
   color: 111;
   font-size: 0.32rem;
   margin-bottom: 0.1rem;
+}
+
+.attend_cell {
+  color: #999;
+  background-color: #f9f9f9;
+  border: 1px dashed #d8d8d8;
+  position: relative;
+}
+.attend_cell .detail_num {
+  color: #999;
+}
+
+.attend_cell_yes {
+  border: 1px solid #d8d8d8;
+  position: relative;
 }
 </style>
 

@@ -89,6 +89,9 @@ Vue.use(Tab)
   .use(NavBar)
   .use(Switch)
 
+//自定义dialog
+Dialog.resetDefaultOptions({ className: 'hhhh' })
+
 Vue.config.productionTip = false
 
 /**

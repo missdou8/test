@@ -11,7 +11,7 @@
             </div>
             <div class="cell_desc">
               <p>{{item.name || '奖品名称无'}}</p>
-              <p class="detail_num">{{item.prizeCount || '数量无'}}</p>
+              <p class="detail_num">{{item.prizeCount ? `x${item.prizeCount}` : '数量无'}}</p>
             </div>
           </div>
           <div class="pull_down" v-if="showMore">
@@ -22,8 +22,8 @@
     </div>
     <div>
       <p class="cell_sum">
-        <span :class="{show: !cellData.ispartInPrize}">有参与奖</span>
-        <span>共{{total}}元</span>
+        <span class="sum_attend" :class="{show: !cellData.ispartInPrize}">有参与奖</span>
+        <span>{{total ? `共${total}元`: '价格无'}}</span>
       </p>
     </div>
     <button class="cell_edit" @click="toEdit" v-if="edit"></button>
@@ -100,8 +100,12 @@ export default {
   position: relative;
 }
 .cell_no {
+  color: #999;
   background-color: #f9f9f9;
   border: 1px dashed #d8d8d8;
+}
+.cell_no .detail_num {
+  color: #999;
 }
 .cell_yes {
   border: 1px solid #d8d8d8;
@@ -177,6 +181,9 @@ export default {
   transform: rotate(90deg);
   margin-left: 2rem;
   margin-top: 0.1rem;
+}
+.sum_attend {
+  color: #757575;
 }
 </style>
 

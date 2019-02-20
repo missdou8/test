@@ -170,7 +170,7 @@ export default {
 .detail_cell {
   background-color: #fff;
   display: flex;
-  padding: 0.25rem 0;
+  padding: 0.25rem 0.25rem 0.25rem 0;
   position: relative;
   align-items: center;
 }
@@ -205,7 +205,7 @@ export default {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 0.2rem 0.16rem 0.06rem;
+  padding: 0.25rem 0.16rem 0.06rem;
 }
 .rank_multiple input {
   width: 0.38rem;
@@ -244,7 +244,7 @@ export default {
   width: 1rem;
 }
 .detail_price {
-  width: 5rem;
+  flex-grow: 1;
 }
 .detail_icon {
   height: 1.38rem;
