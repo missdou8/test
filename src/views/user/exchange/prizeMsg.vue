@@ -8,7 +8,7 @@
                 <p>{{prizeDetail.prize_name}} <span>x</span> {{prizeDetail.prize_num}}</p>
             </div>
             <div class="prize_bd">
-                <img class="sign" v-if="status==3" src="../../../assets/wode_yinzhang.png" alt="">
+                <img class="sign" v-if="status==3" src="../../../assets/wode_ylq.png" alt="">
                 <ul>
                     <li v-for="(title,key,index) in DetailTitle" :key="index">
                         {{title}} : <span 

@@ -113,7 +113,7 @@ const USER_ROUTERS = [
     name: "exchangePrizeMsg",
     component: exchangePrizeMsg,
     meta: {
-      title: "奖品信息"
+      title: "领奖信息确认"
     }
   },
   {
