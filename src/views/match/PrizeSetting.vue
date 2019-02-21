@@ -60,7 +60,7 @@ export default {
     deleteClick() {
       this.$dialog1
         .confirm({
-          message: "您确定删除该名次的所有奖品配置么？",
+          message: "您确定删除该名次的所有奖品配置吗？",
           confirmButtonText: "我确定",
           cancelButtonText: "继续编辑"
         })
