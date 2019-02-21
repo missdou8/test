@@ -38,6 +38,8 @@
 import { getUrlString } from "lputils";
 import cityCode from "../../service/cityCode.js";
 import didaLocation from "../../components/didaLocation.vue";
+import { mapState } from "vuex";
+
 export default {
   data() {
     return {
@@ -47,23 +49,33 @@ export default {
       subAddress: "",
       areaId: "",
       addressCode: [],
-      longitude: null, //经度
-      latitude: null, //维度,
+      jingdu: null, //经度
+      weidu: null, //维度,
       mobile: null,
       contact: null
     };
   },
   components: { didaLocation },
+  computed: {
+    ...mapState({
+      longitude(state) {
+        return state.match.gainPrizeAddress.longitude;
+      },
+      latitude(state) {
+        return state.match.gainPrizeAddress.latitude;
+      }
+    })
+  },
   methods: {
     getLngAndlat(resData) {
-      this.longitude = resData[0];
-      this.latitude = resData[1];
+      this.jingdu = resData[0];
+      this.weidu = resData[1];
     },
     getResData(resData) {
       this.subAddress = resData.detailAddress;
       this.areaId = resData.detailAreaCode;
-      this.longitude = resData.longitude;
-      this.latitude = resData.latitude;
+      this.jingdu = resData.longitude;
+      this.weidu = resData.latitude;
       setTimeout(() => {
         //获取van-area的value值
         if (this.areaId == "") this.address = "请选择 请选择 请选择";
@@ -78,6 +90,7 @@ export default {
     },
     onConfirm(value, type) {
       this.address = "";
+      this.addressCode = value;
       this.show = false;
       value.forEach(item => {
         this.address += item.name;
@@ -102,8 +115,8 @@ export default {
         provinceId: this.addressCode[0],
         cityId: this.addressCode[1],
         areaId: this.addressCode[2],
-        latitude: this.latitude,
-        longitude: this.longitude,
+        latitude: this.weidu,
+        longitude: this.jingdu,
         contact: this.contact,
         mobile: this.mobile
       });
@@ -119,24 +132,10 @@ export default {
     this.areaList = cityCode;
     // 如果存在自提地址的话那么显示自提地址
     let gainPrizeAddress = this.$store.state.match.gainPrizeAddress;
-    if (gainPrizeAddress) {
-      this.address = gainPrizeAddress.regionName;
-      this.subAddress = gainPrizeAddress.address;
-      this.contact = gainPrizeAddress.contact;
-      this.mobile = gainPrizeAddress.mobile;
-      this.longitude = gainPrizeAddress.longitude;
-      this.latitude = gainPrizeAddress.latitude;
-      this.$nextTick(() => {
-        let _value = this.$refs.van_area.getValues();
-        this.onConfirm(_value, true);
-      });
-      return;
-    }
-    this.address = this.$store.state.user.userInfo.regionName;
-    this.subAddress = this.$store.state.user.userInfo.address;
-    this.areaId = this.$store.state.user.userInfo.areaId;
-    this.mobile = this.$store.state.user.userInfo.mobile;
-    this.contact = this.$store.state.user.userInfo.name;
+    this.address = gainPrizeAddress.regionName;
+    this.subAddress = gainPrizeAddress.address;
+    this.contact = gainPrizeAddress.contact;
+    this.mobile = gainPrizeAddress.mobile;
     this.$nextTick(() => {
       let _value = this.$refs.van_area.getValues();
       this.onConfirm(_value, true);
@@ -175,7 +174,7 @@ export default {
 }
 .location_box {
   width: 100%;
-  height: 5.4rem;
+  height: 5.2rem;
 }
 .address_cell {
   margin-top: 0.18rem;

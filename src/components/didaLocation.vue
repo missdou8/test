@@ -35,15 +35,6 @@ export default {
       this.searchSiteSelection();
     }, 1000);
   },
-  watch:{
-    longitude(){
-       if (this.longitude && this.latitude) {
-        this.dragSiteSelection(15, [this.longitude, this.latitude]);
-      } else {
-        this.getLocation();
-      }
-    }
-  },
   methods: {
     getLocation() {
       let _this = this;
@@ -158,29 +149,29 @@ export default {
 </script>
 
 <style scoped>
-  #GetLocation{
-    padding-top: 44px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  #GetLocation .input_box{
-    position: absolute;
-    top: 0;
-    width: 100%;
-    padding: .1rem .3rem;
-  }
-  #pickerInput{
-    width: 100%;
-    border: none;
-    outline: none;
-    border-radius: .6rem;
-    padding: .1rem .4rem;
-  }
-  #container{
-    width: 100%;
-    height: 100%;
-  }
+#GetLocation {
+  padding-top: 44px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+#GetLocation .input_box {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 0.1rem 0.3rem;
+}
+#pickerInput {
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: 0.6rem;
+  padding: 0.1rem 0.4rem;
+}
+#container {
+  width: 100%;
+  height: 100%;
+}
 </style>
 
 <style>

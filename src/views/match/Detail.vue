@@ -147,7 +147,9 @@ export default {
           cityId: userInfo.cityId,
           areaId: userInfo.areaId,
           latitude: userInfo.latitude,
-          longitude: userInfo.longitude
+          longitude: userInfo.longitude,
+          mobile: userInfo.mobile,
+          contact: userInfo.contact
         });
       });
   },

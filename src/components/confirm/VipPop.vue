@@ -106,9 +106,9 @@ export default {
 .sure_btn,
 .cancel_btn {
   color: #fff;
-  padding: 0.1rem 0.2rem;
+  padding: 0.1rem 0.24rem;
   height: 0.72rem;
-  border-radius: 0.16rem;
+  border-radius: 0.1rem;
 }
 .sure_btn {
   background-color: #d83c3c;
