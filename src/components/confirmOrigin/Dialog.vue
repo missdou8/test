@@ -10,12 +10,12 @@
           v-show="showCancelButton"
           class="cancel_btn"
           @click="handleAction('cancel')"
-        >{{cancelButtonText}}</button>
+        >{{cancelButtonText || '取消'}}</button>
         <button
           v-show="showConfirmButton"
           class="sure_btn"
           @click="handleAction('confirm')"
-        >{{confirmButtonText}}</button>
+        >{{confirmButtonText || '确定'}}</button>
       </div>
     </div>
   </div>
@@ -105,21 +105,21 @@ export default {
 }
 .sure_btn,
 .cancel_btn {
-  color: #fff;
-  padding: 0.18rem 0;
-  width: 2.38rem;
-  border-radius: 0.06rem;
+  color: #000;
+  padding: 0.1rem 0.38rem;
+  height: 0.72rem;
+  border-radius: 0.1rem;
 }
 .sure_btn {
-  background-color: #d83c3c;
+  background-color: #fdc500;
 }
 .cancel_btn {
   border: 1px solid #ffd321;
-  color: #000;
 }
 .title {
   text-align: center;
   margin-bottom: 0.3rem;
   font-size: 0.32rem;
+  display: none;
 }
 </style>

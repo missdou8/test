@@ -27,7 +27,7 @@
           :key="`rank${index}`"
           :cellData="item"
         ></attend-cell>
-        <p class="attend_total">{{attendTotal ? `共${attendTotal}元`: '价格无'}}</p>
+        <p class="attend_total">{{attendTotal ? `共${attendTotal}元`: '总价无'}}</p>
       </div>
     </section>
     <section class="send" :class="{cannot: !rankPrizes[0].prizes[0].name}">
@@ -51,7 +51,7 @@
         ></van-cell>
       </div>
     </section>
-    <dida-button class="btn_content" @click="saveClick">保存</dida-button>
+    <div class="btn_content" :class="{btn_no: isSave}" @click="saveClick">保存</div>
   </div>
 </template>
 
@@ -145,12 +145,20 @@ export default {
         }
       }
       return errorArr;
+    },
+    isSave() {
+      if (this.errorArr.length > 0 || this.addressShow < 0) {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   created() {
     //自提地址
     let gainPrizeAddress = this.$store.state.match.gainPrizeAddress;
-    this.address = gainPrizeAddress.regionName + gainPrizeAddress.address;
+    this.address =
+      gainPrizeAddress.regionName + String(gainPrizeAddress.address);
     if (gainPrizeAddress.contact) {
       return (this.contact =
         gainPrizeAddress.contact + " " + String(gainPrizeAddress.mobile));
@@ -162,6 +170,32 @@ export default {
   },
   mounted() {
     this.addressShow = this.$store.state.match.sendStyle;
+
+    /**
+     * 判断有无奖品
+     * 如果有参与奖，那么参与奖需要设置
+     * 判断是否所有奖品填写完整
+     */
+    // let attendFlag = false;
+    // let fullFilled = false;
+
+    // if (this.rankPrizes.length > 1 && !this.rankPrizes[0].prizes[0].name) {
+    //   fullFilled = true;
+    // }
+
+    // this.rankPrizes.forEach((rankPrize, index) => {
+    //   if (rankPrize.ispartInPrize) {
+    //     this.attendFlag = true;
+    //   }
+    //   rankPrize.prizes.forEach(item => {
+    //     if (!item.name && index != 0) {
+    //       fullFilled = true;
+    //     }
+    //   });
+    // });
+    // if (fullFilled) {
+    //   return this.$toast("您尚有奖品未填写");
+    // }
   },
   methods: {
     addMore() {
@@ -191,8 +225,6 @@ export default {
           }
         }
       }
-      // let tempData = JSON.parse(JSON.stringify(this.rankPrizes));
-      // tempData.splice(lastIndex, 0, );
       this.$store.commit("setCurrentRankData", {
         beginRank: currentIndex,
         endRank: currentIndex,
@@ -266,37 +298,6 @@ export default {
       });
     },
     saveClick() {
-      if (this.errorArr.length > 0) {
-        return this.$toast("奖品名次存在错误");
-      }
-      /**
-       * 判断有无奖品
-       * 如果有参与奖，那么参与奖需要设置
-       * 判断是否所有奖品填写完整
-       */
-      let attendFlag = false;
-      let fullFilled = false;
-
-      if (this.rankPrizes.length > 1 && !this.rankPrizes[0].prizes[0].name) {
-        fullFilled = true;
-      }
-
-      this.rankPrizes.forEach((rankPrize, index) => {
-        if (rankPrize.ispartInPrize) {
-          this.attendFlag = true;
-        }
-        rankPrize.prizes.forEach(item => {
-          if (!item.name && index != 0) {
-            fullFilled = true;
-          }
-        });
-      });
-      if (fullFilled) {
-        return this.$toast("您尚有奖品未填写");
-      }
-      // if (this.attendFlag && !this.attendPrizes[0].name) {
-      //   return this.$toast("参与奖没有填写 ");
-      // }
       if (!this.rankPrizes[0].prizes[0].name) {
         return this.$dialog1
           .confirm({
@@ -324,9 +325,6 @@ export default {
             this.$router.go(-1);
           });
       } else {
-        if (this.addressShow == -1) {
-          return this.$toast("请选择获奖方式");
-        }
         //替换本页原始数据，返回上一页
         this.$store.commit("setSendStyle", this.addressShow);
         this.$store.commit("setRankPrizes", this.rankPrizes);
@@ -378,14 +376,22 @@ section h1 {
   justify-content: space-around;
 }
 .btn_content {
+  background-color: #fcc600;
+  font-size: 0.34rem;
+  font-weight: bold;
+  width: 6.23rem;
+  height: 0.88rem;
+  line-height: 0.88rem;
+  text-align: center;
   margin: 0.3rem auto;
+  border-radius: 0.05rem;
 }
 .cannot {
   pointer-events: none;
 }
 .more_add {
   background-color: #f9f9f9;
-  border: 1px dotted #d8d8d8;
+  border: 1px dashed #d8d8d8;
   display: flex;
   justify-content: center;
   padding: 0.2rem 0.23rem;
@@ -422,13 +428,13 @@ section h1 {
 }
 .error {
   background-color: #fff5f5;
-  border-left: 1px solid #ff8787;
+  border: 1px solid #ff8787;
   padding-bottom: 0;
 }
 .error::after {
   background-color: #fffbeb;
   color: #ff0000;
-  content: "该条名次信息有误，请重新编辑";
+  content: "该条名次信息有误，请重新编辑！";
   display: block;
   padding-left: 0.2rem;
   height: 0.6rem;
@@ -453,6 +459,12 @@ section h1 {
 .attend_cell_yes {
   border: 1px solid #d8d8d8;
   position: relative;
+}
+.btn_no {
+  background-color: #ababab;
+  color: #111111;
+  width: 6.23rem;
+  pointer-events: none;
 }
 </style>
 

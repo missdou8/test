@@ -26,12 +26,11 @@
       </div>
       <div class="detail_cell">
         <span class="detail_title">数量</span>
-        <span
-          class="detail_count_num"
-          v-if="prize.prizeCount"
+        <button
+          class="choose_btn"
+          :class="{choose_btn_gray: !prize.prizeCount}"
           @click="numInput('count',1, index)"
-        >{{prize.prizeCount}}</span>
-        <button class="choose_btn" v-else @click="numInput('count',1, index)">点击选择</button>
+        >{{prize.prizeCount ? prize.prizeCount:'点击选择'}}</button>
       </div>
       <div class="detail_cell">
         <span class="detail_title">单价</span>
@@ -158,6 +157,7 @@ export default {
 .detail_img_content {
   display: flex;
   width: 5rem;
+  color: #8b8b8b;
 }
 .detail_img_content span,
 .detail_img {
@@ -201,7 +201,11 @@ export default {
 }
 .choose_btn {
   background-color: #fafafa;
-  padding: 0.02rem 2rem;
+  padding: 0.12rem 0;
+  flex-grow: 1;
+}
+.choose_btn_gray {
+  color: #8b8b8b;
 }
 </style>
 

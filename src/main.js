@@ -13,8 +13,10 @@ import './style/base.css'
 //导入配置
 import config from './config/index.js'
 import Dialog2 from './components/confirm/vipPop'
+import Dialog1 from './components/confirmOrigin/dialog'
 
 Vue.use(Dialog2)
+Vue.use(Dialog1)
 
 Vue.prototype.config = config
 
@@ -114,6 +116,7 @@ let compressImg = file => {
     new ImageCompressor(file, {
       maxWidth: config.outputWidth,
       maxHeight: config.outputHeight,
+      convertSize: 1000000,
       success(newFile) {
         resolve(newFile)
       },

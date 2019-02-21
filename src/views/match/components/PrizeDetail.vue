@@ -9,7 +9,7 @@
           <div :class="{canMutilple: mutipleChoose}">
             第
             <button
-              :class="{btn: rankData.endRank == rankData.beginRank}"
+              class="btn"
               @click="numInput('endRank',rankData.beginRank)"
             >{{rankData.endRank != rankData.beginRank ? rankData.endRank :'点击选择'}}</button>
             名
@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="rank_multiple">
-        <van-checkbox v-model="checked" checked-color="#07c160">多人选择</van-checkbox>
+        <van-checkbox v-model="checked" @change="change" checked-color="#07c160">多人获得</van-checkbox>
       </div>
     </div>
     <div class="mutiple_prize" v-for="(prize,index) in rankData.prizes" :key="`prize${index}`">
@@ -46,18 +46,18 @@
       </div>
       <div class="detail_cell">
         <span class="detail_title">数量</span>
-        <span
-          class="detail_count_num"
-          v-if="prize.prizeCount"
+        <button
+          class="choose_btn"
+          :class="{choose_btn_gray: !prize.prizeCount}"
           @click="numInput('count',1, index)"
-        >{{prize.prizeCount}}</span>
-        <button class="choose_btn" v-else @click="numInput('count',1, index)">点击选择</button>
+        >{{prize.prizeCount ? prize.prizeCount:'点击选择'}}</button>
       </div>
       <div class="detail_cell">
         <span class="detail_title">单价</span>
         <input
           type="number"
           class="detail_price"
+          :class="{detail_price_hehe: prize.price}"
           placeholder="请输入阿拉伯数字，可带有小数点"
           v-model="prize.price"
         >元
@@ -132,6 +132,9 @@ export default {
     },
     changeImg(index) {
       this.$refs.detailImgContent[index].click();
+    },
+    change() {
+      !this.checked && (this.rankData.endRank = this.rankData.beginRank);
     },
     deleteClick(index) {
       /**
@@ -227,6 +230,7 @@ export default {
 .detail_img_content {
   display: flex;
   width: 5rem;
+  color: #8b8b8b;
 }
 .detail_img_content span,
 .detail_img {
@@ -245,6 +249,10 @@ export default {
 }
 .detail_price {
   flex-grow: 1;
+  padding-right: 0.2rem;
+}
+.detail_price_hehe {
+  text-align: right;
 }
 .detail_icon {
   height: 1.38rem;
@@ -267,16 +275,21 @@ export default {
 .cell_name input,
 .detail_count_num {
   flex-grow: 1;
+  padding-left: 0;
 }
 .btn {
   border: 1px solid #ccc;
-  padding: 0 0.42rem;
+  width: 1.95rem;
   font-size: 0.27rem;
   margin: 0 0.2rem;
 }
 .choose_btn {
   background-color: #fafafa;
-  padding: 0.02rem 2rem;
+  padding: 0.12rem 0;
+  flex-grow: 1;
+}
+.choose_btn_gray {
+  color: #8b8b8b;
 }
 </style>
 

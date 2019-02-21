@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     deleteClick() {
-      this.$dialog
+      this.$dialog1
         .confirm({
           message: "您确定删除所有奖品配置么？",
           confirmButtonText: "我确定",
