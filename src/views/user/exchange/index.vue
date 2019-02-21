@@ -29,11 +29,15 @@
         </div>
         <van-card
           :title="prize.prize.name"
-          :desc="prize.receivingDec"
           currency
-          :price="prize.prizeType"
           :thumb="prize.prize.img||goodsImgURL"
-        />
+        >
+          <div class="prizetag" slot="tag">{{prize.prizeType}}</div>
+          <div slot="desc">
+            <p v-if="prize.prize.type == 0">{{prize.receivingDec}}</p>
+            <p class="breakall" v-else><span>兑奖码：</span>{{prize.prize.pickupCode}}</p>
+          </div>
+        </van-card>
         <div class="footer" slot="footer">
           <van-button
             v-if="prize.prize.type == 0"
@@ -250,6 +254,9 @@ export default {
   border: 0;
   padding: 0;
 }
+.breakall{
+  word-break: break-all;
+}
 </style>
 <style>
 #exchangeIndex .van-card__desc {
@@ -326,13 +333,18 @@ export default {
   flex: 1;
   font-weight: 600;
 }
-#exchangeIndex .van-card__price {
+#exchangeIndex .prizetag {
   flex: none;
   min-width: auto;
   background: rgb(17, 17, 17);
   border-radius: 3px;
   color: rgb(252, 198, 0);
   padding: 0 0.1rem;
+}
+#exchangeIndex .van-card__tag{
+  bottom: -.5rem;
+  left: auto;
+  top: auto;
 }
 #exchangeIndex .van-hairline--top-bottom::after,
 #exchangeIndex .van-hairline--top::after {

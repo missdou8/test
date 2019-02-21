@@ -11,14 +11,15 @@
                 <img class="sign" v-if="status==3" src="../../../assets/wode_ylq.png" alt="">
                 <ul>
                     <li v-for="(title,key,index) in DetailTitle" :key="index">
-                        {{title}} : <span 
+                        <i v-html="title"></i> : 
+                        <span 
                         :class="{
                             red:key=='match_ranking',
                             grey:key=='match_sn'
                         }"
                     >{{prizeDetail[key]}}</span>
                     </li>
-                    <li v-if='status==3'>兑奖时间 : <span>{{exchangeTime}}</span></li>
+                    <li v-if='status==3'><i>兑奖时间</i> : <span>{{exchangeTime}}</span></li>
                 </ul>
                 <van-button v-if='status!=3' class='btn' size="large" @click="submit()">确认取货</van-button>
             </div>
@@ -37,11 +38,11 @@ export default {
         goodsImgURL:goodsImg,
         DetailTitle:{
             match_name:'比赛名称',
-            match_sn:'流 水 号 ',
+            match_sn:'流 水 号',
             match_ranking:'比赛名次',
             prize_type:'获取方式',
             merchantName:'商家名称',
-            prize_pickupCode:'兑  奖 码 '
+            prize_pickupCode:'兑 奖 码'
         },
         exchangeTime:'',   //默认为0
         status:1,  //取货状态   1未取货 3取货
@@ -137,6 +138,10 @@ export default {
     color: rgb(158,158,158);
     font-size: .28rem;
     line-height: .5rem;
+}
+.prize_bd ul li i{
+    display: inline-block;
+    width: 1.2rem;
 }
 .prize_bd ul li span{
     color: #000;
