@@ -533,7 +533,9 @@ a {
 .match_mobile {
   background: url("../assets/address_phone.png") no-repeat;
   background-size: 0.4rem 0.4rem;
+  background-position: left center;
   color: #249cf4;
+  padding: 0.1rem 0;
   padding-left: 0.5rem;
   margin-left: 0.3rem;
 }
