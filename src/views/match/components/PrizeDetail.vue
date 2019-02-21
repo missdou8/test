@@ -151,7 +151,7 @@ export default {
         }
       }
       if (flag) {
-        this.$dialog
+        this.$dialog1
           .confirm({
             message: "您确定删除这一项奖品配置吗？",
             confirmButtonText: "我确定",
@@ -187,7 +187,6 @@ export default {
   transform-origin: 0 0;
   height: 1px;
   width: 96%;
-  z-index: 1;
 }
 
 .detail_title {

@@ -170,7 +170,7 @@ export default {
 .setting_button {
   display: flex;
   justify-content: space-around;
-  justify-content: space-evenly;
+  /* justify-content: space-evenly; */
   margin: 0.7rem 0;
 }
 .btn_delete,

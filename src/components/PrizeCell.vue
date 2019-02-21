@@ -14,7 +14,8 @@
               <p class="detail_num">{{item.prizeCount ? `x${item.prizeCount}` : '数量无'}}</p>
             </div>
           </div>
-          <div class="pull_down" v-if="showMore">
+          <div :class="{pull_down: upOrDown,
+          pull_up: !upOrDown}" v-if="showMore">
             <img src="../assets/pull_down_img.png" @click="showMoreClick">
           </div>
         </div>
@@ -36,7 +37,8 @@ export default {
     return {
       defaultPrizeIcon: require("../assets/prize_default_icon.png"),
       truePrizes: [this.cellData.prizes[0]],
-      showMore: false
+      showMore: false,
+      upOrDown: true
     };
   },
   props: ["cellData", "edit"],
@@ -86,8 +88,13 @@ export default {
       this.$emit("toEdit");
     },
     showMoreClick() {
-      this.truePrizes = this.cellData.prizes;
-      this.showMore = false;
+      if (this.upOrDown) {
+        this.truePrizes = this.cellData.prizes;
+        this.upOrDown = false;
+      } else {
+        this.truePrizes = [this.cellData.prizes[0]];
+        this.upOrDown = true;
+      }
     }
   }
 };
@@ -184,6 +191,12 @@ export default {
 }
 .sum_attend {
   color: #757575;
+}
+.pull_up img {
+  height: 0.4rem;
+  transform: rotate(270deg);
+  margin-left: 1.7rem;
+  margin-top: 0.1rem;
 }
 </style>
 

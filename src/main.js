@@ -165,6 +165,10 @@ Vue.prototype.convertBase64UrlToBlob = (base64, mimeType) => {
   let _blob = new Blob([ab], { type: mimeType })
   return _blob
 }
+router.afterEach((to, from) => {
+  Dialog1.close()
+  Dialog2.close()
+})
 
 export default new Vue({
   router,

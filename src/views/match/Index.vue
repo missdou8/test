@@ -188,6 +188,8 @@ export default {
       this.$store.commit("setAttendStyle", { id: 0, value: "未选择" });
       this.$store.commit("setIfSave", false);
       this.$store.commit("setPrizeCover", "");
+      this.$store.commit("setgainPrizeAddress", {});
+
       //初始化默认数据
       this.$store.commit("setRankPrizes", [
         {

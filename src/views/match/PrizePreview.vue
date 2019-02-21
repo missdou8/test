@@ -249,7 +249,10 @@ export default {
     typeSelect(data) {
       this.addressShow = data.id;
       //如果没有选择自提地址并且自提地址为空，那么地址为商家地址
-      if (data.id == 1 && this.$store.state.match.gainPrizeAddress) {
+      if (
+        data.id == 1 &&
+        !this.$store.state.match.gainPrizeAddress["address"]
+      ) {
         let userInfo = this.$store.state.user.userInfo;
         this.$store.commit("setgainPrizeAddress", {
           address: userInfo.address,
@@ -262,6 +265,17 @@ export default {
           latitude: userInfo.latitude,
           longitude: userInfo.longitude
         });
+        let gainPrizeAddress = this.$store.state.match.gainPrizeAddress;
+        this.address =
+          gainPrizeAddress.regionName + String(gainPrizeAddress.address);
+        if (gainPrizeAddress.contact) {
+          return (this.contact =
+            gainPrizeAddress.contact + " " + String(gainPrizeAddress.mobile));
+        }
+        this.contact =
+          this.$store.state.user.userInfo.name +
+          " " +
+          String(this.$store.state.user.userInfo.mobile);
       }
     },
     toAddress() {

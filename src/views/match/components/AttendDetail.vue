@@ -37,6 +37,7 @@
         <input
           type="number"
           class="detail_price"
+          :class="{detail_price_hehe: prize.price}"
           placeholder="请输入阿拉伯数字，可带有小数点"
           v-model="prize.price"
         >元
@@ -135,10 +136,11 @@ export default {
   background-color: var(--border-color);
   position: absolute;
   bottom: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  right: 0;
+  transform: scaleY(0.5);
+  transform-origin: 0 0;
   height: 1px;
-  width: 90%;
+  width: 96%;
 }
 
 .detail_title {
@@ -176,6 +178,7 @@ export default {
 }
 .detail_price {
   flex-grow: 1;
+  padding-right: 0.2rem;
 }
 .detail_icon {
   height: 1.4rem;
@@ -206,6 +209,9 @@ export default {
 }
 .choose_btn_gray {
   color: #8b8b8b;
+}
+.detail_price_hehe {
+  text-align: right;
 }
 </style>
 

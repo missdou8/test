@@ -406,11 +406,7 @@ a {
   margin-left: 0.2rem;
 }
 .header_info_type {
-  color: #fff;
-  padding: 0 0.1rem 0 0.38rem;
-  background: url("../assets/attent_type.png") 0.05rem center/.23rem 0.23rem
-    no-repeat;
-  background-color: #c64432;
+  color: #d83c3c;
   margin: 0 0.2rem 0 0.05rem;
 }
 .header_info_record {
@@ -446,6 +442,7 @@ a {
 .prize {
   margin-top: 0.2rem;
   background-color: #fff;
+  padding-bottom: 0.2rem;
 }
 .prize_header {
   background-color: #fff;
@@ -484,8 +481,8 @@ a {
   padding: 0 0.45rem;
 }
 .prize_section {
-  background-color: #fffbeb;
-  color: #f6c668;
+  background-color: #fdfdfd;
+  color: #dcdcdc;
   font-size: 0.3rem;
   text-align: center;
   height: 0.6rem;
@@ -507,16 +504,6 @@ a {
   position: relative;
   border: 1px solid #d8d8d8;
 }
-/* .cell::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  height: 1px;
-  width: 90%;
-  background-color: #d9d9d9;
-  transform-origin: 0 0;
-  transform: scaleY(0.5);
-} */
 .attend_cell {
   padding-left: 1.72rem;
 }

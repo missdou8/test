@@ -62,14 +62,14 @@ const MATCH_ROUTERS = [
     path: '/match/style/prizepreview/prizesetting',
     component: PrizeSetting,
     meta: {
-      title: '编辑比赛名次'
+      title: '填写奖品信息'
     }
   },
   {
     path: '/match/style/prizepreview/attendsetting',
     component: AttendSetting,
     meta: {
-      title: '编辑参与奖'
+      title: '填写奖品信息'
     }
   },
   {
