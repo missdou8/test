@@ -112,9 +112,9 @@ export default {
       this.$store.commit("setgainPrizeAddress", {
         address: this.subAddress,
         regionName: this.address,
-        provinceId: this.addressCode[0],
-        cityId: this.addressCode[1],
-        areaId: this.addressCode[2],
+        provinceId: this.addressCode[0].code,
+        cityId: this.addressCode[1].code,
+        areaId: this.addressCode[2].code,
         latitude: this.weidu,
         longitude: this.jingdu,
         contact: this.contact,
