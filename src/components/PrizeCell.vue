@@ -24,7 +24,7 @@
     <div>
       <p class="cell_sum">
         <span class="sum_attend" :class="{show: !cellData.ispartInPrize}">有参与奖</span>
-        <span>{{total ? `共${total}元`: '价格无'}}</span>
+        <span>{{total ? `共${total}元`: '总价无'}}</span>
       </p>
     </div>
     <button class="cell_edit" @click="toEdit" v-if="edit"></button>
