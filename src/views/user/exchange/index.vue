@@ -35,7 +35,7 @@
           <div class="prizetag" slot="tag">{{prize.prizeType}}</div>
           <div slot="desc">
             <p v-if="prize.prize.type == 0">{{prize.receivingDec}}</p>
-            <p class="breakall" v-else><span>兑奖码：</span>{{prize.prize.pickupCode}}</p>
+            <p class="breakall" v-else><span>兑奖码：</span>{{prize.prize.pickupCode==''?'请等待用户到店提供兑奖码哦~':prize.prize.pickupCode}}</p>
           </div>
         </van-card>
         <div class="footer" slot="footer">
@@ -48,7 +48,7 @@
             :disabled="prize.receiving.status!=1||shipInfoArr.indexOf(prize.id)!=-1"
           >{{shipInfoArr.indexOf(prize.id)!=-1?'已发货':prize.btnText}}</van-button>
           <!-- 自提奖品只显示结果 -->
-          <van-button v-if='prize.receiving.status==3&&prize.prize.type != 0' class="btn outbtn" size="small">已取出</van-button>
+          <van-button v-else class="btn outbtn" size="small">{{prize.receiving.status==3?'已取出':'未取出'}}</van-button>
           <!-- <van-button
             v-else
             class="btn"
@@ -256,6 +256,7 @@ export default {
 }
 .breakall{
   word-break: break-all;
+  user-select: text!important;
 }
 </style>
 <style>
