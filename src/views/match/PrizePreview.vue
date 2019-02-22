@@ -156,7 +156,8 @@ export default {
     isSave() {
       if (
         this.errorArr.length > 0 ||
-        (this.addressShow < 0 && this.rankPrizes[0].prizes[0].name)
+        (this.addressShow < 0 && this.rankPrizes[0].prizes[0].name) ||
+        (this.addressShow < 0 && this.attendPrizes[0].name)
       ) {
         return true;
       } else {
@@ -322,10 +323,10 @@ export default {
       });
     },
     saveClick() {
-      if (!this.rankPrizes[0].prizes[0].name) {
+      if (!this.rankPrizes[0].prizes[0].name && !this.attendPrizes[0].name) {
         return this.$dialog1
           .confirm({
-            message: "您未添加奖品信息，无人获奖哦！",
+            message: "您未添加奖品信息，比赛将无人获奖哦！",
             confirmButtonText: "继续添加",
             cancelButtonText: "本场比赛不发奖"
           })
@@ -344,6 +345,14 @@ export default {
                     icon: null
                   }
                 ]
+              }
+            ]);
+            this.$store.commit("setPartSet", [
+              {
+                name: null,
+                price: null,
+                prizeCount: null,
+                icon: null
               }
             ]);
             this.$router.go(-1);

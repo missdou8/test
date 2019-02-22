@@ -104,7 +104,10 @@ export default {
         return state.match.attendStyle;
       },
       prizeMsg(state) {
-        return state.match.rankPrizes[0].prizes[0].name ? "已选择" : "未填写";
+        return state.match.rankPrizes[0].prizes[0].name ||
+          state.match.partSet[0].name
+          ? "已选择"
+          : "未填写";
       },
       shareMsg(state) {
         return state.match.shareImg ? "已选择" : "未选择";

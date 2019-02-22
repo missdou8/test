@@ -36,13 +36,13 @@
         </p>
         <button v-show="editShow" class="edit-btn" @click="toEdit">我要修改>></button>
       </div>
-      <div id="prize" class="prize" v-show="rankPrizes.length > 0">
+      <div id="prize" class="prize" v-show="rankPrizes.length > 0 || attendPrizes.length>0">
         <p class="prize_section">
           <img src="../assets/header_info_line.png" alt="线">
           <span>比赛奖品</span>
           <img class="last" src="../assets/header_info_line.png" alt="线">
         </p>
-        <div class="rank_prize">
+        <div class="rank_prize" v-show="rankPrizes.length > 0">
           <p class="prize_header">
             <span class="game_tag"></span>
             <span>名次奖品</span>
