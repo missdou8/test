@@ -23,7 +23,7 @@
     </div>
     <div>
       <p class="cell_sum">
-        <span class="sum_attend" :class="{show: !cellData.ispartInPrize}">有参与奖</span>
+        <span class="sum_attend" :class="{show: !cellData.ispartInPrize}">+参与奖</span>
         <span>{{total ? `共${total}元`: '总价无'}}</span>
       </p>
     </div>
@@ -168,7 +168,7 @@ export default {
 .cell_sum {
   display: flex;
   justify-content: space-between;
-  padding-left: 3rem;
+  padding-left: 2.8rem;
   padding-right: 0.2rem;
 }
 .cell_edit {

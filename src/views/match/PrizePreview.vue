@@ -30,11 +30,11 @@
         <p class="attend_total">{{attendTotal ? `共${attendTotal}元`: '总价无'}}</p>
       </div>
     </section>
-    <section class="send" :class="{cannot: !rankPrizes[0].prizes[0].name}">
+    <section class="send">
       <h1 class="preview_title">领奖方式</h1>
       <radio-btn
         class="send_type"
-        :class="{send_type_no: !rankPrizes[0].prizes[0].name}"
+        :class="{send_type_no: canEditAddress}"
         :data="sendStyle"
         @select="typeSelect"
         :selected="sendType"
@@ -123,6 +123,13 @@ export default {
         }
       }
     }),
+    canEditAddress() {
+      if (this.rankPrizes[0].prizes[0].name || this.attendPrizes[0].name) {
+        return false;
+      } else {
+        return true;
+      }
+    },
     showAdd() {
       return this.rankPrizes[0].prizes[0].name;
     },
@@ -379,6 +386,7 @@ section h1 {
 .send_type_no {
   background-color: #f9f9f9;
   border: 1px dashed #d8d8d8;
+  pointer-events: none;
 }
 .send,
 .address {
@@ -403,9 +411,7 @@ section h1 {
   margin: 0.3rem auto;
   border-radius: 0.05rem;
 }
-.cannot {
-  pointer-events: none;
-}
+
 .more_add {
   background-color: #f9f9f9;
   border: 1px dashed #d8d8d8;
