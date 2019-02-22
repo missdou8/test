@@ -147,7 +147,10 @@ export default {
       return errorArr;
     },
     isSave() {
-      if (this.errorArr.length > 0 || this.addressShow < 0) {
+      if (
+        this.errorArr.length > 0 ||
+        (this.addressShow < 0 && this.rankPrizes[0].prizes[0].name)
+      ) {
         return true;
       } else {
         return false;

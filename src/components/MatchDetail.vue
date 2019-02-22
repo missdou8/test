@@ -42,7 +42,7 @@
           <span>比赛奖品</span>
           <img class="last" src="../assets/header_info_line.png" alt="线">
         </p>
-        <div>
+        <div class="rank_prize">
           <p class="prize_header">
             <span class="game_tag"></span>
             <span>名次奖品</span>
@@ -58,7 +58,7 @@
         <div class="attend_prize" v-show="attendPrizes.length">
           <p class="prize_header">
             <span class="game_tag"></span>
-            <span>参与奖</span>
+            <span>参与奖品</span>
           </p>
           <attend-cell
             class="attend_cell"
@@ -67,16 +67,18 @@
             :cellData="item"
           ></attend-cell>
         </div>
-        <div v-show="prizes.type == 1">
+        <div class="address">
           <p class="prize_header prize_fetch">
             <span class="game_tag"></span>
             <span>领奖方式</span>
           </p>
-          <div class="address">
-            <p class="address_type">{{sendType[prizes.type]}}</p>
-            <p class="address_detail">{{prizes.regionName}} {{prizes.address}}</p>
-            {{prizes.contact || '默认名称'}}
-            <span class="match_mobile">{{prizes.mobile}}</span>
+          <p class="address_type">{{sendType[prizes.type]}}</p>
+          <div class="address_detail" v-show="prizes.type == 1">
+            <p>{{prizes.regionName}} {{prizes.address}}</p>
+            <p>
+              {{prizes.contact || '默认名称'}}
+              <span class="match_mobile">{{prizes.mobile}}</span>
+            </p>
           </div>
         </div>
       </div>
@@ -441,8 +443,6 @@ a {
 }
 .prize {
   margin-top: 0.2rem;
-  background-color: #fff;
-  padding-bottom: 0.2rem;
 }
 .prize_header {
   background-color: #fff;
@@ -478,7 +478,7 @@ a {
 }
 .address {
   background-color: #fff;
-  padding: 0 0.45rem;
+  margin-top: 0.2rem;
 }
 .prize_section {
   background-color: #fdfdfd;
@@ -500,12 +500,9 @@ a {
 }
 .cell {
   background-color: #fff;
-  margin: 0.1rem 0.36rem;
+  margin: 0.1rem 0.18rem;
   position: relative;
-  border: 1px solid #d8d8d8;
-}
-.attend_cell {
-  padding-left: 1.72rem;
+  border: 1px solid rgba(217, 217, 217, 0.8);
 }
 .prize_fetch {
   position: relative;
@@ -524,11 +521,15 @@ a {
 }
 .address_type {
   color: #000;
+  padding: 0 0.48rem;
   font-size: 0.32rem;
-  padding-top: 0.1rem;
+  margin-top: 0.12rem;
+  padding-bottom: 0.2rem;
 }
 .address_detail {
-  padding-top: 0.1rem;
+  color: #000;
+  padding: 0.1rem 0.48rem;
+  padding-bottom: 0.3rem;
 }
 .match_mobile {
   background: url("../assets/address_phone.png") no-repeat;
@@ -539,7 +540,9 @@ a {
   padding-left: 0.5rem;
   margin-left: 0.3rem;
 }
+.rank_prize,
 .attend_prize {
+  background: #fff;
   padding-bottom: 0.1rem;
 }
 </style>
