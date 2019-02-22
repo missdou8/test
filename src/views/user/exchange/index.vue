@@ -48,7 +48,9 @@
             :disabled="prize.receiving.status!=1||shipInfoArr.indexOf(prize.id)!=-1"
           >{{shipInfoArr.indexOf(prize.id)!=-1?'已发货':prize.btnText}}</van-button>
           <!-- 自提奖品只显示结果 -->
-          <van-button v-else class="btn outbtn" size="small">{{prize.receiving.status==3?'已取出':'未取出'}}</van-button>
+          <van-button v-else class="btn outbtn"  
+          :class="{'gray':prize.receiving.status==3}" 
+          size="small">{{prize.receiving.status==3?'已取出':'未取出'}}</van-button>
           <!-- <van-button
             v-else
             class="btn"
@@ -257,6 +259,9 @@ export default {
 .breakall{
   word-break: break-all;
   user-select: text!important;
+}
+.gray{
+  color: #969799;
 }
 </style>
 <style>
