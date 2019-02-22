@@ -43,7 +43,7 @@
           <img class="last" src="../assets/header_info_line.png" alt="线">
         </p>
         <div class="rank_prize" v-show="rankPrizes.length > 0">
-          <p class="prize_header">
+          <p class="prize_header prize_header_teshu">
             <span class="game_tag"></span>
             <span>名次奖品</span>
           </p>
@@ -56,7 +56,7 @@
           ></prize-cell>
         </div>
         <div class="attend_prize" v-show="attendPrizes.length">
-          <p class="prize_header">
+          <p class="prize_header prize_header_teshu">
             <span class="game_tag"></span>
             <span>参与奖品</span>
           </p>
@@ -543,6 +543,9 @@ a {
 .rank_prize,
 .attend_prize {
   background: #fff;
+  padding-bottom: 0.1rem;
+}
+.prize_header_teshu {
   padding-bottom: 0.1rem;
 }
 </style>
