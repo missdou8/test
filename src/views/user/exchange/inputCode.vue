@@ -33,7 +33,9 @@ export default {
             //数据量比较大需要使用vux存储
             this.$store.commit("setprizeDetail", res.data);
             this.$router.push("/user/exchange/prizeMsg");
-        });
+        }).catch((err)=>{
+          this.$toast(err.msg);
+        });;
       }
   }
 };

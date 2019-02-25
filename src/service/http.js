@@ -78,7 +78,7 @@ let errorCatch = (code, msg) => {
       _this.$router.push("/login");
       break;
     case 140301:  
-       _this.$toast("无效的兑奖码！");
+      //  _this.$toast("无效的兑奖码！");
       break;
     case code:
       _this.$toast(msg || "接口返回数据有误");
