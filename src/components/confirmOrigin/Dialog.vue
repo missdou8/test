@@ -90,13 +90,14 @@ export default {
   background-color: #fff;
   width: 5.61rem;
   height: 1.6rem;
-  line-height: 1.6rem;
   margin: 0 auto;
   margin-top: 0.24rem;
   color: #2a2a2a;
   font-size: 0.27rem;
   font-weight: bold;
   text-align: center;
+  display: flex;
+  align-items: center;
 }
 .content_btn {
   display: flex;
