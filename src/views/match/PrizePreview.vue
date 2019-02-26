@@ -78,11 +78,11 @@ export default {
         {
           id: 1,
           value: "客户自取"
+        },
+        {
+          id: 3,
+          value: "到店使用"
         }
-        // {
-        //   id: 3,
-        //   value: "到店使用"
-        // }
       ],
       address: "",
       contact: "",
@@ -260,10 +260,7 @@ export default {
     typeSelect(data) {
       this.addressShow = data.id;
       //如果没有选择自提地址并且自提地址为空，那么地址为商家地址
-      if (
-        data.id == 1 &&
-        !this.$store.state.match.gainPrizeAddress["address"]
-      ) {
+      if (data.id > 0 && !this.$store.state.match.gainPrizeAddress["address"]) {
         let userInfo = this.$store.state.user.userInfo;
         this.$store.commit("setgainPrizeAddress", {
           address: userInfo.address,

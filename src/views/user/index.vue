@@ -4,24 +4,55 @@
       <van-cell-group>
         <van-cell class="user_box">
           <div class="user_img_box">
-            <shear-img ref="shear_img" :def-img="userinfo.icon||defImg" :img-width="300" :img-height="300" @getImgUrl='getImgUrl($event)'></shear-img>
+            <shear-img
+              ref="shear_img"
+              :def-img="userinfo.icon||defImg"
+              :img-width="300"
+              :img-height="300"
+              @getImgUrl="getImgUrl($event)"
+            ></shear-img>
           </div>
           <div class="user_msg">
             <h3>点击修改头像</h3>
-            <p>店铺ID:
+            <p>
+              店铺ID:
               <span>{{userinfo.id}}</span>
             </p>
           </div>
         </van-cell>
       </van-cell-group>
       <van-cell-group class="user_edit_box">
-        <van-cell title="店铺名称" :value="userinfo.shopName" :is-link="true" :to="{ path: '/user/edit/shop', query: { shopName: userinfo.shopName}}"></van-cell>
-        <van-cell title="店主名字" :value="userinfo.name" is-link :to="{ path: '/user/edit/name', query: { name: userinfo.name}}"></van-cell>
-        <van-cell class="gray" title="实名认证" :value="autonymText+',认证信息仅自己可见'" is-link to="/user/edit/autonym"></van-cell>
-        <van-cell title="店铺座机" :value="userinfo.telephone" is-link :to="{ path: '/user/edit/plane', query: { telephone: userinfo.telephone }}"></van-cell>
-        <van-cell title="手机号码" :value="userinfo.mobile" is-link :to="{ path: '/user/edit/phone', query: { mobile: userinfo.mobile}}"></van-cell>
-        <van-cell class="address" title="店铺地址" :value="userinfo.address" is-link 
-        :to="{ path: '/user/edit/address', 
+        <van-cell
+          title="店铺名称"
+          :value="userinfo.shopName"
+          :is-link="true"
+          :to="{ path: '/user/edit/shop', query: { shopName: userinfo.shopName}}"
+        ></van-cell>
+        <van-cell
+          title="店主名字"
+          :value="userinfo.name"
+          is-link
+          :to="{ path: '/user/edit/name', query: { name: userinfo.name}}"
+        ></van-cell>
+        <!-- <van-cell class="gray" title="实名认证" :value="autonymText+',认证信息仅自己可见'" is-link to="/user/edit/autonym"></van-cell> -->
+        <van-cell
+          title="店铺座机"
+          :value="userinfo.telephone"
+          is-link
+          :to="{ path: '/user/edit/plane', query: { telephone: userinfo.telephone }}"
+        ></van-cell>
+        <van-cell
+          title="手机号码"
+          :value="userinfo.mobile"
+          is-link
+          :to="{ path: '/user/edit/phone', query: { mobile: userinfo.mobile}}"
+        ></van-cell>
+        <van-cell
+          class="address"
+          title="店铺地址"
+          :value="userinfo.address"
+          is-link
+          :to="{ path: '/user/edit/address', 
         query: {
            address: userinfo.address,
            areaId:userinfo.areaId,
@@ -29,7 +60,8 @@
            longitude:userinfo.longitude,
            latitude:userinfo.latitude
            }
-        }"></van-cell>
+        }"
+        ></van-cell>
       </van-cell-group>
       <van-cell-group class="user_footer">
         <van-cell title="修改密码" is-link to="/user/edit/Pwd"></van-cell>
@@ -173,15 +205,15 @@ export default {
   align-self: baseline;
 }
 #userIndex .van-hairline--top-bottom::after {
-  content: ' ';
+  content: " ";
   position: absolute;
   pointer-events: none;
   box-sizing: border-box;
   right: 0;
   top: 100%;
   bottom: 0;
-  -webkit-transform: scaleY(.5);
-  transform: scaleY(.5);
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
   border-bottom: 1px solid #eee;
   left: 0.3rem;
   border-top: 0;
