@@ -18,11 +18,11 @@
     >
       <van-panel class="panel" v-for="(prize,index) in prizeList" :key="index">
         <div class="panel_header" slot="header">
-          <van-cell :value="prize.time">
+          <van-cell :value="'开赛时间：'+prize.beginTime">
             <img slot="icon" :src="prize.icon||imageURL" alt srcset>
             <div class="panel_title" slot="title">
               <p>{{prize.nickname}}</p>
-              <p>{{prize.match.name}}第{{prize.match.ranking}}名</p>
+              <p><i>{{prize.match.name}}</i>第{{prize.match.ranking}}名</p>
               <!-- <p>第{{prize.match.ranking}}名</p> -->
             </div>
           </van-cell>
@@ -39,6 +39,8 @@
           </div>
         </van-card>
         <div class="footer" slot="footer">
+          <!-- 领取时间 -->
+          <p>{{prize.time}}</p>
           <van-button
             v-if="prize.prize.type == 0"
             class="btn"
@@ -130,6 +132,9 @@ export default {
       //数据处理(确保数据存在)
       if (this.prizeList.length > 0) {
         this.prizeList.forEach(p => {
+          // 开赛时间
+          p.beginTime = timeFormate(p.match.beginTime * 1000, "YY/MM/DD HH:mm:ss");
+          //兑奖时间
           p.time = timeFormate(p.prize.time * 1000, "YY/MM/DD HH:mm:ss");
           p.icon = httpToHttps(p.icon);
           if (p.prize.type == 0) {
@@ -232,6 +237,13 @@ export default {
 }
 .footer {
   text-align: right;
+  position: relative;
+}
+.footer p{
+  position: absolute;
+  bottom: -.1rem;
+  left: 0;
+  font-size: .2rem;
 }
 .btn {
   padding: 0 0.35rem;
@@ -287,9 +299,6 @@ export default {
   border-radius: 50%;
   margin-right: 0.2rem;
 }
-#exchangeIndex .panel_header .van-cell__title {
-  width: 40%;
-}
 #exchangeIndex .panel_header .panel_title {
   color: rgb(117, 117, 117);
   font-size: 0.2rem;
@@ -300,17 +309,31 @@ export default {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+#exchangeIndex .panel_header .panel_title p i{
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 70%;
+  vertical-align: bottom;
+}
 #exchangeIndex .panel_header .panel_title p:nth-child(1) {
   color: #000;
   font-size: 0.25rem;
   font-weight: 600;
+  max-width: 35%;
 }
-
+/* #exchangeIndex .panel_header .panel_title p:nth-child(1) i{
+  max-width: 20%;
+} */
 #exchangeIndex .panel_header .van-cell__value {
   font-size: 0.14rem;
   text-align: right;
   align-self: flex-end;
   line-height: 18px;
+  position: absolute;
+  top: 0.12rem;
+  right: 0.15rem;
 }
 #exchangeIndex .van-card {
   background: #fff;
