@@ -92,6 +92,9 @@ export default {
   computed: {
     ...mapState({
       sendType(state) {
+        if (state.match.sendStyle == 3) {
+          return 2;
+        }
         return state.match.sendStyle;
       },
       rankPrizes(state) {
