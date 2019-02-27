@@ -211,9 +211,9 @@ export default {
       ]);
       this.$store.commit("setSendStyle", -1);
       //判断是否有权限创建
-      if (this.userInfo.certification != 1) {
-        return this.$toast("请先实名认证");
-      }
+      // if (this.userInfo.certification != 1) {
+      //   return this.$toast("请先实名认证");
+      // }
       if (this.userInfo.latitude == 0) {
         return this.$toast("需要进行店铺地址定位");
       }
