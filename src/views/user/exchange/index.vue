@@ -35,7 +35,7 @@
           <div class="prizetag" slot="tag">{{prize.prizeType}}</div>
           <div slot="desc">
             <p v-if="prize.prize.type == 0">{{prize.receivingDec}}</p>
-            <p class="breakall" v-else><span>兑奖码：</span>{{prize.prize.pickupCode==''?'请等待用户到店提供兑奖码哦~':prize.prize.pickupCode}}</p>
+            <p class="breakall" v-if="prize.prize.type == 1"><span>兑奖码：</span>{{prize.prize.pickupCode==''?'请等待用户到店提供兑奖码哦~':prize.prize.pickupCode}}</p>
           </div>
         </van-card>
         <div class="footer" slot="footer">
@@ -50,9 +50,10 @@
             :disabled="prize.receiving.status!=1||shipInfoArr.indexOf(prize.id)!=-1"
           >{{shipInfoArr.indexOf(prize.id)!=-1?'已发货':prize.btnText}}</van-button>
           <!-- 自提奖品只显示结果 -->
-          <van-button v-else class="btn outbtn"  
+          <van-button v-if="prize.prize.type == 1" class="btn outbtn"  
           :class="{'gray':prize.receiving.status==3}" 
           size="small">{{prize.receiving.status==3?'已取出':'未取出'}}</van-button>
+          <van-button v-if="prize.prize.type == 3" class="btn outbtn" size="small">已使用</van-button>
           <!-- <van-button
             v-else
             class="btn"
@@ -143,10 +144,13 @@ export default {
             if (p.receiving.status == 1) p.btnText = "去发货";
             else if (p.receiving.status == 2) p.btnText = "已发货";
             else p.btnText = "已收货";
-          } else {
+          } else if(p.prize.type == 1) {
             p.prizeType = "自取奖品";
             if (p.receiving.status == 1) p.btnText = "确认取出";
             else p.btnText = "已取出";
+          }else if(p.prize.type == 3) {
+            p.prizeType = "到店使用"
+            p.btnText = "已使用";
           }
           p.receivingDec = `收货地址：${p.receiving.region} ${
             p.receiving.address
