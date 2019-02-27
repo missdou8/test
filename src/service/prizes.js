@@ -3,7 +3,8 @@ const PRIZES_INFO = {
         "prizeList",   // 兑奖信息列表获取
         "shipInfo",    // 发货信息填写
         "pickUpPrize", // 玩家自提确认取出
-        "prizeDetail"  // 自提奖品详情
+        "prizeDetail",  // 自提奖品详情
+        "commentsList" //获奖感言列表
     ]
 };
 

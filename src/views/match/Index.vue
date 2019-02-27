@@ -8,13 +8,13 @@
         </div>
         <div>
           <a class="unread" href="/front/user/exchange">
-            <span v-show="userInfo.unreadPrizesCount != 0 "></span>
+            <span class="dotted" v-show="userInfo.unreadPrizesCount != 0 "></span>
           </a>
           <span>兑奖</span>
         </div>
         <div>
           <router-link class="message" to="/announce/index">
-            <span v-show="userInfo.unreadMailCount != 0 "></span>
+            <span class="dotted" v-show="userInfo.unreadMailCount != 0 "></span>
           </router-link>
           <span>公告</span>
         </div>
@@ -65,14 +65,22 @@
       </ul>
     </div>
     <van-tabs v-model="active" class="match_main" :line-width="40">
-      <van-tab v-for="(item, index) in tabs.length" :title="tabs[index]" :key="index">
+      <van-tab v-for="(item, index) in tabs.length" :key="index">
+        <div slot="title">
+          <p class="tab_dotted">
+            {{tabs[index]}}
+            <span class="dotted" v-show="index==2 && isNewComment"></span>
+          </p>
+        </div>
         <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh">
+          <p>你好</p>
           <van-list
             v-model="loading"
             :finished="finished"
             @load="onLoad"
             :immediate-check="false"
             :offset="100"
+            v-if="active < 2"
           >
             <div class="match_list_content">
               <div
@@ -116,14 +124,16 @@ export default {
       icon: icon,
       cover: cover,
       userInfo: Object, //头像地址
-      tabs: ["当前赛事", "历史赛事"],
+      tabs: ["当前赛事", "历史赛事", "获奖感言"],
       list: [],
       refreshing: false,
       loading: false,
       finished: false,
       matchType: 1,
       matchPage: 1,
-      pageSize: 10
+      pageSize: 10,
+      isNewComment: false, //是否有新评论
+      commentsList: []
     };
   },
   watch: {
@@ -134,7 +144,16 @@ export default {
       this.matchPage = 1;
       this.finished = false;
       this.list = [];
-      this.fetchList();
+      /**
+       * 前两个tab一个数据接口
+       * 第三个一个数据接口
+       */
+      if (this.active < 2) {
+        this.fetchList();
+      } else {
+        let commentsListData = this.fetchCommentsList();
+        this.commentsList = commentsListData.commentsList;
+      }
     }
   },
   filters: {
@@ -150,6 +169,7 @@ export default {
     this.active = this.$store.state.match.tabActive;
     this.http.user.getUserInfo().then(res => {
       this.userInfo = res.data;
+      this.isNewComment = this.userInfo.newPlayerComments;
       this.$store.commit("setInfo", this.userInfo);
     });
   },
@@ -233,6 +253,15 @@ export default {
         .then(res => {
           let data = res.data;
           this.list = this.list.concat(data.matchList);
+          return data;
+        });
+    },
+    fetchCommentsList() {
+      return this.http.prizes
+        .commentsList({ pagesize: 10, currentpage: 1 })
+        .then(res => {
+          let data = res.data;
+          console.log(data);
           return data;
         });
     },
@@ -348,8 +377,7 @@ export default {
   background-image: url("../../assets/header_gift.png");
   position: relative;
 }
-.message span,
-.unread span {
+.dotted {
   background-color: red;
   border-radius: 50%;
   color: #fff;
@@ -508,6 +536,13 @@ export default {
 }
 .edit_info2 {
   background: url("../../assets/di_red.png") left/100% 100% no-repeat;
+}
+.tab_dotted {
+  position: relative;
+}
+.tab_dotted .dotted {
+  top: 0.18rem;
+  right: 0.42rem;
 }
 </style>
 
