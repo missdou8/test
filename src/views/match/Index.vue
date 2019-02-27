@@ -72,17 +72,15 @@
             <span class="dotted" v-show="index==2 && isNewComment"></span>
           </p>
         </div>
-        <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh">
-          <p>你好</p>
+        <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh(active)">
           <van-list
             v-model="loading"
             :finished="finished"
-            @load="onLoad"
+            @load="onLoad(active)"
             :immediate-check="false"
             :offset="100"
-            v-if="active < 2"
           >
-            <div class="match_list_content">
+            <div class="match_list_content" v-if="active < 2">
               <div
                 class="match_list_item"
                 v-for="item in list"
@@ -103,6 +101,15 @@
                 </div>
               </div>
             </div>
+            <DidaCommentList
+              class="comments_list"
+              v-for="(item,index) in commentsList"
+              :key="`comment${index}`"
+              :data="item"
+              :type="0"
+              @next="commentClick"
+              v-else
+            ></DidaCommentList>
           </van-list>
         </van-pull-refresh>
       </van-tab>
@@ -133,7 +140,7 @@ export default {
       matchPage: 1,
       pageSize: 10,
       isNewComment: false, //是否有新评论
-      commentsList: []
+      commentsList: [] //评论列表信息
     };
   },
   watch: {
@@ -144,6 +151,7 @@ export default {
       this.matchPage = 1;
       this.finished = false;
       this.list = [];
+      this.commentsList = [];
       /**
        * 前两个tab一个数据接口
        * 第三个一个数据接口
@@ -151,8 +159,9 @@ export default {
       if (this.active < 2) {
         this.fetchList();
       } else {
-        let commentsListData = this.fetchCommentsList();
-        this.commentsList = commentsListData.commentsList;
+        this.fetchCommentsList().then(commentsListData => {
+          this.commentsList = commentsListData.commentsList;
+        });
       }
     }
   },
@@ -174,26 +183,49 @@ export default {
     });
   },
   methods: {
+    commentClick(data) {
+      this.$router.push({
+        path: "/match/comment",
+        query: {
+          data: JSON.stringify(data)
+        }
+      });
+    },
     code2Word(code) {
       let word = this.config.matchStatus;
       return word[code];
     },
-    onLoad() {
+    onLoad(tab) {
       this.matchPage += 1;
-      this.fetchList().then(data => {
-        this.loading = false;
-        if (data.total <= this.matchPage * this.pageSize) {
-          this.finished = true;
-        }
-      });
+      if (tab < 2) {
+        this.fetchList().then(data => {
+          this.loading = false;
+          if (data.total <= this.matchPage * this.pageSize) {
+            this.finished = true;
+          }
+        });
+      } else {
+        this.fetchCommentsList().then(data => {
+          this.loading = false;
+          if (data.total <= this.matchPage * this.pageSize) {
+            this.finished = true;
+          }
+        });
+      }
     },
-    onRefresh() {
+    onRefresh(tab) {
       this.list = [];
       this.matchPage = 1;
       this.finished = false;
-      this.fetchList(1).then(() => {
-        this.refreshing = false;
-      });
+      if (tab < 2) {
+        this.fetchList().then(() => {
+          this.refreshing = false;
+        });
+      } else {
+        this.fetchCommentsList().then(() => {
+          this.refreshing = false;
+        });
+      }
     },
     toDetail(id) {
       this.$store.commit("setId", id);
@@ -258,7 +290,7 @@ export default {
     },
     fetchCommentsList() {
       return this.http.prizes
-        .commentsList({ pagesize: 10, currentpage: 1 })
+        .commentsList({ pagesize: this.pageSize, currentpage: this.matchPage })
         .then(res => {
           let data = res.data;
           console.log(data);
@@ -543,6 +575,9 @@ export default {
 .tab_dotted .dotted {
   top: 0.18rem;
   right: 0.42rem;
+}
+.comments_list {
+  margin-top: 0.13rem;
 }
 </style>
 
