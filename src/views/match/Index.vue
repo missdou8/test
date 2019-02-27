@@ -162,9 +162,7 @@ export default {
       if (this.active < 2) {
         this.fetchList();
       } else {
-        this.fetchCommentsList().then(commentsListData => {
-          this.commentsList = commentsListData.commentsList;
-        });
+        this.fetchCommentsList();
       }
     }
   },
@@ -218,6 +216,7 @@ export default {
     },
     onRefresh(tab) {
       this.list = [];
+      this.commentsList = [];
       this.matchPage = 1;
       this.finished = false;
       if (tab < 2) {
@@ -299,6 +298,7 @@ export default {
         .commentsList({ pagesize: this.pageSize, currentpage: this.matchPage })
         .then(res => {
           let data = res.data;
+          this.commentsList = this.commentsList.concat(data.commentsList);
           return data;
         });
     },
