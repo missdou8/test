@@ -108,6 +108,9 @@
               :data="item"
               :type="0"
               @next="commentClick"
+              :disabeld="true"
+              :isComment="true"
+              @toDetail="commentToDetail"
               v-else
             ></DidaCommentList>
           </van-list>
@@ -227,6 +230,9 @@ export default {
         });
       }
     },
+    commentToDetail(data) {
+      this.toDetail(data.id);
+    },
     toDetail(id) {
       this.$store.commit("setId", id);
       this.$router.push("match/detail");
@@ -293,7 +299,6 @@ export default {
         .commentsList({ pagesize: this.pageSize, currentpage: this.matchPage })
         .then(res => {
           let data = res.data;
-          console.log(data);
           return data;
         });
     },

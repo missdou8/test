@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <div class="reply_submit_container">
-      <button class="reply_submit" @click="submit">提交</button>
-    </div>
+  <div class="comment">
     <DidaCommentList class="comments_list" :data="commentData" :type="0"></DidaCommentList>
     <div class="reply">
       <textarea class="reply_text" placeholder="请输入您的回复" v-model="replyValue"></textarea>
+    </div>
+    <div class="reply_submit_container">
+      <button class="reply_submit" @click="submit">提交</button>
     </div>
   </div>
 </template>
@@ -39,6 +39,10 @@ export default {
 
 
 <style scoped>
+.comment {
+  padding-top: 0.15rem;
+  position: relative;
+}
 .reply {
   height: 3.35rem;
   width: 100%;
@@ -49,15 +53,19 @@ export default {
   height: 100%;
 }
 .reply_submit_container {
-  text-align: right;
+  position: absolute;
+  bottom: 0.68rem;
+  text-align: center;
+  width: 100%;
 }
 .reply_submit {
   background-color: #fcc600;
   border-radius: 0.08rem;
   color: #000;
   font-size: 0.32rem;
-  padding: 0.21rem 0.5rem;
   margin: 0.15rem 0.08rem;
+  width: 6.41rem;
+  height: 0.9rem;
 }
 </style>
 
