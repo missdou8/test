@@ -94,9 +94,6 @@ Vue.use(Tab)
   .use(NavBar)
   .use(Switch)
 
-//自定义dialog
-Dialog.resetDefaultOptions({ className: 'hhhh' })
-
 Vue.config.productionTip = false
 
 /**
@@ -113,10 +110,15 @@ let compressImg = file => {
       message: '压缩中...',
       duration: 0
     })
+    let mime = 'auto'
+    if (file.name.indexOf('.gif') > 0) {
+      mime = 'image/jpg'
+    }
     new ImageCompressor(file, {
       maxWidth: config.outputWidth,
       maxHeight: config.outputHeight,
       convertSize: 1000000,
+      mimeType: mime,
       success(newFile) {
         resolve(newFile)
       },
