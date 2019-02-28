@@ -26,6 +26,7 @@ body {
   background-color: var(--bg-color);
   color: var(--word-color);
   font-size: 0.28rem;
+  line-height: 0.44rem;
 }
 
 /* 高度继承 */

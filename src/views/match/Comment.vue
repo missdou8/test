@@ -42,6 +42,7 @@ export default {
 .comment {
   padding-top: 0.15rem;
   position: relative;
+  line-height: 1;
 }
 .reply {
   height: 3.35rem;

@@ -583,6 +583,7 @@ export default {
 }
 .comments_list {
   margin-top: 0.13rem;
+  line-height: 1;
 }
 </style>
 
