@@ -14,6 +14,7 @@ import PrizeSetting from '../views/match/PrizeSetting.vue'
 import AttendSetting from '../views/match/AttendSetting.vue'
 import NumberInput from '../views/match/NumberInput.vue'
 import AttendNumberInput from '../views/match/AttendNumberInput.vue'
+import Comment from '../views/match/Comment.vue'
 
 const MATCH_ROUTERS = [
   {
@@ -21,6 +22,13 @@ const MATCH_ROUTERS = [
     component: Index,
     meta: {
       title: '广告主'
+    }
+  },
+  {
+    path: '/match/comment',
+    component: Comment,
+    meta: {
+      title: '回复感言'
     }
   },
   {
