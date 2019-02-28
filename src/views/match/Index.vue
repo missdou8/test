@@ -165,6 +165,7 @@ export default {
       if (this.active < 2) {
         this.fetchList();
       } else {
+        this.isNewComment = false;
         this.fetchCommentsList();
       }
     }
