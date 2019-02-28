@@ -1,6 +1,13 @@
 <template>
   <div class="comment">
-    <DidaCommentList class="comments_list" :data="commentData" :type="0"></DidaCommentList>
+    <DidaCommentList
+      class="comments_list"
+      :data="commentData"
+      :disabeld="true"
+      :type="0"
+      @toDetail="commentToDetail"
+      @getImgSrc="bigger"
+    ></DidaCommentList>
     <div class="reply">
       <textarea class="reply_text" placeholder="请输入您的回复" v-model="replyValue"></textarea>
     </div>
@@ -11,14 +18,15 @@
 </template>
 
 <script>
+import { ImagePreview } from "vant";
+
 export default {
   data() {
     return {
       commentData: JSON.parse(this.$route.query.data),
-      replyValue: ""
+      replyValue: "感谢评价"
     };
   },
-  mounted() {},
   methods: {
     submit() {
       if (!this.replyValue) {
@@ -32,6 +40,21 @@ export default {
         .then(() => {
           this.$router.go(-1);
         });
+    },
+    commentToDetail(data) {
+      this.toDetail(data.id);
+    },
+    toDetail(id) {
+      this.$store.commit("setId", id);
+      this.$router.push("match/detail");
+    },
+    bigger(src) {
+      ImagePreview({
+        images: [src],
+        onClose() {
+          // do something
+        }
+      });
     }
   }
 };

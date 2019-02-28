@@ -111,6 +111,7 @@
               :disabeld="true"
               :isComment="true"
               @toDetail="commentToDetail"
+              @getImgSrc="bigger"
               v-else
             ></DidaCommentList>
           </van-list>
@@ -127,6 +128,8 @@
 <script>
 import icon from "../../assets/icon.png";
 import cover from "../../assets/banner_task.png";
+import { ImagePreview } from "vant";
+
 export default {
   data() {
     return {
@@ -184,6 +187,14 @@ export default {
     });
   },
   methods: {
+    bigger(src) {
+      ImagePreview({
+        images: [src],
+        onClose() {
+          // do something
+        }
+      });
+    },
     commentClick(data) {
       this.$router.push({
         path: "/match/comment",
