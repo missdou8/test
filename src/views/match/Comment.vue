@@ -42,11 +42,12 @@ export default {
         });
     },
     commentToDetail(data) {
+      console.log(data);
       this.toDetail(data.id);
     },
     toDetail(id) {
       this.$store.commit("setId", id);
-      this.$router.push("match/detail");
+      this.$router.push("detail");
     },
     bigger(src) {
       ImagePreview({
