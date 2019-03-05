@@ -1,6 +1,6 @@
 {
   "name": "merchant_front",
-  "version": "0.0.2",
+  "version": "0.0.7",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
