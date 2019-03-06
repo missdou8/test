@@ -9,7 +9,11 @@
       @getImgSrc="bigger"
     ></DidaCommentList>
     <div class="reply">
-      <textarea class="reply_text" placeholder="请输入您的回复" v-model="replyValue"></textarea>
+      <textarea class="reply_text" placeholder="请输入您的回复" v-model="replyValue" maxlength="500"></textarea>
+      <p class="reply_length">
+        {{replyValue.length}}
+        <span>/500</span>
+      </p>
     </div>
     <div class="reply_submit_container">
       <button class="reply_submit" @click="submit">提交</button>
@@ -27,10 +31,20 @@ export default {
       replyValue: "感谢评价"
     };
   },
+  watch: {
+    replyValue() {
+      if (this.replyValue.length > 500) {
+        this.$toast("输入超长");
+      }
+    }
+  },
   methods: {
     submit() {
       if (!this.replyValue) {
         return this.$toast("请输入您的回复");
+      }
+      if (this.replyValue.length > 500) {
+        return this.$toast("输入文字过长");
       }
       this.http.prizes
         .commentReply({
@@ -71,6 +85,7 @@ export default {
   height: 3.35rem;
   width: 100%;
   padding: 0.15rem;
+  position: relative;
 }
 .reply_text {
   width: 100%;
@@ -90,6 +105,11 @@ export default {
   margin: 0.15rem 0.08rem;
   width: 6.41rem;
   height: 0.9rem;
+}
+.reply_length {
+  position: absolute;
+  bottom: 0.2rem;
+  right: 0.2rem;
 }
 </style>
 
