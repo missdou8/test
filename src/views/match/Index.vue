@@ -242,7 +242,7 @@ export default {
       }
     },
     commentToDetail(data) {
-      this.toDetail(data.id);
+      this.toDetail(JSON.parse(data).matchId);
     },
     toDetail(id) {
       this.$store.commit("setId", id);
