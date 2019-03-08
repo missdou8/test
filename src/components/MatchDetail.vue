@@ -517,7 +517,6 @@ a {
   transform-origin: 0 0;
   height: 1px;
   width: 92%;
-  z-index: 1;
 }
 .address_type {
   color: #000;
