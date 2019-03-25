@@ -8,13 +8,13 @@
         </div>
         <div>
           <a class="unread" href="/front/user/exchange">
-            <span v-show="userInfo.unreadPrizesCount != 0 "></span>
+            <span class="dotted" v-show="userInfo.unreadPrizesCount != 0 "></span>
           </a>
           <span>兑奖</span>
         </div>
         <div>
           <router-link class="message" to="/announce/index">
-            <span v-show="userInfo.unreadMailCount != 0 "></span>
+            <span class="dotted" v-show="userInfo.unreadMailCount != 0 "></span>
           </router-link>
           <span>公告</span>
         </div>
@@ -65,16 +65,22 @@
       </ul>
     </div>
     <van-tabs v-model="active" class="match_main" :line-width="40">
-      <van-tab v-for="(item, index) in tabs.length" :title="tabs[index]" :key="index">
-        <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh">
+      <van-tab v-for="(item, index) in tabs.length" :key="index">
+        <div slot="title">
+          <p class="tab_dotted">
+            {{tabs[index]}}
+            <span class="dotted" v-show="index==2 && isNewComment"></span>
+          </p>
+        </div>
+        <van-pull-refresh class="match_list" v-model="refreshing" @refresh="onRefresh(active)">
           <van-list
             v-model="loading"
             :finished="finished"
-            @load="onLoad"
+            @load="onLoad(active)"
             :immediate-check="false"
             :offset="100"
           >
-            <div class="match_list_content">
+            <div class="match_list_content" v-if="active < 2">
               <div
                 class="match_list_item"
                 v-for="item in list"
@@ -95,6 +101,19 @@
                 </div>
               </div>
             </div>
+            <DidaCommentList
+              class="comments_list"
+              v-for="(item,index) in commentsList"
+              :key="`comment${index}`"
+              :data="item"
+              :type="0"
+              @next="commentClick"
+              :disabeld="true"
+              :isComment="true"
+              @toDetail="commentToDetail"
+              @getImgSrc="bigger"
+              v-else
+            ></DidaCommentList>
           </van-list>
         </van-pull-refresh>
       </van-tab>
@@ -109,6 +128,8 @@
 <script>
 import icon from "../../assets/icon.png";
 import cover from "../../assets/banner_task.png";
+import { ImagePreview } from "vant";
+
 export default {
   data() {
     return {
@@ -116,14 +137,16 @@ export default {
       icon: icon,
       cover: cover,
       userInfo: Object, //头像地址
-      tabs: ["当前赛事", "历史赛事"],
+      tabs: ["当前赛事", "历史赛事", "获奖感言"],
       list: [],
       refreshing: false,
       loading: false,
       finished: false,
       matchType: 1,
       matchPage: 1,
-      pageSize: 10
+      pageSize: 10,
+      isNewComment: false, //是否有新评论
+      commentsList: [] //评论列表信息
     };
   },
   watch: {
@@ -134,7 +157,17 @@ export default {
       this.matchPage = 1;
       this.finished = false;
       this.list = [];
-      this.fetchList();
+      this.commentsList = [];
+      /**
+       * 前两个tab一个数据接口
+       * 第三个一个数据接口
+       */
+      if (this.active < 2) {
+        this.fetchList();
+      } else {
+        this.isNewComment = false;
+        this.fetchCommentsList();
+      }
     }
   },
   filters: {
@@ -150,30 +183,66 @@ export default {
     this.active = this.$store.state.match.tabActive;
     this.http.user.getUserInfo().then(res => {
       this.userInfo = res.data;
+      this.isNewComment = this.userInfo.newPlayerComments;
       this.$store.commit("setInfo", this.userInfo);
     });
   },
   methods: {
+    bigger(src) {
+      ImagePreview({
+        images: [src],
+        onClose() {
+          // do something
+        }
+      });
+    },
+    commentClick(data) {
+      this.$router.push({
+        path: "/match/comment",
+        query: {
+          data: JSON.stringify(data)
+        }
+      });
+    },
     code2Word(code) {
       let word = this.config.matchStatus;
       return word[code];
     },
-    onLoad() {
+    onLoad(tab) {
       this.matchPage += 1;
-      this.fetchList().then(data => {
-        this.loading = false;
-        if (data.total <= this.matchPage * this.pageSize) {
-          this.finished = true;
-        }
-      });
+      if (tab < 2) {
+        this.fetchList().then(data => {
+          this.loading = false;
+          if (data.total <= this.matchPage * this.pageSize) {
+            this.finished = true;
+          }
+        });
+      } else {
+        this.fetchCommentsList().then(data => {
+          this.loading = false;
+          if (data.total <= this.matchPage * this.pageSize) {
+            this.finished = true;
+          }
+        });
+      }
     },
-    onRefresh() {
+    onRefresh(tab) {
       this.list = [];
+      this.commentsList = [];
       this.matchPage = 1;
       this.finished = false;
-      this.fetchList(1).then(() => {
-        this.refreshing = false;
-      });
+      if (tab < 2) {
+        this.fetchList().then(() => {
+          this.refreshing = false;
+        });
+      } else {
+        this.fetchCommentsList().then(() => {
+          this.refreshing = false;
+        });
+      }
+    },
+    commentToDetail(data) {
+      this.toDetail(JSON.parse(data).matchId);
     },
     toDetail(id) {
       this.$store.commit("setId", id);
@@ -211,9 +280,9 @@ export default {
       ]);
       this.$store.commit("setSendStyle", -1);
       //判断是否有权限创建
-      if (this.userInfo.certification != 1) {
-        return this.$toast("请先实名认证");
-      }
+      // if (this.userInfo.certification != 1) {
+      //   return this.$toast("请先实名认证");
+      // }
       if (this.userInfo.latitude == 0) {
         return this.$toast("需要进行店铺地址定位");
       }
@@ -233,6 +302,15 @@ export default {
         .then(res => {
           let data = res.data;
           this.list = this.list.concat(data.matchList);
+          return data;
+        });
+    },
+    fetchCommentsList() {
+      return this.http.prizes
+        .commentsList({ pagesize: this.pageSize, currentpage: this.matchPage })
+        .then(res => {
+          let data = res.data;
+          this.commentsList = this.commentsList.concat(data.commentsList);
           return data;
         });
     },
@@ -348,8 +426,7 @@ export default {
   background-image: url("../../assets/header_gift.png");
   position: relative;
 }
-.message span,
-.unread span {
+.dotted {
   background-color: red;
   border-radius: 50%;
   color: #fff;
@@ -508,6 +585,17 @@ export default {
 }
 .edit_info2 {
   background: url("../../assets/di_red.png") left/100% 100% no-repeat;
+}
+.tab_dotted {
+  position: relative;
+}
+.tab_dotted .dotted {
+  top: 0.18rem;
+  right: 0.42rem;
+}
+.comments_list {
+  margin-top: 0.13rem;
+  line-height: 1;
 }
 </style>
 

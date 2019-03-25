@@ -5,10 +5,12 @@ import ApiService from './service/http.js'
 import store from './store/index.js'
 import ImageCompressor from 'compressorjs'
 import { isIos, isWeChat } from 'lputils'
+import DidaCommentList from 'lpui'
 
 // 导入公共CSS
 import 'lpreset.css'
 import './style/base.css'
+import '../node_modules/lpui/lib/lpui.css'
 
 //导入配置
 import config from './config/index.js'
@@ -17,6 +19,7 @@ import Dialog1 from './components/confirmOrigin/dialog'
 
 Vue.use(Dialog2)
 Vue.use(Dialog1)
+Vue.use(DidaCommentList)
 
 Vue.prototype.config = config
 
@@ -167,10 +170,6 @@ Vue.prototype.convertBase64UrlToBlob = (base64, mimeType) => {
   let _blob = new Blob([ab], { type: mimeType })
   return _blob
 }
-router.afterEach((to, from) => {
-  Dialog1.close()
-  Dialog2.close()
-})
 
 export default new Vue({
   router,

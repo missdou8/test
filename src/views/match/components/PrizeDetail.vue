@@ -115,6 +115,8 @@ export default {
       });
       if (type == "count") {
         this.$route.meta.title = "请选择数量";
+      } else {
+        this.$route.meta.title = "请选择名次范围";
       }
     },
     addImg(event, index) {

@@ -73,7 +73,7 @@
             <span>领奖方式</span>
           </p>
           <p class="address_type">{{sendType[prizes.type]}}</p>
-          <div class="address_detail" v-show="prizes.type == 1">
+          <div class="address_detail" v-show="prizes.type > 0">
             <p>{{prizes.regionName}} {{prizes.address}}</p>
             <p>
               {{prizes.contact || '默认名称'}}
@@ -517,7 +517,6 @@ a {
   transform-origin: 0 0;
   height: 1px;
   width: 92%;
-  z-index: 1;
 }
 .address_type {
   color: #000;

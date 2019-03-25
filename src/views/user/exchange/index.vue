@@ -18,11 +18,11 @@
     >
       <van-panel class="panel" v-for="(prize,index) in prizeList" :key="index">
         <div class="panel_header" slot="header">
-          <van-cell :value="prize.time">
+          <van-cell :value="'开赛时间：'+prize.beginTime">
             <img slot="icon" :src="prize.icon||imageURL" alt srcset>
             <div class="panel_title" slot="title">
               <p>{{prize.nickname}}</p>
-              <p>{{prize.match.name}}第{{prize.match.ranking}}名</p>
+              <p><i>{{prize.match.name}}</i>第{{prize.match.ranking}}名</p>
               <!-- <p>第{{prize.match.ranking}}名</p> -->
             </div>
           </van-cell>
@@ -35,10 +35,12 @@
           <div class="prizetag" slot="tag">{{prize.prizeType}}</div>
           <div slot="desc">
             <p v-if="prize.prize.type == 0">{{prize.receivingDec}}</p>
-            <p class="breakall" v-else><span>兑奖码：</span>{{prize.prize.pickupCode==''?'请等待用户到店提供兑奖码哦~':prize.prize.pickupCode}}</p>
+            <p class="breakall" v-if="prize.prize.type == 1"><span>兑奖码：</span>{{prize.prize.pickupCode==''?'请等待用户到店提供兑奖码哦~':prize.prize.pickupCode}}</p>
           </div>
         </van-card>
         <div class="footer" slot="footer">
+          <!-- 领取时间 -->
+          <p>{{prize.time}}</p>
           <van-button
             v-if="prize.prize.type == 0"
             class="btn"
@@ -48,9 +50,9 @@
             :disabled="prize.receiving.status!=1||shipInfoArr.indexOf(prize.id)!=-1"
           >{{shipInfoArr.indexOf(prize.id)!=-1?'已发货':prize.btnText}}</van-button>
           <!-- 自提奖品只显示结果 -->
-          <van-button v-else class="btn outbtn"  
+          <van-button v-if="prize.prize.type == 1||prize.prize.type == 3" class="btn outbtn"  
           :class="{'gray':prize.receiving.status==3}" 
-          size="small">{{prize.receiving.status==3?'已取出':'未取出'}}</van-button>
+          size="small">{{prize.btnText}}</van-button>
           <!-- <van-button
             v-else
             class="btn"
@@ -130,6 +132,9 @@ export default {
       //数据处理(确保数据存在)
       if (this.prizeList.length > 0) {
         this.prizeList.forEach(p => {
+          // 开赛时间
+          p.beginTime = timeFormate(p.match.beginTime * 1000, "YY/MM/DD HH:mm:ss");
+          //兑奖时间
           p.time = timeFormate(p.prize.time * 1000, "YY/MM/DD HH:mm:ss");
           p.icon = httpToHttps(p.icon);
           if (p.prize.type == 0) {
@@ -138,10 +143,14 @@ export default {
             if (p.receiving.status == 1) p.btnText = "去发货";
             else if (p.receiving.status == 2) p.btnText = "已发货";
             else p.btnText = "已收货";
-          } else {
+          } else if(p.prize.type == 1) {
             p.prizeType = "自取奖品";
-            if (p.receiving.status == 1) p.btnText = "确认取出";
-            else p.btnText = "已取出";
+            if(p.receiving.status == 3) p.btnText = "已取出";
+            else p.btnText = "未取出";
+          }else if(p.prize.type == 3) {
+            p.prizeType = "到店使用"
+            if(p.receiving.status == 3) p.btnText = "已使用";
+            else p.btnText = "未使用";
           }
           p.receivingDec = `收货地址：${p.receiving.region} ${
             p.receiving.address
@@ -232,6 +241,13 @@ export default {
 }
 .footer {
   text-align: right;
+  position: relative;
+}
+.footer p{
+  position: absolute;
+  bottom: -.1rem;
+  left: 0;
+  font-size: .2rem;
 }
 .btn {
   padding: 0 0.35rem;
@@ -287,9 +303,6 @@ export default {
   border-radius: 50%;
   margin-right: 0.2rem;
 }
-#exchangeIndex .panel_header .van-cell__title {
-  width: 40%;
-}
 #exchangeIndex .panel_header .panel_title {
   color: rgb(117, 117, 117);
   font-size: 0.2rem;
@@ -300,17 +313,31 @@ export default {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+#exchangeIndex .panel_header .panel_title p i{
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 70%;
+  vertical-align: bottom;
+}
 #exchangeIndex .panel_header .panel_title p:nth-child(1) {
   color: #000;
   font-size: 0.25rem;
   font-weight: 600;
+  max-width: 35%;
 }
-
+/* #exchangeIndex .panel_header .panel_title p:nth-child(1) i{
+  max-width: 20%;
+} */
 #exchangeIndex .panel_header .van-cell__value {
   font-size: 0.14rem;
   text-align: right;
   align-self: flex-end;
   line-height: 18px;
+  position: absolute;
+  top: 0.12rem;
+  right: 0.15rem;
 }
 #exchangeIndex .van-card {
   background: #fff;

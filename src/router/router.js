@@ -5,39 +5,23 @@ import loginConfig from './login.js'
 import matchConfig from './match.js'
 import userConfig from './user.js'
 import recordConfig from './record.js'
+import announceConfig from './announce'
 
-//组件
-import Announcement from '../views/announcement/Announcement.vue'
-import MailDetail from '../views/announcement/MailDetail.vue'
-import NoticeDetail from '../views/announcement/NoticeDetail.vue'
+//路由处理
+import Dialog2 from '../components/confirm/vipPop'
+import Dialog1 from '../components/confirmOrigin/dialog'
 
 Vue.use(VueRouter)
 
-let routes = [
-  {
-    path: '/announce/index',
-    component: Announcement,
-    meta: {
-      title: '公告/活动'
-    }
-  },
-  {
-    path: '/announce/detail/mail',
-    component: MailDetail,
-    meta: {
-      title: '邮件详情'
-    }
-  },
-  {
-    path: '/announce/detail/notice',
-    component: NoticeDetail,
-    meta: {
-      title: '公告详情'
-    }
-  }
-]
+let routes = []
 
-routes = routes.concat(loginConfig, userConfig, recordConfig, matchConfig)
+routes = routes.concat(
+  loginConfig,
+  userConfig,
+  recordConfig,
+  matchConfig,
+  announceConfig
+)
 
 const router = new VueRouter({
   mode: 'history',
@@ -45,8 +29,14 @@ const router = new VueRouter({
   routes
 })
 
+/**
+ * 对路由进行统一处理
+ */
 router.beforeEach((to, from, next) => {
   window.document.title = to.meta.title
+  //当路由进入的时候关闭全局的对话框
+  Dialog1.close()
+  Dialog2.close()
   next()
 })
 
