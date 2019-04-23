@@ -124,9 +124,9 @@ for (const key in reqAndUrl) {
       config = {}
     ) {
       let queryData = data;
-      if (method == "post" && Object.keys(config).length == 0) {
-        queryData = qs.stringify(data);
-      }
+      // if (method == "post" && Object.keys(config).length == 0) {
+      //   queryData = qs.stringify(data);
+      // }
       if (method == "get") {
         queryData = {
           params: data

@@ -24,7 +24,7 @@ Vue.use(DidaCommentList)
 Vue.prototype.config = config
 
 if (isIos() && isWeChat()) {
-  window.addEventListener('focusout', function() {
+  window.addEventListener('focusout', function () {
     //软键盘收起的事件处理
     setTimeout(() => {
       window.scrollTo(
