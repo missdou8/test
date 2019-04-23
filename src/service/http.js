@@ -1,5 +1,4 @@
 import axios from "axios";
-import qs from "qs";
 import errorcode from "./errcode.js";
 import _this from "../main.js";
 import match from "./match.js";
@@ -124,9 +123,6 @@ for (const key in reqAndUrl) {
       config = {}
     ) {
       let queryData = data;
-      // if (method == "post" && Object.keys(config).length == 0) {
-      //   queryData = qs.stringify(data);
-      // }
       if (method == "get") {
         queryData = {
           params: data
