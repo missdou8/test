@@ -26,16 +26,35 @@
       <div class="header_icon">
         <img :src=" userInfo.icon || icon" alt="头像">
         <div class="user_info">
-          <span class="user_title">{{userInfo.name || '广告主名称'}}</span>
-          <p>
-            <span :class="userInfo.certification == 1? 'authyes':'authno'"></span>
-            <span class="user_id">
-              <i class="user_id_title">嘀嗒号：</i>
-              {{userInfo.id}}
-            </span>
-          </p>
+          <div class="userTest">
+            <span>未认证</span><span>已认证</span>
+          </div>
+          <div class="user_name">
+            乐牌赛事组织者
+          </div>
+          <div class="userInfo_bottom">
+            <div>
+              <span></span>
+              <span>8888</span>
+            </div>
+            <div>
+              <span></span>
+              <span>8888</span>
+            </div>
+          </div>
         </div>
-        <router-link to="user/story" class="my-story">我的故事>></router-link>
+
+<!--        <div class="user_info">-->
+<!--          <span class="user_title">{{userInfo.name || '广告主名称'}}</span>-->
+<!--          <p>-->
+<!--            <span :class="userInfo.certification == 1? 'authyes':'authno'"></span>-->
+<!--            <span class="user_id">-->
+<!--              <i class="user_id_title">嘀嗒号：</i>-->
+<!--              {{userInfo.id}}-->
+<!--            </span>-->
+<!--          </p>-->
+<!--        </div>-->
+<!--        <router-link to="user/story" class="my-story">我的故事>></router-link>-->
       </div>
       <ul class="match_info">
         <li>
@@ -355,6 +374,37 @@ export default {
   font-size: 0.2rem;
   flex-grow: 2;
 }
+.userTest{
+  display: flex;
+  width: 2rem;
+}
+.userTest > span{
+  display: block;
+  flex: 1;
+  width: 0.5rem;
+  height: 0.4rem;
+  margin: 0 0.05rem;
+  text-align: center;
+  line-height: 0.4rem;
+  border-radius: .05rem;
+}
+.userTest > span:nth-child(2){
+  background: green;
+}
+.userTest > span:nth-child(1){
+  background: red;
+}
+.user_name{
+  font-size: .38rem;
+  font-weight: 300;
+}
+.userInfo_bottom{
+  display: flex;
+  width: 2rem;
+}
+.userInfo_bottom > div{
+  flex: 1;
+}
 .user_title {
   font-size: 0.35rem;
 }
@@ -599,3 +649,4 @@ export default {
 }
 </style>
 
+                                                                                             
