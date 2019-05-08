@@ -2,10 +2,10 @@
   <div class="main">
     <div class="header">
       <div class="header_lists">
-        <div>
-          <a class="service" @click="serviceClick"></a>
-          <span>客服</span>
-        </div>
+<!--        <div>-->
+<!--          <a class="service" @click="serviceClick"></a>-->
+<!--          <span>客服</span>-->
+<!--        </div>-->
         <div>
           <a class="unread" href="/front/user/exchange">
             <span class="dotted" v-show="userInfo.unreadPrizesCount != 0 "></span>
@@ -58,7 +58,7 @@
       </div>
       <ul class="match_info">
         <li>
-          <router-link to="#">
+          <router-link to="match/detail/lnvitation">
             <span>{{userInfo.visitCount}}</span>
 <!--            <span>浏览</span>-->
             <span>邀请</span>
@@ -101,22 +101,22 @@
             </router-link>
           </li>
           <li>
-            <router-link to="#">
+            <router-link to="match/detail/myPrize">
               <img src="" alt="">
               <span>奖品</span>
             </router-link>
           </li>
           <li>
-            <router-link to="#">
+            <router-link to="match/detail/exchange">
               <img src="" alt="">
               <span>兑换</span>
             </router-link>
           </li>
           <li>
-            <router-link to="#">
+            <a to="#" @click="serviceClick">
               <img src="" alt="">
               <span>客服</span>
-            </router-link>
+            </a>
           </li>
         </ul>
       </div>
@@ -756,7 +756,7 @@ export default {
   padding-top: .07rem;
 }
 .prize_label span:nth-child(1){
-  font-size: .13rem;
+  font-size: .2rem;
   width: 1.22rem;
   height:  0.31rem;
   border-radius: .6rem;
@@ -783,7 +783,7 @@ export default {
 }
 .prize_time{
   padding: .25rem 0;
-  font-size: .12rem;
+  font-size: .2rem;
   color: #c0c4cc;
 }
 .prize_list_status{

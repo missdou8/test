@@ -15,6 +15,9 @@ import AttendSetting from '../views/match/AttendSetting.vue'
 import NumberInput from '../views/match/NumberInput.vue'
 import AttendNumberInput from '../views/match/AttendNumberInput.vue'
 import Comment from '../views/match/Comment.vue'
+import Lnvitation from '../views/match/lnvitation.vue'
+import myPrize from '../views/match/myPrize.vue'
+import Exchange from '../views/match/exchange'
 
 const MATCH_ROUTERS = [
   {
@@ -135,6 +138,27 @@ const MATCH_ROUTERS = [
       title: '开赛记录'
     },
     component: MatchRecord
+  },
+  {
+    path: '/match/detail/lnvitation',
+    meta: {
+      title: '邀请玩家'
+    },
+    component: Lnvitation
+  },
+  {
+    path: '/match/detail/myPrize',
+    meta: {
+      title: '我的奖品库'
+    },
+    component: myPrize
+  },
+  {
+    path: '/match/detail/exchange',
+    meta: {
+      title: '兑换'
+    },
+    component: Exchange
   }
 ]
 
