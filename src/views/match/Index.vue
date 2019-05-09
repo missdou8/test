@@ -89,7 +89,7 @@
       <div class="position">
         <ul class="position_ul">
           <li>
-            <router-link to="#">
+            <router-link to="match/detail/signUpNameList">
               <img src="" alt="">
               <span>管理</span>
             </router-link>
