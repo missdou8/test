@@ -18,6 +18,17 @@
   --font-size-h1: 0.48rem;
   --line-height: 0.56rem;
   --font-size-supper: 0.6rem;
+
+  /* 新版UI标准 */
+  --font-color-black: #303133;
+  --font-color-blackgray: #606266;
+  --font-color-gray: #909399;
+  --font-color-lightgray: #c0c4cc;
+  --color-red: #f23f3f;
+  --color-orange: #f9930a;
+  --color-yellow: #ffc300;
+  --color-green: #67c23a;
+  --color-blue: #2a9ae7;
 }
 html {
   font-size: 13.89vw;
