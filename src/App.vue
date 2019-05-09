@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <audio src="" id="buttonAudio"></audio>
+    <audio src id="buttonAudio"></audio>
     <nav-gation v-show="navShow" :title="title"></nav-gation>
     <div style="height:100%" :class="{child: navShow}">
       <transition :name="transitionName">
@@ -12,6 +12,7 @@
 <script>
 import NavGation from "./components/NavGation.vue";
 import { isWeChat, isQQ } from "lputils";
+import Login from "./script/login.js";
 export default {
   components: {
     NavGation
@@ -29,6 +30,10 @@ export default {
     this.navShow = !isWe;
     this.title = this.$route.meta.title;
     if (this.jubgeCurrentPath()) return;
+
+    // 检测用户是否登陆
+    let login = new Login();
+    login.checkLogin();
     //检测用户登录状态与用户权限
     let userInfo = localStorage.getItem("userInfo");
     this.http.user.checkLogin().then(result => {
@@ -102,7 +107,6 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: #f5f5f5;
   transition: all 500ms ease;
   box-shadow: -2px 0 30px rgba(0, 0, 0, 0.1);
 }

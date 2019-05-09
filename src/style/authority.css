@@ -9,12 +9,6 @@
 #authority .authority {
   min-height: 100%;
   text-align: center;
-  padding-top: 4rem;
-  background-image: url(../assets/zhuce_back.png);
-  background-color: rgb(23, 22, 22);
-  background-position: top;
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 
 /* 表单样式 */

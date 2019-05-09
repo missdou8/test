@@ -1,7 +1,12 @@
 <template>
-  <div id="verificaCode">
+  <div class="verificaCode">
     <!-- 图片验证码 -->
-    <img v-if="codeType=='IMG'" @click="getImgCode" ref="imgCode" src="/api/verify/imgCode?type=forget">
+    <img
+      v-if="codeType=='IMG'"
+      @click="getImgCode"
+      ref="imgCode"
+      src="/api/verify/imgCode?type=forget"
+    >
     <!-- 短信验证码 -->
     <button v-else @click="sendClick" :disabled="sendSuccess">{{sendSuccess?time+'秒后可重新发送':'发送验证码'}}</button>
   </div>
@@ -57,43 +62,49 @@ export default {
     // type = false  //关闭倒计时并初始化
     finish(type) {
       let Time;
-      let clearTime =()=>{
+      let clearTime = () => {
         this.sendSuccess = false;
         this.time = 0;
         clearInterval(Time);
-      }
-      if(type){
+      };
+      if (type) {
         this.time = this.codeTime || 60;
         this.sendSuccess = true;
         Time = setInterval(() => {
-          if (this.time <= 1)clearTime()
+          if (this.time <= 1) clearTime();
           else this.time--;
         }, 1000);
-      }else{ //初始化倒计时
-        clearTime()
-      } 
+      } else {
+        //初始化倒计时
+        clearTime();
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-#verificaCode,
-#verificaCode img {
+.verificaCode {
+  height: 0.75rem;
+  line-height: 0.75rem;
+  width: 2.2rem;
+  position: relative;
+}
+.verificaCode img {
   width: 100%;
   height: 100%;
 }
-#verificaCode button,
-#verificaCode img {
+.verificaCode button,
+.verificaCode img {
   position: absolute;
   width: 100%;
   top: 0;
   left: 0;
 }
-#verificaCode button {
+.verificaCode button {
   color: rgb(228, 186, 29);
 }
-#verificaCode button:disabled {
+.verificaCode button:disabled {
   opacity: 0.5;
 }
 </style>

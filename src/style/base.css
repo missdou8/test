@@ -1,6 +1,6 @@
 /* 定义了本项目中的常用CSS变量 */
 :root {
-  --bg-color: #f5f5f5;
+  --bg-color: #fff;
   --btn-bg-color: #ffd321;
   --btn-color: #108ee9;
   --word-color: #555;
@@ -12,7 +12,7 @@
   --border-color: #d7d7d7;
   /* 字体大小与行高 */
   --font-size-base: 0.28rem;
-  --font-size-bigger: 0.32rem;
+  --font-size-bigger: 0.34rem;
   --font-size-smaller: 0.24rem;
   --font-size-h2: 0.4rem;
   --font-size-h1: 0.48rem;
@@ -36,7 +36,7 @@ html {
 body {
   background-color: var(--bg-color);
   color: var(--word-color);
-  font-size: 0.28rem;
+  font-size: var(--font-size-bigger);
   line-height: 0.44rem;
 }
 
@@ -48,10 +48,11 @@ body,
   width: 100%;
   overflow-x: hidden;
 }
-
 /*设置input提示文字的样式*/
+input,
+button,
 input::placeholder {
-  font-size: 0.28rem;
+  font-size: 0.34rem;
 }
 
 h1 {
@@ -60,6 +61,21 @@ h1 {
 
 i {
   font-style: normal;
+}
+
+.border_bottom {
+  position: relative;
+}
+.border_bottom::after {
+  background-color: #e1e3e9;
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0.32rem;
+  right: 0.3rem;
+  height: 0.01rem;
+  width: 6.6rem;
+  transform: scaleY(0.5);
 }
 
 .van-tabs__line {
