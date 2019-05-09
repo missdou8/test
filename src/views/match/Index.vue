@@ -65,14 +65,14 @@
           </router-link>
         </li>
         <li>
-          <router-link to="#">
+          <router-link to="match/detail/fans">
             <span>{{userInfo.likeCount}}</span>
 <!--            <span>赞</span>-->
             <span>粉丝</span>
           </router-link>
         </li>
         <li>
-          <router-link to="#">
+          <router-link to="match/detail/recollections">
             <span>{{userInfo.matchCount}}</span>
 <!--            <span>比赛</span>-->
             <span>感言</span>

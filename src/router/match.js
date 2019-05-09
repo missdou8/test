@@ -20,6 +20,8 @@ import myPrize from '../views/match/myPrize.vue'
 import Exchange from '../views/match/exchange'
 import exchangeDetails from '../views/match/exchangeDetails'
 import signUpNameList from '../views/match/signUpNameList'
+import fans from '../views/match/fans'
+import recollections from '../views/match/recollections'
 
 const MATCH_ROUTERS = [
   {
@@ -175,6 +177,20 @@ const MATCH_ROUTERS = [
       title: '报名名单'
     },
     component: signUpNameList
+  },
+  {
+    path: '/match/detail/fans',
+    meta: {
+      title: '粉丝'
+    },
+    component: fans
+  },
+  {
+    path: '/match/detail/recollections',
+    meta: {
+      title: '感言'
+    },
+    component: recollections
   },
 ]
 
