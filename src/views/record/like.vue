@@ -1,12 +1,24 @@
 <template>
   <div id="fans">
-    <dida-list ref="dida_list" post-module="match" post-url="likeList" :req-data="{id:$route.query.id}" @returnData="getLikeList($event)">
+    <dida-list
+      ref="dida_list"
+      post-module="match"
+      post-url="likeList"
+      :req-data="{id:$route.query.id}"
+      @returnData="getLikeList($event)"
+    >
       <div class="title">
         <span>本场点赞</span>
         <span>{{total}}人</span>
       </div>
-      <van-cell v-for="like in likeList" :key="like.id" :title="like.nickname" :lable="like.id" :value="like.Time">
-        <img slot="icon" :src="like.icon||icon" alt="" srcset="">
+      <van-cell
+        v-for="like in likeList"
+        :key="like.id"
+        :title="like.nickname"
+        :lable="like.id"
+        :value="like.Time"
+      >
+        <img slot="icon" :src="like.icon||icon" alt srcset>
       </van-cell>
     </dida-list>
   </div>
@@ -16,7 +28,6 @@
 import img from "../../assets/icon.png";
 import didaList from "../../components/didaList.vue";
 import { timeFormate } from "lputils";
-import { httpToHttps } from "../../../script/utils.js";
 export default {
   data() {
     return {
@@ -36,8 +47,7 @@ export default {
       this.likeList = data.list;
       if (this.likeList.length > 0) {
         this.likeList.forEach(l => {
-          l.Time = timeFormate(l.time*1000, 'YY/MM/DD HH:mm:ss');
-          l.icon  = httpToHttps(l.icon)
+          l.Time = timeFormate(l.time * 1000, "YY/MM/DD HH:mm:ss");
         });
       }
     }

@@ -1,15 +1,23 @@
 <template>
   <div id="fans">
-    <dida-list ref="dida_list" post-module="watchers" post-url="watchersList" @returnData="getWatchersList">
+    <dida-list
+      ref="dida_list"
+      post-module="watchers"
+      post-url="watchersList"
+      @returnData="getWatchersList"
+    >
       <div class="title">
         <span>粉丝列表</span>
         <span>{{total}}人</span>
       </div>
-      <van-cell v-for="watchers in watchersList" :key="watchers.id" 
+      <van-cell
+        v-for="watchers in watchersList"
+        :key="watchers.id"
         :title="watchers.nickname"
-        :lable="watchers.id" 
-        :value="watchers.Time">
-        <img slot="icon" :src="watchers.icon||icon" alt="" srcset="">
+        :lable="watchers.id"
+        :value="watchers.Time"
+      >
+        <img slot="icon" :src="watchers.icon||icon" alt srcset>
       </van-cell>
     </dida-list>
   </div>
@@ -19,7 +27,6 @@
 import img from "../../assets/icon.png";
 import didaList from "../../components/didaList.vue";
 import { timeFormate } from "lputils";
-import { httpToHttps } from "../../../script/utils.js";
 export default {
   data() {
     return {
@@ -39,8 +46,7 @@ export default {
       this.watchersList = data.list;
       if (this.watchersList.length > 0) {
         this.watchersList.forEach(w => {
-          w.Time = timeFormate(w.time*1000, 'YY/MM/DD HH:mm:ss');
-          w.icon  = httpToHttps(w.icon)
+          w.Time = timeFormate(w.time * 1000, "YY/MM/DD HH:mm:ss");
         });
       }
     }

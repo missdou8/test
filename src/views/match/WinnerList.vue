@@ -11,7 +11,8 @@
           <div class="th" v-for="(item,index) in list" :key="index">
             <div>{{item.order}}</div>
             <div>
-              <img :src="item.icon || config.defaultIcon" @error="setErrorImg" alt="用户头像"> {{item.nickname}}
+              <img :src="item.icon || config.defaultIcon" @error="setErrorImg" alt="用户头像">
+              {{item.nickname}}
             </div>
             <div>
               <p v-for="(prize,index) in item.prize" :key="index">{{prize.name}} {{prize.value}}</p>
@@ -24,7 +25,6 @@
 </template>
 
 <script>
-import { httpToHttps } from "../../../script/utils.js";
 export default {
   data() {
     return {
@@ -68,9 +68,6 @@ export default {
         .then(res => {
           let data = res.data;
           this.list = this.list.concat(data.winnerList);
-          this.list.forEach(l => {
-            l.icon = httpToHttps(l.icon);
-          });
           return data;
         });
     }
