@@ -18,6 +18,8 @@ import Comment from '../views/match/Comment.vue'
 import Lnvitation from '../views/match/lnvitation.vue'
 import myPrize from '../views/match/myPrize.vue'
 import Exchange from '../views/match/exchange'
+import exchangeDetails from '../views/match/exchangeDetails'
+import signUpNameList from '../views/match/signUpNameList'
 
 const MATCH_ROUTERS = [
   {
@@ -159,7 +161,21 @@ const MATCH_ROUTERS = [
       title: '兑换'
     },
     component: Exchange
-  }
+  },
+  {
+    path: '/match/detail/exchangeDetails',
+    meta: {
+      title: '兑换'
+    },
+    component: exchangeDetails
+  },
+  {
+    path: '/match/detail/signUpNameList',
+    meta: {
+      title: '报名名单'
+    },
+    component: signUpNameList
+  },
 ]
 
 export default MATCH_ROUTERS

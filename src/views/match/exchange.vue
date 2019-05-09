@@ -1,7 +1,7 @@
 <template>
     <div id="exchange_box">
         <ul class="exchange_list">
-            <li class="exchange_item">
+            <li class="exchange_item" @click="jumpExchangeDetails()">
                 <div class="change_item_top">
                     <div class="change_item_userImg">
                         <img src="" alt="">
@@ -110,7 +110,12 @@
 
 <script>
     export default {
-        name: "Exchange"
+        name: "Exchange",
+        methods:{
+            jumpExchangeDetails(){
+                this.$router.push({path:'/match/detail/exchangeDetails'});
+            }
+        }
     }
 </script>
 
