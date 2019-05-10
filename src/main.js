@@ -4,7 +4,7 @@ import App from './App.vue'
 import ApiService from './service/http.js'
 import store from './store/index.js'
 import ImageCompressor from 'compressorjs'
-import { isIos, isWeChat } from 'lputils'
+import { isIos, isWeChat, isPhoneNum } from 'lputils'
 import DidaCommentList from 'lpui'
 
 // 导入公共CSS
@@ -22,6 +22,13 @@ Vue.use(Dialog1)
 Vue.use(DidaCommentList)
 
 Vue.prototype.config = config
+
+
+// 在全局引入lputils
+
+Vue.prototype.utils = {
+  isIos, isWeChat, isPhoneNum
+}
 
 if (isIos() && isWeChat()) {
   window.addEventListener('focusout', function () {

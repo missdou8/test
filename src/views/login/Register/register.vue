@@ -1,19 +1,12 @@
 <template>
   <div class="register">
     <div class="cell border_bottom">
-      <input v-model="phone" type="tel" placeholder="请输入手机号">
+      <input v-model="phoneNumber" type="tel" placeholder="请输入手机号">
     </div>
     <div class="cell">
       <input v-model="code" type="number" placeholder="请输入手机验证码">
+      <button @click="sendCode" :disabled="sendCodeEnable">{{codeBtnTitle}}</button>
     </div>
-    <verifica-code
-      class="phone_code"
-      code-type="SMS"
-      slot="button"
-      :code-mobile="phone"
-      ref="verifica_phone_code"
-    ></verifica-code>
-
     <van-field v-model="password" type="password" placeholder="请设置您的登录密码"/>
 
     <div class="btn_box">
@@ -24,17 +17,20 @@
 
 <script>
 import verificaCode from "../../../components/verificaCode.vue";
+import { log } from "util";
 export default {
   data() {
     return {
-      phone: "",
+      phoneNumber: "",
       code: "",
-      password: ""
+      password: "",
+      codeBtnTitle: "获取验证码",
+      sendCodeEnable: false
     };
   },
   computed: {
     btnEnable() {
-      if (this.phone && this.code && this.password) {
+      if (this.phoneNumber && this.code && this.password) {
         return false;
       }
       return true;
@@ -44,11 +40,29 @@ export default {
     verificaCode
   },
   methods: {
+    sendCode() {
+      console.log(this.utils);
+      if (this.utils.isPhoneNum(this.phoneNumber))
+        return this.$toast("请检查手机号是否正确");
+      this.http.verify
+        .SMSCode({
+          mobile: this.codeMobile,
+          r: Math.random()
+        })
+        .then(res => {
+          this.finish(true);
+          this.$toast(res.msg);
+        })
+        .catch(() => {
+          //接口错误的话(清除倒计时并重置时间)
+          this.finish(false);
+        });
+    },
     register() {
       //发送注册请求
       this.http.user
         .register({
-          mobile: this.phone,
+          mobile: this.phoneNumber,
           SMSCode: this.code,
           password: this.password
         })
