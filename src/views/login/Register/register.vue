@@ -14,6 +14,7 @@
       <div class="cell border_bottom">
         <input v-model="password" type="password" placeholder="请输入密码">
       </div>
+      <p class="password_tips">密码需要包含数字及英文字母，最少6位</p>
       <normal-button class="next" :disabled="!canFinish" @click.native="register">完成</normal-button>
     </div>
   </div>
@@ -30,7 +31,7 @@ export default {
       codeBtnTitle: "获取验证码",
       sendCodeEnable: false,
       countDownNum: 60,
-      checkCode: false //验证码是否验证成功
+      checkCode: true //验证码是否验证成功
     };
   },
   computed: {
@@ -122,5 +123,11 @@ input {
 }
 .code_msg {
   font-size: 0.3rem;
+}
+.password_tips {
+  color: #c0c4cc;
+  font-size: 0.28rem;
+  margin-top: 0.4rem;
+  text-align: center;
 }
 </style>
