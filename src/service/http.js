@@ -54,7 +54,7 @@ class ApiService {
 
 //拦截axios请求
 axios.interceptors.request.use(
-  function(config) {
+  function (config) {
     // 发送请求之前做一些事情
     _this.$toast.loading({
       duration: 0,
@@ -65,7 +65,7 @@ axios.interceptors.request.use(
     });
     return config;
   },
-  function(error) {
+  function (error) {
     // 挂掉之后怎么处理
     return Promise.reject(error);
   }
@@ -76,7 +76,7 @@ let errorCatch = (code, msg) => {
     case 100002:
       _this.$router.push("/login");
       break;
-    case 140301:  
+    case 140301:
       //  _this.$toast("无效的兑奖码！");
       break;
     case code:
@@ -89,9 +89,10 @@ let errorCatch = (code, msg) => {
 };
 
 axios.interceptors.response.use(
-  function(response) {
+  function (response) {
     // 数据成功返回之后
-    _this.$toast.clear();
+    //暂时解决办法，上线之前需要完全解决
+    _this.$toast.clear("clearAll");
     if (response.data.code !== 0) {
       return Promise.reject({
         code: response.data.code,
@@ -100,7 +101,8 @@ axios.interceptors.response.use(
     }
     return response;
   },
-  function(error) {
+  function (error) {
+    console.log('关闭了几个')
     // 处理错误的内容
     _this.$toast.clear();
     // 如果错啦
@@ -117,7 +119,7 @@ for (const key in reqAndUrl) {
       reqURL = url[0];
       trueURL = url[1];
     }
-    ApiService.prototype[key][reqURL] = function(
+    ApiService.prototype[key][reqURL] = function (
       data,
       method = "post",
       config = {}

@@ -1,5 +1,6 @@
 const USER_INFO = {
   user: [
+    "weixinLogin", //微信登陆
     "getUserInfo",
     "register", //注册接口
     "registerInfo", //获取用户注册信息

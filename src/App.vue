@@ -11,8 +11,8 @@
 </template>
 <script>
 import NavGation from "./components/NavGation.vue";
-import { isWeChat, isQQ } from "lputils";
 import Login from "./script/login.js";
+import { async } from "q";
 export default {
   components: {
     NavGation
@@ -25,45 +25,67 @@ export default {
     };
   },
   created() {
-    //检测浏览器类型决定是否展示栏
-    let isWe = isWeChat() || isQQ();
+    //检测浏览器类型决定是否展示nav栏
+    let isWe = this.utils.isWeChat() || this.utils.isQQ();
     this.navShow = !isWe;
     this.title = this.$route.meta.title;
-    if (this.jubgeCurrentPath()) return;
-
-    // 检测用户是否登陆
+    /**
+     * 验证登陆
+     * 1. 微信选择微信登陆
+     * 2. 其他选择登陆页登陆
+     */
     let login = new Login();
-    login.checkLogin();
-    //检测用户登录状态与用户权限
-    let userInfo = localStorage.getItem("userInfo");
-    this.http.user.checkLogin().then(result => {
-      /**
-       * 判断是否登录
-       * 1. true: 判断是否认证
-       *     0: 审核通过    （跳转首页）
-       *     1: 审核中      （跳转审核页）
-       *     2：审核未通过  （跳转登录页显示状态）
-       * 2. false: 跳到登录页
-       */
-      if (result.data.isLogin == 1) {
+    //判断是否需要登陆
+    if (login.noLogin(this.$route.path)) {
+      return;
+    }
+    //判断是否登陆了
+    (async () => {
+      let isLogin = await login.checkLogin(location.href);
+      //如果未登录，则标记未登录
+      if (isLogin) {
         this.$store.commit("setIsLogin", true);
+        //微信登陆
+        //在微信中跳到微信登陆，在其外则正常登陆
+        if (this.utils.isWeChat()) {
+          /**
+           * 判断有没有code
+           * 1. 有code进行微信登陆
+           * 2. 没有code跳到进行地址回调
+           */
+          let code = this.utils.getUrlString("code");
+          if (code) {
+            let isRegister = await login.wechatLogin(code);
+            if (register) {
+            } else {
+              this.$router.push({ path: "/bindPhone", replace: false });
+            }
+          } else {
+            location.href = isLogin;
+          }
+        } else {
+          this.$router.push({ path: "/login", replace: true });
+        }
       } else {
         this.$store.commit("setIsLogin", false);
-        this.$router.push({ path: "/login", replace: true });
       }
-    });
+    })();
   },
   // 基于路线变化的动态设置路由切换动画
   watch: {
     $route(to, from) {
       //如果登录切是从match到login页的话直接到match
+      let login = new Login();
       if (
         to.path === "/login" &&
         from.path === "/match" &&
         this.$store.state.user.isLogin
       ) {
         this.$router.push({ path: "/match", replace: true });
-      } else if (!this.$store.state.user.isLogin && !this.jubgeCurrentPath()) {
+      } else if (
+        !this.$store.state.user.isLogin &&
+        !login.noLogin(this.$route.path)
+      ) {
         this.$router.push({ path: "/login", replace: true });
       }
       this.title = to.meta.title;
@@ -74,24 +96,6 @@ export default {
           toDepth < fromDepth ? "slide-right" : "slide-left";
       } else {
         this.transitionName = "fade";
-      }
-    }
-  },
-  methods: {
-    jubgeCurrentPath() {
-      let currentPath = this.$route.path;
-      if (
-        //设置不需要检测登录的页面
-        currentPath == "/registerTips" ||
-        currentPath == "/register" ||
-        currentPath == "/login" ||
-        currentPath == "/match/share" ||
-        currentPath == "/findPwd" ||
-        currentPath == "/resetPwd"
-      ) {
-        return true;
-      } else {
-        return false;
       }
     }
   }
