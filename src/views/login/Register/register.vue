@@ -31,7 +31,7 @@ export default {
       codeBtnTitle: "获取验证码",
       sendCodeEnable: false,
       countDownNum: 60,
-      checkCode: true //验证码是否验证成功
+      checkCode: false //验证码是否验证成功
     };
   },
   computed: {
