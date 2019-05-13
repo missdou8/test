@@ -12,6 +12,7 @@ import exchangeIndex from '../views/user/exchange/index.vue'
 import exchangeInputCode from '../views/user/exchange/inputCode.vue'
 import exchangePrizeMsg from '../views/user/exchange/prizeMsg.vue'
 import Story from '../views/user/Story.vue'
+import customized from '../views/user/customized.vue'
 
 const USER_ROUTERS = [
   {
@@ -120,7 +121,14 @@ const USER_ROUTERS = [
     path: '/user/story',
     component: Story,
     meta: {
-      title: '我的故事'
+      title: '赛事组织者'
+    }
+  },
+  {
+    path: '/user/customized',
+    component: customized,
+    meta: {
+      title: '定制比赛'
     }
   }
 ]

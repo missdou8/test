@@ -129,6 +129,7 @@
         flex: 8;
         overflow-x: hidden;
         overflow-y: auto;
+        background-color: #f0f1f2;
     }
     .exchange_item{
         background-color: #ffffff;
@@ -141,10 +142,11 @@
         padding: .1rem 0;
         margin-left: .3rem;
         display: flex;
+        align-items: center;
     }
     .change_item_userImg{
-        width: .8rem;
-        height: .8rem;
+        width: .6rem;
+        height: .6rem;
         background-color: #c0c4cc;
         overflow: hidden;
         border-radius: .8rem;
@@ -160,8 +162,12 @@
         flex-direction: column;
         padding-left: .2rem;
     }
+    .user_info > div:nth-child(1){
+        font-size: .3rem;
+    }
     .user_info > div:nth-child(2){
         font-size: .22rem;
+        color: #c0c4cc;
     }
     .user_info > div > span:nth-child(1){
         padding-right: .2rem;
@@ -172,6 +178,7 @@
         text-align: right;
         padding-top: .44rem;
         padding-right: .15rem;
+        color: #c0c4cc;
     }
     .change_item_bottom{
         padding: .18rem .2rem 0 .3rem;
@@ -187,6 +194,7 @@
         width: 4.7rem;
     }
     .prize_name{
+        font-size: .3rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -214,8 +222,9 @@
     }
     .cargoStatus{
         text-align: right;
-        padding: 0 .3rem .2rem 0;
+        padding: 0 .3rem .1rem 0;
         color: #f9930a;
+        font-size: .3rem;
     }
     .bottom_button{
         display: flex;

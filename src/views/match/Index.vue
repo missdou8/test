@@ -89,32 +89,35 @@
       <div class="position">
         <ul class="position_ul">
           <li>
-            <router-link to="match/detail/signUpNameList">
-              <img src="" alt="">
-              <span>管理</span>
+<!--            <router-link to="match/detail/signUpNameList">-->
+            <router-link to="user/story">
+              <img src="../../assets/shouye_icon_gs.png" alt="">
+<!--              <span>管理</span>-->
+              <span>故事</span>
+<!--              报名名单-->
             </router-link>
           </li>
-          <li>
-            <router-link to="#">
-              <img src="" alt="">
-              <span>定制</span>
-            </router-link>
-          </li>
+<!--          <li>-->
+<!--            <router-link to="user/customized">-->
+<!--              <img src="" alt="">-->
+<!--              <span>定制</span>-->
+<!--            </router-link>-->
+<!--          </li>-->
           <li>
             <router-link to="match/detail/myPrize">
-              <img src="" alt="">
+              <img src="../../assets/shouye_icon_jp.png" alt="">
               <span>奖品</span>
             </router-link>
           </li>
           <li>
             <router-link to="match/detail/exchange">
-              <img src="" alt="">
+              <img src="../../assets/shouye_icon_dh.png" alt="">
               <span>兑换</span>
             </router-link>
           </li>
           <li>
             <a to="#" @click="serviceClick">
-              <img src="" alt="">
+              <img src="../../assets/shouye_icon_kf.png" alt="">
               <span>客服</span>
             </a>
           </li>
@@ -528,9 +531,9 @@ export default {
 .position_ul > li img{
   display: block;
   width: .8rem;
+
   height: .8rem;
   border-radius: .8rem;
-  border: .05rem solid #e8ebf4;
   margin: 0 auto;
 }
 .user_title {
@@ -749,6 +752,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: .32rem;
 }
 .prize_label{
   display: flex;
@@ -791,6 +795,7 @@ export default {
   text-align: center;
   line-height: 1.6rem;
   color: #f23f3f;
+  font-size: .30rem;
 }
 .list_attri {
   border-top: 0.01rem solid #f5f5f5;

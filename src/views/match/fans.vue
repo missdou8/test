@@ -24,12 +24,12 @@
                 fansList:[
                     {
                         img:'',
-                        fans_name:'奥特曼',
+                        fans_name:'库里',
                         fans_time:'2019-03-04 09:00:49'
                     },
                     {
                         img:'',
-                        fans_name:'小怪兽',
+                        fans_name:'哈登',
                         fans_time:'2019-03-04 09:00:49'
                     },
                     {
@@ -74,34 +74,34 @@
 </script>
 
 <style scoped>
-    #fans_box{
+    #fans_box {
         background-color: #ffffff;
     }
-    .fans_list{
+    .fans_list {
         display: flex;
         flex-direction: column;
     }
-    .fans_item{
+    .fans_item {
         margin-left: .3rem;
-        border-bottom: .01rem solid #c0c4cc;
+        border-bottom: .01rem solid #e1e3e9;
         display: flex;
-        height: 1rem;
+        height: 1.2rem;
         align-items: center;
     }
-    .fans_item > div{
+    .fans_item > div {
         align-items: center;
     }
-    .fans_img{
+    .fans_img {
         padding-right: .15rem;
     }
-    .fans_img > img{
+    .fans_img > img {
         display: block;
         width: .8rem;
         height: .8rem;
         border-radius: .8rem;
-        background-color: #c0c4cc;
+        background-color: #efefef;
     }
-    .fans_time{
+    .fans_time {
         color: #c0c4cc;
         font-size: .22rem;
         flex: 1;

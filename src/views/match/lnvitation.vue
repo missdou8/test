@@ -49,8 +49,8 @@
         flex-direction: column;
     }
     .lnvitation_item{
-        height: .95rem;
-        border-bottom: .005rem solid #c0c4cc;
+        height: 1.2rem;
+        border-bottom: .005rem solid #e1e3e9;
         margin-left: .3rem;
         display: flex;
         line-height: .95rem;

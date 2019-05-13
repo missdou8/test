@@ -17,8 +17,6 @@
 </template>
 
 <script>
-    import icon from "../../assets/icon.png";
-    import cover from "../../assets/banner_task.png";
     import { ImagePreview } from "vant";
     export default {
         name: "recollections",
