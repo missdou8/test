@@ -2,6 +2,7 @@ const USER_INFO = {
   user: [
     "weixinLogin", //微信登陆
     "getUserInfo",
+    "checkAccount", //校验验证码
     "register", //注册接口
     "registerInfo", //获取用户注册信息
     "logout", //注销登录
