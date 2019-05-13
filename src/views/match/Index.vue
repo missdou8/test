@@ -2,10 +2,6 @@
   <div class="main">
     <div class="header">
       <div class="header_lists">
-<!--        <div>-->
-<!--          <a class="service" @click="serviceClick"></a>-->
-<!--          <span>客服</span>-->
-<!--        </div>-->
         <div>
           <a class="unread" href="/front/user/exchange">
             <span class="dotted" v-show="userInfo.unreadPrizesCount != 0 "></span>
@@ -27,11 +23,10 @@
         <img :src=" userInfo.icon || icon" alt="头像">
         <div class="user_info">
           <div class="userTest">
-            <span>未认证</span><span>已认证</span>
+            <span>未认证</span>
+            <span>已认证</span>
           </div>
-          <div class="user_name">
-            乐牌赛事组织者
-          </div>
+          <div class="user_name">乐牌赛事组织者</div>
           <div class="userInfo_bottom">
             <div>
               <span></span>
@@ -44,44 +39,44 @@
           </div>
         </div>
 
-<!--        <div class="user_info">-->
-<!--          <span class="user_title">{{userInfo.name || '广告主名称'}}</span>-->
-<!--          <p>-->
-<!--            <span :class="userInfo.certification == 1? 'authyes':'authno'"></span>-->
-<!--            <span class="user_id">-->
-<!--              <i class="user_id_title">嘀嗒号：</i>-->
-<!--              {{userInfo.id}}-->
-<!--            </span>-->
-<!--          </p>-->
-<!--        </div>-->
-<!--        <router-link to="user/story" class="my-story">我的故事>></router-link>-->
+        <!--        <div class="user_info">-->
+        <!--          <span class="user_title">{{userInfo.name || '广告主名称'}}</span>-->
+        <!--          <p>-->
+        <!--            <span :class="userInfo.certification == 1? 'authyes':'authno'"></span>-->
+        <!--            <span class="user_id">-->
+        <!--              <i class="user_id_title">嘀嗒号：</i>-->
+        <!--              {{userInfo.id}}-->
+        <!--            </span>-->
+        <!--          </p>-->
+        <!--        </div>-->
+        <!--        <router-link to="user/story" class="my-story">我的故事>></router-link>-->
       </div>
       <ul class="match_info">
         <li>
           <router-link to="match/detail/lnvitation">
             <span>{{userInfo.visitCount}}</span>
-<!--            <span>浏览</span>-->
+            <!--            <span>浏览</span>-->
             <span>邀请</span>
           </router-link>
         </li>
         <li>
           <router-link to="match/detail/fans">
             <span>{{userInfo.likeCount}}</span>
-<!--            <span>赞</span>-->
+            <!--            <span>赞</span>-->
             <span>粉丝</span>
           </router-link>
         </li>
         <li>
           <router-link to="match/detail/recollections">
             <span>{{userInfo.matchCount}}</span>
-<!--            <span>比赛</span>-->
+            <!--            <span>比赛</span>-->
             <span>感言</span>
           </router-link>
         </li>
         <li>
           <router-link to="user/record/fans">
             <span>{{userInfo.watchersCount}}</span>
-<!--            <span>粉丝</span>-->
+            <!--            <span>粉丝</span>-->
             <span>邮件</span>
           </router-link>
         </li>
@@ -90,31 +85,31 @@
         <ul class="position_ul">
           <li>
             <router-link to="match/detail/signUpNameList">
-              <img src="" alt="">
+              <img src alt>
               <span>管理</span>
             </router-link>
           </li>
           <li>
             <router-link to="#">
-              <img src="" alt="">
+              <img src alt>
               <span>定制</span>
             </router-link>
           </li>
           <li>
             <router-link to="match/detail/myPrize">
-              <img src="" alt="">
+              <img src alt>
               <span>奖品</span>
             </router-link>
           </li>
           <li>
             <router-link to="match/detail/exchange">
-              <img src="" alt="">
+              <img src alt>
               <span>兑换</span>
             </router-link>
           </li>
           <li>
             <a to="#" @click="serviceClick">
-              <img src="" alt="">
+              <img src alt>
               <span>客服</span>
             </a>
           </li>
@@ -122,8 +117,14 @@
       </div>
     </div>
     <div style="height: 1rem;"></div>
-    <van-tabs background="none" v-model="active" class="match_main" :line-width="40" color="#f88002">
-      <van-tab  v-for="(item, index) in tabs.length" :key="index">
+    <van-tabs
+      background="none"
+      v-model="active"
+      class="match_main"
+      :line-width="40"
+      color="#f88002"
+    >
+      <van-tab v-for="(item, index) in tabs.length" :key="index">
         <div slot="title">
           <p class="tab_dotted">
             {{tabs[index]}}
@@ -138,50 +139,31 @@
             :immediate-check="false"
             :offset="100"
           >
-<!--            <div class="match_list_content" v-if="active < 2">-->
-<!--              <div-->
-<!--                class="match_list_item"-->
-<!--                v-for="item in list"-->
-<!--                :key="item.id"-->
-<!--                @click="toDetail(item.id)"-->
-<!--              >-->
-<!--                <img :src="item.cover ||cover" alt="封面图片">-->
-<!--                <div class="list_attri">-->
-<!--                  <span-->
-<!--                    v-show="matchType == 1"-->
-<!--                    class="list_person-num"-->
-<!--                  >{{ item.signupCount | trimNum}}</span>-->
-<!--                  <span class="list_pv">{{item.visitCount | trimNum}}</span>-->
-<!--                  <span class="list_like">{{item.likeCount | trimNum}}</span>-->
-<!--                </div>-->
-<!--                <div :class="progressTag(item.status)" v-show="matchType == 1">-->
-<!--                  <p>{{code2Word(item.status)}}</p>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
+            <!--            <div class="match_list_content" v-if="active < 2">-->
+            <!--              <div-->
+            <!--                class="match_list_item"-->
+            <!--                v-for="item in list"-->
+            <!--                :key="item.id"-->
+            <!--                @click="toDetail(item.id)"-->
+            <!--              >-->
+            <!--                <img :src="item.cover ||cover" alt="封面图片">-->
+            <!--                <div class="list_attri">-->
+            <!--                  <span-->
+            <!--                    v-show="matchType == 1"-->
+            <!--                    class="list_person-num"-->
+            <!--                  >{{ item.signupCount | trimNum}}</span>-->
+            <!--                  <span class="list_pv">{{item.visitCount | trimNum}}</span>-->
+            <!--                  <span class="list_like">{{item.likeCount | trimNum}}</span>-->
+            <!--                </div>-->
+            <!--                <div :class="progressTag(item.status)" v-show="matchType == 1">-->
+            <!--                  <p>{{code2Word(item.status)}}</p>-->
+            <!--                </div>-->
+            <!--              </div>-->
+            <!--            </div>-->
             <div v-if="active < 3" class="prize_list_content">
-                <div class="prize_list_item">
-                  <div class="prize_list_img">
-                    <img src="" alt="商品图片">
-                  </div>
-                  <div class="prize_list_center">
-                    <p class="prize_name">奖品名称奖品名称奖品名称奖品名称奖品名称</p>
-                    <div class="prize_label">
-                      <span>乐牌跑的快</span>
-                      <span>奖品描述奖品描述奖品描述奖品描述</span>
-                      <span>私密</span>
-                    </div>
-                    <div class="prize_time">
-                      开赛时间：2019-08-08 16:00
-                    </div>
-                  </div>
-                  <div class="prize_list_status">
-                    待审核
-                  </div>
-                </div>
               <div class="prize_list_item">
                 <div class="prize_list_img">
-                  <img src="" alt="商品图片">
+                  <img src alt="商品图片">
                 </div>
                 <div class="prize_list_center">
                   <p class="prize_name">奖品名称奖品名称奖品名称奖品名称奖品名称</p>
@@ -190,17 +172,13 @@
                     <span>奖品描述奖品描述奖品描述奖品描述</span>
                     <span>私密</span>
                   </div>
-                  <div class="prize_time">
-                    开赛时间：2019-08-08 16:00
-                  </div>
+                  <div class="prize_time">开赛时间：2019-08-08 16:00</div>
                 </div>
-                <div class="prize_list_status">
-                  待审核
-                </div>
+                <div class="prize_list_status">待审核</div>
               </div>
               <div class="prize_list_item">
                 <div class="prize_list_img">
-                  <img src="" alt="商品图片">
+                  <img src alt="商品图片">
                 </div>
                 <div class="prize_list_center">
                   <p class="prize_name">奖品名称奖品名称奖品名称奖品名称奖品名称</p>
@@ -209,13 +187,24 @@
                     <span>奖品描述奖品描述奖品描述奖品描述</span>
                     <span>私密</span>
                   </div>
-                  <div class="prize_time">
-                    开赛时间：2019-08-08 16:00
+                  <div class="prize_time">开赛时间：2019-08-08 16:00</div>
+                </div>
+                <div class="prize_list_status">待审核</div>
+              </div>
+              <div class="prize_list_item">
+                <div class="prize_list_img">
+                  <img src alt="商品图片">
+                </div>
+                <div class="prize_list_center">
+                  <p class="prize_name">奖品名称奖品名称奖品名称奖品名称奖品名称</p>
+                  <div class="prize_label">
+                    <span>乐牌跑的快</span>
+                    <span>奖品描述奖品描述奖品描述奖品描述</span>
+                    <span>私密</span>
                   </div>
+                  <div class="prize_time">开赛时间：2019-08-08 16:00</div>
                 </div>
-                <div class="prize_list_status">
-                  待审核
-                </div>
+                <div class="prize_list_status">待审核</div>
               </div>
             </div>
             <DidaCommentList
@@ -473,11 +462,11 @@ export default {
   font-size: 0.2rem;
   flex-grow: 2;
 }
-.userTest{
+.userTest {
   display: flex;
   width: 2.3rem;
 }
-.userTest > span{
+.userTest > span {
   display: block;
   flex: 1;
   width: 0.5rem;
@@ -485,52 +474,52 @@ export default {
   margin: 0 0.08rem;
   text-align: center;
   line-height: 0.4rem;
-  border-radius: .05rem;
+  border-radius: 0.05rem;
 }
-.userTest > span:nth-child(2){
+.userTest > span:nth-child(2) {
   background: #67c23a;
 }
-.userTest > span:nth-child(1){
+.userTest > span:nth-child(1) {
   background: #f56c6c;
 }
-.user_name{
-  font-size: .38rem;
+.user_name {
+  font-size: 0.38rem;
   font-weight: 300;
-  padding: .1rem 0;
+  padding: 0.1rem 0;
 }
-.userInfo_bottom{
+.userInfo_bottom {
   display: flex;
   width: 2rem;
 }
-.userInfo_bottom > div{
+.userInfo_bottom > div {
   flex: 1;
 }
-.position{
+.position {
   height: 1rem;
 }
-.position_ul{
+.position_ul {
   width: 95%;
   height: 1.8rem;
   background: #ffffff;
   margin: 0 auto;
   display: flex;
-  border-radius: .13rem;
+  border-radius: 0.13rem;
 }
-.position_ul > li{
+.position_ul > li {
   flex: 1;
   align-items: center;
   text-align: center;
-  padding-top: .3rem;
+  padding-top: 0.3rem;
 }
-.position_ul > li > a{
+.position_ul > li > a {
   color: #000;
 }
-.position_ul > li img{
+.position_ul > li img {
   display: block;
-  width: .8rem;
-  height: .8rem;
-  border-radius: .8rem;
-  border: .05rem solid #e8ebf4;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 0.8rem;
+  border: 0.05rem solid #e8ebf4;
   margin: 0 auto;
 }
 .user_title {
@@ -590,12 +579,6 @@ export default {
   margin-top: 0.1rem;
 }
 
-.header_lists .service {
-  background-image: url("../../assets/header_kefu.png");
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
 .message {
   background-image: url("../../assets/header_message.png");
   position: relative;
@@ -719,74 +702,74 @@ export default {
   padding-bottom: 0.08rem;
 }
 
-.prize_list_content{
+.prize_list_content {
   display: flex;
   flex-direction: column;
   width: 95%;
   background: #ffffff;
   margin: 0 auto;
 }
-.prize_list_item{
+.prize_list_item {
   height: 2rem;
   display: flex;
-  padding: .1rem;
+  padding: 0.1rem;
 }
-.prize_list_img{
+.prize_list_img {
   flex: 2;
 }
-.prize_list_img > img{
+.prize_list_img > img {
   width: 1.73rem;
   height: 1.73rem;
   border: 0.01rem solid #000;
   display: block;
 }
-.prize_list_center{
+.prize_list_center {
   flex: 4;
 }
-.prize_name{
+.prize_name {
   width: 3.6rem;
   color: #000;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.prize_label{
+.prize_label {
   display: flex;
-  line-height: .31rem;
-  padding-top: .07rem;
+  line-height: 0.31rem;
+  padding-top: 0.07rem;
 }
-.prize_label span:nth-child(1){
-  font-size: .2rem;
+.prize_label span:nth-child(1) {
+  font-size: 0.2rem;
   width: 1.22rem;
-  height:  0.31rem;
-  border-radius: .6rem;
+  height: 0.31rem;
+  border-radius: 0.6rem;
   background: #fef4e6;
-  border: .005rem solid #f9a42f;
+  border: 0.005rem solid #f9a42f;
   color: #f9930a;
   text-align: center;
 }
-.prize_label span:nth-child(2){
+.prize_label span:nth-child(2) {
   width: 1.7rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  padding-left: .2rem;
+  padding-left: 0.2rem;
 }
-.prize_label span:nth-child(3){
-  width: .56rem;
-  height: .29rem;
+.prize_label span:nth-child(3) {
+  width: 0.56rem;
+  height: 0.29rem;
   background: #d66cf5;
   text-align: center;
   color: #ffffff;
-  border-radius: .02rem;
-  font-size: .13rem;
+  border-radius: 0.02rem;
+  font-size: 0.13rem;
 }
-.prize_time{
-  padding: .25rem 0;
-  font-size: .2rem;
+.prize_time {
+  padding: 0.25rem 0;
+  font-size: 0.2rem;
   color: #c0c4cc;
 }
-.prize_list_status{
+.prize_list_status {
   flex: 1;
   text-align: center;
   line-height: 1.6rem;
