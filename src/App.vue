@@ -58,7 +58,7 @@ export default {
             let isRegister = await login.wechatLogin(code);
             if (register) {
             } else {
-              this.$router.push({ path: "/bindPhone", replace: false });
+              this.$router.push({ path: "/register", replace: false });
             }
           } else {
             location.href = isLogin;
