@@ -41,39 +41,34 @@ export default {
     }
     //判断是否登陆了
     (async () => {
-      let isLogin;
+      let checkResult;
       if (this.utils.isWeChat()) {
-        isLogin = await login.checkLogin(location.href);
+        checkResult = await login.checkLogin(location.href);
       } else {
-        isLogin = await login.checkLogin();
+        checkResult = await login.checkLogin();
       }
 
-      //如果未登录，则标记未登录
-      if (isLogin) {
+      /**
+       * 检测是否登陆
+       * 1. 登陆了则存储当前状态为登录态
+       * 2. 未登录则查看是否是微信，是微信则微信登陆，否则跳到登陆页
+       */
+      if (checkResult.isLogin) {
         this.$store.commit("setIsLogin", true);
-        //微信登陆
-        //在微信中跳到微信登陆，在其外则正常登陆
-        if (this.utils.isWeChat()) {
-          /**
-           * 判断有没有code
-           * 1. 有code进行微信登陆
-           * 2. 没有code跳到进行地址回调
-           */
+      } else {
+        if (checkResult.url) {
           let code = this.utils.getUrlString("code");
           if (code) {
             let isRegister = await login.wechatLogin(code);
-            if (register) {
-            } else {
+            if (!isRegister) {
               this.$router.push({ path: "/register", replace: false });
             }
           } else {
-            location.href = isLogin;
+            location.href = checkResult.url;
           }
         } else {
           this.$router.push({ path: "/login", replace: true });
         }
-      } else {
-        this.$store.commit("setIsLogin", false);
       }
     })();
   },

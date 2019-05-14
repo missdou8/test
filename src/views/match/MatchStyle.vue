@@ -1,16 +1,23 @@
 <template>
   <div id="style">
-    <van-cell-group>
+    <van-cell-group class="group">
       <van-cell title="请选择游戏名称" :value="selectGame.name" is-link @click="gameSelect"/>
-      <van-cell title="请选择比赛时间" :value="selectTime" is-link @click="timeSelect"/>
       <van-collapse v-model="activeNames" :accordion="true" @change="personShow">
         <van-collapse-item name="1">
           <div slot="title" class="personGame">
-            <span>请预估比赛人数</span>
+            <span>请选择赛制</span>
             <span>{{selectPerson.value}}</span>
           </div>
           <radio-btn :data="personList" @select="selectPersonClick"></radio-btn>
         </van-collapse-item>
+      </van-collapse>
+    </van-cell-group>
+    <van-cell-group class="group">
+      <van-cell title="请选择比赛时间" :value="selectTime" is-link @click="timeSelect"/>
+    </van-cell-group>
+
+    <van-cell-group class="group">
+      <van-collapse v-model="activeNames" :accordion="true" @change="personShow">
         <van-collapse-item name="2">
           <div slot="title" class="personGame">
             <span>请选择报名类型</span>
@@ -95,7 +102,7 @@ export default {
         let time = state.match.time;
         return time
           ? timeFormate(time * 1000, "YY年MM月DD日HH时mm分")
-          : "未选择";
+          : "请选择";
       },
       selectPerson(state) {
         return state.match.attendPerson;
@@ -107,10 +114,10 @@ export default {
         return state.match.rankPrizes[0].prizes[0].name ||
           state.match.partSet[0].name
           ? "已选择"
-          : "未填写";
+          : "请填写";
       },
       shareMsg(state) {
-        return state.match.shareImg ? "已选择" : "未选择";
+        return state.match.shareImg ? "已选择" : "请选择";
       }
     })
   },
@@ -314,13 +321,32 @@ export default {
   height: 100%;
   width: 100%;
 }
+#style .van-cell {
+  font-size: 0.34rem;
+  padding: 0.3rem;
+}
+#style .van-cell__title {
+  color: var(--font-color-black);
+}
+#style .van-cell__value {
+  color: var(--font-color-gray);
+}
 </style>
 
 
 <style scoped>
+#style {
+  background-color: #f0f1f2;
+}
+.group {
+  margin-bottom: 0.2rem;
+}
 .personGame {
   display: flex;
   justify-content: space-between;
+}
+.personGame span:nth-child(2) {
+  color: var(--font-color-gray);
 }
 .attend-style {
   display: flex;
