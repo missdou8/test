@@ -556,9 +556,7 @@
         background-color: #f0f1f2;
     }
 
-    /* 顶部 */
     .header {
-        /*background: url("../../assets/header_bg.png") left top/ 100% 100% no-repeat;*/
         background: -webkit-linear-gradient(left, #07141b, #0d2d3a); /* Safari 5.1 - 6.0 */
         background: -o-linear-gradient(right, #07141b, #0d2d3a); /* Opera 11.1 - 12.0 */
         background: -moz-linear-gradient(right, #07141b, #0d2d3a); /* Firefox 3.6 - 15 */
@@ -653,58 +651,11 @@
         margin: 0 auto;
     }
 
-    .user_title {
-        font-size: 0.35rem;
-    }
-
-    .user_id {
-        color: #b0b0b0;
-    }
-
-    .user_id_title {
-        color: #646464;
-    }
-
     .header_icon img {
         width: var(--head-icon1);
         height: var(--head-icon1);
         border-radius: 50%;
         margin: 0 0.2rem 0 0.4rem;
-    }
-
-    .my-story {
-        color: #ac7901;
-        font-size: 0.24rem;
-        flex-grow: 1;
-        padding-right: 0.1rem;
-        text-align: right;
-    }
-
-    .authyes {
-        background: url("../../assets/renzheng.png") no-repeat;
-    }
-
-    .authno {
-        background: url("../../assets/renzhengno.png") no-repeat;
-    }
-
-    .authyes,
-    .authno {
-        background-size: 100% 100%;
-        display: inline-block;
-        height: 0.25rem;
-        margin-right: 0.1rem;
-        width: 0.75rem;
-        vertical-align: text-top;
-    }
-
-    /* 顶部选项 */
-    .header_lists {
-        line-height: 0;
-        padding: 0.1rem 0 0 0;
-        text-align: right;
-        display: flex;
-        justify-content: flex-end;
     }
 
     .header_lists > div {
@@ -716,16 +667,6 @@
     .header_lists span {
         font-size: 0.2rem;
         margin-top: 0.1rem;
-    }
-
-    .message {
-        background-image: url("../../assets/header_message.png");
-        position: relative;
-    }
-
-    .unread {
-        background-image: url("../../assets/header_gift.png");
-        position: relative;
     }
 
     .dotted {
@@ -850,36 +791,10 @@
         vertical-align: text-bottom;
     }
 
-    .match_list_content {
-        display: flex;
-        flex-wrap: wrap;
-        padding: 0.2rem;
-        justify-content: space-between;
-    }
-
-    .match_list_item {
-        background-color: #fff;
-        box-shadow: 0 0.1rem 0.1rem #e3e3e3;
-        margin-bottom: 0.2rem;
-        width: 48%;
-        height: 2.35rem;
-        padding: 0 0 0.45rem;
-        position: relative;
-        text-align: center;
-    }
-
     .match_list_item img {
         height: 100%;
         max-width: 100%;
         padding-bottom: 0.08rem;
-    }
-
-    .prize_list_content {
-        display: flex;
-        flex-direction: column;
-        width: 95%;
-        background: #ffffff;
-        margin: 0 auto;
     }
 
     .prize_list_item {
@@ -961,59 +876,6 @@
         line-height: 1.6rem;
         color: #f23f3f;
         font-size: .28rem;
-    }
-
-    .list_attri {
-        border-top: 0.01rem solid #f5f5f5;
-        font-size: 0.16rem;
-        position: absolute;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        width: 100%;
-    }
-
-    .list_pv,
-    .list_person-num,
-    .list_like {
-        background: url("../../assets/user_icon.png") left/0.18rem 0.18rem no-repeat;
-        padding-left: 0.23rem;
-    }
-
-    .list_person-num {
-        color: #fca600;
-    }
-
-    .list_pv {
-        background-image: url("../../assets/user_attri.png");
-        background-size: 0.21rem 0.18rem;
-    }
-
-    .list_like {
-        background-image: url("../../assets/user_like.png");
-    }
-
-    .edit_info0,
-    .edit_info1,
-    .edit_info2 {
-        color: #fff;
-        font-size: 0.21rem;
-        padding: 0 0.2rem 0 0.1rem;
-        position: absolute;
-        top: 0;
-    }
-
-    .edit_info0 {
-        background: url("../../assets/di_green.png") left/100% 100% no-repeat;
-    }
-
-    .edit_info1 {
-        background: url("../../assets/di_ju.png") left/100% 100% no-repeat;
-    }
-
-    .edit_info2 {
-        background: url("../../assets/di_red.png") left/100% 100% no-repeat;
     }
 
     .tab_dotted {
