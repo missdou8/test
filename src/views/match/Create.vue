@@ -10,8 +10,8 @@
       <img class="cover-img" :src="coverImg" v-show="!addShow" alt="封面图片">
     </div>
     <div class="create_content">
-      <div class="title">
-        <span class="title_name">标题</span>
+      <div class="title border_bottom">
+        <span class="title_name">添加赛事名称</span>
         <input class="title_content" type="text" placeholder="请添加比赛名称" v-model="titlePlace">
       </div>
       <div id="toolbar-container">
@@ -27,13 +27,14 @@
     <div v-show="appendShow" class="append" @click="appendImg">
       <img src="../../assets/add.png" alt="添加图片">
     </div>
-    <van-button @click="nextClick" class="next">下一步</van-button>
+    <normal-button @click.native="nextClick" class="next">下一步</normal-button>
     <van-uploader class="append_img" :after-read="append"></van-uploader>
   </div>
 </template>
 
 <script>
 import "../../../node_modules/quill/dist/quill.snow.css";
+import NormalButton from "../../components/button/NormalButton";
 import Quill from "quill";
 export default {
   data() {
@@ -46,6 +47,9 @@ export default {
       currentImg: "",
       replaceDom: ""
     };
+  },
+  components: {
+    NormalButton
   },
   computed: {
     /**
@@ -90,7 +94,8 @@ export default {
     let toolbar = document.querySelector("#toolbar-container");
     let editorDiv = document.querySelector(".editor");
     toolbar.style.display = "none";
-    editorDiv.style.border = "1px solid #ccc";
+    editorDiv.style.border = "none";
+    editorDiv.style.marginTop = "0.01rem";
     editor.on("selection-change", function(range, oldRange, source) {
       if (range) {
         if (range.length == 0) {
@@ -227,24 +232,24 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  padding: 0.3rem 0.3rem 0;
   position: relative;
   text-align: center;
 }
 .uploader {
   color: #fff;
-  margin: 0.3rem 0;
   width: 100%;
 }
 .cover-img {
-  height: 2.65rem;
+  height: 3rem;
   vertical-align: middle;
 }
 .addCover {
-  background-color: #000;
-  border-radius: 0.1rem;
-  margin: 0.3rem;
-  padding: 0.3rem;
+  background-color: #efefef;
+  height: 3rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .create_content {
   display: flex;
@@ -265,42 +270,30 @@ export default {
   transform: translateY(-50%);
 }
 .next {
-  /* position: absolute; */
-  /* bottom: 0.3rem;
-  left: 50%; */
-  width: 40%;
-  border: 0.02rem solid #ffd321;
   margin: 0.2rem auto;
 }
 /* 图片添加按钮 */
 .add {
-  color: #ffd321;
+  color: var(--font-color-lightgray);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.3rem;
-  font-weight: bold;
 }
 .add_img {
-  background: url("../../assets/img_add.png") center/100% 100% no-repeat;
-  height: 0.39rem;
-  width: 0.49rem;
-  margin-right: 0.1rem;
+  background: url("../../assets/add.png") center/100% 100% no-repeat;
+  height: 0.47rem;
+  width: 0.47rem;
+  margin-right: 0.2rem;
 }
 
 .title {
-  border-top: 0.025rem solid #f5f5f5;
-  border-bottom: 0.025rem solid #f5f5f5;
-  padding: 0.2rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.24rem 0.24rem 0.24rem 0.35rem;
 }
 .title_name {
-  color: #000;
-  font-size: 0.32rem;
+  color: var(--font-color-lightgray);
   margin-right: 0.2rem;
-}
-.title_name_content {
-  display: inline-block;
-  width: 5rem;
 }
 .append_img {
   position: absolute;
@@ -309,7 +302,7 @@ export default {
   opacity: 0;
 }
 .title_content {
-  width: 4.8rem;
+  text-align: right;
 }
 #toolbar-container {
   background-color: #fff;

@@ -41,7 +41,13 @@ export default {
     }
     //判断是否登陆了
     (async () => {
-      let isLogin = await login.checkLogin(location.href);
+      let isLogin;
+      if (this.utils.isWeChat()) {
+        isLogin = await login.checkLogin(location.href);
+      } else {
+        isLogin = await login.checkLogin();
+      }
+
       //如果未登录，则标记未登录
       if (isLogin) {
         this.$store.commit("setIsLogin", true);
@@ -74,20 +80,6 @@ export default {
   // 基于路线变化的动态设置路由切换动画
   watch: {
     $route(to, from) {
-      //如果登录切是从match到login页的话直接到match
-      let login = new Login();
-      if (
-        to.path === "/login" &&
-        from.path === "/match" &&
-        this.$store.state.user.isLogin
-      ) {
-        this.$router.push({ path: "/match", replace: true });
-      } else if (
-        !this.$store.state.user.isLogin &&
-        !login.noLogin(this.$route.path)
-      ) {
-        this.$router.push({ path: "/login", replace: true });
-      }
       this.title = to.meta.title;
       const toDepth = to.path.split("/").length;
       const fromDepth = from.path.split("/").length;
