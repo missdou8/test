@@ -106,8 +106,8 @@ export default {
         });
         this.$store.commit("setTime", this.match.beginTime);
         this.$store.commit("setAttendPerson", {
-          id: this.match.templateId || 0,
-          value: this.match.templateTitle || "请选择"
+          templateId: this.match.templateId || 0,
+          title: this.match.templateTitle || "请选择"
         });
         this.$store.commit("setAttendStyle", att);
         this.$store.commit("setIfSave", true);

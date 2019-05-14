@@ -1,19 +1,11 @@
 <template>
   <div id="style">
     <van-cell-group class="group">
-      <van-cell title="请选择游戏名称" :value="selectGame.name" is-link @click="gameSelect"/>
-      <van-collapse v-model="activeNames" :accordion="true" @change="personShow">
-        <van-collapse-item name="1">
-          <div slot="title" class="personGame">
-            <span>请选择赛制</span>
-            <span>{{selectPerson.value}}</span>
-          </div>
-          <radio-btn :data="personList" @select="selectPersonClick"></radio-btn>
-        </van-collapse-item>
-      </van-collapse>
+      <van-cell title="请选择游戏名称" :value="selectGame.name" to="style/gameList" is-link/>
+      <van-cell title="请选择赛制" :value="selectPerson.title" @click="selectPersonClick" is-link/>
     </van-cell-group>
     <van-cell-group class="group">
-      <van-cell title="请选择比赛时间" :value="selectTime" is-link @click="timeSelect"/>
+      <van-cell title="开赛时间" :value="selectTime" is-link @click="timeSelect"/>
     </van-cell-group>
 
     <van-cell-group class="group">
@@ -28,14 +20,6 @@
       </van-collapse>
       <van-cell title="请填写奖品信息" :value="prizeMsg" is-link @click="toPrize"/>
     </van-cell-group>
-    <van-popup v-model="gameShow" position="bottom">
-      <van-picker
-        :columns="gameList"
-        show-toolbar
-        @confirm="gameConfirm"
-        @cancel="gameShow = false"
-      />
-    </van-popup>
     <van-popup v-model="timeShow" position="bottom">
       <van-datetime-picker
         title="选择时间（年月日时分）"
@@ -67,14 +51,8 @@ export default {
   },
   data() {
     return {
-      gameShow: false,
       timeShow: false,
-      keyList: [5, 6],
       gameList: [],
-      allGameList: [],
-      selectGame: this.$store.state.match.gameName,
-      minHour: 10,
-      maxHour: 20,
       minDate: new Date(),
       maxDate: new Date(Date.now() + 60 * 60 * 24 * 30 * 2000),
       currentDate: new Date(),
@@ -105,7 +83,11 @@ export default {
           : "请选择";
       },
       selectPerson(state) {
+        console.log(state.match.attendPerson);
         return state.match.attendPerson;
+      },
+      selectGame(state) {
+        return state.match.gameName;
       },
       selectAttendType(state) {
         return state.match.attendStyle;
@@ -121,9 +103,7 @@ export default {
       }
     })
   },
-  created() {
-    this.fetchGameList();
-  },
+  created() {},
   methods: {
     formatter(type, value) {
       if (type === "year") {
@@ -152,9 +132,6 @@ export default {
         a.readAsDataURL(newFile);
       })();
     },
-    gameSelect() {
-      this.gameShow = true;
-    },
     timeSelect() {
       this.timeShow = true;
     },
@@ -177,40 +154,7 @@ export default {
           ];
           return this.$toast("请选择游戏");
         }
-        this.fetchPersonStyle();
       }
-    },
-    //获取游戏列表
-    fetchGameList() {
-      this.http.match.gameList().then(res => {
-        let data = res.data;
-        this.allGameList = data.gameList;
-        this.gameList = this.allGameList.map(item => {
-          return item.name;
-        });
-      });
-    },
-    //获取比赛人数
-    fetchPersonStyle() {
-      this.http.match
-        .playerCountList({
-          gameId: this.selectGame.id
-        })
-        .then(res => {
-          let data = res.data;
-          this.personList = data.playerCountList.map(item => {
-            return {
-              id: item.templateId,
-              value: item.title,
-              minPlayer: item.minPlayer
-            };
-          });
-        });
-    },
-    gameConfirm(value, index) {
-      this.gameShow = false;
-      this.selectGame = this.allGameList[index];
-      this.$store.commit("setGameName", this.selectGame);
     },
     timeConfirm(value) {
       this.timeShow = false;
@@ -218,10 +162,15 @@ export default {
       this.$store.commit("setTime", time);
     },
     selectPersonClick(data) {
-      if (data.id == 0) {
+      if (this.selectGame.id == 0) {
         return this.$toast("请选择游戏");
       }
-      this.$store.commit("setAttendPerson", data);
+      this.$router.push({
+        path: "style/matchType",
+        query: {
+          gameId: this.selectGame.id
+        }
+      });
     },
     attendStyleClick(data) {
       this.$store.commit("setAttendStyle", data);
@@ -274,7 +223,7 @@ export default {
         content: detail.content,
         gameId: gameName.id,
         beginTime: match.time,
-        templateId: match.attendPerson.id,
+        templateId: match.attendPerson.templateId,
         signupType: match.attendStyle.id,
         prizePic: match.prizeCover,
         getPrizeWay: match.sendStyle,

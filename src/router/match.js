@@ -22,6 +22,8 @@ import exchangeDetails from '../views/match/exchangeDetails'
 import signUpNameList from '../views/match/signUpNameList'
 import fans from '../views/match/fans'
 import recollections from '../views/match/recollections'
+import GamesList from "../views/match/GamesList.vue"
+import MatchType from "../views/match/MatchType.vue"
 
 const MATCH_ROUTERS = [
   {
@@ -50,6 +52,20 @@ const MATCH_ROUTERS = [
     component: Create,
     meta: {
       title: '创建比赛'
+    }
+  },
+  {
+    path: "/match/style/gameList",
+    component: GamesList,
+    meta: {
+      title: "游戏列表"
+    }
+  },
+  {
+    path: "/match/style/matchType",
+    component: MatchType,
+    meta: {
+      title: "比赛类型"
     }
   },
   {
