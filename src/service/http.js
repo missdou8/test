@@ -6,11 +6,12 @@ import user from "./user.js";
 import publicHttp from "./publicHttp.js";
 import prizes from "./prizes.js";
 import notice from "./notice.js";
+import matchOrganizer from "./matchOrganizer.js";
 
 //接口基础链接
 const hostname = "/api/";
 
-const reqAndUrl = Object.assign(match, user, publicHttp, prizes, notice);
+const reqAndUrl = Object.assign(match, user, publicHttp, prizes, notice, matchOrganizer);
 
 /**
  * 获取数据类

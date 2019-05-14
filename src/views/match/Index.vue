@@ -1,40 +1,53 @@
 <template>
   <div class="main">
     <div class="header">
-      <div class="header_lists">
-        <div>
-          <a class="unread" href="/front/user/exchange">
-            <span class="dotted" v-show="userInfo.unreadPrizesCount != 0 "></span>
-          </a>
-          <span>兑奖</span>
-        </div>
-        <div>
-          <router-link class="message" to="/announce/index">
-            <span class="dotted" v-show="userInfo.unreadMailCount != 0 "></span>
-          </router-link>
-          <span>公告</span>
-        </div>
-        <div>
-          <router-link class="setting" to="/user/index"></router-link>
-          <span>设置</span>
-        </div>
+      <!--            <div class="header_lists">-->
+      <!--                <div>-->
+      <!--                    <a class="unread" href="/front/user/exchange">-->
+      <!--                        <span class="dotted" v-show="userInfo.unreadPrizesCount != 0 "></span>-->
+      <!--                    </a>-->
+      <!--                    <span>兑奖</span>-->
+      <!--                </div>-->
+      <!--                <div>-->
+      <!--                    <router-link class="message" to="/announce/index">-->
+      <!--                        <span class="dotted" v-show="userInfo.unreadMailCount != 0 "></span>-->
+      <!--                    </router-link>-->
+      <!--                    <span>公告</span>-->
+      <!--                </div>-->
+      <!--                <div>-->
+      <!--                    <router-link class="setting" to="/user/index"></router-link>-->
+      <!--                    <span>设置</span>-->
+      <!--                </div>-->
+      <!--            </div>-->
+      <div class="settings">
+        <router-link class="setting" to="/user/index">
+          <img src="../../assets/shouye_icon_shezhi.png" alt>
+        </router-link>
       </div>
       <div class="header_icon">
         <img :src=" userInfo.icon || icon" alt="头像">
         <div class="user_info">
           <div class="userTest">
-            <span>未认证</span>
-            <span>已认证</span>
+            <span v-show="isAuthentication">未认证</span>
+            <span v-show="noAuthentication">已认证</span>
           </div>
-          <div class="user_name">乐牌赛事组织者</div>
+          <div class="user_name">{{userInfo.name}}</div>
           <div class="userInfo_bottom">
             <div>
-              <span></span>
-              <span>8888</span>
+              <img
+                style="margin: 0 .1rem 0 0;width: .32rem;height: .32rem;"
+                src="../../assets/sszzz_icon_lilan.png"
+                alt
+              >
+              <span>{{userInfo.visitCount || 0}}</span>
             </div>
             <div>
-              <span></span>
-              <span>8888</span>
+              <img
+                style="margin: 0 .1rem 0 0;width: .32rem;height: .32rem;"
+                src="../../assets/sszzz_icon_ganzhu.png"
+                alt
+              >
+              <span>{{userInfo.likeCount || 0}}</span>
             </div>
           </div>
         </div>
@@ -54,28 +67,28 @@
       <ul class="match_info">
         <li>
           <router-link to="match/detail/lnvitation">
-            <span>{{userInfo.visitCount}}</span>
+            <span>{{userInfo.invitationCount || 0}}</span>
             <!--            <span>浏览</span>-->
             <span>邀请</span>
           </router-link>
         </li>
         <li>
           <router-link to="match/detail/fans">
-            <span>{{userInfo.likeCount}}</span>
+            <span>{{userInfo.watchersCount || 0}}</span>
             <!--            <span>赞</span>-->
             <span>粉丝</span>
           </router-link>
         </li>
         <li>
           <router-link to="match/detail/recollections">
-            <span>{{userInfo.matchCount}}</span>
+            <span>{{userInfo.newPlayerComments || 0}}</span>
             <!--            <span>比赛</span>-->
             <span>感言</span>
           </router-link>
         </li>
         <li>
           <router-link to="user/record/fans">
-            <span>{{userInfo.watchersCount}}</span>
+            <span>{{userInfo.unreadMailCount || 0}}</span>
             <!--            <span>粉丝</span>-->
             <span>邮件</span>
           </router-link>
@@ -84,42 +97,42 @@
       <div class="position">
         <ul class="position_ul">
           <li>
-<!--            <router-link to="match/detail/signUpNameList">-->
+            <!--            <router-link to="match/detail/signUpNameList">-->
             <router-link to="user/story">
-              <img src="../../assets/shouye_icon_gs.png" alt="">
-<!--              <span>管理</span>-->
+              <img src="../../assets/shouye_icon_gs.png" alt>
+              <!--              <span>管理</span>-->
               <span>故事</span>
-<!--              报名名单-->
+              <!--              报名名单-->
             </router-link>
           </li>
-<!--          <li>-->
-<!--            <router-link to="user/customized">-->
-<!--              <img src="" alt="">-->
-<!--              <span>定制</span>-->
-<!--            </router-link>-->
-<!--          </li>-->
+          <!--          <li>-->
+          <!--            <router-link to="user/customized">-->
+          <!--              <img src="" alt="">-->
+          <!--              <span>定制</span>-->
+          <!--            </router-link>-->
+          <!--          </li>-->
           <li>
             <router-link to="match/detail/myPrize">
-              <img src="../../assets/shouye_icon_jp.png" alt="">
+              <img src="../../assets/shouye_icon_jp.png" alt>
               <span>奖品</span>
             </router-link>
           </li>
           <li>
             <router-link to="match/detail/exchange">
-              <img src="../../assets/shouye_icon_dh.png" alt="">
+              <img src="../../assets/shouye_icon_dh.png" alt>
               <span>兑换</span>
             </router-link>
           </li>
           <li>
             <a to="#" @click="serviceClick">
-              <img src="../../assets/shouye_icon_kf.png" alt="">
+              <img src="../../assets/shouye_icon_kf.png" alt>
               <span>客服</span>
             </a>
           </li>
         </ul>
       </div>
     </div>
-    <div style="height: 1rem;"></div>
+    <div style="height: .8rem;"></div>
     <van-tabs
       background="none"
       v-model="active"
@@ -256,7 +269,9 @@ export default {
       matchPage: 1,
       pageSize: 10,
       isNewComment: false, //是否有新评论
-      commentsList: [] //评论列表信息
+      commentsList: [], //评论列表信息
+      isAuthentication: false,
+      noAuthentication: false
     };
   },
   watch: {
@@ -293,9 +308,24 @@ export default {
     this.active = this.$store.state.match.tabActive;
     this.http.user.getUserInfo().then(res => {
       this.userInfo = res.data;
+      console.log(this.userInfo);
       this.isNewComment = this.userInfo.newPlayerComments;
       this.$store.commit("setInfo", this.userInfo);
+
+      if (this.userInfo.certification == 1) {
+        this.isAuthentication = true;
+        this.noAuthentication = false;
+      } else {
+        this.isAuthentication = false;
+        this.noAuthentication = true;
+      }
     });
+    // 新版
+    // this.http.matchOrganizer.getUserInfo().then(res =>{
+    //     console.log(res);
+    //     this.userInfo = res.data;
+    //     this.$store.commit("setInfo", this.userInfo);
+    // })
   },
   methods: {
     bigger(src) {
@@ -361,10 +391,10 @@ export default {
     createClick() {
       //清空赛事信息
       this.$store.commit("setDetail", {});
-      this.$store.commit("setGameName", { id: 0, name: "请选择" });
+      this.$store.commit("setGameName", { id: 0, name: "未选择" });
       this.$store.commit("setTime", 0);
-      this.$store.commit("setAttendPerson", { id: 0, value: "请选择" });
-      this.$store.commit("setAttendStyle", { id: 0, value: "请选择" });
+      this.$store.commit("setAttendPerson", { id: 0, value: "未选择" });
+      this.$store.commit("setAttendStyle", { id: 0, value: "未选择" });
       this.$store.commit("setIfSave", false);
       this.$store.commit("setPrizeCover", "");
       this.$store.commit("setgainPrizeAddress", {});
@@ -449,97 +479,137 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
+  background-color: #f0f1f2;
 }
+
 /* 顶部 */
 .header {
-  background: url("../../assets/header_bg.png") left top/ 100% 100% no-repeat;
+  /*background: url("../../assets/header_bg.png") left top/ 100% 100% no-repeat;*/
+  background: -webkit-linear-gradient(
+    left,
+    #07141b,
+    #0d2d3a
+  ); /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(
+    right,
+    #07141b,
+    #0d2d3a
+  ); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(
+    right,
+    #07141b,
+    #0d2d3a
+  ); /* Firefox 3.6 - 15 */
+  background: linear-gradient(to right, #07141b, #0d2d3a); /* 标准的语法 */
   color: #fff;
+  position: relative;
 }
+
 .header_icon {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding-bottom: 0.15rem;
+  padding-top: 0.3rem;
 }
+
 .user_info {
   font-size: 0.2rem;
   flex-grow: 2;
 }
+
 .userTest {
   display: flex;
   width: 2.3rem;
 }
+
 .userTest > span {
   display: block;
-  flex: 1;
-  width: 0.5rem;
-  height: 0.4rem;
-  margin: 0 0.08rem;
+  width: 0.9rem;
+  height: 0.3rem;
   text-align: center;
-  line-height: 0.4rem;
+  line-height: 0.3rem;
   border-radius: 0.05rem;
 }
+
 .userTest > span:nth-child(2) {
   background: #67c23a;
 }
+
 .userTest > span:nth-child(1) {
   background: #f56c6c;
 }
+
 .user_name {
-  font-size: 0.38rem;
+  font-size: 0.36rem;
   font-weight: 300;
-  padding: 0.1rem 0;
+  padding: 0.1rem 0 0.05rem 0;
 }
+
 .userInfo_bottom {
   display: flex;
   width: 2rem;
+  height: 0.3rem;
+  line-height: 0.3rem;
 }
+
 .userInfo_bottom > div {
   flex: 1;
+  display: flex;
 }
+
 .position {
   height: 1rem;
 }
+
 .position_ul {
   width: 95%;
-  height: 1.8rem;
+  height: 1.73rem;
   background: #ffffff;
   margin: 0 auto;
   display: flex;
   border-radius: 0.13rem;
+  box-shadow: 0 0.1rem 0.1rem #d9dde7;
 }
+
 .position_ul > li {
   flex: 1;
   align-items: center;
   text-align: center;
-  padding-top: 0.3rem;
+  padding-top: 0.24rem;
+  font-size: 0.3rem;
 }
+
 .position_ul > li > a {
   color: #000;
 }
+
 .position_ul > li img {
   display: block;
-  width: .8rem;
-
-  height: .8rem;
-  border-radius: .8rem;
+  width: 0.8rem;
+  border-radius: 0.4rem;
   margin: 0 auto;
 }
+
 .user_title {
   font-size: 0.35rem;
 }
+
 .user_id {
   color: #b0b0b0;
 }
+
 .user_id_title {
   color: #646464;
 }
+
 .header_icon img {
-  width: 1.54rem;
-  height: 1.54rem;
+  width: var(--head-icon1);
+  height: var(--head-icon1);
   border-radius: 50%;
   margin: 0 0.2rem 0 0.4rem;
 }
+
 .my-story {
   color: #ac7901;
   font-size: 0.24rem;
@@ -547,12 +617,15 @@ export default {
   padding-right: 0.1rem;
   text-align: right;
 }
+
 .authyes {
   background: url("../../assets/renzheng.png") no-repeat;
 }
+
 .authno {
   background: url("../../assets/renzhengno.png") no-repeat;
 }
+
 .authyes,
 .authno {
   background-size: 100% 100%;
@@ -562,6 +635,7 @@ export default {
   width: 0.75rem;
   vertical-align: text-top;
 }
+
 /* 顶部选项 */
 .header_lists {
   line-height: 0;
@@ -586,10 +660,12 @@ export default {
   background-image: url("../../assets/header_message.png");
   position: relative;
 }
+
 .unread {
   background-image: url("../../assets/header_gift.png");
   position: relative;
 }
+
 .dotted {
   background-color: red;
   border-radius: 50%;
@@ -603,9 +679,26 @@ export default {
   right: -0.05rem;
   text-align: center;
 }
-.header_lists .setting {
-  background-image: url("../../assets/header_setting.png");
+
+.settings {
+  position: absolute;
+  right: 0.4rem;
+  top: 0.2rem;
+  height: 0.4rem;
+  width: 0.4rem;
 }
+
+.settings .setting {
+  display: block;
+  width: 0.4rem;
+  height: 0.4rem;
+}
+
+.settings .setting > img {
+  width: 100%;
+  height: 100%;
+}
+
 .header_lists a {
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -614,37 +707,45 @@ export default {
   margin: 0 0.125rem;
   width: 0.4rem;
 }
+
 .match_info {
   display: flex;
   justify-content: space-around;
-  padding: 0 0 0.3rem 0;
+  padding: 0.3rem 0 0.3rem 0;
 }
+
 .match_info li {
   flex-basis: 0;
   flex-grow: 1;
+  font-size: 0.3rem;
 }
+
 .match_info li a {
   width: 100%;
 }
+
 .match_info a {
   display: flex;
   flex-direction: column;
   text-align: center;
   position: relative;
 }
+
 .match_info a::after {
   position: absolute;
   right: 0;
   top: 50%;
-  background-color: #3d3015;
+  background-color: #1f3038;
   content: "";
   height: 0.6rem;
   width: 0.01rem;
   transform: translateY(-50%);
 }
+
 .match_info a span:first-child {
   color: #b9b9b9;
 }
+
 .match_info a span:nth-child(2) {
   color: #656564;
 }
@@ -652,10 +753,11 @@ export default {
 .match_main {
   flex-basis: 0;
   flex-grow: 1;
-  margin-bottom: 1rem;
+  margin-bottom: 0.9rem;
   position: relative;
   overflow-y: hidden;
 }
+
 .match_list {
   overflow-y: auto;
   position: absolute;
@@ -665,6 +767,7 @@ export default {
   height: 100%;
   padding-bottom: 44px;
 }
+
 .create-btn {
   background-color: #fcc600;
   font-size: 0.3rem;
@@ -676,19 +779,23 @@ export default {
   height: 0.94rem;
   width: 100%;
 }
+
 .btn_icon {
-  background: url("../../assets/btn_icon.png") center/100% 100% no-repeat;
+  background: url("../../assets/chauangkjian_icon.png") center/100% 100%
+    no-repeat;
   display: inline-block;
-  height: 0.46rem;
+  height: 0.63rem;
   width: 0.44rem;
   vertical-align: text-bottom;
 }
+
 .match_list_content {
   display: flex;
   flex-wrap: wrap;
   padding: 0.2rem;
   justify-content: space-between;
 }
+
 .match_list_item {
   background-color: #fff;
   box-shadow: 0 0.1rem 0.1rem #e3e3e3;
@@ -699,6 +806,7 @@ export default {
   position: relative;
   text-align: center;
 }
+
 .match_list_item img {
   height: 100%;
   max-width: 100%;
@@ -712,36 +820,43 @@ export default {
   background: #ffffff;
   margin: 0 auto;
 }
+
 .prize_list_item {
   height: 2rem;
   display: flex;
-  padding: 0.1rem;
+  padding: 0.23rem;
 }
+
 .prize_list_img {
-  flex: 2;
+  padding-right: 0.2rem;
 }
+
 .prize_list_img > img {
-  width: 1.73rem;
-  height: 1.73rem;
+  width: 1.53rem;
+  height: 1.53rem;
   border: 0.01rem solid #000;
   display: block;
 }
+
 .prize_list_center {
   flex: 4;
 }
+
 .prize_name {
   width: 3.6rem;
   color: #000;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: .32rem;
+  font-size: 0.3rem;
 }
+
 .prize_label {
   display: flex;
   line-height: 0.31rem;
   padding-top: 0.07rem;
 }
+
 .prize_label span:nth-child(1) {
   font-size: 0.2rem;
   width: 1.22rem;
@@ -752,13 +867,16 @@ export default {
   color: #f9930a;
   text-align: center;
 }
+
 .prize_label span:nth-child(2) {
   width: 1.7rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   padding-left: 0.2rem;
+  font-size: 0.28rem;
 }
+
 .prize_label span:nth-child(3) {
   width: 0.56rem;
   height: 0.29rem;
@@ -768,18 +886,21 @@ export default {
   border-radius: 0.02rem;
   font-size: 0.13rem;
 }
+
 .prize_time {
-  padding: 0.25rem 0;
+  padding: 0.15rem 0;
   font-size: 0.2rem;
   color: #c0c4cc;
 }
+
 .prize_list_status {
   flex: 1;
   text-align: center;
   line-height: 1.6rem;
   color: #f23f3f;
-  font-size: .30rem;
+  font-size: 0.28rem;
 }
+
 .list_attri {
   border-top: 0.01rem solid #f5f5f5;
   font-size: 0.16rem;
@@ -797,16 +918,20 @@ export default {
   background: url("../../assets/user_icon.png") left/0.18rem 0.18rem no-repeat;
   padding-left: 0.23rem;
 }
+
 .list_person-num {
   color: #fca600;
 }
+
 .list_pv {
   background-image: url("../../assets/user_attri.png");
   background-size: 0.21rem 0.18rem;
 }
+
 .list_like {
   background-image: url("../../assets/user_like.png");
 }
+
 .edit_info0,
 .edit_info1,
 .edit_info2 {
@@ -816,22 +941,28 @@ export default {
   position: absolute;
   top: 0;
 }
+
 .edit_info0 {
   background: url("../../assets/di_green.png") left/100% 100% no-repeat;
 }
+
 .edit_info1 {
   background: url("../../assets/di_ju.png") left/100% 100% no-repeat;
 }
+
 .edit_info2 {
   background: url("../../assets/di_red.png") left/100% 100% no-repeat;
 }
+
 .tab_dotted {
   position: relative;
 }
+
 .tab_dotted .dotted {
   top: 0.18rem;
   right: 0.42rem;
 }
+
 .comments_list {
   margin-top: 0.13rem;
   line-height: 1;
