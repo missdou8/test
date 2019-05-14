@@ -2,8 +2,8 @@ const match = {
   state: {
     id: '',
     time: 0,
-    attendPerson: { id: 0, value: '未选择' }, //参加比赛的人数
-    attendStyle: { id: -1, value: '未选择' }, //报名类型
+    attendPerson: { templateId: 0, title: '请选择' }, //参加比赛的人数
+    attendStyle: { id: -1, value: '请选择' }, //报名类型
     rankPrizes: [
       {
         beginRank: 1,
@@ -19,7 +19,7 @@ const match = {
     attendTotalPrizes: null,
     sendStyle: '', //邮寄方式
     sendAddress: {},
-    gameName: { id: 0, name: '未选择' }, //游戏名字
+    gameName: { id: 0, name: '请选择' }, //游戏名字
     ifSave: false,
     detail: {}, //赛事信息：标题，封面和内容
     gainPrizeAddress: '', //自提地址

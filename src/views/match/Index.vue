@@ -21,7 +21,7 @@
             <!--            </div>-->
             <div class="settings">
                 <router-link class="setting" to="/user/index">
-                    <img src="../../assets/shouye_icon_shezhi.png" alt="">
+                    <img src="../../assets/shouye_icon_shezhi.png" alt>
                 </router-link>
             </div>
             <div class="header_icon">
@@ -34,13 +34,19 @@
                     <div class="user_name">{{userInfo.name}}</div>
                     <div class="userInfo_bottom">
                         <div>
-                            <img style="margin: 0 .1rem 0 0;width: .32rem;height: .32rem;"
-                                 src="../../assets/sszzz_icon_lilan.png" alt="">
+                            <img
+                                    style="margin: 0 .1rem 0 0;width: .32rem;height: .32rem;"
+                                    src="../../assets/sszzz_icon_lilan.png"
+                                    alt
+                            >
                             <span>{{userInfo.visitCount || 0}}</span>
                         </div>
                         <div>
-                            <img style="margin: 0 .1rem 0 0;width: .32rem;height: .32rem;"
-                                 src="../../assets/sszzz_icon_ganzhu.png" alt="">
+                            <img
+                                    style="margin: 0 .1rem 0 0;width: .32rem;height: .32rem;"
+                                    src="../../assets/sszzz_icon_ganzhu.png"
+                                    alt
+                            >
                             <span>{{userInfo.likeCount || 0}}</span>
                         </div>
                     </div>
@@ -93,7 +99,7 @@
                     <li>
                         <!--            <router-link to="match/detail/signUpNameList">-->
                         <router-link to="user/story">
-                            <img src="../../assets/shouye_icon_gs.png" alt="">
+                            <img src="../../assets/shouye_icon_gs.png" alt>
                             <!--              <span>管理</span>-->
                             <span>故事</span>
                             <!--              报名名单-->
@@ -107,19 +113,19 @@
                     <!--          </li>-->
                     <li>
                         <router-link to="match/detail/myPrize">
-                            <img src="../../assets/shouye_icon_jp.png" alt="">
+                            <img src="../../assets/shouye_icon_jp.png" alt>
                             <span>奖品</span>
                         </router-link>
                     </li>
                     <li>
                         <router-link to="match/detail/exchange">
-                            <img src="../../assets/shouye_icon_dh.png" alt="">
+                            <img src="../../assets/shouye_icon_dh.png" alt>
                             <span>兑换</span>
                         </router-link>
                     </li>
                     <li>
                         <a to="#" @click="serviceClick">
-                            <img src="../../assets/shouye_icon_kf.png" alt="">
+                            <img src="../../assets/shouye_icon_kf.png" alt>
                             <span>客服</span>
                         </a>
                     </li>
@@ -170,52 +176,64 @@
                         <!--                </div>-->
                         <!--              </div>-->
                         <!--            </div>-->
-                        <div v-if="active < 3" class="prize_list_content">
-                            <div class="prize_list_item">
-                                <div class="prize_list_img">
-                                    <img src alt="商品图片">
-                                </div>
-                                <div class="prize_list_center">
-                                    <p class="prize_name">奖品名称奖品名称奖品名称奖品名称奖品名称</p>
-                                    <div class="prize_label">
-                                        <span>乐牌跑的快</span>
-                                        <span>奖品描述奖品描述奖品描述奖品描述</span>
-                                        <span>私密</span>
-                                    </div>
-                                    <div class="prize_time">开赛时间：2019-08-08 16:00</div>
-                                </div>
-                                <div class="prize_list_status">待审核</div>
+                        <div class="prize_list_item">
+                            <div class="prize_list_img">
+                                <img src alt="商品图片">
                             </div>
-                            <div class="prize_list_item">
-                                <div class="prize_list_img">
-                                    <img src alt="商品图片">
+                            <div class="prize_list_center">
+                                <p class="prize_name">奖品名称奖品名称奖品名称奖品名称奖品名称</p>
+                                <div class="prize_label">
+                                    <span>乐牌跑的快</span>
+                                    <span>奖品描述奖品描述奖品描述奖品描述</span>
+                                    <span>私密</span>
                                 </div>
-                                <div class="prize_list_center">
-                                    <p class="prize_name">奖品名称奖品名称奖品名称奖品名称奖品名称</p>
-                                    <div class="prize_label">
-                                        <span>乐牌跑的快</span>
-                                        <span>奖品描述奖品描述奖品描述奖品描述</span>
-                                        <span>私密</span>
-                                    </div>
-                                    <div class="prize_time">开赛时间：2019-08-08 16:00</div>
-                                </div>
-                                <div class="prize_list_status">待审核</div>
+                                <div class="prize_time">开赛时间：2019-08-08 16:00</div>
                             </div>
-                            <div class="prize_list_item">
-                                <div class="prize_list_img">
-                                    <img src alt="商品图片">
-                                </div>
-                                <div class="prize_list_center">
-                                    <p class="prize_name">奖品名称奖品名称奖品名称奖品名称奖品名称</p>
-                                    <div class="prize_label">
-                                        <span>乐牌跑的快</span>
-                                        <span>奖品描述奖品描述奖品描述奖品描述</span>
-                                        <span>私密</span>
-                                    </div>
-                                    <div class="prize_time">开赛时间：2019-08-08 16:00</div>
-                                </div>
-                                <div class="prize_list_status">待审核</div>
+                            <div class="prize_list_status">待审核</div>
+                        </div>
+                        <div class="prize_list_item">
+                            <div class="prize_list_img">
+                                <img src alt="商品图片">
                             </div>
+                            <div class="prize_list_center">
+                                <p class="prize_name">奖品名称奖品名称奖品名称奖品名称奖品名称</p>
+                                <div class="prize_label">
+                                    <span>乐牌跑的快</span>
+                                    <span>奖品描述奖品描述奖品描述奖品描述</span>
+                                    <span>私密</span>
+                                </div>
+                                <div class="prize_time">开赛时间：2019-08-08 16:00</div>
+                            </div>
+                            <div class="prize_list_status">待审核</div>
+                        </div><div class="prize_list_item">
+                        <div class="prize_list_img">
+                            <img src alt="商品图片">
+                        </div>
+                        <div class="prize_list_center">
+                            <p class="prize_name">奖品名称奖品名称奖品名称奖品名称奖品名称</p>
+                            <div class="prize_label">
+                                <span>乐牌跑的快</span>
+                                <span>奖品描述奖品描述奖品描述奖品描述</span>
+                                <span>私密</span>
+                            </div>
+                            <div class="prize_time">开赛时间：2019-08-08 16:00</div>
+                        </div>
+                        <div class="prize_list_status">待审核</div>
+                    </div>
+                        <div class="prize_list_item">
+                            <div class="prize_list_img">
+                                <img src alt="商品图片">
+                            </div>
+                            <div class="prize_list_center">
+                                <p class="prize_name">奖品名称奖品名称奖品名称奖品名称奖品名称</p>
+                                <div class="prize_label">
+                                    <span>乐牌跑的快</span>
+                                    <span>奖品描述奖品描述奖品描述奖品描述</span>
+                                    <span>私密</span>
+                                </div>
+                                <div class="prize_time">开赛时间：2019-08-08 16:00</div>
+                            </div>
+                            <div class="prize_list_status">待审核</div>
                         </div>
                         <DidaCommentList
                                 class="comments_list"
@@ -228,7 +246,6 @@
                                 :isComment="true"
                                 @toDetail="commentToDetail"
                                 @getImgSrc="bigger"
-                                v-else
                         ></DidaCommentList>
                     </van-list>
                 </van-pull-refresh>
@@ -417,6 +434,61 @@
                         ]
                     }
                 ]);
+                this.$store.commit("setPartSet", [
+                    {name: null, price: null, prizeCount: null, icon: null}
+                ]);
+                this.$store.commit("setSendStyle", -1);
+                //判断是否有权限创建
+                // if (this.userInfo.certification != 1) {
+                //   return this.$toast("请先实名认证");
+                // }
+                if (this.userInfo.latitude == 0) {
+                    return this.$toast("需要进行店铺地址定位");
+                }
+                if (this.userInfo.shopName == "") {
+                    return this.$toast("请先设置店铺名称");
+                }
+                this.$router.push("match/create");
+            },
+            fetchList() {
+                //获取比赛信息
+                return this.http.match
+                    .matchList({
+                        pagesize: this.pageSize,
+                        currentpage: this.matchPage,
+                        type: this.matchType
+                    })
+                    .then(res => {
+                        let data = res.data;
+                        this.list = this.list.concat(data.matchList);
+                        return data;
+                    });
+            },
+            fetchCommentsList() {
+                return this.http.prizes
+                    .commentsList({pagesize: this.pageSize, currentpage: this.matchPage})
+                    .then(res => {
+                        let data = res.data;
+                        this.commentsList = this.commentsList.concat(data.commentsList);
+                        return data;
+                    });
+            },
+            serviceClick() {
+                location.href = `${this.config.customerServiceUrl}&tel=${
+                    this.userInfo.mobile
+                    }&partnerId=${this.userInfo.id}&uname=广告主后台_${
+                    this.userInfo.name
+                    }&groupId=a0855fa7e13e490ca78dfbef7efb7516`;
+            },
+            progressTag(code) {
+                if (code == 0 || code == 5) {
+                    return "edit_info0";
+                } else if (code == 2 || code == 3 || code == 4) {
+                    return "edit_info2";
+                } else {
+                    return "edit_info1";
+                }
+
                 this.$store.commit("setPartSet", [
                     {name: null, price: null, prizeCount: null, icon: null}
                 ]);
@@ -814,6 +886,7 @@
         height: 2rem;
         display: flex;
         padding: 0.23rem;
+        background-color: #ffffff;
     }
 
     .prize_list_img {
@@ -956,5 +1029,4 @@
         margin-top: 0.13rem;
         line-height: 1;
     }
-
 </style>

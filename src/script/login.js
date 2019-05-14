@@ -4,14 +4,13 @@ class Login {
     constructor() {
         this.http = new ApiService()
     }
-    checkLogin(url = "") {
+    checkLogin(url) {
         return this.http.user.checkLogin({
             backurl: url
         }).then(result => {
-            if (result.data.isLogin == 2) {
-                return result.data.url;
-            } else {
-                return false;
+            return {
+                isLogin: result.data.isLogin == 1,
+                url: result.data.url
             }
         });
     }

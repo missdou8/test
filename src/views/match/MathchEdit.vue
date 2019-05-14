@@ -294,7 +294,7 @@ export default {
         content: detail.content,
         gameId: gameName.id,
         beginTime: match.time,
-        templateId: match.attendPerson.id,
+        templateId: match.attendPerson.templateId,
         signupType: match.attendStyle.id,
         prizePic: match.prizeCover,
         getPrizeWay: match.sendStyle,

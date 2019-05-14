@@ -75,9 +75,6 @@ axios.interceptors.request.use(
 
 let errorCatch = (code, msg) => {
   switch (code) {
-    case 100002:
-      _this.$router.push("/login");
-      break;
     case 140301:
       //  _this.$toast("无效的兑奖码！");
       break;
@@ -104,7 +101,6 @@ axios.interceptors.response.use(
     return response;
   },
   function (error) {
-    console.log('关闭了几个')
     // 处理错误的内容
     _this.$toast.clear();
     // 如果错啦
