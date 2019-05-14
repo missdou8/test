@@ -4,7 +4,7 @@ class Login {
     constructor() {
         this.http = new ApiService()
     }
-    checkLogin(url) {
+    checkLogin(url = "") {
         return this.http.user.checkLogin({
             backurl: url
         }).then(result => {

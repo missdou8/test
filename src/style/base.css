@@ -30,6 +30,7 @@
   --color-green: #67c23a;
   --color-blue: #2a9ae7;
   --color-gray: #dcdfe6;
+  --color-light-gray: #c0c4cc;
 }
 html {
   font-size: 13.89vw;
