@@ -4,7 +4,7 @@ import App from './App.vue'
 import ApiService from './service/http.js'
 import store from './store/index.js'
 import ImageCompressor from 'compressorjs'
-import { isIos, isWeChat, isPhoneNum, isQQ, getUrlString } from 'lputils'
+import { isIos, isWeChat, isPhoneNum, isQQ, getUrlString, timeFormate } from 'lputils'
 import DidaCommentList from 'lpui'
 
 // 导入公共CSS
@@ -27,7 +27,7 @@ Vue.prototype.config = config
 // 在全局引入lputils
 
 Vue.prototype.utils = {
-  isIos, isWeChat, isPhoneNum, isQQ, getUrlString
+  isIos, isWeChat, isPhoneNum, isQQ, getUrlString, timeFormate
 }
 
 if (isIos() && isWeChat()) {

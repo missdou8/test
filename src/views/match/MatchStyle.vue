@@ -43,7 +43,6 @@
 <script>
 import { mapState } from "vuex";
 import RadioBtn from "../../components/RadioBtn.vue";
-import { timeFormate } from "lputils";
 
 export default {
   components: {
@@ -79,7 +78,7 @@ export default {
       selectTime(state) {
         let time = state.match.time;
         return time
-          ? timeFormate(time * 1000, "YY年MM月DD日HH时mm分")
+          ? this.utils.timeFormate(time * 1000, "YY/MM/DD HH:mm")
           : "请选择";
       },
       selectPerson(state) {
@@ -279,6 +278,7 @@ export default {
 }
 #style .van-cell__value {
   color: var(--font-color-gray);
+  font-size: 0.32rem;
 }
 </style>
 
