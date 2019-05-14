@@ -31,7 +31,7 @@
                         <span>未认证</span>
                         <span>已认证</span>
                     </div>
-                    <div class="user_name">赛事组织者</div>
+                    <div class="user_name">乐牌赛事组织者</div>
                     <div class="userInfo_bottom">
                         <div>
                             <span></span>
@@ -509,14 +509,16 @@
     }
 
     .user_name {
-        font-size: 0.38rem;
+        font-size: 0.36rem;
         font-weight: 300;
-        padding: 0.1rem 0;
+        padding: 0.1rem 0 .05rem 0;
     }
 
     .userInfo_bottom {
         display: flex;
         width: 2rem;
+        height: .3rem;
+        line-height: .3rem;
     }
 
     .userInfo_bottom > div {
@@ -529,7 +531,7 @@
 
     .position_ul {
         width: 95%;
-        height: 1.8rem;
+        height: 1.73rem;
         background: #ffffff;
         margin: 0 auto;
         display: flex;
@@ -541,7 +543,7 @@
         flex: 1;
         align-items: center;
         text-align: center;
-        padding-top: 0.3rem;
+        padding-top: 0.24rem;
         font-size: .3rem;
     }
 
@@ -700,7 +702,7 @@
         position: absolute;
         right: 0;
         top: 50%;
-        background-color: #3d3015;
+        background-color: #1f3038;
         content: "";
         height: 0.6rem;
         width: 0.01rem;
@@ -788,16 +790,16 @@
     .prize_list_item {
         height: 2rem;
         display: flex;
-        padding: 0.1rem;
+        padding: 0.23rem;
     }
 
     .prize_list_img {
-        flex: 2;
+        padding-right: .2rem;
     }
 
     .prize_list_img > img {
-        width: 1.73rem;
-        height: 1.73rem;
+        width: 1.53rem;
+        height: 1.53rem;
         border: 0.01rem solid #000;
         display: block;
     }
@@ -838,7 +840,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         padding-left: 0.2rem;
-        font-size: .3rem;
+        font-size: .28rem;
     }
 
     .prize_label span:nth-child(3) {
@@ -852,7 +854,7 @@
     }
 
     .prize_time {
-        padding: 0.25rem 0;
+        padding: 0.15rem 0;
         font-size: 0.2rem;
         color: #c0c4cc;
     }
@@ -862,7 +864,7 @@
         text-align: center;
         line-height: 1.6rem;
         color: #f23f3f;
-        font-size: .30rem;
+        font-size: .28rem;
     }
 
     .list_attri {
