@@ -25,21 +25,21 @@
                 </router-link>
             </div>
             <div class="header_icon">
-                <img :src=" user_info.icon || icon" alt="头像">
+                <img :src=" userInfo.icon || icon" alt="头像">
                 <div class="user_info">
                     <div class="userTest">
-                        <span>未认证</span>
-                        <span>已认证</span>
+                        <span v-show="isAuthentication">未认证</span>
+                        <span v-show="noAuthentication">已认证</span>
                     </div>
-                    <div class="user_name">乐牌赛事组织者</div>
+                    <div class="user_name">{{userInfo.name}}</div>
                     <div class="userInfo_bottom">
                         <div>
-                            <span></span>
-                            <span>8888</span>
+                            <img style="margin: 0 .1rem 0 0;width: .32rem;height: .32rem;" src="../../assets/sszzz_icon_lilan.png" alt="">
+                            <span>{{userInfo.visitCount || 0}}</span>
                         </div>
                         <div>
-                            <span></span>
-                            <span>8888</span>
+                            <img style="margin: 0 .1rem 0 0;width: .32rem;height: .32rem;" src="../../assets/sszzz_icon_ganzhu.png" alt="">
+                            <span>{{userInfo.likeCount || 0}}</span>
                         </div>
                     </div>
                 </div>
@@ -59,28 +59,28 @@
             <ul class="match_info">
                 <li>
                     <router-link to="match/detail/lnvitation">
-                        <span>{{userInfo.visitCount}}</span>
+                        <span>{{userInfo.invitationCount || 0}}</span>
                         <!--            <span>浏览</span>-->
                         <span>邀请</span>
                     </router-link>
                 </li>
                 <li>
                     <router-link to="match/detail/fans">
-                        <span>{{userInfo.likeCount}}</span>
+                        <span>{{userInfo.watchersCount || 0}}</span>
                         <!--            <span>赞</span>-->
                         <span>粉丝</span>
                     </router-link>
                 </li>
                 <li>
                     <router-link to="match/detail/recollections">
-                        <span>{{userInfo.matchCount}}</span>
+                        <span>{{userInfo.newPlayerComments || 0}}</span>
                         <!--            <span>比赛</span>-->
                         <span>感言</span>
                     </router-link>
                 </li>
                 <li>
                     <router-link to="user/record/fans">
-                        <span>{{userInfo.watchersCount}}</span>
+                        <span>{{userInfo.unreadMailCount || 0}}</span>
                         <!--            <span>粉丝</span>-->
                         <span>邮件</span>
                     </router-link>
@@ -262,7 +262,8 @@
                 pageSize: 10,
                 isNewComment: false, //是否有新评论
                 commentsList: [], //评论列表信息
-                user_info: []
+                isAuthentication:false,
+                noAuthentication:false
             };
         },
         watch: {
@@ -299,12 +300,23 @@
             this.active = this.$store.state.match.tabActive;
             this.http.user.getUserInfo().then(res => {
                 this.userInfo = res.data;
+                console.log(this.userInfo)
                 this.isNewComment = this.userInfo.newPlayerComments;
                 this.$store.commit("setInfo", this.userInfo);
+
+                if(this.userInfo.certification == 1){
+                    this.isAuthentication = true;
+                    this.noAuthentication = false;
+                }else{
+                    this.isAuthentication = false;
+                    this.noAuthentication = true;
+                }
             });
+            // 新版
             // this.http.matchOrganizer.getUserInfo().then(res =>{
             //     console.log(res);
-            //     this.user_info = res.data;
+            //     this.userInfo = res.data;
+            //     this.$store.commit("setInfo", this.userInfo);
             // })
         },
         methods: {
@@ -523,6 +535,7 @@
 
     .userInfo_bottom > div {
         flex: 1;
+        display: flex;
     }
 
     .position {
@@ -647,7 +660,7 @@
         text-align: center;
     }
 
-    .settings{
+    .settings {
         position: absolute;
         right: .4rem;
         top: .2rem;
@@ -661,7 +674,7 @@
         height: .4rem;
     }
 
-    .settings .setting > img{
+    .settings .setting > img {
         width: 100%;
         height: 100%;
     }
@@ -678,7 +691,7 @@
     .match_info {
         display: flex;
         justify-content: space-around;
-        padding: 0 0 0.3rem 0;
+        padding: 0.3rem 0 0.3rem 0;
     }
 
     .match_info li {
@@ -720,7 +733,7 @@
     .match_main {
         flex-basis: 0;
         flex-grow: 1;
-        margin-bottom: 1rem;
+        margin-bottom: .9rem;
         position: relative;
         overflow-y: hidden;
     }
@@ -748,9 +761,9 @@
     }
 
     .btn_icon {
-        background: url("../../assets/btn_icon.png") center/100% 100% no-repeat;
+        background: url("../../assets/chauangkjian_icon.png") center/100% 100% no-repeat;
         display: inline-block;
-        height: 0.46rem;
+        height: 0.63rem;
         width: 0.44rem;
         vertical-align: text-bottom;
     }
