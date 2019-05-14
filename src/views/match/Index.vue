@@ -34,11 +34,13 @@
                     <div class="user_name">{{userInfo.name}}</div>
                     <div class="userInfo_bottom">
                         <div>
-                            <img style="margin: 0 .1rem 0 0;width: .32rem;height: .32rem;" src="../../assets/sszzz_icon_lilan.png" alt="">
+                            <img style="margin: 0 .1rem 0 0;width: .32rem;height: .32rem;"
+                                 src="../../assets/sszzz_icon_lilan.png" alt="">
                             <span>{{userInfo.visitCount || 0}}</span>
                         </div>
                         <div>
-                            <img style="margin: 0 .1rem 0 0;width: .32rem;height: .32rem;" src="../../assets/sszzz_icon_ganzhu.png" alt="">
+                            <img style="margin: 0 .1rem 0 0;width: .32rem;height: .32rem;"
+                                 src="../../assets/sszzz_icon_ganzhu.png" alt="">
                             <span>{{userInfo.likeCount || 0}}</span>
                         </div>
                     </div>
@@ -262,8 +264,8 @@
                 pageSize: 10,
                 isNewComment: false, //是否有新评论
                 commentsList: [], //评论列表信息
-                isAuthentication:false,
-                noAuthentication:false
+                isAuthentication: false,
+                noAuthentication: false
             };
         },
         watch: {
@@ -304,10 +306,10 @@
                 this.isNewComment = this.userInfo.newPlayerComments;
                 this.$store.commit("setInfo", this.userInfo);
 
-                if(this.userInfo.certification == 1){
+                if (this.userInfo.certification == 1) {
                     this.isAuthentication = true;
                     this.noAuthentication = false;
-                }else{
+                } else {
                     this.isAuthentication = false;
                     this.noAuthentication = true;
                 }
@@ -317,6 +319,14 @@
             //     console.log(res);
             //     this.userInfo = res.data;
             //     this.$store.commit("setInfo", this.userInfo);
+
+            // if(this.userInfo.certification == 1){
+            //     this.isAuthentication = true;
+            //     this.noAuthentication = false;
+            // }else{
+            //     this.isAuthentication = false;
+            //     this.noAuthentication = true;
+            // }
             // })
         },
         methods: {
@@ -691,7 +701,7 @@
     .match_info {
         display: flex;
         justify-content: space-around;
-        padding: 0.3rem 0 0.3rem 0;
+        padding: 0.2rem 0 0.3rem 0;
     }
 
     .match_info li {

@@ -5,6 +5,7 @@
             <span v-show="isShowDelete" style="color: #2a9ae7;" @click="deletePrize(1)">删除</span>
             <span v-show="isShowDelete" @click="deletePrize(2)">取消</span>
         </div>
+        <van-pull-refresh class="refresh" v-model="isLoading" @refresh="onRefresh()">
         <div class="myPrize_list_box">
             <ul class="myPrize_list">
                 <li class="myPrize_item" v-for="(item , index) in prizeList" @click="PrizeItem(index)">
@@ -14,81 +15,93 @@
                 </li>
             </ul>
         </div>
+        </van-pull-refresh>
     </div>
 </template>
 
 <script>
     export default {
         name: "myPrize",
-        data(){
+        data() {
             return {
-                isShowDelete:false,
-                isShowEdit:true,
-                prizeList:[
-                    {imgUrl:'',prize:'奖品A1',isShowStatus:false},
-                    {imgUrl:'',prize:'奖品A2',isShowStatus:false},
-                    {imgUrl:'',prize:'奖品A3',isShowStatus:false},
-                    {imgUrl:'',prize:'奖品A4',isShowStatus:false},
-                    {imgUrl:'',prize:'奖品A5',isShowStatus:false},
-                    {imgUrl:'',prize:'奖品A6',isShowStatus:false},
-                    {imgUrl:'',prize:'奖品A7',isShowStatus:false},
-                    {imgUrl:'',prize:'奖品A8',isShowStatus:false},
-                    {imgUrl:'',prize:'奖品A9',isShowStatus:false},
-                    {imgUrl:'',prize:'奖品A10',isShowStatus:false},
-                ]
+                isShowDelete: false,
+                isShowEdit: true,
+                prizeList: [
+                    {imgUrl: '', prize: '奖品A1', isShowStatus: false},
+                    {imgUrl: '', prize: '奖品A2', isShowStatus: false},
+                    {imgUrl: '', prize: '奖品A3', isShowStatus: false},
+                    {imgUrl: '', prize: '奖品A4', isShowStatus: false},
+                    {imgUrl: '', prize: '奖品A5', isShowStatus: false},
+                    {imgUrl: '', prize: '奖品A6', isShowStatus: false},
+                    {imgUrl: '', prize: '奖品A7', isShowStatus: false},
+                    {imgUrl: '', prize: '奖品A8', isShowStatus: false},
+                    {imgUrl: '', prize: '奖品A9', isShowStatus: false},
+                    {imgUrl: '', prize: '奖品A10', isShowStatus: false},
+                ],
+                count: 0,
+                isLoading: false,
+                matchPage: 1,
+                pageSize: 10
             }
         },
-        methods:{
-            edit(){
+        methods: {
+            edit() {
                 this.isShowDelete = true;
                 this.isShowEdit = !this.isShowEdit;
             },
-            deletePrize(status){
+            deletePrize(status) {
                 console.log(status);
                 this.isShowDelete = !this.isShowDelete;
                 this.isShowEdit = !this.isShowEdit;
-                if(status == 1){
+                if (status == 1) {
                     var deleteArr = [];
-                    for(var i=0;i<this.prizeList.length;i++){
-                        if(this.prizeList[i].isShowStatus == true){
-                            deleteArr.push(this.prizeList[i]);
-                        }
+                    for (var i = 0; i < this.prizeList.length; i++) {
+                        if (this.prizeList[i].isShowStatus == true) deleteArr.push(this.prizeList[i]);
                     }
-                    console.log('This is the element to be deleted:' , deleteArr);
-                }else{
+                    console.log('This is the element to be deleted:', deleteArr);
+                } else {
                     console.log('取消');
                 }
             },
-            PrizeItem(index){
-                if(this.isShowDelete){
-                    this.prizeList[index].isShowStatus = !this.prizeList[index].isShowStatus;
-                }
+            PrizeItem(index) {
+                if (this.isShowDelete) this.prizeList[index].isShowStatus = !this.prizeList[index].isShowStatus;
+
+            },
+            onRefresh() {
+                this.isLoading = false;
+                // this.prizeList = [];
+                this.matchPage = 1;
+                this.pageSize = 10
             }
         }
     }
 </script>
 
 <style scoped>
-    #myPrize_box{
+    #myPrize_box {
         background-color: #ffffff;
         display: flex;
         flex-direction: column;
     }
-    .edit{
+
+    .edit {
         height: .75rem;
         border-bottom: .005rem solid #c0c4cc;
         text-align: right;
         line-height: .75rem;
         padding-right: .5rem;
     }
-    .edit > span{
+
+    .edit > span {
         padding: 0 0 0 .4rem;
     }
-    .myPrize_list_box{
+
+    .myPrize_list_box {
         height: 100%;
         overflow-y: auto;
     }
-    .myPrize_list > .myPrize_item{
+
+    .myPrize_list > .myPrize_item {
         float: left;
         width: 33.333%;
         height: 3rem;
@@ -98,13 +111,15 @@
         text-align: center;
         position: relative;
     }
-    .myPrize_item > .prizeImg{
+
+    .myPrize_item > .prizeImg {
         height: 1.95rem;
         width: 1.95rem;
         border: .005rem solid #c0c4cc;
         margin: 0 auto;
     }
-    .myPrize_item > .statusImg{
+
+    .myPrize_item > .statusImg {
         width: .45rem;
         height: .45rem;
         border-radius: .5rem;
@@ -114,9 +129,12 @@
         right: .4rem;
         top: .5rem;
     }
-    .myPrize_item > span{
+
+    .myPrize_item > span {
         padding-top: .1rem;
     }
 
-
+    .refresh {
+        overflow-y: auto;
+    }
 </style>
