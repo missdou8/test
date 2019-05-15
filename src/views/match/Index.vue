@@ -236,18 +236,6 @@
               </div>
               <div class="prize_list_status">待审核</div>
             </div>
-            <DidaCommentList
-              class="comments_list"
-              v-for="(item,index) in commentsList"
-              :key="`comment${index}`"
-              :data="item"
-              :type="0"
-              @next="commentClick"
-              :disabeld="true"
-              :isComment="true"
-              @toDetail="commentToDetail"
-              @getImgSrc="bigger"
-            ></DidaCommentList>
           </van-list>
         </van-pull-refresh>
       </van-tab>
