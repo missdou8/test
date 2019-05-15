@@ -2,54 +2,73 @@
   <div id="userIndex">
     <div class="userIndex">
       <van-cell-group>
-        <van-cell class="user_box">
+<!--        <van-cell class="user_box">-->
+<!--          <div class="user_img_box">-->
+<!--            <shear-img-->
+<!--              ref="shear_img"-->
+<!--              :def-img="userinfo.icon||defImg"-->
+<!--              :img-width="300"-->
+<!--              :img-height="300"-->
+<!--              @getImgUrl="getImgUrl($event)"-->
+<!--            ></shear-img>-->
+<!--          </div>-->
+<!--          <div class="user_msg">-->
+<!--            <h3>点击修改头像</h3>-->
+<!--            <p>-->
+<!--              店铺ID:-->
+<!--              <span>{{userinfo.id}}</span>-->
+<!--            </p>-->
+<!--          </div>-->
+<!--        </van-cell>-->
+<!--      </van-cell-group>-->
+
+        <div class="user_box">
+          <div class="header_img">头像</div>
           <div class="user_img_box">
             <shear-img
-              ref="shear_img"
-              :def-img="userinfo.icon||defImg"
-              :img-width="300"
-              :img-height="300"
-              @getImgUrl="getImgUrl($event)"
+                    ref="shear_img"
+                    :def-img="userinfo.icon||defImg"
+                    :img-width="300"
+                    :img-height="300"
+                    @getImgUrl="getImgUrl($event)"
             ></shear-img>
           </div>
-          <div class="user_msg">
-            <h3>点击修改头像</h3>
-            <p>
-              店铺ID:
-              <span>{{userinfo.id}}</span>
-            </p>
-          </div>
-        </van-cell>
+        </div>
       </van-cell-group>
+
       <van-cell-group class="user_edit_box">
+<!--        <van-cell-->
+<!--          title="店铺名称"-->
+<!--          :value="userinfo.shopName"-->
+<!--          :is-link="true"-->
+<!--          :to="{ path: '/user/edit/shop', query: { shopName: userinfo.shopName}}"-->
+<!--        ></van-cell>-->
+<!--        <van-cell-->
+<!--          title="店主名字"-->
+<!--          :value="userinfo.name"-->
+<!--          is-link-->
+<!--          :to="{ path: '/user/edit/name', query: { name: userinfo.name}}"-->
+<!--        ></van-cell>-->
+<!--        &lt;!&ndash; <van-cell class="gray" title="实名认证" :value="autonymText+',认证信息仅自己可见'" is-link to="/user/edit/autonym"></van-cell> &ndash;&gt;-->
+<!--        <van-cell-->
+<!--          title="店铺座机"-->
+<!--          :value="userinfo.telephone"-->
+<!--          is-link-->
+<!--          :to="{ path: '/user/edit/plane', query: { telephone: userinfo.telephone }}"-->
+<!--        ></van-cell>-->
         <van-cell
-          title="店铺名称"
-          :value="userinfo.shopName"
-          :is-link="true"
-          :to="{ path: '/user/edit/shop', query: { shopName: userinfo.shopName}}"
+                title="嘀嗒号"
+                :value="userinfo.id"
         ></van-cell>
         <van-cell
-          title="店主名字"
-          :value="userinfo.name"
-          is-link
-          :to="{ path: '/user/edit/name', query: { name: userinfo.name}}"
-        ></van-cell>
-        <!-- <van-cell class="gray" title="实名认证" :value="autonymText+',认证信息仅自己可见'" is-link to="/user/edit/autonym"></van-cell> -->
-        <van-cell
-          title="店铺座机"
-          :value="userinfo.telephone"
-          is-link
-          :to="{ path: '/user/edit/plane', query: { telephone: userinfo.telephone }}"
-        ></van-cell>
-        <van-cell
-          title="手机号码"
+          title="手机号"
           :value="userinfo.mobile"
-          is-link
-          :to="{ path: '/user/edit/phone', query: { mobile: userinfo.mobile}}"
         ></van-cell>
+        <!--          is-link-->
+        <!--          :to="{ path: '/user/edit/phone', query: { mobile: userinfo.mobile}}"-->
         <van-cell
           class="address"
-          title="店铺地址"
+          title="地址"
           :value="userinfo.address"
           is-link
           :to="{ path: '/user/edit/address', 
@@ -137,13 +156,19 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 1.5rem;
+  margin: 0 .3rem .1rem .3rem;
+  font-size: .3rem;
+}
+.header_img{
+  flex: 1;
 }
 .user_img_box {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: var(--head-icon1);
+  height: var(--head-icon1);
   background: #ccc;
   overflow: hidden;
   border-radius: 50%;

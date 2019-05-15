@@ -6,15 +6,22 @@
             <span v-show="isShowDelete" @click="deletePrize(2)">取消</span>
         </div>
         <van-pull-refresh class="refresh" v-model="isLoading" @refresh="onRefresh()">
-        <div class="myPrize_list_box">
-            <ul class="myPrize_list">
-                <li class="myPrize_item" v-for="(item , index) in prizeList" @click="PrizeItem(index)">
-                    <img class="statusImg" src="../../assets/duihao.png" alt="" v-show="item.isShowStatus">
-                    <img class="prizeImg" src="" alt="">
-                    <span>{{item.prize}}</span>
-                </li>
-            </ul>
-        </div>
+            <van-list
+                    v-model="loading"
+                    :finished="finished"
+                    finished-text="没有更多了"
+                    @load="onLoad()"
+            >
+                <div class="myPrize_list_box">
+                    <ul class="myPrize_list">
+                        <li class="myPrize_item" v-for="(item , index) in prizeList" @click="PrizeItem(index)" :key="index">
+                            <img class="statusImg" src="../../assets/duihao.png" alt="" v-show="item.isShowStatus">
+                            <img class="prizeImg" src="" alt="">
+                            <span>{{item.prize}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </van-list>
         </van-pull-refresh>
     </div>
 </template>
@@ -41,8 +48,13 @@
                 count: 0,
                 isLoading: false,
                 matchPage: 1,
-                pageSize: 10
+                pageSize: 10,
+                loading: false,
+                finished: false
             }
+        },
+        created() {
+            this.service();
         },
         methods: {
             edit() {
@@ -65,13 +77,27 @@
             },
             PrizeItem(index) {
                 if (this.isShowDelete) this.prizeList[index].isShowStatus = !this.prizeList[index].isShowStatus;
-
             },
             onRefresh() {
                 this.isLoading = false;
-                // this.prizeList = [];
+                this.prizeList = [];
                 this.matchPage = 1;
-                this.pageSize = 10
+                this.pageSize = 10;
+                this.service();
+            },
+            service() {
+                this.http.prizes.myPrizeList(
+                    {
+                        pagesize: this.pageSize,
+                        currentpage: this.matchPage
+                    }
+                ).then(res => {
+                    this.prizeList = res.data.myPrizeList;
+                })
+            },
+            onLoad(){
+                this.loading = false;
+                this.finished = true;
             }
         }
     }

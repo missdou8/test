@@ -1,12 +1,13 @@
 <template>
     <div id="lnvitation_box">
-        <ul class="lnvitation_list">
-            <li class="lnvitation_item" v-for="(item , index) in gamePlayerList">
-                <img :src="item.icon" alt="头像">
-                <span>{{item.nickname}}</span>
-            </li>
-
-        </ul>
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh()">
+            <ul class="lnvitation_list">
+                <li class="lnvitation_item" v-for="(item , index) in gamePlayerList" :key="index">
+                    <img :src="item.icon" alt="头像">
+                    <span>{{item.nickname}}</span>
+                </li>
+            </ul>
+        </van-pull-refresh>
     </div>
 </template>
 
@@ -16,16 +17,21 @@
         data() {
             return {
                 gamePlayerList: [],//列表循环信息
+                isLoading: false
             }
         },
         methods: {
-
+            onRefresh() {
+                this.isLoading = false;
+            },
+            service(){
+                this.http.invitation.invitationList().then(res => {
+                    this.gamePlayerList = res.data.invitationList;
+                })
+            }
         },
         created() {
-            //获取玩家列表
-            this.http.invitation.invitationList().then(res => {
-                this.gamePlayerList = res.data.invitationList;
-            })
+            this.service();
         }
     }
 </script>
