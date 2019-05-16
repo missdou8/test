@@ -14,7 +14,7 @@
         </van-field>
       </van-cell-group>
       <div class="btn_box">
-        <van-button class="btn" size="large" :disabled="btnEnable" @click="Login()">下一步</van-button>
+        <van-button class="btn" size="large" :disabled="btnEnable" @click="Login()">登录</van-button>
         <div class="btn_box_footer">
           <router-link class="fing" to="/findPwd" style="color: #2a9ae7;"><u>忘记密码</u></router-link>
         </div>
