@@ -5,7 +5,14 @@
       <van-cell title="请选择赛制" :value="selectPerson.title" @click="selectPersonClick" is-link/>
     </van-cell-group>
     <van-cell-group class="group">
-      <van-cell title="开赛时间" :value="selectTime" is-link @click="timeSelect"/>
+      <van-cell
+        v-for="(time,index) in selectTime"
+        :key="`time${index}`"
+        title="开赛时间"
+        :value="beginTimeFormate(time)"
+        is-link
+        @click="timeSelect(index)"
+      />
     </van-cell-group>
 
     <van-cell-group class="group">
@@ -21,7 +28,19 @@
       <van-cell title="请填写奖品信息" :value="prizeMsg" is-link @click="toPrize"/>
     </van-cell-group>
     <van-popup v-model="timeShow" position="bottom">
-      <van-datetime-picker
+      <transition name="slide">
+        <div class="datepicker">
+          <LPDatePicker
+            @select="calendar.select"
+            :start="calendar.start"
+            :last="calendar.last"
+            :beginDate="calendar.begin"
+            :endDate="calendar.end"
+            :monthLength="calendar.monthLength"
+          ></LPDatePicker>
+        </div>
+      </transition>
+      <!-- <van-datetime-picker
         title="选择时间（年月日时分）"
         v-model="currentDate"
         type="datetime"
@@ -30,7 +49,7 @@
         @confirm="timeConfirm"
         @cancel="timeShow = false"
         :formatter="formatter"
-      />
+      />-->
     </van-popup>
     <div class="footer">
       <button @click="saveClick">保存</button>
@@ -43,6 +62,7 @@
 <script>
 import { mapState } from "vuex";
 import RadioBtn from "../../components/RadioBtn.vue";
+import { constants } from "crypto";
 
 export default {
   components: {
@@ -50,10 +70,22 @@ export default {
   },
   data() {
     return {
+      calendar: {
+        monthLength: 6,
+        // start: { year: "2018", month: "07", day: "01" },
+        // last: { year: "2018", month: "08", day: "01" },
+        // begin: { year: "2018", month: "07", day: "02" },
+        // end: { year: "2018", month: "07", day: "03" },
+        select: timestamp => {
+          this.$set(this.selectTime, this.timeSelectIndex, timestamp);
+          this.timeShow = false;
+        }
+      },
       timeShow: false,
       gameList: [],
       minDate: new Date(),
       maxDate: new Date(Date.now() + 60 * 60 * 24 * 30 * 2000),
+      timeSelectIndex: 0,
       currentDate: new Date(),
       activeNames: ["1"],
       attendStyle: [
@@ -76,13 +108,9 @@ export default {
   computed: {
     ...mapState({
       selectTime(state) {
-        let time = state.match.time;
-        return time
-          ? this.utils.timeFormate(time * 1000, "YY/MM/DD HH:mm")
-          : "请选择";
+        return state.match.time;
       },
       selectPerson(state) {
-        console.log(state.match.attendPerson);
         return state.match.attendPerson;
       },
       selectGame(state) {
@@ -104,6 +132,12 @@ export default {
   },
   created() {},
   methods: {
+    //比赛开始时间格式化
+    beginTimeFormate(time) {
+      return time
+        ? this.utils.timeFormate(time, "YY/MM/DD WW HH:mm")
+        : "请选择";
+    },
     formatter(type, value) {
       if (type === "year") {
         return value + "年";
@@ -131,8 +165,9 @@ export default {
         a.readAsDataURL(newFile);
       })();
     },
-    timeSelect() {
+    timeSelect(index) {
       this.timeShow = true;
+      this.timeSelectIndex = index;
     },
     toPrize() {
       if (this.selectPerson.id === 0) {
@@ -158,6 +193,7 @@ export default {
     timeConfirm(value) {
       this.timeShow = false;
       let time = Math.round(new Date(this.currentDate).getTime() / 1000);
+      console.log(time);
       this.$store.commit("setTime", time);
     },
     selectPersonClick(data) {

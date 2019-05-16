@@ -56,7 +56,6 @@ export default {
       if (checkResult.isLogin) {
         this.$store.commit("setIsLogin", true);
       } else {
-        console.log(checkResult.url);
         if (checkResult.url) {
           let code = this.utils.getUrlString("code");
           if (code) {
