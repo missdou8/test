@@ -119,6 +119,7 @@ input {
   width: 4.2rem;
 }
 .next {
+  border-radius: 0.41rem;
   margin-top: 0.8rem;
 }
 .code_msg {
