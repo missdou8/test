@@ -1,14 +1,6 @@
 <template>
   <div class="verificaCode">
-    <!-- 图片验证码 -->
-    <img
-      v-if="codeType=='IMG'"
-      @click="getImgCode"
-      ref="imgCode"
-      src="/api/verify/imgCode?type=forget"
-    >
-    <!-- 短信验证码 -->
-    <button v-else @click="sendClick" :disabled="sendSuccess">{{sendSuccess?time+'秒后可重新发送':'发送验证码'}}</button>
+    <button @click="sendClick" :disabled="sendSuccess">{{sendSuccess?time+'秒后可重新发送':'发送验证码'}}</button>
   </div>
 </template>
 
@@ -22,9 +14,7 @@ export default {
   },
   /**
    * codeType   验证码类型
-   * 1. IMG：图片验证码
-   * 调用的时候使用  this.$refs.verifica_code.getImgCode()
-   * 2. SMS：短信验证码
+   * SMS：短信验证码
    *     1) codePhone  接受验证码的手机号
    *     2) codeTime   重新发送验证码的时长，默认为60s （选填）
    */
@@ -33,16 +23,11 @@ export default {
     this.time = this.codeTime || 60;
   },
   methods: {
-    // 获取图片二维码接口
-    // 使用的话请在登录失败是调用getImgCode函数
-    getImgCode() {
-      this.$refs.imgCode.src = `/api/verify/imgCode?r=${Math.random()}`;
-    },
     //获取短信二维码
     sendClick() {
-      let regMobile = /^1\d{10}$/;
-      if (!regMobile.test(this.codeMobile))
-        return this.$toast("请检查手机号是否正确");
+      // let regMobile = /^1\d{10}$/;
+      // if (!regMobile.test(this.codeMobile))
+      //   return this.$toast("请检查手机号是否正确");
       this.http.verify
         .SMSCode({
           mobile: this.codeMobile,

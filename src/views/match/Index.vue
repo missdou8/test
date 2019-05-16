@@ -1,24 +1,6 @@
 <template>
   <div class="main">
     <div class="header">
-      <!--            <div class="header_lists">-->
-      <!--                <div>-->
-      <!--                    <a class="unread" href="/front/user/exchange">-->
-      <!--                        <span class="dotted" v-show="userInfo.unreadPrizesCount != 0 "></span>-->
-      <!--                    </a>-->
-      <!--                    <span>兑奖</span>-->
-      <!--                </div>-->
-      <!--                <div>-->
-      <!--                    <router-link class="message" to="/announce/index">-->
-      <!--                        <span class="dotted" v-show="userInfo.unreadMailCount != 0 "></span>-->
-      <!--                    </router-link>-->
-      <!--                    <span>公告</span>-->
-      <!--                </div>-->
-      <!--                <div>-->
-      <!--                    <router-link class="setting" to="/user/index"></router-link>-->
-      <!--                    <span>设置</span>-->
-      <!--                </div>-->
-      <!--            </div>-->
       <div class="settings">
         <router-link class="setting" to="/user/index">
           <img src="../../assets/shouye_icon_shezhi.png" alt>
@@ -51,45 +33,30 @@
             </div>
           </div>
         </div>
-
-        <!--        <div class="user_info">-->
-        <!--          <span class="user_title">{{userInfo.name || '广告主名称'}}</span>-->
-        <!--          <p>-->
-        <!--            <span :class="userInfo.certification == 1? 'authyes':'authno'"></span>-->
-        <!--            <span class="user_id">-->
-        <!--              <i class="user_id_title">嘀嗒号：</i>-->
-        <!--              {{userInfo.id}}-->
-        <!--            </span>-->
-        <!--          </p>-->
-        <!--        </div>-->
-        <!--        <router-link to="user/story" class="my-story">我的故事>></router-link>-->
       </div>
       <ul class="match_info">
         <li>
           <router-link to="match/detail/lnvitation">
             <span>{{userInfo.invitationCount || 0}}</span>
-            <!--            <span>浏览</span>-->
             <span>邀请</span>
           </router-link>
         </li>
         <li>
           <router-link to="match/detail/fans">
             <span>{{userInfo.watchersCount || 0}}</span>
-            <!--            <span>赞</span>-->
+
             <span>粉丝</span>
           </router-link>
         </li>
         <li>
           <router-link to="match/detail/recollections">
             <span>{{userInfo.newPlayerComments || 0}}</span>
-            <!--            <span>比赛</span>-->
             <span>感言</span>
           </router-link>
         </li>
         <li>
           <router-link to="user/record/fans">
             <span>{{userInfo.unreadMailCount || 0}}</span>
-            <!--            <span>粉丝</span>-->
             <span>邮件</span>
           </router-link>
         </li>
@@ -97,20 +64,11 @@
       <div class="position">
         <ul class="position_ul">
           <li>
-            <!--            <router-link to="match/detail/signUpNameList">-->
             <router-link to="user/story">
               <img src="../../assets/shouye_icon_gs.png" alt>
-              <!--              <span>管理</span>-->
               <span>故事</span>
-              <!--              报名名单-->
             </router-link>
           </li>
-          <!--          <li>-->
-          <!--            <router-link to="user/customized">-->
-          <!--              <img src="" alt="">-->
-          <!--              <span>定制</span>-->
-          <!--            </router-link>-->
-          <!--          </li>-->
           <li>
             <router-link to="match/detail/myPrize">
               <img src="../../assets/shouye_icon_jp.png" alt>
@@ -155,27 +113,6 @@
             :immediate-check="false"
             :offset="100"
           >
-            <!--            <div class="match_list_content" v-if="active < 2">-->
-            <!--              <div-->
-            <!--                class="match_list_item"-->
-            <!--                v-for="item in list"-->
-            <!--                :key="item.id"-->
-            <!--                @click="toDetail(item.id)"-->
-            <!--              >-->
-            <!--                <img :src="item.cover ||cover" alt="封面图片">-->
-            <!--                <div class="list_attri">-->
-            <!--                  <span-->
-            <!--                    v-show="matchType == 1"-->
-            <!--                    class="list_person-num"-->
-            <!--                  >{{ item.signupCount | trimNum}}</span>-->
-            <!--                  <span class="list_pv">{{item.visitCount | trimNum}}</span>-->
-            <!--                  <span class="list_like">{{item.likeCount | trimNum}}</span>-->
-            <!--                </div>-->
-            <!--                <div :class="progressTag(item.status)" v-show="matchType == 1">-->
-            <!--                  <p>{{code2Word(item.status)}}</p>-->
-            <!--                </div>-->
-            <!--              </div>-->
-            <!--            </div>-->
             <div
               class="prize_list_item"
               v-for="(item , index) in tournamentList"
@@ -210,7 +147,7 @@
 <script>
 import icon from "../../assets/icon.png";
 import cover from "../../assets/banner_task.png";
-import { ImagePreview } from "vant";
+import {ImagePreview} from "vant";
 
 export default {
   data() {
@@ -219,7 +156,6 @@ export default {
       icon: icon,
       cover: cover,
       userInfo: Object, //头像地址
-      // tabs: ["当前赛事", "历史赛事", "获奖感言"],
       tabs: ["待处理赛事", "当前赛事", "历史赛事"],
       list: [],
       refreshing: false,
@@ -309,18 +245,18 @@ export default {
         id = this.active;
       }
       this.http.match
-        .matchList({
-          type: id
-        })
-        .then(res => {
-          console.log(res);
-          this.tournamentList = res.data.matchList;
-          this.refreshing = false;
-          this.loading = false;
-          if (res.data.total <= this.matchPage * this.pageSize) {
-            this.finished = true;
-          }
-        });
+      .matchList({
+        type: id
+      })
+      .then(res => {
+        console.log(res);
+        this.tournamentList = res.data.matchList;
+        this.refreshing = false;
+        this.loading = false;
+        if (res.data.total <= this.matchPage * this.pageSize) {
+          this.finished = true;
+        }
+      });
     },
     bigger(src) {
       ImagePreview({
@@ -376,10 +312,10 @@ export default {
     createClick() {
       //清空赛事信息
       this.$store.commit("setDetail", {});
-      this.$store.commit("setGameName", { id: 0, name: "请选择" });
+      this.$store.commit("setGameName", {id: 0, name: "请选择"});
       this.$store.commit("setTime", [0]);
-      this.$store.commit("setAttendPerson", { templateId: 0, title: "请选择" });
-      this.$store.commit("setAttendStyle", { id: 0, value: "请选择" });
+      this.$store.commit("setAttendPerson", {templateId: 0, title: "请选择"});
+      this.$store.commit("setAttendStyle", {id: 0, value: "请选择"});
       this.$store.commit("setIfSave", false);
       this.$store.commit("setPrizeCover", "");
       this.$store.commit("setgainPrizeAddress", {});
@@ -401,7 +337,7 @@ export default {
         }
       ]);
       this.$store.commit("setPartSet", [
-        { name: null, price: null, prizeCount: null, icon: null }
+        {name: null, price: null, prizeCount: null, icon: null}
       ]);
       this.$store.commit("setSendStyle", -1);
       //判断是否有权限创建
@@ -419,31 +355,31 @@ export default {
     fetchList() {
       //获取比赛信息
       return this.http.match
-        .matchList({
-          pagesize: this.pageSize,
-          currentpage: this.matchPage,
-          type: this.matchType
-        })
-        .then(res => {
-          let data = res.data;
-          this.list = this.list.concat(data.matchList);
-          return data;
-        });
+      .matchList({
+        pagesize: this.pageSize,
+        currentpage: this.matchPage,
+        type: this.matchType
+      })
+      .then(res => {
+        let data = res.data;
+        this.list = this.list.concat(data.matchList);
+        return data;
+      });
     },
     fetchCommentsList() {
       return this.http.prizes
-        .commentsList({ pagesize: this.pageSize, currentpage: this.matchPage })
-        .then(res => {
-          let data = res.data;
-          this.commentsList = this.commentsList.concat(data.commentsList);
-          return data;
-        });
+      .commentsList({pagesize: this.pageSize, currentpage: this.matchPage})
+      .then(res => {
+        let data = res.data;
+        this.commentsList = this.commentsList.concat(data.commentsList);
+        return data;
+      });
     },
     serviceClick() {
       location.href = `${this.config.customerServiceUrl}&tel=${
-        this.userInfo.mobile
+      this.userInfo.mobile
       }&partnerId=${this.userInfo.id}&uname=广告主后台_${
-        this.userInfo.name
+      this.userInfo.name
       }&groupId=a0855fa7e13e490ca78dfbef7efb7516`;
     },
     progressTag(code) {
@@ -456,7 +392,7 @@ export default {
       }
 
       this.$store.commit("setPartSet", [
-        { name: null, price: null, prizeCount: null, icon: null }
+        {name: null, price: null, prizeCount: null, icon: null}
       ]);
       this.$store.commit("setSendStyle", -1);
       //判断是否有权限创建
@@ -484,22 +420,7 @@ export default {
 }
 
 .header {
-  background: -webkit-linear-gradient(
-    left,
-    #07141b,
-    #0d2d3a
-  ); /* Safari 5.1 - 6.0 */
-  background: -o-linear-gradient(
-    right,
-    #07141b,
-    #0d2d3a
-  ); /* Opera 11.1 - 12.0 */
-  background: -moz-linear-gradient(
-    right,
-    #07141b,
-    #0d2d3a
-  ); /* Firefox 3.6 - 15 */
-  background: linear-gradient(to right, #07141b, #0d2d3a); /* 标准的语法 */
+  background: linear-gradient(to right, #07141b, #0d2d3a);
   color: #fff;
   position: relative;
 }
@@ -723,8 +644,7 @@ export default {
 }
 
 .btn_icon {
-  background: url("../../assets/chauangkjian_icon.png") center/100% 100%
-    no-repeat;
+  background: url("../../assets/chauangkjian_icon.png") center/100% 100% no-repeat;
   display: inline-block;
   height: 0.63rem;
   width: 0.44rem;

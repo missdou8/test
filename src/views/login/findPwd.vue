@@ -4,8 +4,11 @@
       <van-cell-group>
         <van-field v-model="phone" type="number" placeholder="请输入手机号"/>
         <van-field class="imgcode_box" type="number" center v-model="imgCode" placeholder="请输入验证码">
-          <van-button class="imgcode" slot="button" size="small">
-            <verifica-code code-type="IMG" ref="verifica_code"></verifica-code>
+          <van-button class="imgcode" slot="button" size="small" @click="getImgCode">
+            <img
+              ref="imgCode"
+              src="/api/verify/imgCode?type=forget"
+            >
           </van-button>
         </van-field>
         <van-field class="phonecode_box" center v-model="phoneCode" type="number" placeholder="请输入手机验证码">
@@ -23,6 +26,7 @@
 
 <script>
 import verificaCode from "../../components/verificaCode.vue";
+
 export default {
   data() {
     return {
@@ -43,20 +47,23 @@ export default {
     verificaCode
   },
   methods: {
+    getImgCode() {
+      this.$refs.imgCode.src = `/api/verify/imgCode?r=${Math.random()}`;
+    },
     goResetPwd() {
       this.http.user
-        .forgetPassword({
-          mobile: this.phone,
-          imgCode: this.imgCode,
-          SMSCode: this.phoneCode
-        })
-        .then(res => {
-          this.$router.push("resetPwd");
-        })
-        .catch(() => {
-          //重新获取二维码
-          this.$refs.verifica_code.getImgCode();
-        });
+      .forgetPassword({
+        mobile: this.phone,
+        imgCode: this.imgCode,
+        SMSCode: this.phoneCode
+      })
+      .then(res => {
+        this.$router.push("resetPwd");
+      })
+      .catch(() => {
+        //重新获取二维码
+        this.$refs.verifica_code.getImgCode();
+      });
     }
   }
 };
