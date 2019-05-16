@@ -147,7 +147,7 @@
 <script>
 import icon from "../../assets/icon.png";
 import cover from "../../assets/banner_task.png";
-import {ImagePreview} from "vant";
+import { ImagePreview } from "vant";
 
 export default {
   data() {
@@ -245,18 +245,18 @@ export default {
         id = this.active;
       }
       this.http.match
-      .matchList({
-        type: id
-      })
-      .then(res => {
-        console.log(res);
-        this.tournamentList = res.data.matchList;
-        this.refreshing = false;
-        this.loading = false;
-        if (res.data.total <= this.matchPage * this.pageSize) {
-          this.finished = true;
-        }
-      });
+        .matchList({
+          type: id
+        })
+        .then(res => {
+          console.log(res);
+          this.tournamentList = res.data.matchList;
+          this.refreshing = false;
+          this.loading = false;
+          if (res.data.total <= this.matchPage * this.pageSize) {
+            this.finished = true;
+          }
+        });
     },
     bigger(src) {
       ImagePreview({
@@ -312,10 +312,17 @@ export default {
     createClick() {
       //清空赛事信息
       this.$store.commit("setDetail", {});
-      this.$store.commit("setGameName", {id: 0, name: "请选择"});
-      this.$store.commit("setTime", [0]);
-      this.$store.commit("setAttendPerson", {templateId: 0, title: "请选择"});
-      this.$store.commit("setAttendStyle", {id: 0, value: "请选择"});
+      this.$store.commit("setGameName", { id: 0, name: "请选择" });
+      this.$store.commit("setLoop", {
+        matchType: 2,
+        beginTime: [0],
+        type: 0,
+        endTime: 0, //日内关闭时间
+        inteval: 0, //间隔时间
+        endDate: 0 //关闭日期
+      });
+      this.$store.commit("setAttendPerson", { templateId: 0, title: "请选择" });
+      this.$store.commit("setAttendStyle", { id: 0, value: "请选择" });
       this.$store.commit("setIfSave", false);
       this.$store.commit("setPrizeCover", "");
       this.$store.commit("setgainPrizeAddress", {});
@@ -337,7 +344,7 @@ export default {
         }
       ]);
       this.$store.commit("setPartSet", [
-        {name: null, price: null, prizeCount: null, icon: null}
+        { name: null, price: null, prizeCount: null, icon: null }
       ]);
       this.$store.commit("setSendStyle", -1);
       //判断是否有权限创建
@@ -355,31 +362,31 @@ export default {
     fetchList() {
       //获取比赛信息
       return this.http.match
-      .matchList({
-        pagesize: this.pageSize,
-        currentpage: this.matchPage,
-        type: this.matchType
-      })
-      .then(res => {
-        let data = res.data;
-        this.list = this.list.concat(data.matchList);
-        return data;
-      });
+        .matchList({
+          pagesize: this.pageSize,
+          currentpage: this.matchPage,
+          type: this.matchType
+        })
+        .then(res => {
+          let data = res.data;
+          this.list = this.list.concat(data.matchList);
+          return data;
+        });
     },
     fetchCommentsList() {
       return this.http.prizes
-      .commentsList({pagesize: this.pageSize, currentpage: this.matchPage})
-      .then(res => {
-        let data = res.data;
-        this.commentsList = this.commentsList.concat(data.commentsList);
-        return data;
-      });
+        .commentsList({ pagesize: this.pageSize, currentpage: this.matchPage })
+        .then(res => {
+          let data = res.data;
+          this.commentsList = this.commentsList.concat(data.commentsList);
+          return data;
+        });
     },
     serviceClick() {
       location.href = `${this.config.customerServiceUrl}&tel=${
-      this.userInfo.mobile
+        this.userInfo.mobile
       }&partnerId=${this.userInfo.id}&uname=广告主后台_${
-      this.userInfo.name
+        this.userInfo.name
       }&groupId=a0855fa7e13e490ca78dfbef7efb7516`;
     },
     progressTag(code) {
@@ -392,7 +399,7 @@ export default {
       }
 
       this.$store.commit("setPartSet", [
-        {name: null, price: null, prizeCount: null, icon: null}
+        { name: null, price: null, prizeCount: null, icon: null }
       ]);
       this.$store.commit("setSendStyle", -1);
       //判断是否有权限创建
@@ -644,7 +651,8 @@ export default {
 }
 
 .btn_icon {
-  background: url("../../assets/chauangkjian_icon.png") center/100% 100% no-repeat;
+  background: url("../../assets/chauangkjian_icon.png") center/100% 100%
+    no-repeat;
   display: inline-block;
   height: 0.63rem;
   width: 0.44rem;

@@ -13,7 +13,7 @@ import './style/base.css'
 import '../node_modules/lpui/lib/lpui.css'
 
 //导入配置
-import config from './config/index.js' 
+import config from './config/index.js'
 import Dialog2 from './components/confirm/vipPop'
 import Dialog1 from './components/confirmOrigin/dialog'
 
@@ -25,7 +25,6 @@ Vue.prototype.config = config
 
 
 // 在全局引入lputils
-console.log(timeFormate)
 Vue.prototype.utils = {
   isIos, isWeChat, isPhoneNum, isQQ, getUrlString, timeFormate
 }

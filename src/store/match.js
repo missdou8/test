@@ -1,8 +1,15 @@
 const match = {
   state: {
     id: '',
-    time: [0],
-    attendPerson: { templateId: 0, title: '请选择' }, //参加比赛的人数
+    loop: {
+      matchType: 2,
+      beginTime: [0],
+      type: 0,
+      endTime: 0, //日内关闭时间
+      inteval: 0, //间隔时间
+      endDate: 0 //关闭日期
+    },
+    attendPerson: { templateId: 0, title: '请选择', templateType: 2, minPlayer: 0 }, //参加比赛的人数,type为2时是定点锦标赛，为3时为SNG比赛
     attendStyle: { id: -1, value: '请选择' }, //报名类型
     rankPrizes: [
       {
@@ -61,8 +68,8 @@ const match = {
     setGameName(state, gameName) {
       state.gameName = gameName
     },
-    setTime(state, time) {
-      state.time = time
+    setLoop(state, loop) {
+      state.loop = loop
     },
     setAttendStyle(state, style) {
       state.attendStyle = style
