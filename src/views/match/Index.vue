@@ -299,9 +299,9 @@
         methods: {
             tournamenService() {
                 var id = '';
-                if(this.active == 0){
+                if (this.active == 0) {
                     id = 3
-                }else{
+                } else {
                     id = this.active;
                 }
                 this.http.match.matchList({
@@ -311,7 +311,7 @@
                     this.tournamentList = res.data.matchList;
                     this.refreshing = false;
                     this.loading = false;
-                    if(res.data.total <= this.matchPage * this.pageSize){
+                    if (res.data.total <= this.matchPage * this.pageSize) {
                         this.finished = true;
                     }
                 })

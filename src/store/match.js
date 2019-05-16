@@ -1,7 +1,7 @@
 const match = {
   state: {
     id: '',
-    time: 0,
+    time: [0],
     attendPerson: { templateId: 0, title: '请选择' }, //参加比赛的人数
     attendStyle: { id: -1, value: '请选择' }, //报名类型
     rankPrizes: [
