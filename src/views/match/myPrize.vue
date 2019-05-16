@@ -14,7 +14,8 @@
             >
                 <div class="myPrize_list_box">
                     <ul class="myPrize_list">
-                        <li class="myPrize_item" v-for="(item , index) in prizeList" @click="PrizeItem(index)" :key="index">
+                        <li class="myPrize_item" v-for="(item , index) in prizeList" @click="PrizeItem(index)"
+                            :key="index">
                             <img class="statusImg" src="../../assets/duihao.png" alt="" v-show="item.isShowStatus">
                             <img class="prizeImg" src="" alt="">
                             <span>{{item.prize}}</span>
@@ -68,7 +69,10 @@
                 if (status == 1) {
                     var deleteArr = [];
                     for (var i = 0; i < this.prizeList.length; i++) {
-                        if (this.prizeList[i].isShowStatus == true) deleteArr.push(this.prizeList[i]);
+                        if (this.prizeList[i].isShowStatus == true) {
+                            deleteArr.push(this.prizeList[i])
+                        }
+                        ;
                     }
                     console.log('This is the element to be deleted:', deleteArr);
                 } else {
@@ -76,7 +80,10 @@
                 }
             },
             PrizeItem(index) {
-                if (this.isShowDelete) this.prizeList[index].isShowStatus = !this.prizeList[index].isShowStatus;
+                if (this.isShowDelete) {
+                    this.prizeList[index].isShowStatus = !this.prizeList[index].isShowStatus
+                }
+                ;
             },
             onRefresh() {
                 this.isLoading = false;
@@ -95,7 +102,7 @@
                     this.prizeList = res.data.myPrizeList;
                 })
             },
-            onLoad(){
+            onLoad() {
                 this.loading = false;
                 this.finished = true;
             }
