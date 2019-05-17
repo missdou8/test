@@ -1,110 +1,110 @@
 /* 定义了本项目中的常用CSS变量 */
 :root {
-    --bg-color: #fff;
-    --btn-bg-color: #ffd321;
-    --btn-color: #108ee9;
-    --word-color: #555;
-    --word-gray-color: #8b8b8b;
-    --word-warn-color: #cc422e;
-    /* 容器背景色 */
-    --content-gray: #fafafa;
-    /* 边框 */
-    --border-color: #d7d7d7;
-    /* 字体大小与行高 */
-    --font-size-base: 0.28rem;
-    --font-size-bigger: 0.34rem;
-    --font-size-smaller: 0.24rem;
-    --font-size-h2: 0.4rem;
-    --font-size-h1: 0.48rem;
-    --line-height: 0.56rem;
-    --font-size-supper: 0.6rem;
+  --bg-color: #fff;
+  --btn-bg-color: #ffd321;
+  --btn-color: #108ee9;
+  --word-color: #555;
+  --word-gray-color: #8b8b8b;
+  --word-warn-color: #cc422e;
+  /* 容器背景色 */
+  --content-gray: #fafafa;
+  /* 边框 */
+  --border-color: #d7d7d7;
+  /* 字体大小与行高 */
+  --font-size-base: 0.28rem;
+  --font-size-bigger: 0.34rem;
+  --font-size-smaller: 0.24rem;
+  --font-size-h2: 0.4rem;
+  --font-size-h1: 0.48rem;
+  --line-height: 0.56rem;
+  --font-size-supper: 0.6rem;
 
-    /* 新版UI标准 */
-    --font-color-black: #303133;
-    --font-color-blackgray: #606266;
-    --font-color-gray: #909399;
-    --font-color-lightgray: #c0c4cc;
-    --color-red: #f23f3f;
-    --color-orange: #f9930a;
-    --color-yellow: #ffc300;
-    --color-green: #67c23a;
-    --color-blue: #2a9ae7;
-    --color-gray: #dcdfe6;
+  /* 新版UI标准 */
+  --font-color-black: #303133;
+  --font-color-blackgray: #606266;
+  --font-color-gray: #909399;
+  --font-color-lightgray: #c0c4cc;
+  --color-red: #f23f3f;
+  --color-orange: #f9930a;
+  --color-yellow: #ffc300;
+  --color-green: #67c23a;
+  --color-blue: #2a9ae7;
+  --color-gray: #dcdfe6;
 
-    /*头像尺寸标准*/
-    --head-icon1: 1.15rem;
-    --head-icon2: 1.02rem;
-    --head-icon3: .8rem;
-    --head-icon4: .6rem;
+  /*头像尺寸标准*/
+  --head-icon1: 1.15rem;
+  --head-icon2: 1.02rem;
+  --head-icon3: 0.8rem;
+  --head-icon4: 0.6rem;
 
-    /*奖品尺寸标准*/
-    --prize-img1: 1.9rem;
-    --prize-img2: 1.73rem;
-    --prize-img3: 1.2rem;
-    --prize-img4: 1rem;
+  /*奖品尺寸标准*/
+  --prize-img1: 1.9rem;
+  --prize-img2: 1.73rem;
+  --prize-img3: 1.2rem;
+  --prize-img4: 1rem;
 }
 
 html {
-    font-size: 13.89vw;
+  font-size: 13.89vw;
 }
 
 body {
-    background-color: var(--bg-color);
-    color: var(--word-color);
-    font-size: var(--font-size-bigger);
-    line-height: 0.44rem;
+  background-color: var(--bg-color);
+  color: var(--word-color);
+  font-size: var(--font-size-bigger);
+  line-height: 0.44rem;
 }
 
 /* 高度继承 */
 html,
 body,
 #app {
-    height: 100%;
-    width: 100%;
-    overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 /*设置input提示文字的样式*/
 input,
 button,
 input::placeholder {
-    font-size: 0.34rem;
+  font-size: 0.34rem;
 }
 
 h1 {
-    font-size: var(--font-size-h2);
+  font-size: var(--font-size-h2);
 }
 
 i {
-    font-style: normal;
+  font-style: normal;
 }
 
 .border_bottom {
-    position: relative;
+  position: relative;
 }
 
 .border_bottom::after {
-    background-color: #e1e3e9;
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0.32rem;
-    right: 0.3rem;
-    height: 0.01rem;
-    width: 6.6rem;
-    transform: scaleY(0.5);
+  background-color: #e1e3e9;
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0.32rem;
+  right: 0.3rem;
+  height: 0.02rem;
+  width: 6.6rem;
+  transform: scaleY(0.5);
 }
 
 .van-tabs__line {
-    background-color: #ffd321;
+  background-color: #ffd321;
 }
 
 .van-tab--active {
-    color: #000;
-    font-weight: bold;
+  color: #000;
+  font-weight: bold;
 }
 
 /*主页vant组件tab清除border*/
-.van-hairline--top-bottom::after{
-    border: none;
+.van-hairline--top-bottom::after {
+  border: none;
 }

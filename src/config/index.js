@@ -21,6 +21,15 @@ export default {
     1: '分享报名',
     2: '邀请赛'
   }, //赛制中报名方式
+  loopTypeDic: {
+    0: "永不",
+    1: "每天",
+    2: "每周",
+    3: "每月",
+    4: "每年",
+    5: "每日间隔"
+  },
+  loopType: [{ id: 0, name: "永不" }, { id: 1, name: "每天" }, { id: 2, name: "每周" }, { id: 3, name: "每月" }, { id: 4, name: '每年' }, { id: 5, name: '每日间隔' }],
   defaultIcon: require('../assets/icon.png'), //默认头像
   downLoadURL: 'https://www.dida666.cn/download.html', //嘀嗒下载页
   customerServiceUrl:

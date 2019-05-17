@@ -24,6 +24,7 @@ import fans from '../views/match/fans'
 import recollections from '../views/match/recollections'
 import GamesList from "../views/match/GamesList.vue"
 import MatchType from "../views/match/MatchType.vue"
+import LoopType from "../views/match/create/LoopType.vue"
 
 const MATCH_ROUTERS = [
   {
@@ -66,6 +67,13 @@ const MATCH_ROUTERS = [
     component: MatchType,
     meta: {
       title: "比赛类型"
+    }
+  },
+  {
+    path: "/match/style/loopType",
+    component: LoopType,
+    meta: {
+      title: "循环设置"
     }
   },
   {
@@ -207,7 +215,7 @@ const MATCH_ROUTERS = [
       title: '感言'
     },
     component: recollections
-  },
+  }
 ]
 
 export default MATCH_ROUTERS

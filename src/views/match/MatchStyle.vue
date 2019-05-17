@@ -19,7 +19,7 @@
     </van-cell-group>
 
     <van-cell-group class="group">
-      <van-cell title="循环设置" :value="selectGame.name" to="style/gameList" is-link/>
+      <van-cell title="循环设置" :value="config.loopTypeDic[loop.type]" to="style/loopType" is-link/>
       <van-cell title="循环结束时间" :value="selectGame.name" to="style/gameList" is-link/>
     </van-cell-group>
 
